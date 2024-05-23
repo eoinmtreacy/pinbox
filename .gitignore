@@ -1,6 +1,8 @@
 # Data
 data/**/keys.json
+# Remove any csv or parquet files as these will be too large
 data/**/*.csv
+data/**/*.parquet
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
