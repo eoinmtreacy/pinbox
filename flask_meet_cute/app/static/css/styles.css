@@ -1,0 +1,7 @@
+/* Apply CSS to make the map container fill the whole screen */
+html, body, #map {
+    width: 100%;
+    height: 95%;
+    margin: 0;
+    padding: 0;
+  }
