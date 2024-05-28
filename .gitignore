@@ -2,6 +2,7 @@
 data/**/keys.json
 # Remove any csv or parquet files as these will be too large
 data/**/*.csv
+data/**/*.psv
 data/**/*.parquet
 
 # Byte-compiled / optimized / DLL files
