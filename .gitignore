@@ -1,10 +1,10 @@
 # Data
-data/**/keys.json
+ml_pipeline/**/keys.json
 # Remove any csv or parquet files as these will be too large
-data/**/*.csv
-data/**/*.psv
-data/**/*.parquet
-data/**/*.tar.gz
+ml_pipeline/**/*.csv
+ml_pipeline/**/*.psv
+ml_pipeline/**/*.parquet
+ml_pipeline/**/*.tar.gz
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
