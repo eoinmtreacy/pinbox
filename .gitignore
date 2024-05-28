@@ -4,6 +4,7 @@ data/**/keys.json
 data/**/*.csv
 data/**/*.psv
 data/**/*.parquet
+data/**/*.tar.gz
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
