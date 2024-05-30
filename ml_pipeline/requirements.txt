@@ -61,10 +61,11 @@ mistune==3.0.2
 nbclient==0.10.0
 nbconvert==7.16.4
 nbformat==5.10.4
-nest-asyncio==1.6.0
+nest_asyncio==1.6.0
 notebook==7.2.0
 notebook_shim==0.2.4
 numpy==1.26.4
+overpy==0.7
 overrides==7.7.0
 packaging==24.0
 pandas==2.2.2
@@ -88,6 +89,7 @@ python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 python-json-logger==2.0.7
 pytz==2024.1
+pywin32==306
 pywinpty==2.0.13
 PyYAML==6.0.1
 pyzmq==26.0.3
