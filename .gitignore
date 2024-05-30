@@ -1,3 +1,11 @@
+# Data
+ml_pipeline/**/keys.json
+# Remove any csv or parquet files as these will be too large
+ml_pipeline/**/*.csv
+ml_pipeline/**/*.psv
+ml_pipeline/**/*.parquet
+ml_pipeline/**/*.tar.gz
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
