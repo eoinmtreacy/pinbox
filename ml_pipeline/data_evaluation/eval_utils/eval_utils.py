@@ -261,8 +261,8 @@ class DataQualityReport:
 
         # Get the columns that contain null values
         self.null_val_cols = []
-        for col in da.num_null_vals:
-            if da.num_null_vals[col] > 0:
+        for col in self.da.num_null_vals:
+            if self.da.num_null_vals[col] > 0:
                 self.null_val_cols.append(col)
 
     def num_format(self, num):
@@ -291,7 +291,7 @@ class DataQualityReport:
     def write_missing_values_summary(self):
         dropped_features = []
         for col in self.null_val_cols:
-            if da.df_category_perc_missing.loc[col, '%missing'] > 50:
+            if self.da.df_category_perc_missing.loc[col, '%missing'] > 50:
                 dropped_features.append(col)
 
         if len(dropped_features) == 0:
@@ -314,18 +314,18 @@ class DataQualityReport:
         return f"There are {self.da.duplicate_count} duplicate rows. "
 
     def numeric_col_description(self, col):
-        output = f"This feature has a mean of {self.num_format(da.df_table_numeric.loc[col, 'mean'])}, a min value of {self.num_format(da.df_table_numeric.loc[col, 'min'])} and a max value of {self.num_format(da.df_table_numeric.loc[col, 'max'])}. "
+        output = f"This feature has a mean of {self.num_format(self.da.df_table_numeric.loc[col, 'mean'])}, a min value of {self.num_format(self.da.df_table_numeric.loc[col, 'min'])} and a max value of {self.num_format(self.da.df_table_numeric.loc[col, 'max'])}. "
         if col in self.null_val_cols:
-            output += f"There are {da.num_null_vals[col]} missing values. "
+            output += f"There are {self.da.num_null_vals[col]} missing values. "
         else:
             output += "There are no missing values. "
 
         return output
 
     def category_col_description(self, col):
-        output = f"This has {da.category_unique[col]} unique values. The most common is {da.df_table_categoric.loc[col,'top']}. "
+        output = f"This has {self.da.category_unique[col]} unique values. The most common is {self.da.df_table_categoric.loc[col,'top']}. "
         if col in self.null_val_cols:
-            output += f"There are {da.num_null_vals[col]} missing values. "
+            output += f"There are {self.da.num_null_vals[col]} missing values. "
         else:
             output += "There are no missing values. "
 
@@ -339,8 +339,8 @@ class DataQualityReport:
             if col in self.null_val_cols:
                 drop_row_cols.append(col)
 
-        cols_to_drop = da.df_category_perc_missing.loc[
-            da.df_category_perc_missing['%missing'] > 50].index.values
+        cols_to_drop = self.da.df_category_perc_missing.loc[
+            self.da.df_category_perc_missing['%missing'] > 50].index.values
 
         document.add_heading("Actions to Take", 2)
         document.add_paragraph(
@@ -353,7 +353,7 @@ class DataQualityReport:
         for col in cols_to_drop:
             document.add_paragraph(col, style="List Bullet")
             document.add_paragraph(
-                f"Drop feature due to {self.num_format(da.df_category_perc_missing.loc[col, '%missing'])}% of values missing. ", style="List Bullet 2")
+                f"Drop feature due to {self.num_format(self.da.df_category_perc_missing.loc[col, '%missing'])}% of values missing. ", style="List Bullet 2")
 
         p = document.add_paragraph("")
         p.add_run("***ADD ACTIONS TO TAKE***").bold = True
@@ -361,18 +361,18 @@ class DataQualityReport:
     def add_appendix(self, document):
         document.add_heading("Appendix", 1)
         document.add_heading("Continuous Features", 2)
-        document.add_picture(da.numeric_table_filename, width=Inches(6.5))
-
         document.add_heading("Descriptive Statistics", 3)
+        document.add_picture(self.da.numeric_table_filename, width=Inches(6.5))
         document.add_heading("Histograms", 3)
-        for f in da.histogram_filenames:
+        for f in self.da.histogram_filenames:
             document.add_picture(f, width=Inches(6.5))
 
         document.add_heading("Categorical Features", 2)
-        document.add_heading("Descriptive Statistics", 2)
-        document.add_picture(da.category_table_filename, width=Inches(6.5))
-        document.add_heading("Box Plots", 2)
-        for f in da.boxplot_filenames:
+        document.add_heading("Descriptive Statistics", 3)
+        document.add_picture(
+            self.da.category_table_filename, width=Inches(6.5))
+        document.add_heading("Box Plots", 3)
+        for f in self.da.boxplot_filenames:
             document.add_picture(f, width=Inches(5))
 
     def write_document(self):
@@ -397,14 +397,14 @@ class DataQualityReport:
 
         document.add_heading('Review Logical Integrity', 2)
         document.add_paragraph(
-            'Test 1: No date in x is before Feb 2022 or after the upload date (22nd May).')
-        document.add_paragraph('0 instances.', style='List Bullet')
+            'Test 1: ')
+        document.add_paragraph('x instances.', style='List Bullet')
 
-        if len(da.numeric_columns) > 0:
+        if len(self.da.numeric_columns) > 0:
             document.add_heading("Review Continuous Features", 2)
             document.add_paragraph(
-                f"There are {len(da.numeric_columns)} continuous features in this dataset:")
-            for col in da.numeric_columns:
+                f"There are {len(self.da.numeric_columns)} continuous features in this dataset:")
+            for col in self.da.numeric_columns:
                 document.add_paragraph(col, style="List Bullet")
                 desc = self.numeric_col_description(col)
                 document.add_paragraph(desc, style="List Bullet 2")
@@ -414,11 +414,11 @@ class DataQualityReport:
                 "All Histograms can be found in the appendix as a summary sheet. All features show a plausible distribution.")
             p.add_run("***REVIEW DISTRIBUTION***").bold = True
 
-        if len(da.category_columns) > 0:
+        if len(self.da.category_columns) > 0:
             document.add_heading("Review Continuous Features", 2)
             document.add_paragraph(
-                f"There are {len(da.numeric_columns)} continuous features in this dataset:")
-            for col in da.category_columns:
+                f"There are {len(self.da.numeric_columns)} continuous features in this dataset:")
+            for col in self.da.category_columns:
                 document.add_paragraph(col, style="List Bullet")
                 desc = self.category_col_description(col)
                 document.add_paragraph(desc, style="List Bullet 2")
