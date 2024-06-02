@@ -291,7 +291,12 @@ class DataQualityReport:
     def write_missing_values_summary(self):
         dropped_features = []
         for col in self.null_val_cols:
-            if self.da.df_category_perc_missing.loc[col, '%missing'] > 50:
+            if col in self.da.category_columns:
+                missing = self.da.df_category_perc_missing.loc[col, '%missing']
+            else:
+                missing = self.da.df_numeric_missing.loc[col, '%missing']
+
+            if col in self.da.category_columns and missing > 50:
                 dropped_features.append(col)
 
         if len(dropped_features) == 0:
