@@ -420,9 +420,9 @@ class DataQualityReport:
             p.add_run("***REVIEW DISTRIBUTION***").bold = True
 
         if len(self.da.category_columns) > 0:
-            document.add_heading("Review Continuous Features", 2)
+            document.add_heading("Review Categoric Features", 2)
             document.add_paragraph(
-                f"There are {len(self.da.numeric_columns)} continuous features in this dataset:")
+                f"There are {len(self.da.category_columns)} categoric features in this dataset:")
             for col in self.da.category_columns:
                 document.add_paragraph(col, style="List Bullet")
                 desc = self.category_col_description(col)
