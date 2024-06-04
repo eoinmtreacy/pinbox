@@ -1,40 +1,25 @@
-# docker-compose.yml
 version: '3.8'
 
 services:
   frontend:
     build:
       context: ./frontend
+      dockerfile: Dockerfile
     ports:
-      - "3000:3000"
-    depends_on:
-      - backend
+      - "3000:80"
+    networks:
+      - mappo
 
   backend:
     build:
       context: ./backend
+      dockerfile: Dockerfile
     ports:
-      - "80:80"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=database;Database=your_database;User=your_user;Password=your_password; # TODO fill out connection string as below
-    depends_on:
-      - database
+      - "5000:80"
+    networks:
+      - mappo 
 
-  database:
-    build:
-      context: ./database
-    ports:
-      - "3306:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=your_password # TODO fill out
-      - MYSQL_DATABASE=your_database # TODO fill out w/ details 
-
-  ml_pipeline:
-    build:
-      context: ./ml_pipeline
-    ports:
-      - "5000:5000"
-    depends_on:
-      - database
+networks:
+  mappo:
+    driver: bridge
 
