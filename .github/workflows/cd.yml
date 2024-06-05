@@ -1,0 +1,32 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the repository
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Deploy if tests pass
+    - name: Deploy to server
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        SSH_HOST: ${{ secrets.SSH_HOST }}
+        SSH_USER: ${{ secrets.SSH_USER }}
+      run: |
+        echo "$SSH_PRIVATE_KEY" | tr -d '\r' > id_rsa
+        chmod 600 id_rsa
+        ssh -o StrictHostKeyChecking=no -i id_rsa $SSH_USER@$SSH_HOST << 'EOF'
+          cd /comp47360-group8
+          git pull origin main
+          docker compose down
+          docker compose up --build -d
+        EOF
