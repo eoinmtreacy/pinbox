@@ -1,22 +1,22 @@
-# backend/Dockerfile
-# pure templates, version ammended on advice of backend 
-FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
-WORKDIR /app
-EXPOSE 80
-
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+# Stage 1: Build and publish the ASP.NET Core app
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["backend.csproj", "./"]
-RUN dotnet restore "./backend.csproj"
-COPY . .
-WORKDIR "/src/."
-RUN dotnet build "backend.csproj" -c Release -o /app/build
 
-FROM build AS publish
+# Copy the ASP.NET Core project files
+COPY ["backend.csproj", "."]
+RUN dotnet restore "backend.csproj"
+
+# Copy the entire project and build it
+COPY . .
+RUN dotnet build "backend.csproj" -c Release -o /app/build
 RUN dotnet publish "backend.csproj" -c Release -o /app/publish
 
-FROM base AS final
+# Stage 2: Serve the app with ASP.NET Core
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish .
+
+EXPOSE 80
+
 ENTRYPOINT ["dotnet", "backend.dll"]
 
