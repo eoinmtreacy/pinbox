@@ -25,7 +25,7 @@ jobs:
         echo "$SSH_PRIVATE_KEY" | tr -d '\r' > id_rsa
         chmod 600 id_rsa
         ssh -o StrictHostKeyChecking=no -i id_rsa $SSH_USER@$SSH_HOST << 'EOF'
-          cd /comp47360-group8
+          cd comp47360-group8/
           git pull origin main
           docker compose down
           docker compose up --build -d
