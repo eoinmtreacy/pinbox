@@ -1,13 +1,15 @@
 import './App.css';
-import SideBarIcons from './components/SideBarIcon.js';
+import SideBar from './components/Sidebar.js';
 import Map from './components/Map.js';
 import BottomNav from './components/BottomNav.js';
 function App() {
     return (
         <div className="App">
-            <SideBarIcons />
-            <Map />
-            <BottomNav />
+            <div className=" w-[42vh] h-[100vh]">
+                {' '}
+                <Map />
+                <BottomNav />
+            </div>
         </div>
     );
 }

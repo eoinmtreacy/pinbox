@@ -2,9 +2,9 @@ import React from 'react';
 import profileIcon from '../Images/profile.png';
 export const BottomNav = () => {
     return (
-        <div className="relative w-[463px] h-[98px] bg-white rounded-[0px_0px_80px_80px]">
-            <div className="absolute w-[463px] h-[49px] top-[13px] left-0.5">
-                <div className="absolute w-[76px] h-[49px] top-0 left-[51px]">
+        <div className="w-[40vh] h-[98px] bg-white ">
+            <div className="absolute">
+                <div className="absolute w-[76px] h-[49px] top-0 left-[3vh]">
                     <div className="absolute top-[34px] left-6 [font-family:'Inter',Helvetica] font-medium text-black text-[10px] text-center tracking-[-0.24px] leading-[normal] whitespace-nowrap">
                         Home
                     </div>
@@ -16,7 +16,7 @@ export const BottomNav = () => {
                         />
                     </div>
                 </div>
-                <div className="left-[147px] absolute w-[76px] h-[49px] top-0 opacity-50">
+                <div className="left-[12vh] absolute w-[76px] h-[49px] top-0 opacity-50">
                     <div className="absolute top-[34px] left-[7px] [font-family:'Inter',Helvetica] font-medium text-black text-[10px] text-center tracking-[-0.24px] leading-[normal] whitespace-nowrap">
                         Browse Place
                     </div>
@@ -26,7 +26,7 @@ export const BottomNav = () => {
                         src="https://c.animaapp.com/0aBwylXj/img/icon-search.svg"
                     />
                 </div>
-                <div className="left-60 absolute w-[76px] h-[49px] top-0 opacity-50">
+                <div className="left-[21vh] absolute w-[76px] h-[49px] top-0 opacity-50">
                     <div className="absolute top-[34px] left-1 [font-family:'Inter',Helvetica] font-medium text-black text-[10px] text-center tracking-[-0.24px] leading-[normal] whitespace-nowrap">
                         Friend’s PinBox
                     </div>
@@ -35,7 +35,9 @@ export const BottomNav = () => {
                         alt="Icon radio"
                         src="https://c.animaapp.com/0aBwylXj/img/icon-radio.svg"
                     />
-                    <div className="left-[93px] absolute w-[76px] h-[49px] top-0 opacity-50">
+                </div>
+                <div className="left-[30vh] absolute w-[76px] h-[49px] top-0 opacity-50">
+                    <div className="left-[] absolute w-[76px] h-[49px] top-0 opacity-50">
                         <div className="absolute top-[34px] left-[23px] [font-family:'Inter',Helvetica] font-medium text-black text-[10px] text-center tracking-[-0.24px] leading-[normal] whitespace-nowrap">
                             Profile
                         </div>
