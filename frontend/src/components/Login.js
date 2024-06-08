@@ -5,7 +5,7 @@ function Login() {
     return (
         <div className="container px-4">
             <h1 className="text-center text-2xl font-bold my-4">Login</h1>
-            <div className="max-w-sm mx-auto p-8 border rounded-lg border border-solid border-[#020202]">
+            <div className="max-w-sm mx-auto p-8 rounded-lg border border-solid border-[#020202]">
                 <img src={Loginimg} alt="Loginimg" className="mx-auto" />
                 <form>
                     <div className="mb-4">
@@ -32,9 +32,7 @@ function Login() {
                     </div>
                     <div className=" mb-4">
                         <a
-                            className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-                            href="#"
-                        >
+                            className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="www">
                             Forgot Password?
                         </a>
                     </div>
