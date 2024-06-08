@@ -4,6 +4,8 @@ import Map from './components/Map.js';
 import BottomNav from './components/BottomNav.js';
 import Login from './components/Login';
 import Signup from './components/Signup.js';
+import Main from './components/Main.js';
+import PasswordFind from './components/PasswordFind.js';
 function App() {
     return (
         <div className="App">
@@ -13,7 +15,9 @@ function App() {
                 <BottomNav />
             </div> */}
             {/* <Login /> */}
-            <Signup />
+            {/* <Signup /> */}
+            {/* <Main /> */}
+            <PasswordFind />
         </div>
     );
 }
