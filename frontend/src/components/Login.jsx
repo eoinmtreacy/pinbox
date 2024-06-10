@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Loginimg from '../Images/appimage.png';
-
+import { useNavigate } from 'react-router-dom';
+import '../App.css';
+import 'leaflet/dist/leaflet.css';
 function Login() {
+    const navigate = useNavigate();
+    const handleLoginClick = () => {
+        navigate('/map');
+    };
     return (
         <div className="container px-4">
             <h1 className="text-center text-2xl font-bold my-4">Login</h1>
@@ -32,12 +38,15 @@ function Login() {
                     </div>
                     <div className=" mb-4">
                         <a
-                            className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="www">
+                            className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+                            href="www"
+                        >
                             Forgot Password?
                         </a>
                     </div>
                     <div className="flex justify-center">
                         <button
+                            onClick={handleLoginClick}
                             className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                             type="submit"
                         >

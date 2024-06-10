@@ -1,6 +1,6 @@
 import React from 'react';
 import Loginimg from '../Images/appimage.png';
-
+import '../App.css';
 function Signup() {
     return (
         <div className="container px-4">

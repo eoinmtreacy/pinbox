@@ -2,21 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, useMap, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-
 import Header from './Header';
 import SearchBar from './SearchBar';
 import Sidebar from './Sidebar';
-
+import GetUserLocation from './GetUserLocation';
+import CookieModal from './CookieModal';
+import '../App.css';
 const CustomZoomControl = () => {
     const map = useMap();
 
+    // Remove ZoomController
     React.useEffect(() => {
         map.zoomControl.remove();
-        new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
     }, [map]);
 
     return null;
 };
+
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
     iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
@@ -41,7 +43,7 @@ const Map = () => {
     }, []);
 
     return (
-        <div className="relative z-10" style={{ height: '100vh', padding: '10px' }}>
+        <div className="w-[42vh] h-[100vh]">
             <div className="absolute top-3 left-0 right-0 z-[1000]">
                 <Header />
             </div>
@@ -53,7 +55,7 @@ const Map = () => {
             <div className="absolute top-[150px] left-[35vh] right-0 z-[1000]">
                 <Sidebar />
             </div>
-            <MapContainer center={[40.73061, -73.935242]} zoom={13} style={{ height: '95vh', width: '100%' }}>
+            <MapContainer center={[40.7478017, -73.9914126]} zoom={13} style={{ height: '95vh', width: '100%' }}>
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                 {geoJsonData && (
                     <GeoJSON
@@ -65,7 +67,11 @@ const Map = () => {
                         }}
                     />
                 )}
+                <GetUserLocation />
                 <CustomZoomControl />
+                <div className="absolute bottom-[0.5vh] z-[1000]">
+                    <CookieModal />
+                </div>
             </MapContainer>
         </div>
     );
