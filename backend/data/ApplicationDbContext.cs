@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.data // Adjust the namespace accordingly
+namespace backend.data 
 {
     public class ApplicationDbContext : DbContext
     {
