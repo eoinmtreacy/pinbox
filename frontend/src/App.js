@@ -9,15 +9,15 @@ import PasswordFind from './components/PasswordFind.js';
 function App() {
     return (
         <div className="App">
-            {/* <div className=" w-[42vh] h-[100vh]">
+            <div className=" w-[42vh] h-[100vh]">
                 {' '}
                 <Map />
                 <BottomNav />
-            </div> */}
+            </div>
             {/* <Login /> */}
             {/* <Signup /> */}
             {/* <Main /> */}
-            <PasswordFind />
+            {/* <PasswordFind /> */}
         </div>
     );
 }
