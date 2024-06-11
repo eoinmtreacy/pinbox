@@ -6,7 +6,7 @@ module.exports = {
     ],
     
     // Dark mode settings (can be 'false', 'media' or 'class')
-    darkMode: false, // Disable dark mode by default; 'media' can enable based on OS settings, 'class' requires a specific class
+    darkMode: 'media', // Update darkMode setting
   
     theme: {
       extend: {}, // Extend the default theme with custom settings (left empty here)
