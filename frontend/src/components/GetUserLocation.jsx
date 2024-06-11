@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import L from 'leaflet';
 import { useMap } from 'react-leaflet';
 
