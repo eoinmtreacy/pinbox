@@ -15,6 +15,11 @@ function Login() {
         navigate('/map'); // Navigate to the map page on login
     };
 
+    // Function to handle forgot password button click
+    const handleForgotPasswordClick = () => {
+        navigate('/passwordfind'); // Navigate to the password find page
+    };
+
     return (
         // Container for the entire login component
         <div className="container px-4">
@@ -50,14 +55,15 @@ function Login() {
                             required
                         />
                     </div>
-                    {/* Forgot Password link */}
-                    <div className="mb-4">
-                        <a
+                    {/* Forgot Password button styled as link */}
+                    <div className="mb-4 text-center">
+                        <button
                             className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-                            href="#"
+                            onClick={handleForgotPasswordClick}
+                            type="button"
                         >
                             Forgot Password?
-                        </a>
+                        </button>
                     </div>
                     {/* Login button */}
                     <div className="flex justify-center">
