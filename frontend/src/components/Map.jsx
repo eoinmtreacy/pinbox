@@ -8,17 +8,20 @@ import Sidebar from './Sidebar';
 import GetUserLocation from './GetUserLocation';
 import CookieModal from './CookieModal';
 import '../App.css';
+
+// Custom Zoom Control Component
 const CustomZoomControl = () => {
     const map = useMap();
 
-    // Remove ZoomController
-    React.useEffect(() => {
+    // Remove the default zoom control
+    useEffect(() => {
         map.zoomControl.remove();
     }, [map]);
 
     return null;
 };
 
+// Update Leaflet icon paths to resolve missing icons
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
     iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
@@ -43,19 +46,24 @@ const Map = () => {
     }, []);
 
     return (
-        <div className="w-[42vh] h-[100vh]">
+        <div className="relative w-full h-full md:w-[42vh] md:h-[100vh]">
+            {/* Fixed header at the top */}
             <div className="absolute top-3 left-0 right-0 z-[1000]">
                 <Header />
             </div>
 
+            {/* Fixed search bar below the header */}
             <div className="absolute top-16 left-0 right-0 z-[1000]">
                 <SearchBar />
             </div>
 
-            <div className="absolute top-[150px] left-[35vh] right-0 z-[1000]">
+            {/* Sidebar, positioned responsively */}
+            <div className="absolute top-[150px] left-0 md:left-[35vh] right-0 z-[1000]">
                 <Sidebar />
             </div>
-            <MapContainer center={[40.7478017, -73.9914126]} zoom={13} style={{ height: '95vh', width: '100%' }}>
+
+            {/* Map container with responsive styling */}
+            <MapContainer center={[40.7478017, -73.9914126]} zoom={13} className="h-full w-full">
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                 {geoJsonData && (
                     <GeoJSON
@@ -69,6 +77,7 @@ const Map = () => {
                 )}
                 <GetUserLocation />
                 <CustomZoomControl />
+                {/* Fixed position for the cookie modal */}
                 <div className="absolute bottom-[0.5vh] z-[1000]">
                     <CookieModal />
                 </div>
