@@ -1,19 +1,32 @@
-import React, { useEffect } from 'react';
-import Loginimg from '../Images/appimage.png';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../App.css';
-import 'leaflet/dist/leaflet.css';
+import Loginimg from '../Images/appimage.png'; // Importing the Login image
+import '../App.css'; // Importing custom CSS
+import 'leaflet/dist/leaflet.css'; // Importing Leaflet CSS for map styling
+
+// Login component
 function Login() {
+    // Hook to navigate programmatically
     const navigate = useNavigate();
-    const handleLoginClick = () => {
-        navigate('/map');
+
+    // Function to handle login button click
+    const handleLoginClick = (event) => {
+        event.preventDefault(); // Prevent the default form submission
+        navigate('/map'); // Navigate to the map page on login
     };
+
     return (
+        // Container for the entire login component
         <div className="container px-4">
+            {/* Login title */}
             <h1 className="text-center text-2xl font-bold my-4">Login</h1>
+            {/* Form container */}
             <div className="max-w-sm mx-auto p-8 rounded-lg border border-solid border-[#020202]">
+                {/* Login image */}
                 <img src={Loginimg} alt="Loginimg" className="mx-auto" />
+                {/* Login form */}
                 <form>
+                    {/* Email field */}
                     <div className="mb-4">
                         <label className="block text-sm font-semibold mb-2" htmlFor="email">
                             Email
@@ -25,6 +38,7 @@ function Login() {
                             required
                         />
                     </div>
+                    {/* Password field */}
                     <div className="mb-6">
                         <label className="block text-sm font-semibold mb-2" htmlFor="password">
                             Password
@@ -36,14 +50,16 @@ function Login() {
                             required
                         />
                     </div>
-                    <div className=" mb-4">
+                    {/* Forgot Password link */}
+                    <div className="mb-4">
                         <a
                             className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-                            href="www"
+                            href="#"
                         >
                             Forgot Password?
                         </a>
                     </div>
+                    {/* Login button */}
                     <div className="flex justify-center">
                         <button
                             onClick={handleLoginClick}
