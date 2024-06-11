@@ -1,9 +1,6 @@
 module.exports = {
     // Purge unused styles in production to reduce file size
-    purge: [
-      './src/**/*.{js,jsx,ts,tsx}', // Look for class names in all JS, JSX, TS, and TSX files in the src directory
-      './public/index.html'         // Also look for class names in the public/index.html file
-    ],
+    content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'], // Update purge to content
     
     // Dark mode settings (can be 'false', 'media' or 'class')
     darkMode: 'media', // Update darkMode setting
