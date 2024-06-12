@@ -18,7 +18,6 @@ namespace Backend.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            // Add a test record if it doesn't exist
             if (!_context.YourModels.Any())
             {
                 _context.YourModels.Add(new YourModel
@@ -30,7 +29,6 @@ namespace Backend.Controllers
                 _context.SaveChanges();
             }
 
-            // Retrieve the test record
             var model = _context.YourModels.FirstOrDefault();
             return Ok(model);
         }

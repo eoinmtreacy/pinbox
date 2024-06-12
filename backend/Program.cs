@@ -18,7 +18,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     )
 );
 
-// Add controllers to the services
 builder.Services.AddControllers();
 
 var app = builder.Build();
@@ -40,14 +39,12 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-// Use top-level route registrations
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllers();
 
-// A simple example endpoint
 app.MapGet("/", () => "Hello World!");
 
 app.Run();
