@@ -6,6 +6,9 @@ ml_pipeline/**/*.psv
 ml_pipeline/**/*.parquet
 ml_pipeline/**/*.tar.gz
 
+# Mac
+.DS_Store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
