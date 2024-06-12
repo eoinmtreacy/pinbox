@@ -16,7 +16,7 @@ function ResourceIcons({ icons }) {
   );
 }
 
-function MyComponent() {
+function Footer() {
   const icons = [
     { src: "https://cdn.builder.io/api/v1/image/assets/TEMP/199c9a3c64fa87237dabe74b1aff1fe617935141f37a07ba364b7012e90e628c?apiKey=ff9831e20d7c417fbe4dbfd7998ee6f7&", alt: "First icon" },
     { src: "https://cdn.builder.io/api/v1/image/assets/TEMP/b1bac3668b19309ab1c82835d154f9962b24bad9c262723d53374e3173c3e762?apiKey=ff9831e20d7c417fbe4dbfd7998ee6f7&", alt: "Second icon" },
@@ -40,3 +40,5 @@ function MyComponent() {
     </div>
   );
 }
+
+export default Footer;
