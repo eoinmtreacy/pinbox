@@ -2,8 +2,10 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import 'leaflet/dist/leaflet.css';
+// eslint-disable-next-line
 import SideBar from './components/Sidebar';
 import Map from './components/Map';
+// eslint-disable-next-line
 import BottomNav from './components/BottomNav';
 import Login from './components/Login';
 import Signup from './components/Signup';
