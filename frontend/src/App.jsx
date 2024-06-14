@@ -10,7 +10,6 @@ import Signup from './components/Signup'; // Import the Signup component
 import Main from './components/Main'; // Import the Main component
 import PasswordFind from './components/PasswordFind'; // Import the PasswordFind component
 
-
 function App() {
     return (
         <div className="App flex flex-col min-h-screen">
@@ -32,12 +31,9 @@ function App() {
                 </div>
                 {/* Conditional rendering of the BottomNav component */}
                 <Routes>
-                    {/* Do not render BottomNav on login, signup, or password find pages */}
-                    <Route path="/login" element={null} />
-                    <Route path="/signup" element={null} />
-                    <Route path="/passwordfind" element={null} />
-                    {/* Render BottomNav on all other paths */}
-                    <Route path="*" element={<BottomNav />} />
+                    {/* Only render BottomNav on certain paths */}
+                    <Route path="/map" element={<BottomNav />} />
+                    <Route path="*" element={null} /> {/* Catch-all to handle other cases */}
                 </Routes>
             </Router>
         </div>
