@@ -29,7 +29,7 @@ L.Icon.Default.mergeOptions({
     shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
 
-const Map = () => {
+const CustomMap = () => {
     const [geoJsonData, setGeoJsonData] = useState(null);
 
     useEffect(() => {
@@ -69,7 +69,7 @@ const Map = () => {
                     <GeoJSON
                         data={geoJsonData}
                         onEachFeature={(feature, layer) => {
-                            if (feature.properties && feature.properties.name) {
+                            if (feature.properties?.name) {
                                 layer.bindPopup(`<b>${feature.properties.name}</b><br />${feature.properties.amenity}`);
                             }
                         }}
@@ -86,4 +86,4 @@ const Map = () => {
     );
 };
 
-export default Map;
+export default CustomMap;
