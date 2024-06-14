@@ -10,6 +10,7 @@ import Signup from './components/Signup'; // Import the Signup component
 import Main from './components/Main'; // Import the Main component
 import PasswordFind from './components/PasswordFind'; // Import the PasswordFind component
 
+
 function App() {
     return (
         <div className="App flex flex-col min-h-screen">

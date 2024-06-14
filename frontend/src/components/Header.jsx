@@ -3,6 +3,7 @@ import gyuwon from '../Images/gyuwon.png'; // Import the image for Gyuwon
 import map from '../Images/map.png'; // Import the image for the map icon
 import list from '../Images/list.png'; // Import the image for the list icon
 import '../App.css'; // Import custom CSS for the app
+import UserProfileBox from './UserProfileBox'; // Import the UserProfileBox component
 
 const Header = () => {
     return (
@@ -21,6 +22,9 @@ const Header = () => {
                     />
                 </div>
             </div>
+
+            {/* UserProfileBox component */}
+            <UserProfileBox isClickable={true} /> {/* Include the UserProfileBox component */}
 
             {/* Container for Map and List icons */}
             <div className="flex w-[149px] h-[57px] items-center gap-5 px-7 py-0 relative bg-[D9D9D9] rounded-[30px] overflow-hidden border border-solid border-[#020202] bg-[rgb(255,255,255)]">
