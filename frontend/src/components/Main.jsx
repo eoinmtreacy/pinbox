@@ -41,20 +41,20 @@ function Main() {
             </div>
 
             {/* Login button */}
-            <div
+            <button
                 onClick={handleLoginClick}
                 className="justify-center px-6 py-4 mt-16 max-w-full text-3xl font-bold text-center text-white whitespace-nowrap border border-solid bg-slate-500 border-slate-500 rounded-[30px] w-[313px] cursor-pointer"
             >
                 Login
-            </div>
+            </button>
 
             {/* Sign-up button */}
-            <div
+            <button
                 onClick={handleSignUpClick}
                 className="justify-center px-6 py-4 mt-12 max-w-full text-3xl font-bold text-center bg-white border border-solid border-slate-500 rounded-[30px] text-slate-500 w-[313px] cursor-pointer"
             >
                 Sign Up
-            </div>
+            </button>
 
             {/* Sign-up using other services message */}
             <div className="mt-11 text-xl font-bold tracking-tight text-center text-neutral-400">
