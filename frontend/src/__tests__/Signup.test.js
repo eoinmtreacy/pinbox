@@ -5,19 +5,13 @@ import Signup from '../components/Signup';
 test('renders signup form', () => {
     render(<Signup />);
     
-    // Retrieve all elements with the text 'Sign up'
-    const signUpElements = screen.getAllByText('Sign up');
-    
-    // Assert that the signup form heading is present
-    expect(signUpElements[0]).toBeInTheDocument();
-    // Assert that the signup button is present
-    expect(signUpElements[1]).toBeInTheDocument();
-
+    // Assert that the signup form is rendered
+    expect(screen.getByText('Sign up')).toBeInTheDocument();
     expect(screen.getByLabelText('Name')).toBeInTheDocument();
     expect(screen.getByLabelText('Email')).toBeInTheDocument();
     expect(screen.getByLabelText('Password')).toBeInTheDocument();
+    expect(screen.getByText('sign up')).toBeInTheDocument();
 });
-
 
 test('submits form with valid input', () => {
     render(<Signup />);
@@ -28,7 +22,7 @@ test('submits form with valid input', () => {
     fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password123' } });
     
     // Submit the form
-    fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
+    fireEvent.click(screen.getByText('sign up'));
     
     // Assert that the form is submitted successfully
     // Add your assertions here

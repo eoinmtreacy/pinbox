@@ -1,19 +1,19 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import SearchBar from '../components/Sidebar';
+import Sidebar from '../components/Sidebar';
 
-describe('SearchBar', () => {
+describe('Sidebar', () => {
     test('renders all images', () => {
-        render(<SearchBar />);
+        render(<Sidebar />);
         
         const images = screen.getAllByRole('img');
         expect(images).toHaveLength(5);
     });
 
     test('renders correct alt text for each image', () => {
-        render(<SearchBar />);
+        render(<Sidebar />);
         
-        const altTexts = ['restaurant', 'cafe', 'Pub', 'park', 'mall'];
+        const altTexts = ['mall', 'cafe', 'park', 'Pub', 'restaurant'];
         const images = screen.getAllByRole('img');
         
         images.forEach((image, index) => {
@@ -22,12 +22,12 @@ describe('SearchBar', () => {
     });
 
     test('renders each image with correct styles', () => {
-        render(<SearchBar />);
+        render(<Sidebar />);
         
         const images = screen.getAllByRole('img');
         
         images.forEach((image) => {
-            expect(image).toHaveClass('w-[25px] h-[26px]');
+            expect(image).toHaveClass('!absolute !w-[25px] !h-[26px] !top-[5px] !left-[5px]');
         });
     });
 });
