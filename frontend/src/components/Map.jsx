@@ -33,36 +33,23 @@ const CustomMap = () => {
     const [geoJsonData, setGeoJsonData] = useState(null);
 
     useEffect(() => {
-        // Fetch GeoJSON data
-        fetch('nightclub_amenities.geojson') // Ensure the file is in the public directory
+        fetch('nightclub_amenities.geojson')
             .then((response) => response.json())
-            .then((data) => {
-                console.log('GeoJSON data fetched:', data); // Debugging log
-                setGeoJsonData(data);
-            })
-            .catch((error) => {
-                console.error('Error fetching GeoJSON data:', error); // Debugging log
-            });
+            .then((data) => setGeoJsonData(data))
+            .catch((error) => console.error('Error fetching GeoJSON data:', error));
     }, []);
 
     return (
-        <div className="relative w-full h-full md:w-[42vh] md:h-[100vh]">
-            {/* Fixed header at the top */}
+        <div className="relative w-full h-full flex-grow">
             <div className="absolute top-3 left-0 right-0 z-[1000]">
                 <Header />
             </div>
-
-            {/* Fixed search bar below the header */}
             <div className="absolute top-16 left-0 right-0 z-[1000]">
                 <SearchBar />
             </div>
-
-            {/* Sidebar, positioned responsively */}
             <div className="absolute top-[150px] left-0 md:left-[35vh] right-0 z-[1000]">
                 <Sidebar />
             </div>
-
-            {/* Map container with responsive styling */}
             <MapContainer center={[40.7478017, -73.9914126]} zoom={13} className="h-full w-full">
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                 {geoJsonData && (
@@ -77,7 +64,6 @@ const CustomMap = () => {
                 )}
                 <GetUserLocation />
                 <CustomZoomControl />
-                {/* Fixed position for the cookie modal */}
                 <div className="absolute bottom-[0.5vh] z-[1000]">
                     <CookieModal />
                 </div>
