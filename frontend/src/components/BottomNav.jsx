@@ -1,13 +1,23 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import profileIcon from '../Images/profile.png';
 
 export const BottomNav = () => {
+    const navigate = useNavigate();
+
+    const navigateTo = (path) => {
+        navigate(path);
+    };
+
     return (
         // Container for the bottom navigation bar
         <div className="w-full h-[98px] bg-white fixed bottom-0 flex justify-around items-center">
             
             {/* Home Navigation Item */}
-            <div className="flex flex-col items-center">
+            <button
+                className="flex flex-col items-center"
+                onClick={() => navigateTo('/home')}
+            >
                 {/* Home Icon */}
                 <img
                     className="w-6 h-6 mb-1"
@@ -18,10 +28,13 @@ export const BottomNav = () => {
                 <div className="text-[10px] font-medium text-black">
                     Home
                 </div>
-            </div>
+            </button>
 
             {/* Browse Place Navigation Item */}
-            <div className="flex flex-col items-center opacity-50">
+            <button
+                className="flex flex-col items-center opacity-50"
+                onClick={() => navigateTo('/browse-place')}
+            >
                 {/* Browse Place Icon */}
                 <img
                     className="w-6 h-6 mb-1"
@@ -32,10 +45,13 @@ export const BottomNav = () => {
                 <div className="text-[10px] font-medium text-black">
                     Browse Place
                 </div>
-            </div>
+            </button>
 
             {/* Friend’s PinBox Navigation Item */}
-            <div className="flex flex-col items-center opacity-50">
+            <button
+                className="flex flex-col items-center opacity-50"
+                onClick={() => navigateTo('/friends-pinbox')}
+            >
                 {/* Friend’s PinBox Icon */}
                 <img
                     className="w-6 h-6 mb-1"
@@ -46,10 +62,13 @@ export const BottomNav = () => {
                 <div className="text-[10px] font-medium text-black">
                     Friend’s PinBox
                 </div>
-            </div>
+            </button>
 
             {/* Profile Navigation Item */}
-            <div className="flex flex-col items-center opacity-50">
+            <button
+                className="flex flex-col items-center opacity-50"
+                onClick={() => navigateTo('/profile')}
+            >
                 {/* Profile Icon */}
                 <img
                     className="w-6 h-6 mb-1"
@@ -60,7 +79,7 @@ export const BottomNav = () => {
                 <div className="text-[10px] font-medium text-black">
                     Profile
                 </div>
-            </div>
+            </button>
         </div>
     );
 };
