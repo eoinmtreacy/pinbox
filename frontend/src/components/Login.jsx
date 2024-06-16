@@ -26,7 +26,7 @@ function Login() {
             {/* Login title */}
             <h1 className="text-center text-2xl font-bold my-4">Login</h1>
             {/* Form container */}
-            <div className="max-w-sm mx-auto p-8 rounded-lg border border-solid border-[#020202]">
+            <div className="max-w-sm mx-auto p-8 rounded-lg">
                 {/* Login image */}
                 <img src={Loginimg} alt="Loginimg" className="mx-auto" />
                 {/* Login form */}
