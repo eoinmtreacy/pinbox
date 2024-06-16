@@ -4,6 +4,8 @@ import SideBar from './Sidebar';
 
 const SideBarWrapper = () => {
     const location = useLocation();
+    console.log("Current Path:", location.pathname); // Debugging log
+
     const noSidebarPaths = ['/login', '/signup', '/passwordfind', '/map'];
     
     if (noSidebarPaths.includes(location.pathname)) {
