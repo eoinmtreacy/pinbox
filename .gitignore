@@ -5,6 +5,8 @@ ml_pipeline/**/*.csv
 ml_pipeline/**/*.psv
 ml_pipeline/**/*.parquet
 ml_pipeline/**/*.tar.gz
+# Places images
+ml_pipeline/data_evaluation/google_places_api/places/*
 
 # Mac
 .DS_Store

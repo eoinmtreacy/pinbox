@@ -1,0 +1,440 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9651675, 40.7110687] },
+            "properties": { "name": "Bembe", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-74.0008181, 40.7306713] },
+            "properties": { "name": "The Village Underground", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-74.00091, 40.7307122] },
+            "properties": { "name": "The Fat Black Pussycat", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.8798035, 40.7600183] },
+            "properties": { "name": "Sif", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9924557, 40.7401967] },
+            "properties": { "name": "Wonderland Gentlemen's Club", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.989737, 40.7606664] },
+            "properties": { "name": "Swing46", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9713013, 40.7628314] },
+            "properties": { "name": "Lavo", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.98844, 40.756837] },
+            "properties": { "name": "B.B. King Blues Club & Grill", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9201885, 40.8609814] },
+            "properties": { "name": "Opus", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-74.0109457, 40.6792009] },
+            "properties": { "name": "The Funktion House", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9541345, 40.7105116] },
+            "properties": { "name": "The black flamingo", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9528103, 40.7269085] },
+            "properties": { "name": "Good Room", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9143836, 40.7648776] },
+            "properties": { "name": "Vybz", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9278919, 40.6979017] },
+            "properties": { "name": "Bossa Nova Civic Club", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-74.0058886, 40.7430035] },
+            "properties": { "name": "Highline Ballroom", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-74.0048785, 40.7502928] },
+            "properties": { "name": "Il Bastardo", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9892747, 40.7429866] },
+            "properties": { "name": "40/40 Club", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-74.0016519, 40.7360361] },
+            "properties": { "name": "Village Vanguard", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9960466, 40.7239607] },
+            "properties": { "name": "Gosp\u00ebl", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9663773, 40.7111986] },
+            "properties": { "name": "TBA Brooklyn", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-74.0027295, 40.7343811] },
+            "properties": { "name": "Smalls Jazz Club", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9547666, 40.729969] },
+            "properties": { "name": "Brooklyn Bazaar", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9964103, 40.7667982] },
+            "properties": { "name": "Larry Flynt's Hustler Club", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9108774, 40.7687081] },
+            "properties": { "name": "Dubai Hookah Lounge", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.910138, 40.7697156] },
+            "properties": { "name": "Mijana Restaurant and Lounge", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9426887, 40.7394443] },
+            "properties": { "name": "Sugar Daddy's", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-74.0041092, 40.7422628] },
+            "properties": { "name": "TAO Downtown Nightclub", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9590426, 40.7221418] },
+            "properties": { "name": "Schimanski", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9048083, 40.6961981] },
+            "properties": { "name": "The Venue Party Hall", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.8872699, 40.8283426] },
+            "properties": { "name": "Tropicana", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9260348, 40.6191238] },
+            "properties": { "name": "Lagos Lounge", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9379776, 40.6516015] },
+            "properties": { "name": "Oval", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.734629, 40.6646774] },
+            "properties": { "name": "Secrets", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9221434, 40.7553404] },
+            "properties": { "name": "Riviera", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9021778, 40.6942754] },
+            "properties": { "name": "H0L0", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9025245, 40.6944617] },
+            "properties": { "name": "The Deep End", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9211011, 40.7561485] },
+            "properties": { "name": "Fusion", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9110144, 40.7685464] },
+            "properties": { "name": "Layali Dubai", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9869612, 40.7644171] },
+            "properties": { "name": "Industry", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.8313448, 40.7622678] },
+            "properties": { "name": "Studio Bar & Lounge", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9044551, 40.7538299] },
+            "properties": { "name": "La Boom", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9453631, 40.7109337] },
+            "properties": { "name": "Ceremony224", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-74.1301719, 40.6265219] },
+            "properties": { "name": "Funkey Monkey Lounge", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.8271739, 40.6897625] },
+            "properties": { "name": "Ross Code Lounge", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.8801691, 40.8281945] },
+            "properties": { "name": "Princesa del Rodeo", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9867932, 40.7221035] },
+            "properties": { "name": "Mercury Lounge", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.920853, 40.7076638] },
+            "properties": { "name": "Starr Space", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9130228, 40.7665509] },
+            "properties": { "name": "Layali Beirut", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9235714, 40.7081511] },
+            "properties": { "name": "Jupiter Disco", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.911859, 40.7444889] },
+            "properties": { "name": "Deseos", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9140659, 40.7652732] },
+            "properties": { "name": "Fayrooz", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.7451428, 40.6779622] },
+            "properties": { "name": "After Dark", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9371954, 40.7055561] },
+            "properties": { "name": "Tilt", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9434941, 40.7077257] },
+            "properties": { "name": "Eris Evolution", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9886046, 40.7446396] },
+            "properties": { "name": "Jazz Gallery", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9663679, 40.6835003] },
+            "properties": { "name": "921 Bar & Grill", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-74.0065268, 40.7310628] },
+            "properties": { "name": "Henrietta Hudson", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9837876, 40.7259527] },
+            "properties": { "name": "Kazuza", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9234742, 40.8441066] },
+            "properties": { "name": "O'Side Restaurant & Lounge", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9824278, 40.7685685] },
+            "properties": { "name": "Dizzy\u2019s Club", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.8001873, 40.6740966] },
+            "properties": { "name": "Platinum Lounge & Cafe", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9496988, 40.7319321] },
+            "properties": { "name": "Sera Phi", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9580337, 40.7209241] },
+            "properties": { "name": "JJ's Hideaway", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9223702, 40.705705] },
+            "properties": { "name": "The Sultan Room", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9368538, 40.7055911] },
+            "properties": { "name": "The Vault", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.980295, 40.7218222] },
+            "properties": { "name": "The Francis Kite Club", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-74.0036566, 40.7422144] },
+            "properties": { "name": "PHD Downtown", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-74.0034322, 40.7422914] },
+            "properties": { "name": "Electric Room", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9922775, 40.7218957] },
+            "properties": { "name": "The Box", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-74.0028209, 40.7500931] },
+            "properties": { "name": "Marquee", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9136973, 40.7152945] },
+            "properties": { "name": "Basement NYC", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9135242, 40.8043829] },
+            "properties": { "name": "Noche De Rumba", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.7095309, 40.7372178] },
+            "properties": { "name": "Pegasus", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9431084, 40.7990723] },
+            "properties": { "name": "A\u2019Dar Caf\u00e9 and Lounge", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.8888732, 40.7472475] },
+            "properties": { "name": "Club Evolution", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.7656197, 40.6818331] },
+            "properties": { "name": "Pure Lounge", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9140054, 40.7653803] },
+            "properties": { "name": "Smoke & Mirrors", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.86741, 40.8474996] },
+            "properties": { "name": "Istanbul Cafe", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.814865, 40.7026204] },
+            "properties": { "name": "New York Tavern And Lounge", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9050957, 40.7131553] },
+            "properties": { "name": "Vixen Lounge & Cabaret Bar", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9363251, 40.6977374] },
+            "properties": { "name": "GV Lounge", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-74.0018374, 40.7345395] },
+            "properties": { "name": "Mezzrow", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.8450932, 40.7096855] },
+            "properties": { "name": "Desert Rain", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9558282, 40.6795047] },
+            "properties": { "name": "Wu Lou Lounge", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.9497831, 40.6791911] },
+            "properties": { "name": "Amour Cabaret", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.8229051, 40.686886] },
+            "properties": { "name": "Sheriff Street", "amenity": "nightclub" }
+        },
+        {
+            "type": "Feature",
+            "geometry": { "type": "Point", "coordinates": [-73.8254084, 40.6899908] },
+            "properties": { "name": "Showtime", "amenity": "nightclub" }
+        }
+    ]
+}
