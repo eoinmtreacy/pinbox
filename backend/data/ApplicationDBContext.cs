@@ -11,6 +11,7 @@ namespace backend.data
 
         public DbSet<YourModel> YourModels { get; set; }
     }
+    
     public class YourModel
     {
         public int Id { get; set; }
