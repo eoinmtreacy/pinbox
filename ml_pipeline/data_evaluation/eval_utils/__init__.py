@@ -1,1 +1,1 @@
-from .eval_utils import DataAnalysis
+from .eval_utils import DataAnalysis, DataQualityReport

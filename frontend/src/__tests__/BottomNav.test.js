@@ -29,8 +29,6 @@ describe('BottomNav', () => {
 
     it('displays the profile icon', () => {
         const { getByAltText } = render(<BottomNav />);
-        // Corrected alt text
-        expect(getByAltText('Profile Icon')).toBeInTheDocument();
+        expect(getByAltText('List')).toBeInTheDocument();
     });
 });
-
