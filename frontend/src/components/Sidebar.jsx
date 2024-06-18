@@ -7,7 +7,7 @@ import Mall from '../Images/mall.png';
 const SearchBar = () => {
     return (
         <div>
-            <div className="w-12 h-[237px] top-0 left-0 bg-[#d9d9d999] rounded-[20px]">
+            <div data-testid="sidebar" className="w-12 h-[237px] top-0 left-0 bg-[#d9d9d999] rounded-[20px]">
                 <div className="top-[191px] left-[9px] absolute w-[35px] h-[35px] bg-white rounded-[17.5px]">
                     <img className="!absolute !w-[25px] !h-[26px] !top-[5px] !left-[5px]" src={Mall} alt="mall" />
                 </div>
