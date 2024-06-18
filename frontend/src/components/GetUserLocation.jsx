@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import L from 'leaflet';
 import { useMap } from 'react-leaflet';
 
-const CustomZoomControl = () => {
+const GetUserLocation = () => {
     const map = useMap();
 
     useEffect(() => {
@@ -26,4 +26,4 @@ const CustomZoomControl = () => {
     return null;
 };
 
-export default CustomZoomControl;
+export default GetUserLocation;

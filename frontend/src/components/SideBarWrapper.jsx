@@ -6,7 +6,7 @@ const SideBarWrapper = () => {
     const location = useLocation();
     console.log("Current Path:", location.pathname); // Debugging log
 
-    const noSidebarPaths = ['/login', '/signup', '/passwordfind', '/map'];
+    const noSidebarPaths = ['./Login', './Signup', './PasswordFind', './Map'];
     
     if (noSidebarPaths.includes(location.pathname)) {
         return null;

@@ -4,7 +4,7 @@ import Cafe from '../Images/cafe.png';
 import Pub from '../Images/pub.png';
 import Park from '../Images/park.png';
 import Mall from '../Images/mall.png';
-const SearchBar = () => {
+const Sidebar = () => {
     return (
         <div>
             <div data-testid="sidebar" className="w-12 h-[237px] top-0 left-0 bg-[#d9d9d999] rounded-[20px]">
@@ -32,4 +32,4 @@ const SearchBar = () => {
     );
 };
 
-export default SearchBar;
+export default Sidebar;
