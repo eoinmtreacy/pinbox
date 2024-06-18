@@ -5,7 +5,7 @@ function Signup() {
     return (
         <div className="container px-4">
             <h1 className="text-center text-2xl font-bold my-4">Sign up</h1>
-            <div className="max-w-sm mx-auto p-8 border rounded-lg border border-solid border-[#020202]">
+            <div className="max-w-sm mx-auto p-8 rounded-lg border-solid border-[#020202]">
                 <img src={Loginimg} alt="Loginimg" className="mx-auto" />
                 <form>
                     <div className="mb-4">

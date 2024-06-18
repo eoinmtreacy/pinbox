@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, useMap, GeoJSON } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import Header from './Header';
@@ -9,17 +9,6 @@ import GetUserLocation from './GetUserLocation';
 import CookieModal from './CookieModal';
 import '../App.css';
 
-// Custom Zoom Control Component
-const CustomZoomControl = () => {
-    const map = useMap();
-
-    // Remove the default zoom control
-    useEffect(() => {
-        map.zoomControl.remove();
-    }, [map]);
-
-    return null;
-};
 
 // Update Leaflet icon paths to resolve missing icons
 delete L.Icon.Default.prototype._getIconUrl;
@@ -47,7 +36,7 @@ const CustomMap = () => {
             <div className="absolute top-16 left-0 right-0 z-[1000]">
                 <SearchBar />
             </div>
-            <div className="absolute top-[150px] left-0 md:left-[35vh] right-0 z-[1000]">
+            <div className="absolute top-[150px]  right-0 z-[1000]">
                 <Sidebar />
             </div>
             <MapContainer center={[40.7478017, -73.9914126]} zoom={13} className="h-full w-full">
@@ -63,7 +52,6 @@ const CustomMap = () => {
                     />
                 )}
                 <GetUserLocation />
-                <CustomZoomControl />
                 <div className="absolute bottom-[0.5vh] z-[1000]">
                     <CookieModal />
                 </div>
