@@ -1,30 +1,29 @@
 using DotNetEnv;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
-using backend;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-DotNetEnv.Env.Load();
+DotNetEnv.Env.Load(".env");
 
-string dbPassword = Config.DbPassword;
-string dbHost = Config.DbHost;
-string dbPort = Config.DbPort;
-string dbName = Config.DbName;
-string dbUser = Config.DbUser;
+var ConfigurationonnectionString = Env.GetString("DefaultConnection");
 
-var connectionStringTemplate = builder.Configuration.GetConnectionString("DefaultConnection");
-
-string connectionString = connectionStringTemplate
-    .Replace("{DB_HOST}", dbHost)
-    .Replace("{DB_PORT}", dbPort)
-    .Replace("{DB_NAME}", dbName)
-    .Replace("{DB_USER}", dbUser)
-    .Replace("{DB_PASSWORD}", dbPassword);
-
-builder.Configuration["ConnectionStrings:DefaultConnection"] = connectionString;
 
 var app = builder.Build();
 
+// Configure the HTTP request pipeline
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+
+app.UseHttpsRedirection();
+app.UseAuthorization();
+
+app.MapControllers();
 app.MapGet("/", () => "Hello World!");
 
 app.Run();
