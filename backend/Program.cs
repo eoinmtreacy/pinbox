@@ -7,7 +7,6 @@ using backend.data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Access the configuration
 var configuration = builder.Configuration;
 
 // Register the DbContext with the MySQL provider

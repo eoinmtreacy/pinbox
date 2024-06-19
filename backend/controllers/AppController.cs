@@ -18,18 +18,18 @@ namespace Backend.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            if (!_context.YourModels.Any())
+            if (!_context.Places.Any())
             {
-                _context.YourModels.Add(new YourModel
+                _context.Places.Add(new Place
                 {
                     Name = "Test Location",
-                    Latitude = 0.0,
-                    Longitude = 0.0
+                    Lat = 0.0M, // The 'M' suffix specifies decimal literal 
+                    Lon = 0.0M 
                 });
                 _context.SaveChanges();
             }
 
-            var model = _context.YourModels.FirstOrDefault();
+            var model = _context.Places.FirstOrDefault();
             return Ok(model);
         }
     }
