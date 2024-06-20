@@ -13,8 +13,8 @@ const UserProfileBox = ({ isClickable }) => {
       .then(response => {
         setUser(response.data);
       })
-      .catch(error => {
-        console.error('There was an error fetching the user data!', error);
+      .catch(async error => {
+        console.error('There was an error fetching the user data!', await error);
       });
   }, []);
 
