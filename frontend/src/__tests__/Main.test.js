@@ -1,4 +1,4 @@
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Main from '../components/Main';
 
@@ -11,7 +11,7 @@ jest.mock('react-router-dom', () => {
   };
 });
 
-test('navigates to /login on Login button click', () => {
+test('navigates to /login on Login button click', async () => {
   const { navigateMock } = require('react-router-dom');
 
   render(
@@ -23,10 +23,10 @@ test('navigates to /login on Login button click', () => {
   const loginButton = screen.getByText('Login');
   fireEvent.click(loginButton);
 
-  expect(navigateMock).toHaveBeenCalledWith('/login');
+  await waitFor(() => expect(navigateMock).toHaveBeenCalledWith('/login')); 
 });
 
-test('navigates to /signup on Sign Up button click', () => {
+test('navigates to /signup on Sign Up button click', async () => {
     const { navigateMock } = require('react-router-dom');
 
     render(
@@ -38,5 +38,5 @@ test('navigates to /signup on Sign Up button click', () => {
     const loginButton = screen.getByText('Sign Up');
     fireEvent.click(loginButton);
   
-    expect(navigateMock).toHaveBeenCalledWith('/signup');
+    await waitFor( () => expect(navigateMock).toHaveBeenCalledWith('/signup'));
 });
