@@ -1,34 +1,35 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
 
 describe('BottomNav', () => {
-    it('renders without crashing', () => {
-        render(<BottomNav />);
-    });
-
+    beforeEach(() => {
+        render(
+            <MemoryRouter>
+                <BottomNav />	
+            </MemoryRouter>
+        );
+    }); 
+    
     it('displays the "Home" text', () => {
-        const { getByText } = render(<BottomNav />);
-        expect(getByText('Home')).toBeInTheDocument();
+        expect(screen.getByText('Home')).toBeInTheDocument();
     });
 
     it('displays the "Browse Place" text', () => {
-        const { getByText } = render(<BottomNav />);
-        expect(getByText('Browse Place')).toBeInTheDocument();
+        expect(screen.getByText('Browse Place')).toBeInTheDocument();
     });
 
     it('displays the "Friend’s PinBox" text', () => {
-        const { getByText } = render(<BottomNav />);
-        expect(getByText('Friend’s PinBox')).toBeInTheDocument();
+        expect(screen.getByText('Friend’s PinBox')).toBeInTheDocument();
     });
 
     it('displays the "Profile" text', () => {
-        const { getByText } = render(<BottomNav />);
-        expect(getByText('Profile')).toBeInTheDocument();
+        expect(screen.getByText('Profile')).toBeInTheDocument()
     });
 
     it('displays the profile icon', () => {
-        const { getByAltText } = render(<BottomNav />);
-        expect(getByAltText('List')).toBeInTheDocument();
+        expect(screen.getByAltText('Profile Icon')).toBeInTheDocument();
     });
+    
 });

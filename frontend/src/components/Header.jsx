@@ -7,7 +7,7 @@ import UserProfileBox from './UserProfileBox';
 const Header = () => {
     return (
         // Main container for the header with flexbox layout
-        <div className="flex gap-4 items-center p-4">
+        <div data-testid="header-component" className="flex gap-4 items-center p-4">
 
 
             {/* UserProfileBox component */}
