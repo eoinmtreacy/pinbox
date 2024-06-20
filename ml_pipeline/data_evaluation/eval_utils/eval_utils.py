@@ -1,4 +1,11 @@
-"""Utilities used for Data Evaluation"""
+"""
+Utilities used for Data Evaluation
+
+This class contains the following classes:
+
+- DataAnalysis: performs data analysis for initial evaluation of data
+- DataQualityReport: Generates a data quality report based on analysis performed by DataAnalysis. 
+"""
 
 import pandas as pd
 import dataframe_image as dfi
@@ -8,27 +15,48 @@ from docx.shared import Inches
 
 
 class DataAnalysis:
+    """Class for performing analysis on a given dataframe
+    """
+
     def __init__(self, name: str, df: pd.DataFrame):
+        """Initialize DataAnalysis
+
+        Args:
+            name (str): Name of the data to be analysed - used for naming of images and csv files.
+            df (pd.DataFrame): DataFrame to be analysed.
+        """
+
         self.name = name
         self.df = df
-        self.numeric_table_filename = f"{self.name}-DataQualityReport-NumericFeatures-Table.png"
-        self.category_table_filename = f"{self.name}-DataQualityReport-CategoricFeatures-Table.png"
+        # File names for descriptive feature tables - allows tables to be inserted into data quality report
+        self.numeric_table_filename = f"{
+            self.name}-DataQualityReport-NumericFeatures-Table.png"
+        self.category_table_filename = f"{
+            self.name}-DataQualityReport-CategoricFeatures-Table.png"
+        # Initialize as empty list, add filenames when histograms added
         self.histogram_filenames = []
-        self.boxplot_filenames = []
+        self.boxplot_filenames = []  # Initialize as empty list.
+
+        # Perform initial analysis on df
         self.initial_analysis()
 
     def get_numeric_columns(self):
-        # Get numeric columns
+        """Get numeric columns from the dataframe.
+        """
         self.numeric_columns = self.df.select_dtypes(
             ['int64', 'float64', 'datetime64']).columns
+        self.num_numeric_columns = len(self.numeric_columns)
 
     def get_category_columns(self):
-        # Get categoric columns
+        """Get categoric columns from the dataframe.
+        """
         self.category_columns = self.df.select_dtypes(['category']).columns
         self.num_category_columns = len(self.category_columns)
 
     def get_cardinalities(self):
-        # Get numeric cardinalities
+        """Caluculate the cardinalities of all numeric features on the DataFrame
+        """
+        # Check if numeric columns defined
         if self.numeric_columns is None:
             self.get_numeric_columns()
 
@@ -38,6 +66,8 @@ class DataAnalysis:
             self.numeric_columns_card, columns=['card'])
 
     def get_shape(self):
+        """Print the shape of the dataframe.
+        """
         # Outputs # rows
         print("Number of rows:", self.df.shape[0])
         # Outputs # cols
@@ -46,24 +76,28 @@ class DataAnalysis:
         self.num_cols = self.df.shape[1]
 
     def print_col_types(self):
-        # Get the column types
+        """Get the column types of the DataFrame.
+        """
         print("\n\n")
         print("Column types:")
         for col in self.df.columns:
             print(f"{col}: {self.df[col].dtype}")
 
     def convert_object_cols(self):
-        # Convert all of the object cols to category
+        """Convert all of the object cols to category
+        """
         object_columns = self.df.select_dtypes(['object']).columns
         for column in object_columns:
             self.df[column] = self.df[column].astype('category')
 
     def count_duplicates(self):
-        # Find duplicate rows
+        """Calculate number of duplicate rows"""
         self.duplicate_count = self.df[self.df.duplicated() == True].shape[0]
         print("Number of duplicate rows:", self.duplicate_count)
 
     def get_null_values(self):
+        """Count null values per column in dataframe.
+        """
         self.num_null_vals = {}
 
         for col in self.df.columns:
@@ -71,7 +105,9 @@ class DataAnalysis:
             print(col, self.df[col].isnull().sum())
 
     def initial_analysis(self):
-        # Get the shape of the dataframe and print the first 5 rows for review
+        """Perform initial analysis on the DataFrame.
+        Allows for type checking before bulk analysis is performed.
+        """
         self.get_shape()
         self.df.head()
 
@@ -88,6 +124,8 @@ class DataAnalysis:
         dfi.export(df, name)
 
     def numeric_desc_features(self):
+        """Create a numeric descriptive feature table and save it to a csv and png file.
+        """
         # First describe the numeric features
         self.df_table_numeric = self.df[self.numeric_columns].describe().T
 
@@ -109,6 +147,8 @@ class DataAnalysis:
         print(df_numeric_columns_data_quality_report_table)
 
     def categoric_desc_features(self):
+        """Create a categoric descriptive feature table and save it to a csv and png file.
+        """
         self.category_unique = self.df[self.category_columns].nunique()
         # Look once again at the summary stats table for categorical features
         self.df_table_categoric = self.df[self.category_columns].describe(
@@ -151,6 +191,8 @@ class DataAnalysis:
                             self.category_table_filename)
 
     def print_value_proportions(self):
+        """Print the unique values and their corresponding proportions for each categoric column in the dataframe.
+        """
         print("\n\nValue proportions:")
         # Change category cols to remove
         # Look at the values taken by each categorical feature, as a proportion, including NaN
@@ -159,31 +201,47 @@ class DataAnalysis:
             print(self.df[column].value_counts(normalize=True, dropna=False))
 
     def plot_numeric(self):
-        # Plot them all together instead
+        """Plot histogram for all numeric features.
+        """
+        # TODO: Make new fig every 10 plots for dataframes with large num of desc features
+        # Plot histogram
         plt.figure()
         self.df.hist(figsize=(30, 20))
+
+        # Wipe histogram filenames
         self.histogram_filenames = []
+
+        # Save histogram to png and append to filenames
         f = f"{self.name}_numeric_hist.png"
         self.histogram_filenames.append(f)
         plt.savefig(f)
 
     def plot_categoric(self):
-        # Change code to produce new figure every 10 plots
-        num_cols = 2
+        """Create box plots for all categoric columns and save to png
+        """
+        num_cols = 2  # number of plots per row
+        # Only want 10 plots per figure as image becomes too large for data quality report otherwise
         plots_per_fig = 10
-        self.boxplot_filenames = []
+
         num_figures = (len(self.category_columns) +
                        plots_per_fig - 1)//plots_per_fig
 
+        self.boxplot_filenames = []
+
+        # Only add 10 plots to each figure, need to iterate num_figures times
         for i in range(num_figures):
-            current_cols = self.category_columns[i*plots_per_fig: min(
-                len(self.category_columns), (i+1)*plots_per_fig)]
-            # Plot categoric columns
+            start = i * plots_per_fig
+            end = min(
+                len(self.category_columns), start + plots_per_fig)
+
+            # Columns to plot in this iteration of the for loop
+            current_cols = self.category_columns[start: end]
+            # Need to calculate in for loop as last iteration will be different
             num_rows = (len(current_cols) + 1) // num_cols
 
             # Create a single figure with subplots arranged in a 2-column grid
             fig, axes = plt.subplots(
-                nrows=num_rows, ncols=2, figsize=(15, 5*num_rows))
+                nrows=num_rows, ncols=num_cols, figsize=(15, 5*num_rows))
 
             # Flatten the axes array to simplify indexing
             axes = axes.flatten()
@@ -235,13 +293,7 @@ class DataAnalysis:
             self.plot_categoric()
 
     def make_data_quality_report(self, params):
-        self.dqr = DataQualityReport(self)
-
-
-class DataQualityReport:
-    def __init__(self, da: DataAnalysis, params):
-        self.da = da
-        self.params = params
+        self.dqr = DataQualityReport(self, params)
 
 
 class DataQualityReport:
@@ -319,18 +371,22 @@ class DataQualityReport:
         return f"There are {self.da.duplicate_count} duplicate rows. "
 
     def numeric_col_description(self, col):
-        output = f"This feature has a mean of {self.num_format(self.da.df_table_numeric.loc[col, 'mean'])}, a min value of {self.num_format(self.da.df_table_numeric.loc[col, 'min'])} and a max value of {self.num_format(self.da.df_table_numeric.loc[col, 'max'])}. "
+        output = f"This feature has a mean of {self.num_format(self.da.df_table_numeric.loc[col, 'mean'])}, a min value of {self.num_format(
+            self.da.df_table_numeric.loc[col, 'min'])} and a max value of {self.num_format(self.da.df_table_numeric.loc[col, 'max'])}. "
         if col in self.null_val_cols:
-            output += f"There are {self.da.num_null_vals[col]} missing values. "
+            output += f"There are {
+                self.da.num_null_vals[col]} missing values. "
         else:
             output += "There are no missing values. "
 
         return output
 
     def category_col_description(self, col):
-        output = f"This has {self.da.category_unique[col]} unique values. The most common is {self.da.df_table_categoric.loc[col,'top']}. "
+        output = f"This has {self.da.category_unique[col]} unique values. The most common is {
+            self.da.df_table_categoric.loc[col, 'top']}. "
         if col in self.null_val_cols:
-            output += f"There are {self.da.num_null_vals[col]} missing values. "
+            output += f"There are {
+                self.da.num_null_vals[col]} missing values. "
         else:
             output += "There are no missing values. "
 
@@ -420,9 +476,9 @@ class DataQualityReport:
             p.add_run("***REVIEW DISTRIBUTION***").bold = True
 
         if len(self.da.category_columns) > 0:
-            document.add_heading("Review Continuous Features", 2)
+            document.add_heading("Review Categoric Features", 2)
             document.add_paragraph(
-                f"There are {len(self.da.numeric_columns)} continuous features in this dataset:")
+                f"There are {len(self.da.category_columns)} categoric features in this dataset:")
             for col in self.da.category_columns:
                 document.add_paragraph(col, style="List Bullet")
                 desc = self.category_col_description(col)
