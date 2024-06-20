@@ -9,15 +9,14 @@ const UserProfileBox = ({ isClickable }) => {
 
   useEffect(() => {
     // Fetch the user's data from the backend
+
     axios.get('/api/user')
       .then(response => {
         setUser(response.data);
       })
-      .catch(error => {
-        (async () => {
-          console.error('There was an error fetching the user data!', await error);
-        })
-      });
+      .catch(async error => {
+        console.error('There was an error fetching the user data!', await error);
+    });
   }, []);
 
   // Format the user's name into the desired format
