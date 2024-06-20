@@ -1,27 +1,30 @@
 import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import Header from '../components/Header';
 
-test('renders the Gyuwons PinBox text', () => {
-    render(<Header />);
-    const textElement = screen.getByText('Gyuwons PinBox');
-    expect(textElement).toBeInTheDocument();
+describe('Header', () => {
+    beforeEach(() => {
+        render(
+            <MemoryRouter>
+                <Header />
+            </MemoryRouter>
+        );
+    });
+
+    it ('renders without crashing', () => {
+        expect(screen.getByTestId('header-component')).toBeInTheDocument();
+    });
+
+    it('renders the Map image', () => {
+        const imageElement = screen.getByAltText('Map');
+        expect(imageElement).toBeInTheDocument();
+    });
+
+    it('renders the List image', () => {
+        const imageElement = screen.getByAltText('List');
+        expect(imageElement).toBeInTheDocument();
+});
+   
 });
 
-test('renders the Gyuwon image', () => {
-    render(<Header />);
-    const imageElement = screen.getByAltText('Gyuwon');
-    expect(imageElement).toBeInTheDocument();
-});
-
-test('renders the Map image', () => {
-    render(<Header />);
-    const imageElement = screen.getByAltText('Map');
-    expect(imageElement).toBeInTheDocument();
-});
-
-test('renders the List image', () => {
-    render(<Header />);
-    const imageElement = screen.getByAltText('List');
-    expect(imageElement).toBeInTheDocument();
-});

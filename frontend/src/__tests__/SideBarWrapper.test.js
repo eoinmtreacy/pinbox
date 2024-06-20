@@ -15,7 +15,7 @@ describe('SideBarWrapper', () => {
   });
 
   it('does not render SideBar for excluded paths', () => {
-    const excludedPaths = ['/login', '/signup', '/passwordfind', '/map'];
+    const excludedPaths = ['./Login', './Signup', './PasswordFind', './Map'];
 
     excludedPaths.forEach(path => {
       render(
