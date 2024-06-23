@@ -5,6 +5,7 @@ import BottomNav from '../components/BottomNav';
 
 describe('BottomNav', () => {
     beforeEach(() => {
+        // eslint-disable-next-line testing-library/no-render-in-setup
         render(
             <MemoryRouter>
                 <BottomNav />	

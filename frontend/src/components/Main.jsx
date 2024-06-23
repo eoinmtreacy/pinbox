@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Logo from '../Images/logo.png';
+import Logo from '../Images/logo.jpg';
 import Google from '../Images/google.png';
 import Linkedin from '../Images/linkedin.png';
 import Facebook from '../Images/facebook.png';

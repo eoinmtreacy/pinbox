@@ -1,5 +1,6 @@
 import * as React from 'react';
 import PasswordImg from '../Images/pw.png';
+
 function PasswordFind() {
     return (
         <div className="flex flex-col items-start py-20 pr-9 pl-20 mx-auto w-full text-4xl font-bold text-center bg-white max-w-[480px] rounded-[80px] text-stone-500">

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Loginimg from '../Images/appimage.png'; // Importing the Login image
-import '../App.css'; // Importing custom CSS
-import 'leaflet/dist/leaflet.css'; // Importing Leaflet CSS for map styling
+import Loginimg from '../Images/appimage.png';
+import '../App.css'; 
+import 'leaflet/dist/leaflet.css'; 
 
 // Login component
 function Login() {
@@ -17,7 +17,7 @@ function Login() {
 
     // Function to handle forgot password button click
     const handleForgotPasswordClick = () => {
-        navigate('/passwordfind'); // Navigate to the password find page
+        navigate('./PasswordFind'); // Navigate to the password find page
     };
 
     return (
