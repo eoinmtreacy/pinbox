@@ -1,8 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import profileIcon from '../Images/profile.png';
+import logo from '../Images/logo.png';
+import settings from '../Images/settings.png';
+import home from '../Images/home.png';
+import like from '../Images/like.png';
+import friends from '../Images/friends.png';
+import search from '../Images/search.png';
 
-export const BottomNav = () => {
+export const SideNav = () => {
     const navigate = useNavigate();
 
     const navigateTo = (path) => {
@@ -10,78 +15,25 @@ export const BottomNav = () => {
     };
 
     return (
-        // Container for the bottom navigation bar
-        <div className="w-full h-[98px] bg-white fixed bottom-0 flex justify-around items-center">
-            
-            {/* Home Navigation Item */}
-            <button
-                className="flex flex-col items-center"
-                onClick={() => navigateTo('/home')}
-            >
-                {/* Home Icon */}
-                <img
-                    className="w-6 h-6 mb-1"
-                    alt="Home Icon"
-                    src="https://c.animaapp.com/0aBwylXj/img/subtract.svg"
-                />
-                {/* Home Label */}
-                <div className="text-[10px] font-medium text-black">
-                    Home
-                </div>
+        <div className="w-[70px] h-full bg-[#4665F5] fixed left-0 top-0 flex flex-col justify-around items-center pt-4 pb-4">
+            <img className="w-10 h-10 mb-4" alt="Logo" src={logo} />
+            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/home')}>
+                <img className="w-6 h-6 mb-1" alt="Home Icon" src={home} />
             </button>
-
-            {/* Browse Place Navigation Item */}
-            <button
-                className="flex flex-col items-center opacity-50"
-                onClick={() => navigateTo('/browse-place')}
-            >
-                {/* Browse Place Icon */}
-                <img
-                    className="w-6 h-6 mb-1"
-                    alt="Browse Place Icon"
-                    src="https://c.animaapp.com/0aBwylXj/img/icon-search.svg"
-                />
-                {/* Browse Place Label */}
-                <div className="text-[10px] font-medium text-black">
-                    Browse Place
-                </div>
+            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/search')}>
+                <img className="w-6 h-6 mb-1" alt="Search Icon" src={search} />
             </button>
-
-            {/* Friend’s PinBox Navigation Item */}
-            <button
-                className="flex flex-col items-center opacity-50"
-                onClick={() => navigateTo('/friends-pinbox')}
-            >
-                {/* Friend’s PinBox Icon */}
-                <img
-                    className="w-6 h-6 mb-1"
-                    alt="Friend’s PinBox Icon"
-                    src="https://c.animaapp.com/0aBwylXj/img/icon-radio.svg"
-                />
-                {/* Friend’s PinBox Label */}
-                <div className="text-[10px] font-medium text-black">
-                    Friend’s PinBox
-                </div>
+            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/like')}>
+                <img className="w-6 h-6 mb-1" alt="Like Icon" src={like} />
             </button>
-
-            {/* Profile Navigation Item */}
-            <button
-                className="flex flex-col items-center opacity-50"
-                onClick={() => navigateTo('/profile')}
-            >
-                {/* Profile Icon */}
-                <img
-                    className="w-6 h-6 mb-1"
-                    alt="Profile Icon"
-                    src={profileIcon}
-                />
-                {/* Profile Label */}
-                <div className="text-[10px] font-medium text-black">
-                    Profile
-                </div>
+            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/friends')}>
+                <img className="w-6 h-6 mb-1" alt="Friends Icon" src={friends} />
+            </button>
+            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/settings')}>
+                <img className="w-6 h-6 mb-1" alt="Settings Icon" src={settings} />
             </button>
         </div>
     );
 };
 
-export default BottomNav;
+export default SideNav;
