@@ -7,6 +7,7 @@ import GetUserLocation from './GetUserLocation';
 import CookieModal from './CookieModal';
 import SideNav from './SideNav';
 import Preference from './Preference'; // Import the Preference component
+import Friends from './Friends'; // Import the Friends component
 import '../App.css';
 
 // Update Leaflet icon paths to resolve missing icons
@@ -20,6 +21,7 @@ L.Icon.Default.mergeOptions({
 const CustomMap = () => {
     const [geoJsonData, setGeoJsonData] = useState(null);
     const [showPreference, setShowPreference] = useState(false);
+    const [showFriends, setShowFriends] = useState(false);
 
     useEffect(() => {
         fetch('nightclub_amenities.geojson')
@@ -30,19 +32,30 @@ const CustomMap = () => {
 
     const handlePreferenceToggle = () => {
         setShowPreference((prev) => !prev);
+        if (showFriends) setShowFriends(false); // Ensure only one panel is open at a time
+    };
+
+    const handleFriendsToggle = () => {
+        setShowFriends((prev) => !prev);
+        if (showPreference) setShowPreference(false); // Ensure only one panel is open at a time
     };
 
     return (
         <div className="relative w-full h-full flex">
-            <SideNav onPreferenceToggle={handlePreferenceToggle} /> {/* Include SideNav component */}
+            <SideNav onPreferenceToggle={handlePreferenceToggle} onFriendsToggle={handleFriendsToggle} /> {/* Include SideNav component */}
             {showPreference && (
                 <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full ml-[70px]">
                     <Preference /> {/* Use the imported Preference component */}
                 </div>
             )}
-            <div className={`relative h-full flex-grow ${showPreference ? 'w-3/4' : 'w-full'} ml-[70px]`}>
+            {showFriends && (
+                <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full ml-[70px]">
+                    <Friends userId={1} /> {/* Use the imported Friends component */}
+                </div>
+            )}
+            <div className={`relative h-full flex-grow ${showPreference || showFriends ? 'w-3/4' : 'w-full'} ml-[70px]`}>
                 {' '}
-                {/* Adjust width based on preference panel */}
+                {/* Adjust width based on preference or friends panel */}
                 <div className="absolute top-10 left-3 z-[1000] flex">
                     <SearchBar />
                 </div>
