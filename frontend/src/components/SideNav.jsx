@@ -26,7 +26,7 @@ export const SideNav = ({ onPreferenceToggle }) => {
     return (
         <div className="w-[70px] h-full bg-[#4665F5] fixed left-0 top-0 flex flex-col justify-around items-center pt-4 pb-4">
             <img className="w-10 h-10 mb-4" alt="Logo" src={logo} />
-            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/home')}>
+            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/Map')}>
                 <img className="w-6 h-6 mb-1" alt="Home Icon" src={home} />
             </button>
             <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/search')}>
@@ -35,10 +35,10 @@ export const SideNav = ({ onPreferenceToggle }) => {
             <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/preference')}>
                 <img className="w-6 h-6 mb-1" alt="Like Icon" src={like} />
             </button>
-            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/friends')}>
+            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/Friends')}>
                 <img className="w-6 h-6 mb-1" alt="Friends Icon" src={friends} />
             </button>
-            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/settings')}>
+            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/Profile')}>
                 <img className="w-6 h-6 mb-1" alt="Settings Icon" src={settings} />
             </button>
         </div>
