@@ -7,6 +7,8 @@ import Flag from '../Images/hateit.png';
 import Heart from '../Images/loveit.png';
 import OkSign from '../Images/wanna.png';
 import DonotCare from '../Images/dontcare.png';
+import PropTypes from 'prop-types';
+
 
 const StarRating = ({ rating }) => {
     const MAX_STARS = 5;
@@ -100,5 +102,11 @@ function Preference() {
         </div>
     );
 }
+
+
+StarRating.propTypes = {
+    rating: PropTypes.number.isRequired
+};
+
 
 export default Preference;
