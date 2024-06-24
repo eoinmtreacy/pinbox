@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import infernoImage from '.inferno.jpg';
-import iceImage from '.ice.png';
+import infernoImage from '../Images/inferno.jpg';
+import iceImage from '../Images/ice.png';
 const UserPreferenceSelector = () => {
   const [username, setUsername] = useState('');
 
