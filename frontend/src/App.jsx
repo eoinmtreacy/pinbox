@@ -9,6 +9,7 @@ import Main from './components/Main';
 import PasswordFind from './components/PasswordFind';
 import Preference from './components/Preference';
 
+
 function App() {
     return (
         <div className="App flex flex-col min-h-screen">
