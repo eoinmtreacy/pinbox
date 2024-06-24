@@ -1,4 +1,5 @@
 import * as React from "react";
+import PropTypes from 'prop-types'; 
 
 function ResourceIcons({ icons }) {
   return ( 
@@ -15,6 +16,16 @@ function ResourceIcons({ icons }) {
     </div>
   );
 }
+
+// Add prop types for validation
+ResourceIcons.propTypes = {
+  icons: PropTypes.arrayOf(
+    PropTypes.shape({
+      src: PropTypes.string.isRequired,
+      alt: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+};
 
 function Footer() {
   const icons = [
