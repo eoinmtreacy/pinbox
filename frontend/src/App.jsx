@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.css'; // Import custom CSS for the App
-import 'leaflet/dist/leaflet.css'; // Import Leaflet CSS for map styling
-import Map from './components/Map'; // Import the Map component
-import BottomNav from './components/BottomNav'; // Import the BottomNav component
-import Login from './components/Login'; // Import the Login component
-import Signup from './components/Signup'; // Import the Signup component
-import Main from './components/Main'; // Import the Main component
-import PasswordFind from './components/PasswordFind'; // Import the PasswordFind component
+import './App.css'; 
+import 'leaflet/dist/leaflet.css';
+import Map from './components/Map';
+import BottomNav from './components/BottomNav'; 
+import Login from './components/Login';
+import Signup from './components/Signup';
+import Main from './components/Main'; 
+import PasswordFind from './components/PasswordFind'; 
 
 function App() {
     return (
