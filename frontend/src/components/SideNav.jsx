@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types'; // Import PropTypes
 import { useNavigate } from 'react-router-dom';
 import logo from '../Images/logo.png';
 import settings from '../Images/settings.png';
@@ -42,6 +43,11 @@ export const SideNav = ({ onPreferenceToggle }) => {
             </button>
         </div>
     );
+};
+
+// PropTypes for SideNav
+SideNav.propTypes = {
+    onPreferenceToggle: PropTypes.func.isRequired // Ensures onPreferenceToggle is a function and is required
 };
 
 export default SideNav;
