@@ -14,10 +14,8 @@ const UserProfileBox = ({ isClickable }) => {
       .then(response => {
         setUser(response.data);
       })
-      .catch(async error => {
-        console.error('There was an error fetching the user data!', await error);
-    });
-  }, []);
+      .catch(async error => error)
+    }, []);
 
   // Format the user's name into the desired format
   const formatName = (name) => {
