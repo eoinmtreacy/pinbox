@@ -1,5 +1,5 @@
 # ml_pipeline/Dockerfile
-FROM python:3.12-slim
+FROM python:3.11-slim
 
 WORKDIR /
 
@@ -28,6 +28,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-EXPOSE 5000
-CMD ["python", "test.py"]
+EXPOSE 5001
+
+# Assuming your Flask app is named app.py and located at the root of your directory
+CMD ["flask", "run", "--host=0.0.0.0", "--port=5001"]
 
