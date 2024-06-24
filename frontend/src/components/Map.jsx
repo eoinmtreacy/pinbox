@@ -6,6 +6,7 @@ import SearchBar from './SearchBar';
 import GetUserLocation from './GetUserLocation';
 import CookieModal from './CookieModal';
 import SideNav from './SideNav';
+import Preference from './Preference'; // Import the Preference component
 import '../App.css';
 
 // Update Leaflet icon paths to resolve missing icons
@@ -18,6 +19,7 @@ L.Icon.Default.mergeOptions({
 
 const CustomMap = () => {
     const [geoJsonData, setGeoJsonData] = useState(null);
+    const [showPreference, setShowPreference] = useState(false);
 
     useEffect(() => {
         fetch('nightclub_amenities.geojson')
@@ -26,11 +28,22 @@ const CustomMap = () => {
             .catch((error) => console.error('Error fetching GeoJSON data:', error));
     }, []);
 
+    const handlePreferenceToggle = () => {
+        setShowPreference((prev) => !prev);
+    };
+
     return (
         <div className="relative w-full h-full flex">
-            <SideNav /> {/* Include SideNav component */}
-            <div className="relative w-full h-full flex-grow ml-[70px]"> {/* Add left margin to avoid overlapping with SideNav */}
-                <div className="absolute top-10 left-3 z-[1000]">
+            <SideNav onPreferenceToggle={handlePreferenceToggle} /> {/* Include SideNav component */}
+            {showPreference && (
+                <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full ml-[70px]">
+                    <Preference /> {/* Use the imported Preference component */}
+                </div>
+            )}
+            <div className={`relative h-full flex-grow ${showPreference ? 'w-3/4' : 'w-full'} ml-[70px]`}>
+                {' '}
+                {/* Adjust width based on preference panel */}
+                <div className="absolute top-10 left-3 z-[1000] flex">
                     <SearchBar />
                 </div>
                 <MapContainer center={[40.7478017, -73.9914126]} zoom={13} className="h-full w-full">
@@ -40,7 +53,9 @@ const CustomMap = () => {
                             data={geoJsonData}
                             onEachFeature={(feature, layer) => {
                                 if (feature.properties?.name) {
-                                    layer.bindPopup(`<b>${feature.properties.name}</b><br />${feature.properties.amenity}`);
+                                    layer.bindPopup(
+                                        `<b>${feature.properties.name}</b><br />${feature.properties.amenity}`
+                                    );
                                 }
                             }}
                         />

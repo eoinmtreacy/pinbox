@@ -7,11 +7,19 @@ import like from '../Images/like.png';
 import friends from '../Images/friends.png';
 import search from '../Images/search.png';
 
-export const SideNav = () => {
+export const SideNav = ({ onPreferenceToggle }) => {
     const navigate = useNavigate();
 
+    const handlePreferenceClick = () => {
+        onPreferenceToggle();
+    };
+
     const navigateTo = (path) => {
-        navigate(path);
+        if (path === '/preference') {
+            handlePreferenceClick();
+        } else {
+            navigate(path);
+        }
     };
 
     return (
@@ -23,7 +31,7 @@ export const SideNav = () => {
             <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/search')}>
                 <img className="w-6 h-6 mb-1" alt="Search Icon" src={search} />
             </button>
-            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/like')}>
+            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/preference')}>
                 <img className="w-6 h-6 mb-1" alt="Like Icon" src={like} />
             </button>
             <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/friends')}>
