@@ -28,6 +28,17 @@ function Preference() {
     return (
         <div className="flex flex-col items-center  min-h-screen bg-gray-100 mr-0 mb-0">
             <div className="flex flex-col  px-7 pt-10 bg-white rounded-xl border border-solid border-stone-400 max-w-[618px] max-md:px-5">
+                {/* It has to be dynamic */}
+                <div className="relative w-full mb-5">
+                    <select className="absolute top-0 right-0 bg-blue-500 text-white rounded-md">
+                        <option value="all">All</option>
+                        <option value="restaurant">Restaurant</option>
+                        <option value="bar">Bar</option>
+                        <option value="cafe">Cafe</option>
+                        <option value="cinema">Cinema</option>
+                        <option value="iceCream">IceCream</option>
+                    </select>
+                </div>
                 <div className="text-4xl font-bold tracking-tight text-center text-black max-md:max-w-full">
                     Smart Recommendation
                 </div>
