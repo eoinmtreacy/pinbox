@@ -6,8 +6,9 @@ import SearchBar from './SearchBar';
 import GetUserLocation from './GetUserLocation';
 import CookieModal from './CookieModal';
 import SideNav from './SideNav';
-import Preference from './Preference'; // Import the Preference component
-import Friends from './Friends'; // Import the Friends component
+import Preference from './Preference';
+import Friends from './Friends';
+import TopNav from './TopNav';
 import '../App.css';
 
 // Update Leaflet icon paths to resolve missing icons
@@ -41,43 +42,46 @@ const CustomMap = () => {
     };
 
     return (
-        <div className="relative w-full h-full flex">
-            <SideNav onPreferenceToggle={handlePreferenceToggle} onFriendsToggle={handleFriendsToggle} /> {/* Include SideNav component */}
-            {showPreference && (
-                <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full ml-[70px]">
-                    <Preference /> {/* Use the imported Preference component */}
-                </div>
-            )}
-            {showFriends && (
-                <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full ml-[70px]">
-                    <Friends userId={1} /> {/* Use the imported Friends component */}
-                </div>
-            )}
-            <div className={`relative h-full flex-grow ${showPreference || showFriends ? 'w-3/4' : 'w-full'} ml-[70px]`}>
-                {' '}
-                {/* Adjust width based on preference or friends panel */}
-                <div className="absolute top-10 left-3 z-[1000] flex">
-                    <SearchBar />
-                </div>
-                <MapContainer center={[40.7478017, -73.9914126]} zoom={13} className="h-full w-full">
-                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                    {geoJsonData && (
-                        <GeoJSON
-                            data={geoJsonData}
-                            onEachFeature={(feature, layer) => {
-                                if (feature.properties?.name) {
-                                    layer.bindPopup(
-                                        `<b>${feature.properties.name}</b><br />${feature.properties.amenity}`
-                                    );
-                                }
-                            }}
-                        />
-                    )}
-                    <GetUserLocation />
-                    <div className="absolute bottom-[0.5vh] z-[1000]">
-                        <CookieModal />
+        <div className="relative flex flex-col h-screen">
+            <TopNav /> {/* Include the TopNav component */}
+            <div className="flex flex-grow">
+                <SideNav onPreferenceToggle={handlePreferenceToggle} onFriendsToggle={handleFriendsToggle} /> {/* Include SideNav component */}
+                {showPreference && (
+                    <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full ml-16">
+                        <Preference /> {/* Use the imported Preference component */}
                     </div>
-                </MapContainer>
+                )}
+                {showFriends && (
+                    <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full ml-16">
+                        <Friends userId={1} /> {/* Use the imported Friends component */}
+                    </div>
+                )}
+                <div className={`relative h-full flex-grow ${showPreference || showFriends ? 'w-3/4' : 'w-full'} ml-16`}>
+                    {' '}
+                    {/* Adjust width based on preference or friends panel */}
+                    <div className="absolute top-10 left-3 z-[1000]">
+                        <SearchBar />
+                    </div>
+                    <MapContainer center={[40.7478017, -73.9914126]} zoom={13} className="h-full w-full">
+                        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                        {geoJsonData && (
+                            <GeoJSON
+                                data={geoJsonData}
+                                onEachFeature={(feature, layer) => {
+                                    if (feature.properties?.name) {
+                                        layer.bindPopup(
+                                            `<b>${feature.properties.name}</b><br />${feature.properties.amenity}`
+                                        );
+                                    }
+                                }}
+                            />
+                        )}
+                        <GetUserLocation />
+                        <div className="absolute bottom-2 z-50">
+                            <CookieModal />
+                        </div>
+                    </MapContainer>
+                </div>
             </div>
         </div>
     );
