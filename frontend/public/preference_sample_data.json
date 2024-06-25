@@ -1,0 +1,112 @@
+[
+    {
+        "name": "Scallywag's",
+        "type": "pub",
+        "address": "508 9th Ave, New York, NY 10018, United States",
+        "rating": 3,
+        "phone": "XXXXXXXXXXX",
+        "hours": "Open - Closes 12 am",
+        "price": "€~€€",
+        "socialMedia": "Social Media",
+        "image": "SamplePhoto"
+    },
+    {
+        "name": "Joe's Pizza",
+        "type": "restaurant",
+        "address": "7 Carmine St, New York, NY 10014, United States",
+        "rating": 4,
+        "phone": "XXXXXXXXXXX",
+        "hours": "Open - Closes 11 pm",
+        "price": "€€",
+        "socialMedia": "Social Media",
+        "image": "JoePizza"
+    },
+    {
+        "name": "The Dead Rabbit",
+        "type": "pub",
+        "address": "30 Water St, New York, NY 10004, United States",
+        "rating": 5,
+        "phone": "XXXXXXXXXXX",
+        "hours": "Open - Closes 2 am",
+        "price": "€€€",
+        "socialMedia": "Social Media",
+        "image": "DeadRabbit"
+    },
+    {
+        "name": "Café Grumpy",
+        "type": "cafe",
+        "address": "224 W 20th St, New York, NY 10011, United States",
+        "rating": 4,
+        "phone": "XXXXXXXXXXX",
+        "hours": "Open - Closes 6 pm",
+        "price": "€€",
+        "socialMedia": "Social Media",
+        "image": "Grumpy"
+    },
+    {
+        "name": "Le Bernardin",
+        "type": "restaurant",
+        "address": "155 W 51st St, New York, NY 10019, United States",
+        "rating": 5,
+        "phone": "XXXXXXXXXXX",
+        "hours": "Open - Closes 10:30 pm",
+        "price": "€€€€",
+        "socialMedia": "Social Media",
+        "image": "LeBernadin"
+    },
+    {
+        "name": "Club Cumming",
+        "type": "night club",
+        "address": "505 E 6th St, New York, NY 10009, United States",
+        "rating": 4,
+        "phone": "XXXXXXXXXXX",
+        "hours": "Open - Closes 4 am",
+        "price": "€€€",
+        "socialMedia": "Social Media",
+        "image": "SamplePhoto"
+    },
+    {
+        "name": "Stumptown Coffee Roasters",
+        "type": "cafe",
+        "address": "18 W 29th St, New York, NY 10001, United States",
+        "rating": 4,
+        "phone": "XXXXXXXXXXX",
+        "hours": "Open - Closes 7 pm",
+        "price": "€€",
+        "socialMedia": "Social Media",
+        "image": "SamplePhoto"
+    },
+    {
+        "name": "Employees Only",
+        "type": "night club",
+        "address": "510 Hudson St, New York, NY 10014, United States",
+        "rating": 5,
+        "phone": "XXXXXXXXXXX",
+        "hours": "Open - Closes 4 am",
+        "price": "€€€",
+        "socialMedia": "Social Media",
+        "image": "SamplePhoto"
+    },
+    {
+        "name": "Balthazar",
+        "type": "restaurant",
+        "address": "80 Spring St, New York, NY 10012, United States",
+        "rating": 4,
+        "phone": "XXXXXXXXXXX",
+        "hours": "Open - Closes 12 am",
+        "price": "€€€",
+        "socialMedia": "Social Media",
+        "image": "SamplePhoto"
+    },
+    {
+        "name": "The Up & Up",
+        "type": "pub",
+        "address": "116 Macdougal St, New York, NY 10012, United States",
+        "rating": 4,
+        "phone": "XXXXXXXXXXX",
+        "hours": "Open - Closes 2 am",
+        "price": "€€€",
+        "socialMedia": "Social Media",
+        "image": "SamplePhoto"
+    }
+]

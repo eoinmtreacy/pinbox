@@ -1,5 +1,11 @@
-import * as React from 'react';
-import SamplePhoto from '../Images/preferenceSample.png';
+import React, { useState, useEffect } from 'react';
+import TinderCard from 'react-tinder-card';
+import SamplePhoto from '../Images/preferenceSample.png'; // Default image for placeholder
+import JoePizza from '../Images/joepizza.png';
+import DeadRabbit from '../Images/deadrabbit.png';
+import Grumpy from '../Images/grumpy.png';
+import LeBernadin from '../Images/LeBernardin.png';
+
 import Phone from '../Images/phone.png';
 import Money from '../Images/money.png';
 import Clock from '../Images/clock.png';
@@ -10,6 +16,53 @@ import DonotCare from '../Images/dontcare.png';
 import PropTypes from 'prop-types';
 
 
+//Card swiping feature
+const onSwipe = (direction, name, setCurrentIndex) => {
+    let action;
+    switch (direction) {
+        case 'left':
+            action = 'Hate it';
+            break;
+        case 'right':
+            action = 'Interested';
+            break;
+        case 'up':
+            action = 'Love it';
+            break;
+        case 'down':
+            action = "Don't care";
+            break;
+        default:
+            action = '';
+            break;
+    }
+    console.log(`${action} on ${name}`);
+    setCurrentIndex((prevIndex) => prevIndex + 1);
+};
+
+const onCardLeftScreen = (myIdentifier, direction) => {
+    let action;
+    switch (direction) {
+        case 'left':
+            action = 'Hate it';
+            break;
+        case 'right':
+            action = 'Interested';
+            break;
+        case 'up':
+            action = 'Love it';
+            break;
+        case 'down':
+            action = "Don't care";
+            break;
+        default:
+            action = '';
+            break;
+    }
+    console.log(`${myIdentifier} left the screen to the ${direction} (${action})`);
+};
+
+// Rating feature
 const StarRating = ({ rating }) => {
     const MAX_STARS = 5;
     const fullStar = '★';
@@ -27,77 +80,100 @@ const StarRating = ({ rating }) => {
 };
 
 function Preference() {
+    const [cards, setCards] = useState([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+        fetch('/preference_sample_data.json')
+            .then((response) => response.json())
+            .then((data) => {
+                // Replace image placeholder with actual images
+                const cardsWithImages = data.map((card) => {
+                    switch (card.name) {
+                        case "Joe's Pizza":
+                            return { ...card, image: JoePizza };
+                        case 'The Dead Rabbit':
+                            return { ...card, image: DeadRabbit };
+                        case 'Café Grumpy':
+                            return { ...card, image: Grumpy };
+                        case 'Le Bernardin':
+                            return { ...card, image: LeBernadin };
+                        default:
+                            return { ...card, image: SamplePhoto };
+                    }
+                });
+                setCards(cardsWithImages);
+            });
+    }, []);
+
     return (
-        <div className="flex flex-col items-center  min-h-screen bg-gray-100 mr-0 mb-0">
-            <div className="flex flex-col  px-7 pt-10 bg-white rounded-xl border border-solid border-stone-400 max-w-[618px] max-md:px-5">
-                <div className="text-4xl font-bold tracking-tight text-center text-black max-md:max-w-full">
-                    Smart Recommendation
-                </div>
-                <div className="flex flex-col  p-5">
-                    <img src={SamplePhoto} alt="SamplePhoto" className="max-w-full h-auto rounded-lg" />
-                    <div className="text-center bg-black bg-opacity-50 p-2 rounded-lg mt-[-40px] w-full max-w-[500px] text-white">
-                        <div className="text-2xl font-bold">Scallywag's</div>
-                        <div className="text-lg">pub</div>
-                        <div className="text-base">508 9th Ave, New York, NY 10018, United States</div>
-                    </div>
-                </div>
-                <div className="flex gap-2 mt-6 text-xl leading-7 text-black">
-                    <StarRating rating={3} className="shrink-0 max-w-full aspect-[4.17] w-[189px]" />
-                    <div className="flex-auto my-auto">See more reviews</div>
-                </div>
-                <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap">
-                    <img src={Phone} className="aspect-[0.94] w-[47px]" alt="Phone" />
-                    <div className="flex-auto my-auto">XXXXXXXXXXX</div>
-                </div>
-                <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap">
-                    <img src={Clock} className="aspect-[0.94] w-[47px]" alt="Clock" />
-                    <div className="flex-auto my-auto">Open - Closes 12 am</div>
-                </div>
-                <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap">
-                    <img src={Money} className="aspect-[0.94] w-[47px]" alt="Money" />
-                    <div className="flex-auto my-auto">€~€€</div>
-                </div>
-                <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap">
-                    <img
-                        loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/2cd84b25e3fffef0b5991cd70a6ef4fe5555c08a1a67a9cf3dac60311c18b4af?"
-                        className="shrink-0 aspect-[1.12] w-[57px]"
-                        alt="Social Media"
-                    />
-                    <div className="flex-auto my-auto">Social Media</div>
-                </div>
-                <div className="self-center mt-5 w-full max-w-[522px] max-md:max-w-full">
-                    <div className="flex gap-5 max-md:flex-col max-md:gap-0">
-                        <div className="flex flex-col w-3/12 max-md:ml-0 max-md:w-full">
+        <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
+            <div className="relative w-full mb-5">
+                <select className="absolute top-0 right-0 bg-blue-500 text-white p-2 rounded-md">
+                    <option value="all">All</option>
+                    <option value="restaurant">Restaurant</option>
+                    <option value="bar">Bar</option>
+                    <option value="cafe">Cafe</option>
+                    <option value="cinema">Cinema</option>
+                    <option value="iceCream">IceCream</option>
+                </select>
+            </div>
+            <div className="text-4xl font-bold tracking-tight text-center text-black mb-5">Smart Recommendation</div>
+            <div className="flex flex-col items-center p-5">
+                {cards.length > 0 && currentIndex < cards.length && (
+                    <TinderCard
+                        key={cards[currentIndex].name}
+                        onSwipe={(dir) => onSwipe(dir, cards[currentIndex].name, setCurrentIndex)}
+                        onCardLeftScreen={(dir) => onCardLeftScreen(cards[currentIndex].name, dir)}
+                        preventSwipe={['none']} // 변경 부분
+                    >
+                        <div className="flex flex-col bg-white rounded-xl border border-solid border-stone-400 max-w-lg p-5">
                             <img
-                                src={Flag}
-                                className="shrink-0 mx-auto rounded-full aspect-square h-[100px] w-[100px] max-md:mt-10"
-                                alt="Hate it"
+                                src={cards[currentIndex].image}
+                                alt={cards[currentIndex].name}
+                                className="max-w-full h-auto rounded-lg"
                             />
+                            <div className="text-center bg-black bg-opacity-50 p-2 rounded-lg mt-[-40px] w-full text-white">
+                                <div className="text-2xl font-bold">{cards[currentIndex].name}</div>
+                                <div className="text-lg">{cards[currentIndex].type}</div>
+                                <div className="text-base">{cards[currentIndex].address}</div>
+                            </div>
+                            <div className="flex gap-2 mt-6 text-xl leading-7 text-black">
+                                <StarRating rating={cards[currentIndex].rating} />
+                                <div className="flex-auto my-auto">See more reviews</div>
+                            </div>
+                            <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap">
+                                <img src={Phone} className="w-12" alt="Phone" />
+                                <div className="flex-auto my-auto">{cards[currentIndex].phone}</div>
+                            </div>
+                            <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap">
+                                <img src={Clock} className="w-12" alt="Clock" />
+                                <div className="flex-auto my-auto">{cards[currentIndex].hours}</div>
+                            </div>
+                            <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap">
+                                <img src={Money} className="w-12" alt="Money" />
+                                <div className="flex-auto my-auto">{cards[currentIndex].price}</div>
+                            </div>
+                            <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap">
+                                <img
+                                    loading="lazy"
+                                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/2cd84b25e3fffef0b5991cd70a6ef4fe5555c08a1a67a9cf3dac60311c18b4af?"
+                                    className="w-14"
+                                    alt="Social Media"
+                                />
+                                <div className="flex-auto my-auto">{cards[currentIndex].socialMedia}</div>
+                            </div>
+                            <div className="self-center mt-5 w-full max-w-md">
+                                <div className="flex gap-5 flex-wrap justify-center">
+                                    <img src={Flag} className="mx-auto rounded-full h-24 w-24" alt="Hate it" />
+                                    <img src={DonotCare} className="mx-auto rounded-full h-24 w-24" alt="Don't care" />
+                                    <img src={OkSign} className="mx-auto rounded-full h-24 w-24" alt="Wanna" />
+                                    <img src={Heart} className="mx-auto rounded-full h-24 w-24" alt="Love it" />
+                                </div>
+                            </div>
                         </div>
-                        <div className="flex flex-col ml-5 w-3/12 max-md:ml-0 max-md:w-full">
-                            <img
-                                src={DonotCare}
-                                className="shrink-0 mx-auto rounded-full aspect-square h-[100px] w-[100px] max-md:mt-10"
-                                alt="Don't care"
-                            />
-                        </div>
-                        <div className="flex flex-col ml-5 w-3/12 max-md:ml-0 max-md:w-full">
-                            <img
-                                src={OkSign}
-                                className="shrink-0 mx-auto rounded-full aspect-square h-[100px] w-[100px] max-md:mt-10"
-                                alt="Wanna"
-                            />
-                        </div>
-                        <div className="flex flex-col ml-5 w-3/12 max-md:ml-0 max-md:w-full">
-                            <img
-                                src={Heart}
-                                className="shrink-0 mx-auto rounded-full aspect-square h-[100px] w-[100px] max-md:mt-10"
-                                alt="Love it"
-                            />
-                        </div>
-                    </div>
-                </div>
+                    </TinderCard>
+                )}
             </div>
         </div>
     );
