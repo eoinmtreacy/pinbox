@@ -59,7 +59,7 @@ const CustomMap = () => {
                 <div className={`relative h-full flex-grow ${showPreference || showFriends ? 'w-3/4' : 'w-full'} ml-16`}>
                     {' '}
                     {/* Adjust width based on preference or friends panel */}
-                    <div className="absolute top-10 left-3 z-50 flex">
+                    <div className="absolute top-10 left-3 z-[1000]">
                         <SearchBar />
                     </div>
                     <MapContainer center={[40.7478017, -73.9914126]} zoom={13} className="h-full w-full">
