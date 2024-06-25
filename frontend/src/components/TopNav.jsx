@@ -2,7 +2,7 @@ import React from 'react';
 
 const TopNav = () => {
     return (
-        <div className="w-full h-16 bg-gray-100 flex items-center justify-between px-4 shadow ml-16"> {/* Adjust for sidebar */}
+        <div className="fixed top-0 left-16 right-0 bg-gray-100 flex items-center justify-between px-4 shadow h-16 z-10">
             <div className="flex items-center space-x-8">
                 <div className="flex flex-col items-center">
                     <span className="font-semibold">Time Stamp</span>

@@ -44,7 +44,7 @@ const CustomMap = () => {
     return (
         <div className="relative flex flex-col h-screen">
             <TopNav /> {/* Include the TopNav component */}
-            <div className="flex flex-grow">
+            <div className="flex flex-grow mt-16"> {/* Add margin to account for fixed TopNav */}
                 <SideNav onPreferenceToggle={handlePreferenceToggle} onFriendsToggle={handleFriendsToggle} /> {/* Include SideNav component */}
                 {showPreference && (
                     <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full ml-16">
@@ -59,7 +59,7 @@ const CustomMap = () => {
                 <div className={`relative h-full flex-grow ${showPreference || showFriends ? 'w-3/4' : 'w-full'} ml-16`}>
                     {' '}
                     {/* Adjust width based on preference or friends panel */}
-                    <div className="absolute top-10 left-3 z-[1000]">
+                    <div className="absolute top-10 left-3 z-50 flex">
                         <SearchBar />
                     </div>
                     <MapContainer center={[40.7478017, -73.9914126]} zoom={13} className="h-full w-full">
