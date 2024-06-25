@@ -56,7 +56,7 @@ const CustomMap = () => {
                         <Friends userId={1} /> {/* Use the imported Friends component */}
                     </div>
                 )}
-                <div className={`relative h-full flex-grow ${showPreference || showFriends ? 'w-3/4' : 'w-full'} ml-16`}>
+                <div className={`relative h-full flex-grow ${showPreference || showFriends ? 'w-3/4' : 'w-full'}`}>
                     {' '}
                     {/* Adjust width based on preference or friends panel */}
                     <div className="absolute top-10 left-3 z-[1000]">
