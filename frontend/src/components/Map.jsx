@@ -9,6 +9,7 @@ import SideNav from './SideNav';
 import Preference from './Preference';
 import Friends from './Friends';
 import TopNav from './TopNav';
+import HorizontalButtons from './HorizontalButtons'; // Import the new component
 import '../App.css';
 
 // Update Leaflet icon paths to resolve missing icons
@@ -47,20 +48,21 @@ const CustomMap = () => {
             <div className="flex flex-grow mt-16"> {/* Add margin to account for fixed TopNav */}
                 <SideNav onPreferenceToggle={handlePreferenceToggle} onFriendsToggle={handleFriendsToggle} /> {/* Include SideNav component */}
                 {showPreference && (
-                    <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full ml-16">
+                    <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full">
                         <Preference /> {/* Use the imported Preference component */}
                     </div>
                 )}
                 {showFriends && (
-                    <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full ml-16">
+                    <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full">
                         <Friends userId={1} /> {/* Use the imported Friends component */}
                     </div>
                 )}
                 <div className={`relative h-full flex-grow ${showPreference || showFriends ? 'w-3/4' : 'w-full'}`}>
                     {' '}
                     {/* Adjust width based on preference or friends panel */}
-                    <div className="absolute top-10 left-3 z-[1000]">
+                    <div className="absolute top-1 left-16 right-0 z-[1000] flex space-y-4">
                         <SearchBar />
+                        <HorizontalButtons /> {/* Use the new HorizontalButtons component */}
                     </div>
                     <MapContainer center={[40.7478017, -73.9914126]} zoom={13} className="h-full w-full">
                         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
