@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import logo from '../Images/logo.png';
-import settings from '../Images/profile.png';
+import settingsIcon from '../Images/settings.png';
+import profileIcon from '../Images/profile.png';
 import home from '../Images/home.png';
 import like from '../Images/like.png';
 import friends from '../Images/friends.png';
@@ -37,7 +38,10 @@ export const SideNav = ({ onPreferenceToggle, onFriendsToggle }) => {
                 <img className="w-6 h-6 mb-1" alt="Friends Icon" src={friends} />
             </button>
             <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/profile')}>
-                <img className="w-6 h-6 mb-1" alt="Settings Icon" src={settings} />
+                <img className="w-6 h-6 mb-1" alt="Profile Icon" src={profileIcon} />
+            </button>
+            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/settings')}>
+                <img className="w-6 h-6 mb-1" alt="Settings Icon" src={settingsIcon} />
             </button>
         </div>
     );
