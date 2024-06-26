@@ -23,7 +23,7 @@ export const SideNav = ({ onPreferenceToggle, onFriendsToggle }) => {
 
     return (
         <div className="w-[70px] h-full bg-blue-600 fixed left-0 top-0 flex flex-col justify-around items-center pt-4 pb-4">
-            <img className="w-10 h-10 mb-4" alt="Logo" src={logo} />
+            <img className="w-20 h-20 mb-4" alt="Logo" src={logo} />
             <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/map')}>
                 <img className="w-6 h-6 mb-1" alt="Home Icon" src={home} />
             </button>
