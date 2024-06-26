@@ -17,7 +17,7 @@ function Login() {
 
     // Function to handle forgot password button click
     const handleForgotPasswordClick = () => {
-        navigate('./PasswordFind'); // Navigate to the password find page
+        navigate('/passwordfind'); // Navigate to the password find page
     };
 
     return (
