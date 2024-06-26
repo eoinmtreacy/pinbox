@@ -15,7 +15,6 @@ import OkSign from '../Images/wanna.png';
 import DonotCare from '../Images/dontcare.png';
 import PropTypes from 'prop-types';
 
-
 //Card swiping feature
 const onSwipe = (direction, name, setCurrentIndex) => {
     let action;
@@ -179,10 +178,8 @@ function Preference() {
     );
 }
 
-
 StarRating.propTypes = {
-    rating: PropTypes.number.isRequired
+    rating: PropTypes.number.isRequired,
 };
-
 
 export default Preference;
