@@ -1,14 +1,14 @@
 using Microsoft.EntityFrameworkCore;
+using backend.Models;
 
-namespace backend.data 
+namespace Backend.Models
 {
-    public class ApplicationDbContext : DbContext
+    public class YourDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
+        public YourDbContext(DbContextOptions<YourDbContext> options) : base(options) { }
 
+        public DbSet<User_Likes> UserLikes { get; set; }
+        public DbSet<User_Preference> UserPreferences { get; set; }
         public DbSet<Place> Places { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -17,22 +17,22 @@ namespace backend.data
 
             modelBuilder.Entity<Place>(entity =>
             {
-                entity.ToTable("places"); 
-                
+                entity.ToTable("places");
+
                 entity.HasKey(e => e.Id);
-                
+
                 entity.Property(e => e.Google_Id)
                       .IsRequired()
                       .HasMaxLength(255);
-                
+
                 entity.Property(e => e.Name)
                       .IsRequired()
                       .HasMaxLength(255);
-                
+
                 entity.Property(e => e.Lat)
                       .IsRequired()
                       .HasColumnType("decimal(9,6)");
-                
+
                 entity.Property(e => e.Lon)
                       .IsRequired()
                       .HasColumnType("decimal(9,6)");
@@ -43,25 +43,25 @@ namespace backend.data
 
                 entity.Property(e => e.Subtype)
                       .HasMaxLength(50);
-                
+
                 entity.Property(e => e.Addr_City)
                       .HasMaxLength(100);
-                
+
                 entity.Property(e => e.Addr_Housenumber)
                       .HasMaxLength(20);
-                
+
                 entity.Property(e => e.Addr_Postcode)
                       .HasMaxLength(20);
-                
+
                 entity.Property(e => e.Addr_State)
                       .HasMaxLength(100);
-                
+
                 entity.Property(e => e.Addr_Street)
                       .HasMaxLength(255);
 
                 entity.Property(e => e.Opening_Hours)
                       .HasMaxLength(255);
-                
+
                 entity.Property(e => e.Website)
                       .HasMaxLength(255);
 
@@ -101,36 +101,51 @@ namespace backend.data
                 entity.Property(e => e.Num_Dislikes)
                       .HasDefaultValue(0);
             });
+
+            // Configuration for UserLike entity
+            modelBuilder.Entity<User_Likes>(entity =>
+            {
+                entity.ToTable("user_likes");
+
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.UserId)
+                      .IsRequired();
+
+                entity.Property(e => e.Type)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(e => e.PlaceId)
+                      .IsRequired();
+
+                entity.Property(e => e.CategorySwipe)
+                      .HasMaxLength(50);
+
+                entity.Property(e => e.Timestamp)
+                      .IsRequired();
+            });
+
+            modelBuilder.Entity<User_Preference>(entity =>
+            {
+                entity.ToTable("user_preferences");
+
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Location)
+                      .IsRequired()
+                      .HasMaxLength(255);
+
+                entity.Property(e => e.Radius)
+                      .IsRequired();
+
+                entity.Property(e => e.TypeOfPlace)
+                      .HasMaxLength(255);
+            });
         }
     }
-    
-    public class Place
-    {
-        public int Id { get; set; }
-        public string Google_Id { get; set; } = string.Empty; 
-        public string Name { get; set; } = string.Empty; 
-        public decimal Lat { get; set; }
-        public decimal Lon { get; set; }
-        public string Type { get; set; } = string.Empty; 
-        public string? Subtype { get; set; }
-        public string? Addr_City { get; set; }
-        public string? Addr_Housenumber { get; set; }
-        public string? Addr_Postcode { get; set; }
-        public string? Addr_State  { get; set; }
-        public string? Addr_Street { get; set; }
-        public string? Opening_Hours { get; set; }
-        public string? Website { get; set; }
-        public string? Photo_0 { get; set; }
-        public string? Photo_1 { get; set; }
-        public string? Photo_2 { get; set; }
-        public string? Photo_3 { get; set; }
-        public string? Photo_4 { get; set; }
-        public string? Photo_5 { get; set; }
-        public string? Photo_6 { get; set; }
-        public string? Photo_7 { get; set; }
-        public string? Photo_8 { get; set; }
-        public string? Photo_9 { get; set; }
-        public int Num_Likes { get; set; } = 0;
-        public int Num_Dislikes { get; set; } = 0;
-    }
 }
+    
+    
+    
+

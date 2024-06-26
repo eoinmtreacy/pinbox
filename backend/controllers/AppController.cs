@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using backend.data;
+using Backend.Models;
 using System.Linq;
 
 namespace Backend.Controllers
@@ -8,9 +8,9 @@ namespace Backend.Controllers
     [Route("api/[controller]")]
     public class TestController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly YourDbContext _context;
 
-        public TestController(ApplicationDbContext context)
+        public TestController(YourDbContext context)
         {
             _context = context;
         }
