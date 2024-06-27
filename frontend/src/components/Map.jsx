@@ -25,10 +25,10 @@ const CustomMap = () => {
     const [showFriends, setShowFriends] = useState(false);
 
     useEffect(() => {
-        fetch('nightclub_amenities.geojson')
-            .then((response) => response.json())
-            .then((data) => setGeoJsonData(data))
-            .catch((error) => console.error('Error fetching GeoJSON data:', error));
+        // fetch('nightclub_amenities.geojson')
+        //     .then((response) => response.json())
+        //     .then((data) => setGeoJsonData(data))
+        //     .catch((error) => console.error('Error fetching GeoJSON data:', error));
 
         fetch('taxi_zones.geojson')
             .then((response) => response.json())
