@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import listIcon from '../Images/list.png';
-import mapIcon from '../Images/map.png';
 import DropdownMenu from './DropdownMenu';
 
 const HorizontalButtons = () => {
@@ -30,9 +29,7 @@ const HorizontalButtons = () => {
                 <button className="flex items-center" onClick={toggleDropdown}>
                     <img src={listIcon} alt="List Icon" className="w-5 h-5 mr-2"/> Layers
                 </button>
-                <button className="flex items-center">
-                    <img src={mapIcon} alt="Map Icon" className="w-5 h-5 mr-2"/> Map
-                </button>
+             
                 {dropdownVisible && <DropdownMenu />}
             </div>
         </div>
