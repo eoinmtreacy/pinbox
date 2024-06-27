@@ -19,6 +19,7 @@ L.Icon.Default.mergeOptions({
 });
 
 const CustomMap = () => {
+    // ESlint-disable-next-line
     const [geoJsonData, setGeoJsonData] = useState(null);
     const [taxiZones, setTaxiZones] = useState(null)
     const [showPreference, setShowPreference] = useState(false);
