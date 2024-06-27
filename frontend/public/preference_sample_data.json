@@ -8,7 +8,9 @@
         "hours": "Open - Closes 12 am",
         "price": "€~€€",
         "socialMedia": "Social Media",
-        "image": "SamplePhoto"
+        "image": "SamplePhoto",
+        "latitude": 40.760111,
+        "longitude": -73.991667
     },
     {
         "name": "Joe's Pizza",
@@ -19,7 +21,9 @@
         "hours": "Open - Closes 11 pm",
         "price": "€€",
         "socialMedia": "Social Media",
-        "image": "JoePizza"
+        "image": "JoePizza",
+        "latitude": 40.730823,
+        "longitude": -74.003377
     },
     {
         "name": "The Dead Rabbit",
@@ -30,7 +34,9 @@
         "hours": "Open - Closes 2 am",
         "price": "€€€",
         "socialMedia": "Social Media",
-        "image": "DeadRabbit"
+        "image": "DeadRabbit",
+        "latitude": 40.703276,
+        "longitude": -74.010138
     },
     {
         "name": "Café Grumpy",
@@ -41,7 +47,9 @@
         "hours": "Open - Closes 6 pm",
         "price": "€€",
         "socialMedia": "Social Media",
-        "image": "Grumpy"
+        "image": "Grumpy",
+        "latitude": 40.744036,
+        "longitude": -73.999852
     },
     {
         "name": "Le Bernardin",
@@ -52,7 +60,9 @@
         "hours": "Open - Closes 10:30 pm",
         "price": "€€€€",
         "socialMedia": "Social Media",
-        "image": "LeBernadin"
+        "image": "LeBernadin",
+        "latitude": 40.761551,
+        "longitude": -73.981663
     },
     {
         "name": "Club Cumming",
@@ -63,7 +73,9 @@
         "hours": "Open - Closes 4 am",
         "price": "€€€",
         "socialMedia": "Social Media",
-        "image": "SamplePhoto"
+        "image": "SamplePhoto",
+        "latitude": 40.726477,
+        "longitude": -73.983637
     },
     {
         "name": "Stumptown Coffee Roasters",
@@ -74,7 +86,9 @@
         "hours": "Open - Closes 7 pm",
         "price": "€€",
         "socialMedia": "Social Media",
-        "image": "SamplePhoto"
+        "image": "SamplePhoto",
+        "latitude": 40.745197,
+        "longitude": -73.988552
     },
     {
         "name": "Employees Only",
@@ -85,7 +99,9 @@
         "hours": "Open - Closes 4 am",
         "price": "€€€",
         "socialMedia": "Social Media",
-        "image": "SamplePhoto"
+        "image": "SamplePhoto",
+        "latitude": 40.732131,
+        "longitude": -74.005878
     },
     {
         "name": "Balthazar",
@@ -96,7 +112,9 @@
         "hours": "Open - Closes 12 am",
         "price": "€€€",
         "socialMedia": "Social Media",
-        "image": "SamplePhoto"
+        "image": "SamplePhoto",
+        "latitude": 40.722937,
+        "longitude": -73.998195
     },
     {
         "name": "The Up & Up",
@@ -107,6 +125,8 @@
         "hours": "Open - Closes 2 am",
         "price": "€€€",
         "socialMedia": "Social Media",
-        "image": "SamplePhoto"
+        "image": "SamplePhoto",
+        "latitude": 40.729567,
+        "longitude": -74.000669
     }
 ]

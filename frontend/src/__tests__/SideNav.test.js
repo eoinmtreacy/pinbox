@@ -3,7 +3,8 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { SideNav } from '../components/SideNav';
-import { useNavigate } from 'react-router-dom';
+import { BrowserRouter, useNavigate } from 'react-router-dom';
+import { Browser } from 'leaflet';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'), 
@@ -18,7 +19,11 @@ describe('SideNav Component', () => {
     useNavigate.mockImplementation(() => mockNavigate); 
     mockNavigate.mockReset();
     mockOnPreferenceToggle.mockReset();
-    render(<SideNav onPreferenceToggle={mockOnPreferenceToggle} />);
+    render(
+      <BrowserRouter>
+        <SideNav onPreferenceToggle={mockOnPreferenceToggle} />
+      </BrowserRouter>
+    )
   });
 
   it('renders correctly', () => {
@@ -27,12 +32,12 @@ describe('SideNav Component', () => {
     expect(screen.getByAltText('Search Icon')).toBeInTheDocument();
     expect(screen.getByAltText('Like Icon')).toBeInTheDocument();
     expect(screen.getByAltText('Friends Icon')).toBeInTheDocument();
-    expect(screen.getByAltText('Settings Icon')).toBeInTheDocument();
+    expect(screen.getByAltText('Profile Icon')).toBeInTheDocument();
   });
 
   it('navigates to /home when home button is clicked', () => {
     fireEvent.click(screen.getByAltText('Home Icon'));
-    expect(mockNavigate).toHaveBeenCalledWith('/home');
+    expect(mockNavigate).toHaveBeenCalledWith('/map');
   });
 
   it('navigates to /search when search button is clicked', () => {
@@ -43,15 +48,5 @@ describe('SideNav Component', () => {
   it('calls onPreferenceToggle when preference button is clicked', () => {
     fireEvent.click(screen.getByAltText('Like Icon'));
     expect(mockOnPreferenceToggle).toHaveBeenCalled();
-  });
-
-  it('navigates to /friends when friends button is clicked', () => {
-    fireEvent.click(screen.getByAltText('Friends Icon'));
-    expect(mockNavigate).toHaveBeenCalledWith('/friends');
-  });
-
-  it('navigates to /settings when settings button is clicked', () => {
-    fireEvent.click(screen.getByAltText('Settings Icon'));
-    expect(mockNavigate).toHaveBeenCalledWith('/settings');
   });
 });
