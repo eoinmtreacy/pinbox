@@ -9,7 +9,7 @@ import like from '../Images/like.png';
 import friends from '../Images/friends.png';
 import search from '../Images/search.png';
 
-export const SideNav = ({ onPreferenceToggle, onFriendsToggle }) => {
+export const SideNav = ({ onPreferenceToggle, onFriendsToggle, }) => {
     const navigate = useNavigate();
 
     const navigateTo = (path) => {
@@ -37,8 +37,11 @@ export const SideNav = ({ onPreferenceToggle, onFriendsToggle }) => {
             <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/friends')}>
                 <img className="w-6 h-6 mb-1" alt="Friends Icon" src={friends} />
             </button>
-            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/profile')}>
-                <img className="w-6 h-6 mb-1" alt="Profile Icon" src={settings} />
+            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/Profile')}>
+                <img className="w-6 h-6 mb-1" alt="Profile Icon" src={profileIcon} />
+            </button>
+            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/settings')}>
+                <img className="w-6 h-6 mb-1" alt="Profile Icon" src={settingsIcon} />
             </button>
         </div>
     );
