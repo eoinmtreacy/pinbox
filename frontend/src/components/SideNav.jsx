@@ -37,7 +37,7 @@ export const SideNav = ({ onPreferenceToggle, onFriendsToggle }) => {
                 <img className="w-6 h-6 mb-1" alt="Friends Icon" src={friends} />
             </button>
             <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/profile')}>
-                <img className="w-6 h-6 mb-1" alt="Settings Icon" src={settings} />
+                <img className="w-6 h-6 mb-1" alt="Profile Icon" src={settings} />
             </button>
         </div>
     );
