@@ -20,6 +20,7 @@ L.Icon.Default.mergeOptions({
 
 const CustomMap = () => {
     const [geoJsonData, setGeoJsonData] = useState(null);
+    const [taxiZones, setTaxiZones] = useState(null)
     const [showPreference, setShowPreference] = useState(false);
     const [showFriends, setShowFriends] = useState(false);
 
@@ -28,6 +29,11 @@ const CustomMap = () => {
             .then((response) => response.json())
             .then((data) => setGeoJsonData(data))
             .catch((error) => console.error('Error fetching GeoJSON data:', error));
+
+        fetch('taxi_zones.geojson')
+            .then((response) => response.json())
+            .then((data) => { setTaxiZones(data) })
+            .catch((error) => console.error('Error fetching Taxi Zones data:', error));
     }, []);
 
     const handlePreferenceToggle = () => {
@@ -61,18 +67,25 @@ const CustomMap = () => {
                 </div>
                 <MapContainer center={[40.7478017, -73.9914126]} zoom={13} className="h-full w-full">
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                    {geoJsonData && (
+
+                    {taxiZones && (
                         <GeoJSON
-                            data={geoJsonData}
-                            onEachFeature={(feature, layer) => {
-                                if (feature.properties?.name) {
-                                    layer.bindPopup(
-                                        `<b>${feature.properties.name}</b><br />${feature.properties.amenity}`
-                                    );
-                                }
+                            data={taxiZones}
+                            style={(feature) => {
+                                const seed = Math.random();
+                                // in future, we will look up each zone's ID
+                                // and reference iet against the the database prediction
+                                    // e.g. color: predictions[feature.properties.LocationID]
+                                return {
+                                    color: `rgb(${seed * 256}, 0, ${(1 - seed) * 256})`,
+                                    weight: 1,
+                                    opacity: 0.3,
+                                    fillOpacity: 0.5
+                                };
                             }}
                         />
                     )}
+
                     <GetUserLocation />
                     <div className="absolute bottom-[0.5vh] z-[1000]">
                         <CookieModal />
