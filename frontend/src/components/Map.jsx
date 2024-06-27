@@ -8,8 +8,7 @@ import CookieModal from './CookieModal';
 import SideNav from './SideNav';
 import Preference from './Preference';
 import Friends from './Friends';
-import TopNav from './TopNav';
-import HorizontalButtons from './HorizontalButtons'; // Import the new component
+import HorizontalButtons from './HorizontalButtons';
 import '../App.css';
 
 // Update Leaflet icon paths to resolve missing icons
@@ -24,6 +23,12 @@ const CustomMap = () => {
     const [geoJsonData, setGeoJsonData] = useState(null);
     const [showPreference, setShowPreference] = useState(false);
     const [showFriends, setShowFriends] = useState(false);
+
+    // State for former TopNav components
+    const [timeStamp, setTimeStamp] = useState(12);
+    const [distance, setDistance] = useState(50);
+    const [showPins, setShowPins] = useState(true);
+    const [mode, setMode] = useState('Day');
 
     useEffect(() => {
         fetch('nightclub_amenities.geojson')
@@ -44,25 +49,33 @@ const CustomMap = () => {
 
     return (
         <div className="relative flex flex-col h-screen">
-            <TopNav /> {/* Include the TopNav component */}
-            <div className="flex flex-grow mt-16"> {/* Add margin to account for fixed TopNav */}
-                <SideNav onPreferenceToggle={handlePreferenceToggle} onFriendsToggle={handleFriendsToggle} /> {/* Include SideNav component */}
+            <div className="flex flex-grow">
+                <SideNav
+                    onPreferenceToggle={handlePreferenceToggle}
+                    onFriendsToggle={handleFriendsToggle}
+                    timeStamp={timeStamp}
+                    setTimeStamp={setTimeStamp}
+                    distance={distance}
+                    setDistance={setDistance}
+                    showPins={showPins}
+                    setShowPins={setShowPins}
+                    mode={mode}
+                    setMode={setMode}
+                />
                 {showPreference && (
                     <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full">
-                        <Preference /> {/* Use the imported Preference component */}
+                        <Preference />
                     </div>
                 )}
                 {showFriends && (
                     <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full">
-                        <Friends userId={1} /> {/* Use the imported Friends component */}
+                        <Friends userId={1} />
                     </div>
                 )}
                 <div className={`relative h-full flex-grow ${showPreference || showFriends ? 'w-3/4' : 'w-full'}`}>
-                    {' '}
-                    {/* Adjust width based on preference or friends panel */}
                     <div className="absolute top-1 left-16 right-0 z-[1000] flex space-y-4">
                         <SearchBar />
-                        <HorizontalButtons /> {/* Use the new HorizontalButtons component */}
+                        <HorizontalButtons />
                     </div>
                     <MapContainer center={[40.7478017, -73.9914126]} zoom={13} className="h-full w-full">
                         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />

@@ -8,8 +8,22 @@ import home from '../Images/home.png';
 import like from '../Images/like.png';
 import friends from '../Images/friends.png';
 import search from '../Images/search.png';
+import timeIcon from '../Images/time.png';
+import distanceIcon from '../Images/distance.png';
+import pinsIcon from '../Images/pin.png';
 
-export const SideNav = ({ onPreferenceToggle, onFriendsToggle, }) => {
+export const SideNav = ({
+    onPreferenceToggle,
+    onFriendsToggle,
+    timeStamp,
+    setTimeStamp,
+    distance,
+    setDistance,
+    showPins,
+    setShowPins,
+    mode,
+    setMode,
+}) => {
     const navigate = useNavigate();
 
     const navigateTo = (path) => {
@@ -43,13 +57,67 @@ export const SideNav = ({ onPreferenceToggle, onFriendsToggle, }) => {
             <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/settings')}>
                 <img className="w-6 h-6 mb-1" alt="Profile Icon" src={settingsIcon} />
             </button>
+            <div className="flex flex-col items-center space-y-4 mt-4">
+                <div className="flex flex-col items-center">
+                    <img src={timeIcon} alt="Time Icon" className="w-6 h-6 mb-1" />
+                    <input
+                        type="range"
+                        min="0"
+                        max="24"
+                        value={timeStamp}
+                        onChange={(e) => setTimeStamp(e.target.value)}
+                        className="w-16"
+                    />
+                    <div className="flex justify-between w-16 text-xs text-white">
+                        <span>0</span>
+                        <span>24</span>
+                    </div>
+                </div>
+                <div className="flex flex-col items-center">
+                    <img src={distanceIcon} alt="Distance Icon" className="w-6 h-6 mb-1" />
+                    
+                    <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        value={distance}
+                        onChange={(e) => setDistance(e.target.value)}
+                        className="w-16"
+                    />
+                    <div className="flex justify-between w-16 text-xs text-white">
+                        <span>0</span>
+                        <span>100</span>
+                    </div>
+                </div>
+                <div className="flex items-center space-x-2">
+                    <input
+                        type="checkbox"
+                        id="showPins"
+                        name="showPins"
+                        checked={showPins}
+                        onChange={(e) => setShowPins(e.target.checked)}
+                        className="h-5 w-5 rounded-full"
+                    />
+                    <img src={pinsIcon} alt="Pins Icon" className="w-6 h-6" />
+                </div>
+                <button onClick={() => setMode('Day')} className="bg-blue-500 text-white px-2 py-1 rounded">Day</button>
+                <button onClick={() => setMode('Search Mode')} className="bg-blue-500 text-white px-2 py-1 rounded">Search Mode</button>
+            </div>
         </div>
     );
 };
 
 SideNav.propTypes = {
     onPreferenceToggle: PropTypes.func.isRequired,
-    onFriendsToggle: PropTypes.func.isRequired
+    onFriendsToggle: PropTypes.func.isRequired,
+    timeStamp: PropTypes.number.isRequired,
+    setTimeStamp: PropTypes.func.isRequired,
+    distance: PropTypes.number.isRequired,
+    setDistance: PropTypes.func.isRequired,
+    showPins: PropTypes.bool.isRequired,
+    setShowPins: PropTypes.func.isRequired,
+    mode: PropTypes.string.isRequired,
+    setMode: PropTypes.func.isRequired,
 };
 
 export default SideNav;
