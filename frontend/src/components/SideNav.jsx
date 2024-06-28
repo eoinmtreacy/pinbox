@@ -9,12 +9,14 @@ import like from '../Images/like.png';
 import friends from '../Images/friends.png';
 import search from '../Images/search.png';
 
-export const SideNav = ({ onPreferenceToggle }) => {
+const SideNav = ({ onPreferenceToggle, onFriendsToggle }) => {
     const navigate = useNavigate();
 
     const navigateTo = (path) => {
         if (path === '/preference') {
             onPreferenceToggle();
+        } else if (path === '/friends') {
+            onFriendsToggle();
         } else {
             navigate(path);
         }
@@ -47,6 +49,7 @@ export const SideNav = ({ onPreferenceToggle }) => {
 
 SideNav.propTypes = {
     onPreferenceToggle: PropTypes.func.isRequired,
+    onFriendsToggle: PropTypes.func.isRequired,
 };
 
 export default SideNav;

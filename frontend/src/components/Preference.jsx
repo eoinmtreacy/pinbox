@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import TinderCard from 'react-tinder-card';
-import SamplePhoto from '../Images/preferenceSample.png'; // Default image for placeholder
+import axios from 'axios';
+import SamplePhoto from '../Images/preferenceSample.png';
 import JoePizza from '../Images/joepizza.png';
 import DeadRabbit from '../Images/deadrabbit.png';
 import Grumpy from '../Images/grumpy.png';
-import LeBernadin from '../Images/LeBernardin.png';
+import LeBernardin from '../Images/lebernardin.png';
 import Phone from '../Images/phone.png';
 import Money from '../Images/money.png';
 import Clock from '../Images/clock.png';
@@ -13,55 +14,91 @@ import Heart from '../Images/loveit.png';
 import OkSign from '../Images/wanna.png';
 import DonotCare from '../Images/dontcare.png';
 import PropTypes from 'prop-types';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
+const getColorForPreference = (preference) => {
+    switch (preference) {
+        case 'hate it':
+            return 'red';
+        case "don't care":
+            return 'pink';
+        case 'interested':
+            return 'blue';
+        case 'love it':
+            return 'green';
+        default:
+            return 'black';
+    }
+};
 
-//Card swiping feature
-const onSwipe = (direction, name, setCurrentIndex) => {
-    let action;
+const updatePreference = (name, newPreference, cards, setCards, mapInstance) => {
+    const updatedCards = cards.map((place) => {
+        if (place.name === name) {
+            axios
+                .post('http://localhost:5001/update-preference', { name, preference: newPreference })
+                .then((response) => {
+                    console.log('Preference updated in preference_sample_pin_data:', response.data);
+                })
+                .catch((error) => {
+                    console.error('Error updating preference in preference_sample_pin_data:', error);
+                });
+
+            axios
+                .post('http://localhost:5001/update-preference-data', { name, preference: newPreference })
+                .then((response) => {
+                    console.log('Preference updated in preference_sample_data:', response.data);
+                })
+                .catch((error) => {
+                    console.error('Error updating preference in preference_sample_data:', error);
+                });
+
+            if (place.lat && place.lon && mapInstance) {
+                const color = getColorForPreference(newPreference);
+                const icon = L.divIcon({
+                    className: 'custom-icon',
+                    html: `<i class="fa fa-map-marker" style="color:${color}; font-size: 24px;"></i>`,
+                });
+
+                L.marker([place.lat, place.lon], { icon }).addTo(mapInstance);
+            }
+
+            return { ...place, preference: newPreference };
+        }
+        return place;
+    });
+    setCards(updatedCards);
+};
+
+const onSwipe = (direction, name, cards, setCards, setCurrentIndex, mapInstance) => {
+    let newPreference;
     switch (direction) {
         case 'left':
-            action = 'Hate it';
+            newPreference = 'hate it';
             break;
         case 'right':
-            action = 'Interested';
+            newPreference = 'love it';
             break;
         case 'up':
-            action = 'Love it';
+            newPreference = 'interested';
             break;
         case 'down':
-            action = "Don't care";
+            newPreference = "don't care";
             break;
         default:
-            action = '';
+            newPreference = '';
             break;
     }
-    console.log(`${action} on ${name}`);
+    if (newPreference) {
+        updatePreference(name, newPreference, cards, setCards, mapInstance);
+    }
     setCurrentIndex((prevIndex) => prevIndex + 1);
 };
 
 const onCardLeftScreen = (myIdentifier, direction) => {
-    let action;
-    switch (direction) {
-        case 'left':
-            action = 'Hate it';
-            break;
-        case 'right':
-            action = 'Interested';
-            break;
-        case 'up':
-            action = 'Love it';
-            break;
-        case 'down':
-            action = "Don't care";
-            break;
-        default:
-            action = '';
-            break;
-    }
-    console.log(`${myIdentifier} left the screen to the ${direction} (${action})`);
+    console.log(`${myIdentifier} left the screen to the ${direction}`);
 };
 
-// Rating feature
 const StarRating = ({ rating }) => {
     const MAX_STARS = 5;
     const fullStar = '★';
@@ -78,7 +115,7 @@ const StarRating = ({ rating }) => {
     );
 };
 
-function Preference() {
+function Preference({ mapInstance }) {
     const [cards, setCards] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -86,8 +123,8 @@ function Preference() {
         fetch('/preference_sample_data.json')
             .then((response) => response.json())
             .then((data) => {
-                // Replace image placeholder with actual images
-                const cardsWithImages = data.map((card) => {
+                const defaultCards = data.filter((card) => card.preference === 'default');
+                const cardsWithImages = defaultCards.map((card) => {
                     switch (card.name) {
                         case "Joe's Pizza":
                             return { ...card, image: JoePizza };
@@ -96,14 +133,24 @@ function Preference() {
                         case 'Café Grumpy':
                             return { ...card, image: Grumpy };
                         case 'Le Bernardin':
-                            return { ...card, image: LeBernadin };
+                            return { ...card, image: LeBernardin };
                         default:
                             return { ...card, image: SamplePhoto };
                     }
                 });
                 setCards(cardsWithImages);
+            })
+            .catch((error) => {
+                console.error('Error fetching the data:', error);
             });
     }, []);
+
+    const handleButtonClick = (preference) => {
+        if (currentIndex < cards.length) {
+            updatePreference(cards[currentIndex].name, preference, cards, setCards, mapInstance);
+            setCurrentIndex((prevIndex) => prevIndex + 1);
+        }
+    };
 
     return (
         <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
@@ -122,9 +169,11 @@ function Preference() {
                 {cards.length > 0 && currentIndex < cards.length && (
                     <TinderCard
                         key={cards[currentIndex].name}
-                        onSwipe={(dir) => onSwipe(dir, cards[currentIndex].name, setCurrentIndex)}
+                        onSwipe={(dir) =>
+                            onSwipe(dir, cards[currentIndex].name, cards, setCards, setCurrentIndex, mapInstance)
+                        }
                         onCardLeftScreen={(dir) => onCardLeftScreen(cards[currentIndex].name, dir)}
-                        preventSwipe={['none']} // 변경 부분
+                        preventSwipe={['none']}
                     >
                         <div className="flex flex-col bg-white rounded-xl border border-solid border-stone-400 max-w-lg p-5">
                             <img
@@ -153,21 +202,24 @@ function Preference() {
                                 <img src={Money} className="w-12" alt="Money" />
                                 <div className="flex-auto my-auto">{cards[currentIndex].price}</div>
                             </div>
-                            <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap">
-                                <img
-                                    loading="lazy"
-                                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/2cd84b25e3fffef0b5991cd70a6ef4fe5555c08a1a67a9cf3dac60311c18b4af?"
-                                    className="w-14"
-                                    alt="Social Media"
-                                />
-                                <div className="flex-auto my-auto">{cards[currentIndex].socialMedia}</div>
-                            </div>
                             <div className="self-center mt-5 w-full max-w-md">
                                 <div className="flex gap-5 flex-wrap justify-center">
-                                    <img src={Flag} className="mx-auto rounded-full h-24 w-24" alt="Hate it" />
-                                    <img src={DonotCare} className="mx-auto rounded-full h-24 w-24" alt="Don't care" />
-                                    <img src={OkSign} className="mx-auto rounded-full h-24 w-24" alt="Wanna" />
-                                    <img src={Heart} className="mx-auto rounded-full h-24 w-24" alt="Love it" />
+                                    <button onClick={() => handleButtonClick('hate it')}>
+                                        <img src={Flag} className="mx-auto rounded-full h-24 w-24" alt="Hate it" />
+                                    </button>
+                                    <button onClick={() => handleButtonClick("don't care")}>
+                                        <img
+                                            src={DonotCare}
+                                            className="mx-auto rounded-full h-24 w-24"
+                                            alt="Don't care"
+                                        />
+                                    </button>
+                                    <button onClick={() => handleButtonClick('interested')}>
+                                        <img src={OkSign} className="mx-auto rounded-full h-24 w-24" alt="interested" />
+                                    </button>
+                                    <button onClick={() => handleButtonClick('love it')}>
+                                        <img src={Heart} className="mx-auto rounded-full h-24 w-24" alt="Love it" />
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -178,10 +230,8 @@ function Preference() {
     );
 }
 
-
 StarRating.propTypes = {
-    rating: PropTypes.number.isRequired
+    rating: PropTypes.number.isRequired,
 };
-
 
 export default Preference;

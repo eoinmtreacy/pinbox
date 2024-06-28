@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
+import React, { useEffect, useState, useRef } from 'react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import SearchBar from './SearchBar';
@@ -18,16 +18,31 @@ L.Icon.Default.mergeOptions({
     shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
 
-const CustomMap = ({ onPreferenceToggle }) => {
+const getColorForPreference = (preference) => {
+    switch (preference) {
+        case 'hate it':
+            return 'red';
+        case "don't care":
+            return 'pink';
+        case 'interested':
+            return 'blue';
+        case 'love it':
+            return 'green';
+        default:
+            return 'black';
+    }
+};
+
+const CustomMap = ({ onPreferenceToggle, setMapInstance }) => {
     const [geoJsonData, setGeoJsonData] = useState(null);
     const [showFriends, setShowFriends] = useState(false);
+    const mapRef = useRef(null);
 
     useEffect(() => {
-        fetch('nightclub_amenities.geojson')
-            .then((response) => response.json())
-            .then((data) => setGeoJsonData(data))
-            .catch((error) => console.error('Error fetching GeoJSON data:', error));
-    }, []);
+        if (mapRef.current && mapRef.current.leafletElement) {
+            setMapInstance(mapRef.current.leafletElement);
+        }
+    }, [setMapInstance]);
 
     const handleFriendsToggle = () => {
         setShowFriends((prev) => !prev);
@@ -48,21 +63,36 @@ const CustomMap = ({ onPreferenceToggle }) => {
                         <SearchBar />
                         <HorizontalButtons />
                     </div>
-                    <MapContainer center={[40.7478017, -73.9914126]} zoom={13} className="h-full w-full">
+                    <MapContainer
+                        center={[40.7478017, -73.9914126]}
+                        zoom={8}
+                        className="h-full w-full"
+                        id="map"
+                        ref={mapRef}
+                    >
                         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                        {geoJsonData && (
-                            <GeoJSON
-                                data={geoJsonData}
-                                onEachFeature={(feature, layer) => {
-                                    if (feature.properties?.name) {
-                                        layer.bindPopup(
-                                            `<b>${feature.properties.name}</b><br />${feature.properties.amenity}`
-                                        );
-                                    }
-                                }}
-                            />
-                        )}
                         <GetUserLocation />
+                        {geoJsonData &&
+                            geoJsonData.features.map((feature, idx) => {
+                                const { coordinates } = feature.geometry;
+                                const { preference, name } = feature.properties;
+                                const color = getColorForPreference(preference);
+
+                                const icon = L.divIcon({
+                                    className: 'custom-icon',
+                                    html: `<i class="fa fa-map-marker" style="color:${color}; font-size: 24px;"></i>`,
+                                });
+
+                                return (
+                                    <Marker key={idx} position={[coordinates[1], coordinates[0]]} icon={icon}>
+                                        <Popup>
+                                            <b>{name}</b>
+                                            <br />
+                                            {preference}
+                                        </Popup>
+                                    </Marker>
+                                );
+                            })}
                         <div className="absolute bottom-2 z-50">
                             <CookieModal />
                         </div>

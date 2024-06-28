@@ -1,46 +1,34 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 5001;
+const PORT = 5001;
 
 app.use(cors());
-app.use(express.json());
-
-// 'geojson' 파일 경로를 'preference_sample_data.json'으로 변경
-const filePath = path.join(__dirname, 'public', 'preference_sample_data.json');
-
-app.post('/update-preference', (req, res) => {
-    const { name, preference } = req.body;
-
-    fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-            return res.status(500).json({ error: 'Failed to read file' });
-        }
-
-        let preferences = JSON.parse(data);
-        preferences = preferences.map((item) => {
-            if (item.name === name) {
-                item.preference = preference; // 업데이트 로직 조정
-            }
-            return item;
-        });
-
-        fs.writeFile(filePath, JSON.stringify(preferences, null, 2), 'utf8', (err) => {
-            if (err) {
-                return res.status(500).json({ error: 'Failed to write file' });
-            }
-            res.status(200).json({ message: 'Preference updated successfully' });
-        });
-    });
-});
-
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+const geojsonFilePath = path.join(__dirname, 'public', 'preference_sample_pin_data.geojson');
+
+// Endpoint to get filtered GeoJSON data
+app.get('/fetch-pins', (req, res) => {
+    console.log('Reached to the endpoint');
+    fs.readFile(geojsonFilePath, 'utf8', (err, data) => {
+        console.log('in the function');
+        if (err) {
+            console.error('Error reading file:', err);
+            return res.status(500).json({ error: 'Error reading file', details: err.message });
+        }
+        let geojsonData = JSON.parse(data);
+
+        // Filter features where preference is not 'default'
+        geojsonData.features = geojsonData.features.filter((feature) => feature.properties.preference !== 'default');
+
+        res.json(geojsonData);
+    });
 });
 
 app.listen(PORT, () => {

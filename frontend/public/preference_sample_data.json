@@ -8,7 +8,8 @@
         "hours": "Open - Closes 12 am",
         "price": "€~€€",
         "socialMedia": "Social Media",
-        "image": "SamplePhoto"
+        "image": "SamplePhoto",
+        "preference": "default"
     },
     {
         "name": "Joe's Pizza",
@@ -19,7 +20,8 @@
         "hours": "Open - Closes 11 pm",
         "price": "€€",
         "socialMedia": "Social Media",
-        "image": "JoePizza"
+        "image": "JoePizza",
+        "preference": "default"
     },
     {
         "name": "The Dead Rabbit",
@@ -30,7 +32,8 @@
         "hours": "Open - Closes 2 am",
         "price": "€€€",
         "socialMedia": "Social Media",
-        "image": "DeadRabbit"
+        "image": "DeadRabbit",
+        "preference": "default"
     },
     {
         "name": "Café Grumpy",
@@ -41,7 +44,8 @@
         "hours": "Open - Closes 6 pm",
         "price": "€€",
         "socialMedia": "Social Media",
-        "image": "Grumpy"
+        "image": "Grumpy",
+        "preference": "default"
     },
     {
         "name": "Le Bernardin",
@@ -52,7 +56,8 @@
         "hours": "Open - Closes 10:30 pm",
         "price": "€€€€",
         "socialMedia": "Social Media",
-        "image": "LeBernadin"
+        "image": "LeBernadin",
+        "preference": "default"
     },
     {
         "name": "Club Cumming",
@@ -63,7 +68,8 @@
         "hours": "Open - Closes 4 am",
         "price": "€€€",
         "socialMedia": "Social Media",
-        "image": "SamplePhoto"
+        "image": "SamplePhoto",
+        "preference": "default"
     },
     {
         "name": "Stumptown Coffee Roasters",
@@ -74,7 +80,8 @@
         "hours": "Open - Closes 7 pm",
         "price": "€€",
         "socialMedia": "Social Media",
-        "image": "SamplePhoto"
+        "image": "SamplePhoto",
+        "preference": "hate it"
     },
     {
         "name": "Employees Only",
@@ -85,7 +92,8 @@
         "hours": "Open - Closes 4 am",
         "price": "€€€",
         "socialMedia": "Social Media",
-        "image": "SamplePhoto"
+        "image": "SamplePhoto",
+        "preference": "default"
     },
     {
         "name": "Balthazar",
@@ -96,7 +104,8 @@
         "hours": "Open - Closes 12 am",
         "price": "€€€",
         "socialMedia": "Social Media",
-        "image": "SamplePhoto"
+        "image": "SamplePhoto",
+        "preference": "default"
     },
     {
         "name": "The Up & Up",
@@ -107,6 +116,7 @@
         "hours": "Open - Closes 2 am",
         "price": "€€€",
         "socialMedia": "Social Media",
-        "image": "SamplePhoto"
+        "image": "SamplePhoto",
+        "preference": "default"
     }
 ]
