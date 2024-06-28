@@ -10,7 +10,7 @@ import Preference from './Preference';
 import Friends from './Friends';
 import HorizontalButtons from './HorizontalButtons';
 import '../App.css';
-
+//.
 // Update Leaflet icon paths to resolve missing icons
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
