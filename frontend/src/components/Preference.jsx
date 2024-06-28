@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import TinderCard from 'react-tinder-card';
-import SamplePhoto from '../Images/preferenceSample.png'; // Default image for placeholder
-import JoePizza from '../Images/joepizza.png';
-import DeadRabbit from '../Images/deadrabbit.png';
-import Grumpy from '../Images/grumpy.png';
-import LeBernadin from '../Images/LeBernardin.png';
-
-import Phone from '../Images/phone.png';
-import Money from '../Images/money.png';
 import Clock from '../Images/clock.png';
 import Flag from '../Images/hateit.png';
 import Heart from '../Images/loveit.png';
@@ -35,7 +27,6 @@ const onSwipe = (direction, name, setCurrentIndex) => {
             action = '';
             break;
     }
-    console.log(`${action} on ${name}`);
     setCurrentIndex((prevIndex) => prevIndex + 1);
 };
 
@@ -61,49 +52,25 @@ const onCardLeftScreen = (myIdentifier, direction) => {
     console.log(`${myIdentifier} left the screen to the ${direction} (${action})`);
 };
 
-// Rating feature
-const StarRating = ({ rating }) => {
-    const MAX_STARS = 5;
-    const fullStar = '★';
-    const emptyStar = '☆';
-
-    return (
-        <div className="flex">
-            {Array.from({ length: MAX_STARS }, (_, index) => (
-                <span key={index} className="text-yellow-500 text-2xl">
-                    {index < rating ? fullStar : emptyStar}
-                </span>
-            ))}
-        </div>
-    );
-};
+// temp filter so you only see cards for places that have photos 
+async function filterForPhotos(data) {
+    const filePaths = await fetch('file_paths.json').then((response) => response.json())
+    return await data.filter(place => filePaths.includes(place.photo_0 + ".png"))
+}
 
 function Preference() {
     const [cards, setCards] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
-        fetch('/preference_sample_data.json')
+        fetch('http://localhost:8000/app/get-places')
             .then((response) => response.json())
-            .then((data) => {
-                // Replace image placeholder with actual images
-                const cardsWithImages = data.map((card) => {
-                    switch (card.name) {
-                        case "Joe's Pizza":
-                            return { ...card, image: JoePizza };
-                        case 'The Dead Rabbit':
-                            return { ...card, image: DeadRabbit };
-                        case 'Café Grumpy':
-                            return { ...card, image: Grumpy };
-                        case 'Le Bernardin':
-                            return { ...card, image: LeBernadin };
-                        default:
-                            return { ...card, image: SamplePhoto };
-                    }
-                });
-                setCards(cardsWithImages);
-            });
-    }, []);
+            .then(async (data) => {
+                const filteredPlaces = await filterForPhotos(data)
+                setCards(filteredPlaces)
+            })}
+    , []);
+
 
     return (
         <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
@@ -128,30 +95,18 @@ function Preference() {
                     >
                         <div className="flex flex-col bg-white rounded-xl border border-solid border-stone-400 max-w-lg p-5">
                             <img
-                                src={cards[currentIndex].image}
+                                src={cards[currentIndex].photo_0 + ".png"}
                                 alt={cards[currentIndex].name}
                                 className="max-w-full h-auto rounded-lg"
                             />
                             <div className="text-center bg-black bg-opacity-50 p-2 rounded-lg mt-[-40px] w-full text-white">
                                 <div className="text-2xl font-bold">{cards[currentIndex].name}</div>
-                                <div className="text-lg">{cards[currentIndex].type}</div>
+                                <div className="text-lg">{cards[currentIndex].subtype.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')}</div>
                                 <div className="text-base">{cards[currentIndex].address}</div>
-                            </div>
-                            <div className="flex gap-2 mt-6 text-xl leading-7 text-black">
-                                <StarRating rating={cards[currentIndex].rating} />
-                                <div className="flex-auto my-auto">See more reviews</div>
-                            </div>
-                            <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap">
-                                <img src={Phone} className="w-12" alt="Phone" />
-                                <div className="flex-auto my-auto">{cards[currentIndex].phone}</div>
                             </div>
                             <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap">
                                 <img src={Clock} className="w-12" alt="Clock" />
-                                <div className="flex-auto my-auto">{cards[currentIndex].hours}</div>
-                            </div>
-                            <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap">
-                                <img src={Money} className="w-12" alt="Money" />
-                                <div className="flex-auto my-auto">{cards[currentIndex].price}</div>
+                                <div className="flex-auto my-auto">{cards[currentIndex].opening_Hours}</div>
                             </div>
                             <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap">
                                 <img
@@ -160,7 +115,7 @@ function Preference() {
                                     className="w-14"
                                     alt="Social Media"
                                 />
-                                <div className="flex-auto my-auto">{cards[currentIndex].socialMedia}</div>
+                                <div className="flex-auto my-auto"><a href={cards[currentIndex].website}>{cards[currentIndex].website}</a></div>
                             </div>
                             <div className="self-center mt-5 w-full max-w-md">
                                 <div className="flex gap-5 flex-wrap justify-center">
