@@ -133,8 +133,4 @@ function Preference() {
     );
 }
 
-StarRating.propTypes = {
-    rating: PropTypes.number.isRequired,
-};
-
 export default Preference;
