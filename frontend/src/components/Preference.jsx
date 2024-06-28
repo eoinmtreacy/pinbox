@@ -4,7 +4,7 @@ import SamplePhoto from '../Images/preferenceSample.png'; // Default image for p
 import JoePizza from '../Images/joepizza.png';
 import DeadRabbit from '../Images/deadrabbit.png';
 import Grumpy from '../Images/grumpy.png';
-import LeBernadin from '../Images/LeBernardin.png';
+import LeBernadin from '../Images/lebernardin.png';
 import Phone from '../Images/phone.png';
 import Money from '../Images/money.png';
 import Clock from '../Images/clock.png';
@@ -14,8 +14,30 @@ import OkSign from '../Images/wanna.png';
 import DonotCare from '../Images/dontcare.png';
 import PropTypes from 'prop-types';
 
-//Card swiping feature
-const onSwipe = (direction, name, setCurrentIndex) => {
+const updatePreference = (name, action) => {
+    fetch(`http://localhost:5001/update_preference`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, preference: action.toLowerCase() }),
+        mode: 'cors',
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log('Preference updated successfully:', data);
+        })
+        .catch((error) => {
+            console.error('Error updating preference:', error);
+        });
+};
+
+const onSwipe = (direction, name, setCurrentIndex, setCards) => {
     let action;
     switch (direction) {
         case 'left':
@@ -36,6 +58,7 @@ const onSwipe = (direction, name, setCurrentIndex) => {
     }
     console.log(`${action} on ${name}`);
     setCurrentIndex((prevIndex) => prevIndex + 1);
+    updatePreference(name, action, setCards);
 };
 
 const onCardLeftScreen = (myIdentifier, direction) => {
@@ -121,9 +144,9 @@ function Preference() {
                 {cards.length > 0 && currentIndex < cards.length && (
                     <TinderCard
                         key={cards[currentIndex].name}
-                        onSwipe={(dir) => onSwipe(dir, cards[currentIndex].name, setCurrentIndex)}
+                        onSwipe={(dir) => onSwipe(dir, cards[currentIndex].name, setCurrentIndex, setCards)}
                         onCardLeftScreen={(dir) => onCardLeftScreen(cards[currentIndex].name, dir)}
-                        preventSwipe={['none']} // 변경 부분
+                        preventSwipe={['none']}
                     >
                         <div className="flex flex-col bg-white rounded-xl border border-solid border-stone-400 max-w-lg p-5">
                             <img

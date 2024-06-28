@@ -10,7 +10,7 @@ import Preference from './Preference';
 import Friends from './Friends';
 import HorizontalButtons from './HorizontalButtons';
 import '../App.css';
-//.
+
 // Update Leaflet icon paths to resolve missing icons
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -31,9 +31,13 @@ const CustomMap = () => {
     const [mode, setMode] = useState('Day');
 
     useEffect(() => {
-        fetch('nightclub_amenities.geojson')
+        fetch('preference_sample_data.geojson')
             .then((response) => response.json())
-            .then((data) => setGeoJsonData(data))
+            .then((data) => {
+                // Filter out features with preference === 'default'
+                const filteredData = data.features.filter((feature) => feature.properties.preference !== 'default');
+                setGeoJsonData({ ...data, features: filteredData });
+            })
             .catch((error) => console.error('Error fetching GeoJSON data:', error));
     }, []);
 
@@ -45,6 +49,45 @@ const CustomMap = () => {
     const handleFriendsToggle = () => {
         setShowFriends((prev) => !prev);
         if (showPreference) setShowPreference(false); // Ensure only one panel is open at a time
+    };
+
+    // Define marker colors based on preference
+    const getMarkerIcon = (preference) => {
+        const markerHtmlStyles = (color) => `
+            background-color: ${color};
+            width: 2rem;
+            height: 2rem;
+            display: block;
+            left: -1rem;
+            top: -1rem;
+            position: relative;
+            border-radius: 1rem 1rem 0;
+            transform: rotate(45deg);
+            border: 1px solid #FFFFFF`;
+
+        let color;
+        switch (preference) {
+            case 'hate it':
+                color = 'red';
+                break;
+            case "don't care":
+                color = 'pink';
+                break;
+            case 'interested':
+                color = 'blue';
+                break;
+            case 'love it':
+                color = 'green';
+                break;
+            default:
+                color = 'black';
+                break;
+        }
+
+        return L.divIcon({
+            className: 'custom-marker',
+            html: `<span style="${markerHtmlStyles(color)}" />`,
+        });
     };
 
     return (
@@ -82,10 +125,15 @@ const CustomMap = () => {
                         {geoJsonData && (
                             <GeoJSON
                                 data={geoJsonData}
+                                pointToLayer={(feature, latlng) => {
+                                    const customIcon = getMarkerIcon(feature.properties.preference);
+                                    return L.marker(latlng, { icon: customIcon });
+                                }}
                                 onEachFeature={(feature, layer) => {
                                     if (feature.properties?.name) {
                                         layer.bindPopup(
-                                            `<b>${feature.properties.name}</b><br />${feature.properties.amenity}`
+                                            `<b>Name : ${feature.properties.name}</b><br />Amenity : ${feature.properties.type}
+                                            <br />Preference : ${feature.properties.preference}`
                                         );
                                     }
                                 }}
