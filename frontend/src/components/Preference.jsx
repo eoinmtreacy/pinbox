@@ -67,6 +67,7 @@ function Preference() {
             .then((response) => response.json())
             .then(async (data) => {
                 const filteredPlaces = await filterForPhotos(data)
+                console.log(filteredPlaces)
                 setCards(filteredPlaces)
             })}
     , []);
@@ -78,10 +79,10 @@ function Preference() {
                 <select className="absolute top-0 right-0 bg-blue-500 text-white p-2 rounded-md">
                     <option value="all">All</option>
                     <option value="restaurant">Restaurant</option>
-                    <option value="bar">Bar</option>
+                    <option value="fast_food">Fast Food</option>
                     <option value="cafe">Cafe</option>
-                    <option value="cinema">Cinema</option>
-                    <option value="iceCream">IceCream</option>
+                    <option value="bakery">Bakery</option>
+                    <option value="park">Park</option>
                 </select>
             </div>
             <div className="text-4xl font-bold tracking-tight text-center text-black mb-5">Smart Recommendation</div>
