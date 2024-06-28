@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -14,32 +14,74 @@ import '../App.css';
 // Update Leaflet icon paths to resolve missing icons
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
-    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-    iconUrl: require('leaflet/dist/images/marker-icon.png'),
-    shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png').default,
+    iconUrl: require('leaflet/dist/images/marker-icon.png').default,
+    shadowUrl: require('leaflet/dist/images/marker-shadow.png').default,
 });
 
 const CustomMap = () => {
     const [geoJsonData, setGeoJsonData] = useState(null);
     const [showPreference, setShowPreference] = useState(false);
     const [showFriends, setShowFriends] = useState(false);
-
-    // State for former TopNav components
     const [timeStamp, setTimeStamp] = useState(12);
     const [distance, setDistance] = useState(50);
     const [showPins, setShowPins] = useState(true);
     const [mode, setMode] = useState('Day');
+    const mapRef = useRef(); // Ref for accessing map instance
+    const geoJsonLayerRef = useRef(); // Ref for GeoJSON layer
 
     useEffect(() => {
-        fetch('preference_sample_data.geojson')
-            .then((response) => response.json())
-            .then((data) => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('preference_sample_data.geojson');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch GeoJSON data');
+                }
+                const data = await response.json();
                 // Filter out features with preference === 'default'
                 const filteredData = data.features.filter((feature) => feature.properties.preference !== 'default');
-                setGeoJsonData({ ...data, features: filteredData });
-            })
-            .catch((error) => console.error('Error fetching GeoJSON data:', error));
-    }, []);
+                console.log('Fetched GeoJSON data:', filteredData); // Log fetched data
+                setGeoJsonData(filteredData);
+            } catch (error) {
+                console.error('Error fetching GeoJSON data:', error);
+            }
+        };
+
+        fetchData();
+    }, []); // Empty dependency array ensures this runs only once on mount
+
+    useEffect(() => {
+        if (!mapRef.current || !geoJsonData) return;
+
+        // Clear existing GeoJSON layer if it exists
+        if (geoJsonLayerRef.current) {
+            geoJsonLayerRef.current.clearLayers();
+        }
+
+        // Create new GeoJSON layer
+        const geoJsonLayer = L.geoJSON(geoJsonData, {
+            pointToLayer: (feature, latlng) => {
+                const customIcon = getMarkerIcon(feature.properties.preference);
+                return L.marker(latlng, { icon: customIcon });
+            },
+            onEachFeature: (feature, layer) => {
+                if (feature.properties?.name) {
+                    layer.bindPopup(
+                        `<b>Name : ${feature.properties.name}</b><br />Amenity : ${feature.properties.type}<br />Preference : ${feature.properties.preference}`
+                    );
+                }
+            },
+        });
+
+        // Add GeoJSON layer to the map
+        geoJsonLayer.addTo(mapRef.current);
+        geoJsonLayerRef.current = geoJsonLayer; // Save reference to the layer
+
+        return () => {
+            // Clean up on unmount
+            mapRef.current.removeLayer(geoJsonLayerRef.current);
+        };
+    }, [geoJsonData]); // Re-run effect when geoJsonData changes
 
     const handlePreferenceToggle = () => {
         setShowPreference((prev) => !prev);
@@ -120,7 +162,12 @@ const CustomMap = () => {
                         <SearchBar />
                         <HorizontalButtons />
                     </div>
-                    <MapContainer center={[40.7478017, -73.9914126]} zoom={13} className="h-full w-full">
+                    <MapContainer
+                        center={[40.7478017, -73.9914126]}
+                        zoom={13}
+                        className="h-full w-full"
+                        whenCreated={(map) => (mapRef.current = map)} // Assign map instance to ref
+                    >
                         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                         {geoJsonData && (
                             <GeoJSON
@@ -132,8 +179,7 @@ const CustomMap = () => {
                                 onEachFeature={(feature, layer) => {
                                     if (feature.properties?.name) {
                                         layer.bindPopup(
-                                            `<b>Name : ${feature.properties.name}</b><br />Amenity : ${feature.properties.type}
-                                            <br />Preference : ${feature.properties.preference}`
+                                            `<b>Name : ${feature.properties.name}</b><br />Amenity : ${feature.properties.type}<br />Preference : ${feature.properties.preference}`
                                         );
                                     }
                                 }}
