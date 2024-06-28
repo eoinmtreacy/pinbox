@@ -21,6 +21,8 @@ services:
       - "5001:5001"
     networks:
       - mappo
+    volumes:
+      - ./ml_pipeline:/app/ml_pipeline
 
 networks:
   mappo:

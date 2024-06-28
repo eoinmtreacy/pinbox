@@ -8,6 +8,26 @@ app = Flask(__name__)
 def hello_world():
     return 'Hello, World!'
 
+@app.route('/prediction', methods=['GET'])
+def prediction():
+    # Path to your CSV file
+    file_path = '/app/ml_pipeline/falsified_manhattan_busyness.csv'
+    #try:
+    #    data = pd.read_csv(file_path)
+    #    # Further processing...
+    #    return "Prediction results"
+    #except FileNotFoundError as e:
+    #    return str(e), 500
+
+    # Read the CSV file into a DataFrame
+    df = pd.read_csv(file_path)
+    
+    # Convert the DataFrame to JSON
+    json_data = df.to_json()
+    
+    # Return the JSON data as a response
+    return jsonify(json_data)
+
 ''' for later, work in progress
 # Load the AutoGluon model
 predictor = TabularPredictor.load("AutogluonModels/ag-20240531_163402")
