@@ -15,11 +15,11 @@ const Card = ({ place, onSwipe, onCardLeftScreen }) => {
             onCardLeftScreen={(dir) => onCardLeftScreen(place.name, dir)}
             preventSwipe={['none']}
         >
-            <div className="flex flex-col bg-white rounded-xl border border-solid border-stone-400 max-w-lg p-5">
+            <div className="flex flex-col bg-white rounded-xl border border-solid border-stone-400 max-w-lg p-5 mx-auto shadow-lg">
                 <img
                     src={place.photo_0 + ".png"}
                     alt={place.name}
-                    className="max-w-full h-auto rounded-lg"
+                    className="w-full h-auto rounded-lg object-cover"
                 />
                 <div className="text-center bg-black bg-opacity-50 p-2 rounded-lg mt-[-40px] w-full text-white">
                     <div className="text-2xl font-bold">{place.name}</div>
