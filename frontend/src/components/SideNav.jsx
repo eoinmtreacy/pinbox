@@ -12,7 +12,7 @@ import timeIcon from '../Images/time.png';
 import distanceIcon from '../Images/distance.png';
 import pinsIcon from '../Images/pin.png';
 
-export const SideNav = ({
+const SideNav = ({
     onPreferenceToggle,
     onFriendsToggle,
     timeStamp,
@@ -37,54 +37,53 @@ export const SideNav = ({
     };
 
     return (
-        <div className="w-[70px] h-full bg-blue-600 fixed left-0 top-0 flex flex-col justify-around items-center pt-4 pb-4">
-            <img className="w-20 h-20 mb-4" alt="Logo" src={logo} />
+        <div className="w-full h-full bg-blue-600 flex flex-col justify-around items-center pt-4 pb-4">
+            <img className="w-10 h-10 mb-4" alt="Logo" src={logo} />
             <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/map')}>
-                <img className="w-6 h-6 mb-1" alt="Home Icon" src={home} />
+                <img className="w-3 h-3 mb-1" alt="Home Icon" src={home} />
             </button>
             <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/search')}>
-                <img className="w-6 h-6 mb-1" alt="Search Icon" src={search} />
+                <img className="w-3 h-3 mb-1" alt="Search Icon" src={search} />
             </button>
             <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/preference')}>
-                <img className="w-6 h-6 mb-1" alt="Like Icon" src={like} />
+                <img className="w-3 h-3 mb-1" alt="Like Icon" src={like} />
             </button>
             <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/friends')}>
-                <img className="w-6 h-6 mb-1" alt="Friends Icon" src={friends} />
+                <img className="w-3 h-3 mb-1" alt="Friends Icon" src={friends} />
             </button>
-            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/Profile')}>
-                <img className="w-6 h-6 mb-1" alt="Profile Icon" src={profileIcon} />
+            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/profile')}>
+                <img className="w-3 h-3 mb-1" alt="Profile Icon" src={profileIcon} />
             </button>
             <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/settings')}>
-                <img className="w-6 h-6 mb-1" alt="Profile Icon" src={settingsIcon} />
+                <img className="w-3 h-3 mb-1" alt="Settings Icon" src={settingsIcon} />
             </button>
             <div className="flex flex-col items-center space-y-4 mt-4">
                 <div className="flex flex-col items-center">
-                    <img src={timeIcon} alt="Time Icon" className="w-6 h-6 mb-1" />
+                    <img src={timeIcon} alt="Time Icon" className="w-3 h-3 mb-1" />
                     <input
                         type="range"
                         min="0"
                         max="24"
                         value={timeStamp}
                         onChange={(e) => setTimeStamp(e.target.value)}
-                        className="w-16"
+                        className="w-8"
                     />
-                    <div className="flex justify-between w-16 text-xs text-white">
+                    <div className="flex justify-between w-8 text-xs text-white">
                         <span>0</span>
                         <span>24</span>
                     </div>
                 </div>
                 <div className="flex flex-col items-center">
-                    <img src={distanceIcon} alt="Distance Icon" className="w-6 h-6 mb-1" />
-                    
+                    <img src={distanceIcon} alt="Distance Icon" className="w-3 h-3 mb-1" />
                     <input
                         type="range"
                         min="0"
                         max="100"
                         value={distance}
                         onChange={(e) => setDistance(e.target.value)}
-                        className="w-16"
+                        className="w-8"
                     />
-                    <div className="flex justify-between w-16 text-xs text-white">
+                    <div className="flex justify-between w-8 text-xs text-white">
                         <span>0</span>
                         <span>100</span>
                     </div>
@@ -98,10 +97,14 @@ export const SideNav = ({
                         onChange={(e) => setShowPins(e.target.checked)}
                         className="h-5 w-5 rounded-full"
                     />
-                    <img src={pinsIcon} alt="Pins Icon" className="w-6 h-6" />
+                    <img src={pinsIcon} alt="Pins Icon" className="w-3 h-3" />
                 </div>
-                <button onClick={() => setMode('Day')} className="bg-blue-500 text-white px-2 py-1 rounded">Day</button>
-                <button onClick={() => setMode('Search Mode')} className="bg-blue-500 text-white px-2 py-1 rounded">Search Mode</button>
+                <button onClick={() => setMode('Day')} className="bg-blue-500 text-white px-1 py-0.5 rounded">
+                    Day
+                </button>
+                <button onClick={() => setMode('Search Mode')} className="bg-blue-500 text-white px-1 py-0.5 rounded">
+                    Search Mode
+                </button>
             </div>
         </div>
     );
