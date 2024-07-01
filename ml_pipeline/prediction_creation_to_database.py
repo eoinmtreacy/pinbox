@@ -33,11 +33,29 @@ def list_databases():
         databases = [row[0] for row in result]
     return databases
 
+def list_tables_in_database(database_name):
+    # SQL query to select the database
+    use_database_query = f"USE {database_name};"
+    
+    # SQL query to list tables
+    show_tables_query = "SHOW TABLES;"
+    
+    with engine.connect() as connection:
+        # Execute the query to select the database
+        connection.execute(text(use_database_query))
+        
+        # Execute the query to show tables
+        result = connection.execute(text(show_tables_query))
+        tables = [row[0] for row in result]
+    
+    return tables
 if __name__ == "__main__":
     # Test the connection by listing databases
     try:
         databases = list_databases()
         print(f"Databases in the MySQL server: {databases}")
+        tables = list_tables_in_database('`db-deploy`')
+        print(tables)
     except Exception as e:
         print(f"Error: {str(e)}")
 
