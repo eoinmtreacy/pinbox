@@ -7,7 +7,7 @@ import SamplePhoto from '../Images/preferenceSample.png';
 import JoePizza from '../Images/joepizza.png';
 import DeadRabbit from '../Images/deadrabbit.png';
 import Grumpy from '../Images/grumpy.png';
-import LeBernadin from '../Images/lebernardin.png';
+import LeBernadin from '../Images/LeBernardin.png';
 import Flag from '../Images/hateit.png';
 import Heart from '../Images/loveit.png';
 import OkSign from '../Images/wanna.png';
