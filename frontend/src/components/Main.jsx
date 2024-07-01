@@ -25,14 +25,12 @@ function Main() {
             <div className="flex gap-5 justify-between self-stretch"></div>
 
             {/* Logo container */}
-            <div className="flex flex-col mt-32 max-w-full rounded-none bg-zinc-300 w-[199px]">
+            <div className="flex flex-col mt-32 max-w-full rounded-none bg-blue-600 w-[199px]">
                 <img src={Logo} alt="PinBox Logo" /> {/* Company Logo */}
             </div>
 
             {/* Welcome message */}
-            <div className="mt-11 text-4xl font-bold tracking-tight text-center text-black">
-                Hello!
-            </div>
+            <div className="mt-11 text-4xl font-bold tracking-tight text-center text-black">Hello!</div>
 
             {/* Subtitle message */}
             <div className="mt-7 text-xl font-bold tracking-tight text-center text-neutral-400">
@@ -57,9 +55,7 @@ function Main() {
             </button>
 
             {/* Sign-up using other services message */}
-            <div className="mt-11 text-xl font-bold tracking-tight text-center text-neutral-400">
-                Sign up using
-            </div>
+            <div className="mt-11 text-xl font-bold tracking-tight text-center text-neutral-400">Sign up using</div>
 
             {/* Icons for social login options */}
             <div className="flex gap-5 justify-between mt-3.5">
