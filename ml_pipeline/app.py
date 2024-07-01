@@ -30,18 +30,6 @@ db = SQLAlchemy(app)
 def hello_world():
     return 'Hello, World!'
 
-@app.route('/test_db_connection', methods=['GET'])
-def test_db_connection():
-    try:
-        # Perform a simple query to check the connection
-        first_entry = ExampleTable.query.first()
-        if first_entry:
-            return jsonify({'status': 'success', 'data': first_entry.name}), 200
-        else:
-            return jsonify({'status': 'success', 'data': 'No entries found'}), 200
-    except Exception as e:
-        return jsonify({'status': 'error', 'message': str(e)}), 500
-
 
 @app.route('/prediction', methods=['GET'])
 def prediction():
