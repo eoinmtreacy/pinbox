@@ -6,7 +6,6 @@ services:
       - "8080:80"
     networks:
       - mappo
-
   backend:
     build:
       context: ./backend
@@ -15,7 +14,16 @@ services:
     networks:
       - mappo 
 
+  flask_server:
+    build:
+      context: ./ml_pipeline
+    ports:
+      - "5001:5001"
+    networks:
+      - mappo
+    volumes:
+      - ./ml_pipeline:/app/ml_pipeline
+
 networks:
   mappo:
     driver: bridge
-
