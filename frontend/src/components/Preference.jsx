@@ -110,27 +110,7 @@ function Preference({ setGeoJsonData }) {
                 setCards(cardsWithImages);
             });
     }, []);
-    const handleButtonClick = async (action, name) => {
-        let direction;
-        switch (action) {
-            case 'Hate it':
-                direction = 'left';
-                break;
-            case 'Interested':
-                direction = 'right';
-                break;
-            case 'Love it':
-                direction = 'up';
-                break;
-            case "Don't care":
-                direction = 'down';
-                break;
-            default:
-                direction = '';
-                break;
-        }
-        await onSwipe(direction, name, setCurrentIndex, setGeoJsonData);
-    };
+
     return (
         <div className="preference-container flex flex-col items-center h-full bg-gray-100 p-4">
             <div className="relative w-full mb-5">
@@ -152,11 +132,11 @@ function Preference({ setGeoJsonData }) {
                         onCardLeftScreen={(dir) => onCardLeftScreen(cards[currentIndex].name, dir)}
                         preventSwipe={['none']}
                     >
-                        <div className="flex flex-col bg-white rounded-xl border border-solid border-stone-400 max-w-l p-5">
+                        <div className="flex flex-col bg-white rounded-xl border border-solid border-stone-400 max-w-sm p-5">
                             <img
                                 src={cards[currentIndex].image}
                                 alt={cards[currentIndex].name}
-                                className="max-w-full h-auto rounded-lg "
+                                className="w-full h-60 object-cover rounded-lg"
                             />
                             <div className="text-center bg-black bg-opacity-50 p-2 rounded-lg mt-[-40px] w-full text-white">
                                 <div className="text-2xl font-bold">{cards[currentIndex].name}</div>
@@ -190,30 +170,10 @@ function Preference({ setGeoJsonData }) {
                             </div>
                             <div className="self-center mt-5 w-full max-w-md">
                                 <div className="flex gap-5 flex-wrap justify-center">
-                                    <img
-                                        src={Flag}
-                                        className="mx-auto rounded-full h-24 w-24"
-                                        alt="Hate it"
-                                        onClick={() => handleButtonClick('Hate it', cards[currentIndex].name)}
-                                    />
-                                    <img
-                                        src={DonotCare}
-                                        className="mx-auto rounded-full h-24 w-24"
-                                        alt="Don't care"
-                                        onClick={() => handleButtonClick("Don't care", cards[currentIndex].name)}
-                                    />
-                                    <img
-                                        src={OkSign}
-                                        className="mx-auto rounded-full h-24 w-24"
-                                        alt="Wanna"
-                                        onClick={() => handleButtonClick('Interested', cards[currentIndex].name)}
-                                    />
-                                    <img
-                                        src={Heart}
-                                        className="mx-auto rounded-full h-24 w-24"
-                                        alt="Love it"
-                                        onClick={() => handleButtonClick('Love it', cards[currentIndex].name)}
-                                    />
+                                    <img src={Flag} className="mx-auto rounded-full h-24 w-24" alt="Hate it" />
+                                    <img src={DonotCare} className="mx-auto rounded-full h-24 w-24" alt="Don't care" />
+                                    <img src={OkSign} className="mx-auto rounded-full h-24 w-24" alt="Wanna" />
+                                    <img src={Heart} className="mx-auto rounded-full h-24 w-24" alt="Love it" />
                                 </div>
                             </div>
                         </div>
@@ -223,5 +183,9 @@ function Preference({ setGeoJsonData }) {
         </div>
     );
 }
+
+Preference.propTypes = {
+    setGeoJsonData: PropTypes.func.isRequired,
+};
 
 export default Preference;

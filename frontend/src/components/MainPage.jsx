@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SideNav from './SideNav';
 import Preference from './Preference';
 import Map from './Map';
 
-const Main = () => {
+const MainPage = () => {
     const [showPreference, setShowPreference] = useState(false);
     const [geoJsonData, setGeoJsonData] = useState(null); // Add state for GeoJSON data
     const [timeStamp, setTimeStamp] = useState(12);
@@ -18,6 +18,23 @@ const Main = () => {
     const toggleFriends = () => {
         console.log('Friends toggle function');
     };
+
+    useEffect(() => {
+        const fetchGeoJsonData = async () => {
+            try {
+                const response = await fetch('/preference_sample_data.geojson');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch GeoJSON data');
+                }
+                const data = await response.json();
+                setGeoJsonData(data);
+            } catch (error) {
+                console.error('Error fetching GeoJSON data:', error);
+            }
+        };
+
+        fetchGeoJsonData();
+    }, []);
 
     return (
         <div className="flex h-screen">
@@ -37,7 +54,8 @@ const Main = () => {
             </div>
             {showPreference && (
                 <div className="flex-none w-4/24">
-                    <Preference setGeoJsonData={setGeoJsonData} /> {/* Pass setGeoJsonData to Preference */}
+                    <Preference setGeoJsonData={setGeoJsonData} geoJsonData={geoJsonData} />{' '}
+                    {/* Pass setGeoJsonData to Preference */}
                 </div>
             )}
             <div className={`${showPreference ? 'flex-grow w-19/24' : 'flex-grow w-23/24'}`}>
@@ -47,4 +65,4 @@ const Main = () => {
     );
 };
 
-export default Main;
+export default MainPage;

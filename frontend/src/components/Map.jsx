@@ -61,12 +61,41 @@ const CustomMap = ({ geoJsonData }) => {
             hours: feature.properties.hours,
             price: feature.properties.price,
             socialMedia: feature.properties.socialMedia,
+            preference: feature.properties.preference, // Pass preference
         };
 
         const popupContent = ReactDOMServer.renderToString(<PreferenceWithoutButtons {...props} />);
         div.innerHTML = popupContent;
         return div;
     };
+
+    const addMarkersToMap = (data) => {
+        if (geoJsonLayerRef.current) {
+            geoJsonLayerRef.current.clearLayers();
+            if (data) {
+                data.features.forEach((feature) => {
+                    const marker = L.marker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], {
+                        icon: getMarkerIcon(feature.properties.preference),
+                    });
+
+                    if (feature.properties?.name) {
+                        const popupContent = createPopupContent(feature);
+                        marker.bindPopup(popupContent);
+                    }
+
+                    geoJsonLayerRef.current.addLayer(marker);
+                });
+            }
+            geoJsonLayerRef.current.addTo(mapRef.current);
+        }
+    };
+
+    useEffect(() => {
+        if (mapRef.current && initialLoad) {
+            addMarkersToMap(geoJsonData);
+            setInitialLoad(false);
+        }
+    }, [geoJsonData, initialLoad]);
 
     return (
         <div className="map-container relative flex flex-col h-screen">
