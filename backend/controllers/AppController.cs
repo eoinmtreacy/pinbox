@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
-using Backend.Models;
+using backend.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 
-namespace Backend.Controllers
+namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -16,7 +19,7 @@ namespace Backend.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             if (!_context.Places.Any())
             {
@@ -29,8 +32,19 @@ namespace Backend.Controllers
                 _context.SaveChanges();
             }
 
-            var model = _context.Places.FirstOrDefault();
-            return Ok(model);
+            // var model = _context.Places.FirstOrDefault();
+            // return Ok(model);
+
+                       var place = await _context.Places
+                .OrderBy(p => p.Id) // Ensure deterministic results by ordering by a column
+                .FirstOrDefaultAsync();
+
+            if (place == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(place);
         }
     }
 }

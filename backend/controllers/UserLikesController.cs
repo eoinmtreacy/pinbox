@@ -1,9 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Backend.Models;
 using backend.Models;
 
 namespace backend.Controllers
@@ -37,6 +33,8 @@ namespace backend.Controllers
         [HttpGet("category/{categorySwipe}")]
         public async Task<ActionResult<IEnumerable<User_Likes>>> GetUserLikesByCategorySwipe(string categorySwipe)
         {
+            
+
             var userLikes = await _context.UserLikes
                 .Where(ul => ul.CategorySwipe == categorySwipe)
                 .OrderBy(ul => ul.Timestamp)

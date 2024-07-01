@@ -1,9 +1,10 @@
 using DotNetEnv;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
+using backend.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,7 +31,7 @@ else
 var configuration = builder.Configuration;
 
 // Register the DbContext with the MySQL provider using the connection string from .env
-builder.Services.AddDbContext<DbContext>(options =>
+builder.Services.AddDbContext<YourDbContext>(options =>
     options.UseMySql(
         connectionString,
         new MySqlServerVersion(new Version(8, 0, 21))
