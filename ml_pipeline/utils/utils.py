@@ -369,8 +369,7 @@ class DataQualityReport:
         return f"There are {self.da.duplicate_count} duplicate rows. "
 
     def numeric_col_description(self, col):
-        output = f"This feature has a mean of {self.num_format(self.da.df_table_numeric.loc[col, 'mean'])}, a min value of {self.num_format(
-            self.da.df_table_numeric.loc[col, 'min'])} and a max value of {self.num_format(self.da.df_table_numeric.loc[col, 'max'])}. "
+        output = f"This feature has a mean of {self.num_format(self.da.df_table_numeric.loc[col, 'mean'])}, a min value of {self.num_format(self.da.df_table_numeric.loc[col, 'min'])} and a max value of {self.num_format(self.da.df_table_numeric.loc[col, 'max'])}. "
         if col in self.null_val_cols:
             output += f"There are {
                 self.da.num_null_vals[col]} missing values. "
