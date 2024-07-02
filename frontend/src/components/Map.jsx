@@ -7,10 +7,8 @@ import ReactDOMServer from 'react-dom/server';
 import PreferenceWithoutButtons from './PreferenceWithoutButtons';
 import SearchBar from './SearchBar';
 import CookieModal from './CookieModal';
-
 import useFetchGeoJson from '../hooks/useFetchGeoJson';
 import HorizontalButtons from './HorizontalButtons';
-import CookieModal from './CookieModal';
 
 const CustomMap = ({ geoJsonData }) => {
     const { data: taxiZones, error } = useFetchGeoJson('taxi_zones.geojson');
@@ -18,7 +16,7 @@ const CustomMap = ({ geoJsonData }) => {
     const mapRef = useRef(null);
     const [initialLoad, setInitialLoad] = useState(true);
 
-    const getMarkerIcon = (preference) => {
+    const getMarkerIcon = useCallback((preference) => {
         const markerHtmlStyles = (color) => `
             background-color: ${color};
             width: 2rem;
@@ -54,9 +52,9 @@ const CustomMap = ({ geoJsonData }) => {
             className: 'custom-marker',
             html: `<span style="${markerHtmlStyles(color)}" />`,
         });
-    };
+    }, []);
 
-    const createPopupContent = (feature) => {
+    const createPopupContent = useCallback((feature) => {
         const div = document.createElement('div');
         const props = {
             name: feature.properties.name,
@@ -74,7 +72,7 @@ const CustomMap = ({ geoJsonData }) => {
         const popupContent = ReactDOMServer.renderToString(<PreferenceWithoutButtons {...props} />);
         div.innerHTML = popupContent;
         return div;
-    };
+    }, [])
 
     const addMarkersToMap = useCallback(
         (data) => {
