@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TinderCard from 'react-tinder-card';
-import SamplePhoto from '../Images/preferenceSample.png'; // Default image for placeholder
+import SamplePhoto from '../Images/preferenceSample.png';
 import JoePizza from '../Images/joepizza.png';
 import DeadRabbit from '../Images/deadrabbit.png';
 import Grumpy from '../Images/grumpy.png';
@@ -12,10 +12,33 @@ import Flag from '../Images/hateit.png';
 import Heart from '../Images/loveit.png';
 import OkSign from '../Images/wanna.png';
 import DonotCare from '../Images/dontcare.png';
+import StarRating from './StarRating';
 import PropTypes from 'prop-types';
 
-//Card swiping feature
-const onSwipe = (direction, name, setCurrentIndex) => {
+const updatePreference = async (name, action, setGeoJsonData) => {
+    try {
+        const response = await fetch('/preference_sample_data.geojson');
+        if (!response.ok) {
+            throw new Error('Failed to fetch GeoJSON data');
+        }
+        const geoJson = await response.json();
+
+        const updatedFeatures = geoJson.features.map((feature) => {
+            if (feature.properties.name === name) {
+                feature.properties.preference = action.toLowerCase();
+            }
+            return feature;
+        });
+
+        geoJson.features = updatedFeatures;
+        setGeoJsonData(geoJson);
+        console.log('Preference updated successfully in geoJSON:', geoJson);
+    } catch (error) {
+        console.error('Error updating preference in geoJSON:', error);
+    }
+};
+
+const onSwipe = async (direction, name, setCurrentIndex, setGeoJsonData) => {
     let action;
     switch (direction) {
         case 'left':
@@ -35,7 +58,9 @@ const onSwipe = (direction, name, setCurrentIndex) => {
             break;
     }
     console.log(`${action} on ${name}`);
-    setCurrentIndex((prevIndex) => prevIndex + 1);
+    await updatePreference(name, action, setGeoJsonData);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % 4); // Keeps index in bounds
+    document.dispatchEvent(new CustomEvent('userPreferenceChanged', { detail: { name, action } }));
 };
 
 const onCardLeftScreen = (myIdentifier, direction) => {
@@ -59,25 +84,13 @@ const onCardLeftScreen = (myIdentifier, direction) => {
     }
     console.log(`${myIdentifier} left the screen to the ${direction} (${action})`);
 };
-
-// Rating feature
-const StarRating = ({ rating }) => {
-    const MAX_STARS = 5;
-    const fullStar = '★';
-    const emptyStar = '☆';
-
-    return (
-        <div className="flex">
-            {Array.from({ length: MAX_STARS }, (_, index) => (
-                <span key={index} className="text-yellow-500 text-2xl">
-                    {index < rating ? fullStar : emptyStar}
-                </span>
-            ))}
-        </div>
-    );
+const onButtonClick = async (action, name, setCurrentIndex, setGeoJsonData) => {
+    console.log(`${action} on ${name}`);
+    await updatePreference(name, action, setGeoJsonData);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % 4); // Keeps index in bounds
+    document.dispatchEvent(new CustomEvent('userPreferenceChanged', { detail: { name, action } }));
 };
-
-function Preference() {
+function Preference({ setGeoJsonData }) {
     const [cards, setCards] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -85,7 +98,6 @@ function Preference() {
         fetch('/preference_sample_data.json')
             .then((response) => response.json())
             .then((data) => {
-                // Replace image placeholder with actual images
                 const cardsWithImages = data.map((card) => {
                     switch (card.name) {
                         case "Joe's Pizza":
@@ -105,7 +117,7 @@ function Preference() {
     }, []);
 
     return (
-        <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
+        <div className="preference-container flex flex-col items-center h-full bg-gray-100 p-4">
             <div className="relative w-full mb-5">
                 <select className="absolute top-0 right-0 bg-blue-500 text-white p-2 rounded-md">
                     <option value="all">All</option>
@@ -117,19 +129,19 @@ function Preference() {
                 </select>
             </div>
             <div className="text-4xl font-bold tracking-tight text-center text-black mb-5">Smart Recommendation</div>
-            <div className="flex flex-col items-center p-5">
+            <div className="flex flex-col items-center p-5 h-full overflow-auto">
                 {cards.length > 0 && currentIndex < cards.length && (
                     <TinderCard
-                        key={cards[currentIndex].name}
-                        onSwipe={(dir) => onSwipe(dir, cards[currentIndex].name, setCurrentIndex)}
+                        key={currentIndex}
+                        onSwipe={(dir) => onSwipe(dir, cards[currentIndex].name, setCurrentIndex, setGeoJsonData)}
                         onCardLeftScreen={(dir) => onCardLeftScreen(cards[currentIndex].name, dir)}
-                        preventSwipe={['none']} // 변경 부분
+                        preventSwipe={['none']}
                     >
-                        <div className="flex flex-col bg-white rounded-xl border border-solid border-stone-400 max-w-lg p-5">
+                        <div className="flex flex-col bg-white rounded-xl border border-solid border-stone-400 max-w-sm p-5">
                             <img
                                 src={cards[currentIndex].image}
                                 alt={cards[currentIndex].name}
-                                className="max-w-full h-auto rounded-lg"
+                                className="w-full h-60 object-cover rounded-lg"
                             />
                             <div className="text-center bg-black bg-opacity-50 p-2 rounded-lg mt-[-40px] w-full text-white">
                                 <div className="text-2xl font-bold">{cards[currentIndex].name}</div>
@@ -162,11 +174,59 @@ function Preference() {
                                 <div className="flex-auto my-auto">{cards[currentIndex].socialMedia}</div>
                             </div>
                             <div className="self-center mt-5 w-full max-w-md">
-                                <div className="flex gap-5 flex-wrap justify-center">
-                                    <img src={Flag} className="mx-auto rounded-full h-24 w-24" alt="Hate it" />
-                                    <img src={DonotCare} className="mx-auto rounded-full h-24 w-24" alt="Don't care" />
-                                    <img src={OkSign} className="mx-auto rounded-full h-24 w-24" alt="Wanna" />
-                                    <img src={Heart} className="mx-auto rounded-full h-24 w-24" alt="Love it" />
+                                <div className="flex flex-wrap justify-center">
+                                    <img
+                                        src={Flag}
+                                        className="mx-auto rounded-full h-20 w-20 cursor-pointer"
+                                        alt="Hate it"
+                                        onClick={() =>
+                                            onButtonClick(
+                                                'Hate it',
+                                                cards[currentIndex].name,
+                                                setCurrentIndex,
+                                                setGeoJsonData
+                                            )
+                                        }
+                                    />
+                                    <img
+                                        src={DonotCare}
+                                        className="mx-auto rounded-full h-20 w-20 cursor-pointer"
+                                        alt="Don't care"
+                                        onClick={() =>
+                                            onButtonClick(
+                                                "Don't care",
+                                                cards[currentIndex].name,
+                                                setCurrentIndex,
+                                                setGeoJsonData
+                                            )
+                                        }
+                                    />
+                                    <img
+                                        src={OkSign}
+                                        className="mx-auto rounded-full h-20 w-20 cursor-pointer"
+                                        alt="Wanna"
+                                        onClick={() =>
+                                            onButtonClick(
+                                                'Interested',
+                                                cards[currentIndex].name,
+                                                setCurrentIndex,
+                                                setGeoJsonData
+                                            )
+                                        }
+                                    />
+                                    <img
+                                        src={Heart}
+                                        className="mx-auto rounded-full h-20 w-20 cursor-pointer"
+                                        alt="Love it"
+                                        onClick={() =>
+                                            onButtonClick(
+                                                'Love it',
+                                                cards[currentIndex].name,
+                                                setCurrentIndex,
+                                                setGeoJsonData
+                                            )
+                                        }
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -177,8 +237,8 @@ function Preference() {
     );
 }
 
-StarRating.propTypes = {
-    rating: PropTypes.number.isRequired,
+Preference.propTypes = {
+    setGeoJsonData: PropTypes.func.isRequired,
 };
 
 export default Preference;

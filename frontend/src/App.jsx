@@ -2,15 +2,13 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
 import 'leaflet/dist/leaflet.css';
-import Map from './components/Map';
 import Login from './components/Login';
 import Signup from './components/Signup';
-import Main from './components/Main';
 import PasswordFind from './components/PasswordFind';
-import Preference from './components/Preference';
 import Profile from './components/Profile';
 import Settings from './components/Settings';
-import SideNav from './components/SideNav';
+import Main from './components/Main';
+import MainPage from './components/MainPage';
 
 function App() {
     return (
@@ -24,19 +22,17 @@ function App() {
 
 const AppContent = () => {
     const location = useLocation();
-    const hideSideNav = ['/Login', '/Signup'].includes(location.pathname);
+    const hideSideNav = ['/login', '/signup'].includes(location.pathname);
 
     return (
         <div className="flex flex-1">
-            {hideSideNav && <SideNav />}
-            <div className={!hideSideNav ? "flex-1 ml-[70px]" : "flex-1"}>
+            <div className={!hideSideNav ? 'flex-1 ml-[70px]' : 'flex-1'}>
                 <Routes>
                     <Route path="/" element={<Main />} />
-                    <Route path="/map" element={<Map />} />
+                    <Route path="/mainpage" element={<MainPage />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/passwordfind" element={<PasswordFind />} />
-                    <Route path="/preference" element={<Preference />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/settings" element={<Settings />} />
                 </Routes>

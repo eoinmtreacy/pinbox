@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loginimg from '../Images/logo.png';
-import '../App.css'; 
-import 'leaflet/dist/leaflet.css'; 
+import '../App.css';
+import 'leaflet/dist/leaflet.css';
 
 // Login component
 function Login() {
@@ -12,7 +12,7 @@ function Login() {
     // Function to handle login button click
     const handleLoginClick = (event) => {
         event.preventDefault(); // Prevent the default form submission
-        navigate('/map'); // Navigate to the map page on login
+        navigate('/mainpage'); // Navigate to the map page on login
     };
 
     // Function to handle forgot password button click
