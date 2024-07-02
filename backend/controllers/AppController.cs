@@ -29,10 +29,7 @@ namespace backend.Controllers
                 });
                 _context.SaveChanges();
             }
-
-            // var model = _context.Places.FirstOrDefault();
-            // return Ok(model);
-
+            
                        var place = await _context.Places
                 .OrderBy(p => p.Id) // Ensure deterministic results by ordering by a column
                 .FirstOrDefaultAsync();
