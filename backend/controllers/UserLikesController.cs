@@ -8,9 +8,9 @@ namespace backend.Controllers
     [ApiController]
     public class UserLikesController : ControllerBase
     {
-        private readonly YourDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public UserLikesController(YourDbContext context)
+        public UserLikesController(ApplicationDbContext context)
         {
             _context = context;
         }
