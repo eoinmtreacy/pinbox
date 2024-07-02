@@ -12,6 +12,11 @@ const Preference = () => {
     useEffect(() => {
         const fetchData = async () => {
             const places = await fetchPlaces();
+            if (places.error) {
+                console.error(places.message);
+                setCards([]); // Example: setting cards to an empty array on error
+                return; // Prevent further execution
+            }
             const filteredPlaces = await filterForPhotos(places);
             setCards(filteredPlaces);
         };
