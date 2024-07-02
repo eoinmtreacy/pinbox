@@ -123,6 +123,10 @@ namespace backend.Models
 
                 entity.Property(e => e.Timestamp)
                       .IsRequired();
+
+                  entity.HasOne(e => e.Place)
+                      .WithMany()
+                      .HasForeignKey(e => e.PlaceId);
             });
 
             modelBuilder.Entity<User_Preference>(entity =>

@@ -31,11 +31,10 @@ namespace backend.Controllers
 
         // GET: api/userlikes/category/{categorySwipe}
         [HttpGet("category/{categorySwipe}")]
-        public async Task<ActionResult<IEnumerable<User_Likes>>> GetUserLikesByCategorySwipe(string categorySwipe)
+        public async Task<ActionResult<IEnumerable<Place>>> GetUserLikesByCategorySwipe(string categorySwipe)
         {
-            
-
             var userLikes = await _context.UserLikes
+                .Include(ul => ul.Place)
                 .Where(ul => ul.CategorySwipe == categorySwipe)
                 .OrderBy(ul => ul.Timestamp)
                 .ToListAsync();
@@ -45,7 +44,9 @@ namespace backend.Controllers
                 return NotFound(new { error = "No likes found for this category" });
             }
 
-            return Ok(userLikes);
+            var places = userLikes.Select(ul => ul.Place).ToList();
+
+            return Ok(places);
         }
     }
 }
