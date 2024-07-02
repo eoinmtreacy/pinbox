@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useState } from 'react';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -10,8 +10,8 @@ import Preference from './Preference';
 import Friends from './Friends';
 import useFetchGeoJson from '../hooks/useFetchGeoJson';
 import useToggle from '../hooks/useToggle';
+import HorizontalButtons from './HorizontalButtons';
 import '../App.css';
-
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -37,8 +37,8 @@ const CustomMap = () => {
         <div className="relative flex flex-col h-screen">
             <div className="flex flex-grow">
                 <SideNav
-                    onPreferenceToggle={handlePreferenceToggle}
-                    onFriendsToggle={handleFriendsToggle}
+                    // onPreferenceToggle={handlePreferenceToggle}
+                    // onFriendsToggle={handleFriendsToggle}
                     timeStamp={timeStamp}
                     setTimeStamp={setTimeStamp}
                     distance={distance}
@@ -65,19 +65,6 @@ const CustomMap = () => {
                     </div>
                     <MapContainer center={[40.7478017, -73.9914126]} zoom={13} className="h-full w-full">
                         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                        {geoJsonData && (
-                            <GeoJSON
-                                data={geoJsonData}
-                                onEachFeature={(feature, layer) => {
-                                    if (feature.properties?.name) {
-                                        layer.bindPopup(
-                                            `<b>${feature.properties.name}</b><br />${feature.properties.amenity}`
-                                        );
-                                    }
-                                }}
-                            />
-                        )}
-                        <GetUserLocation />
                         <div className="absolute bottom-2 z-50">
                             <CookieModal />
                         </div>
