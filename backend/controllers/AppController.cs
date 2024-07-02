@@ -1,22 +1,25 @@
 using Microsoft.AspNetCore.Mvc;
-using backend.data;
+using backend.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 
-namespace Backend.Controllers
+namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class TestController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly YourDbContext _context;
 
-        public TestController(ApplicationDbContext context)
+        public TestController(YourDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             if (!_context.Places.Any())
             {
@@ -29,8 +32,19 @@ namespace Backend.Controllers
                 _context.SaveChanges();
             }
 
-            var model = _context.Places.FirstOrDefault();
-            return Ok(model);
+            // var model = _context.Places.FirstOrDefault();
+            // return Ok(model);
+
+                       var place = await _context.Places
+                .OrderBy(p => p.Id) // Ensure deterministic results by ordering by a column
+                .FirstOrDefaultAsync();
+
+            if (place == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(place);
         }
     }
 }

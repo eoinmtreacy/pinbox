@@ -3,13 +3,12 @@ using Enums.Models;
 
 namespace backend.Models
 {
-    public class ApplicationDbContext : DbContext
+    public class YourDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
+        public YourDbContext(DbContextOptions<YourDbContext> options) : base(options) { }
 
+        public DbSet<User_Likes> UserLikes { get; set; }
+        public DbSet<User_Preference> UserPreferences { get; set; }
         public DbSet<Place> Places { get; set; }
         public DbSet<Amenity> Amenities { get; set; }
 
@@ -229,4 +228,56 @@ namespace backend.Models
 }
 
 
+
+
+            // Configuration for UserLike entity
+            modelBuilder.Entity<User_Likes>(entity =>
+            {
+                entity.ToTable("user_likes");
+
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.UserId)
+                      .IsRequired();
+
+                entity.Property(e => e.Type)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(e => e.PlaceId)
+                      .IsRequired();
+
+                entity.Property(e => e.CategorySwipe)
+                      .HasMaxLength(50);
+
+                entity.Property(e => e.Timestamp)
+                      .IsRequired();
+
+                  entity.HasOne(e => e.Place)
+                      .WithMany()
+                      .HasForeignKey(e => e.PlaceId);
+            });
+
+            modelBuilder.Entity<User_Preference>(entity =>
+            {
+                entity.ToTable("user_preferences");
+
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Location)
+                      .IsRequired()
+                      .HasMaxLength(255);
+
+                entity.Property(e => e.Radius)
+                      .IsRequired();
+
+                entity.Property(e => e.TypeOfPlace)
+                      .HasMaxLength(255);
+            });
+        }
+    }
+}
+    
+    
+    
 
