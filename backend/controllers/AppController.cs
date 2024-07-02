@@ -13,7 +13,7 @@ namespace Backend.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public TestController(ApplicationDbContext context)
+        public AppController(ApplicationDbContext context)
         {
             _context = context;
         }
