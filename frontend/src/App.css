@@ -1,18 +1,16 @@
 .App {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
     height: 100vh;
-    padding: 20px;
     box-sizing: border-box;
 }
 
 .content {
-    width: 100%;
-    max-width: 800px;
-    height: auto;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: stretch;
 }
