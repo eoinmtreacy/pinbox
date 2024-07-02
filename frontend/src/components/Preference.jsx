@@ -84,7 +84,12 @@ const onCardLeftScreen = (myIdentifier, direction) => {
     }
     console.log(`${myIdentifier} left the screen to the ${direction} (${action})`);
 };
-
+const onButtonClick = async (action, name, setCurrentIndex, setGeoJsonData) => {
+    console.log(`${action} on ${name}`);
+    await updatePreference(name, action, setGeoJsonData);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % 4); // Keeps index in bounds
+    document.dispatchEvent(new CustomEvent('userPreferenceChanged', { detail: { name, action } }));
+};
 function Preference({ setGeoJsonData }) {
     const [cards, setCards] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -169,11 +174,59 @@ function Preference({ setGeoJsonData }) {
                                 <div className="flex-auto my-auto">{cards[currentIndex].socialMedia}</div>
                             </div>
                             <div className="self-center mt-5 w-full max-w-md">
-                                <div className="flex gap-5 flex-wrap justify-center">
-                                    <img src={Flag} className="mx-auto rounded-full h-24 w-24" alt="Hate it" />
-                                    <img src={DonotCare} className="mx-auto rounded-full h-24 w-24" alt="Don't care" />
-                                    <img src={OkSign} className="mx-auto rounded-full h-24 w-24" alt="Wanna" />
-                                    <img src={Heart} className="mx-auto rounded-full h-24 w-24" alt="Love it" />
+                                <div className="flex flex-wrap justify-center">
+                                    <img
+                                        src={Flag}
+                                        className="mx-auto rounded-full h-20 w-20 cursor-pointer"
+                                        alt="Hate it"
+                                        onClick={() =>
+                                            onButtonClick(
+                                                'Hate it',
+                                                cards[currentIndex].name,
+                                                setCurrentIndex,
+                                                setGeoJsonData
+                                            )
+                                        }
+                                    />
+                                    <img
+                                        src={DonotCare}
+                                        className="mx-auto rounded-full h-20 w-20 cursor-pointer"
+                                        alt="Don't care"
+                                        onClick={() =>
+                                            onButtonClick(
+                                                "Don't care",
+                                                cards[currentIndex].name,
+                                                setCurrentIndex,
+                                                setGeoJsonData
+                                            )
+                                        }
+                                    />
+                                    <img
+                                        src={OkSign}
+                                        className="mx-auto rounded-full h-20 w-20 cursor-pointer"
+                                        alt="Wanna"
+                                        onClick={() =>
+                                            onButtonClick(
+                                                'Interested',
+                                                cards[currentIndex].name,
+                                                setCurrentIndex,
+                                                setGeoJsonData
+                                            )
+                                        }
+                                    />
+                                    <img
+                                        src={Heart}
+                                        className="mx-auto rounded-full h-20 w-20 cursor-pointer"
+                                        alt="Love it"
+                                        onClick={() =>
+                                            onButtonClick(
+                                                'Love it',
+                                                cards[currentIndex].name,
+                                                setCurrentIndex,
+                                                setGeoJsonData
+                                            )
+                                        }
+                                    />
                                 </div>
                             </div>
                         </div>
