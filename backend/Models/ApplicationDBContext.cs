@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.data 
+namespace backend.Models 
 {
     public class ApplicationDbContext : DbContext
     {
@@ -10,10 +10,14 @@ namespace backend.data
         }
 
         public DbSet<Place> Places { get; set; }
+        public DbSet<Prediction> Predictions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Prediction>()
+                  .HasKey(p => new { p.location, p.datetime });
 
             modelBuilder.Entity<Place>(entity =>
             {

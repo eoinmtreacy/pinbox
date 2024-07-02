@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using backend.data;
+using backend.Models;
 using System.Linq;
 
 namespace Backend.Controllers
@@ -32,6 +32,7 @@ namespace Backend.Controllers
             var model = _context.Places.FirstOrDefault();
             return Ok(model);
         }
+
         [HttpGet("get-places")]
         public IActionResult GetAllPlaces()
         {
@@ -42,6 +43,27 @@ namespace Backend.Controllers
 
                 // If the query succeeds, return the records
                 return Ok(places);
+            }
+            catch (Exception ex)
+            {
+                // If the query fails, catch the exception and return a failure response
+                return StatusCode(500, new { Message = "Failed to retrieve data from the database.", Error = ex.Message });
+            }
+        }
+
+        [HttpGet("get-predictions")]
+        public IActionResult GetPredictions()
+        {
+            try
+            {
+                // get the most recent prediction for each location
+                var predictions = _context.Predictions
+                    .GroupBy(p => p.location)
+                    .Select(g => g.OrderByDescending(p => p.datetime).First())
+                    .ToList();
+
+                // If the query succeeds, return the records
+                return Ok(predictions);
             }
             catch (Exception ex)
             {
