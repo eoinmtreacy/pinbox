@@ -91,10 +91,13 @@ const onButtonClick = async (action, name, setCurrentIndex, setGeoJsonData) => {
     document.dispatchEvent(new CustomEvent('userPreferenceChanged', { detail: { name, action } }));
 };
 function Preference({ setGeoJsonData }) {
+
     const [cards, setCards] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [selectedSubtype, setSelectedSubtype] = useState('all');
 
     useEffect(() => {
+
         fetch('/preference_sample_data.json')
             .then((response) => response.json())
             .then((data) => {
@@ -114,21 +117,68 @@ function Preference({ setGeoJsonData }) {
                 });
                 setCards(cardsWithImages);
             });
+
     }, []);
+
+    const handleSubtypeChange = (e) => {
+        setSelectedSubtype(e.target.value);
+        setCurrentIndex(0); // Reset index to start from the beginning of the filtered list
+    };
+
+    const onSwipe = (direction, name) => {
+        let action;
+        switch (direction) {
+            case 'left':
+                action = 'Hate it';
+                break;
+            case 'right':
+                action = 'Interested';
+                break;
+            case 'up':
+                action = 'Love it';
+                break;
+            case 'down':
+                action = "Don't care";
+                break;
+            default:
+                action = '';
+                break;
+        }
+        console.log(action);
+        setCurrentIndex((prevIndex) => prevIndex + 1);
+    };
+
+    const onCardLeftScreen = (myIdentifier, direction) => {
+        let action;
+        switch (direction) {
+            case 'left':
+                action = 'Hate it';
+                break;
+            case 'right':
+                action = 'Interested';
+                break;
+            case 'up':
+                action = 'Love it';
+                break;
+            case 'down':
+                action = "Don't care";
+                break;
+            default:
+                action = '';
+                break;
+        }
+        console.log(`${myIdentifier} left the screen to the ${direction} (${action})`);
+    };
+
+    const filteredCards = selectedSubtype === 'all' ? cards : cards.filter(card => card.subtype === selectedSubtype);
 
     return (
         <div className="preference-container flex flex-col items-center h-full bg-gray-100 p-4">
             <div className="relative w-full mb-5">
-                <select className="absolute top-0 right-0 bg-blue-500 text-white p-2 rounded-md">
-                    <option value="all">All</option>
-                    <option value="restaurant">Restaurant</option>
-                    <option value="bar">Bar</option>
-                    <option value="cafe">Cafe</option>
-                    <option value="cinema">Cinema</option>
-                    <option value="iceCream">IceCream</option>
-                </select>
+                <Dropdown selectedSubtype={selectedSubtype} handleSubtypeChange={handleSubtypeChange} />
             </div>
             <div className="text-4xl font-bold tracking-tight text-center text-black mb-5">Smart Recommendation</div>
+
             <div className="flex flex-col items-center p-5 h-full overflow-auto">
                 {cards.length > 0 && currentIndex < cards.length && (
                     <TinderCard
@@ -231,14 +281,17 @@ function Preference({ setGeoJsonData }) {
                             </div>
                         </div>
                     </TinderCard>
+
                 )}
             </div>
         </div>
     );
+
 }
 
 Preference.propTypes = {
     setGeoJsonData: PropTypes.func.isRequired,
+
 };
 
 export default Preference;

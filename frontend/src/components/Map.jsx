@@ -6,6 +6,8 @@ import '../App.css';
 import ReactDOMServer from 'react-dom/server';
 import PreferenceWithoutButtons from './PreferenceWithoutButtons';
 import SearchBar from './SearchBar';
+import CookieModal from './CookieModal';
+
 import useFetchGeoJson from '../hooks/useFetchGeoJson';
 import HorizontalButtons from './HorizontalButtons';
 import CookieModal from './CookieModal';
@@ -116,6 +118,7 @@ const CustomMap = ({ geoJsonData }) => {
     }
 
     return (
+
         <div className="map-container relative flex flex-col h-screen">
             <div className="absolute top-1 left-16 right-0 z-[1000] flex space-y-4">
                 <SearchBar />
