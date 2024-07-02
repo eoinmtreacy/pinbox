@@ -3,7 +3,6 @@ import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import SearchBar from './SearchBar';
-import GetUserLocation from './GetUserLocation';
 import CookieModal from './CookieModal';
 import SideNav from './SideNav';
 import Preference from './Preference';
@@ -37,8 +36,8 @@ const CustomMap = () => {
         <div className="relative flex flex-col h-screen">
             <div className="flex flex-grow">
                 <SideNav
-                    onPreferenceToggle={showPreference}
-                    onFriendsToggle={showFriends}
+                    onPreferenceToggle={togglePreference}
+                    onFriendsToggle={toggleFriends}
                     timeStamp={timeStamp}
                     setTimeStamp={setTimeStamp}
                     distance={distance}
@@ -65,6 +64,9 @@ const CustomMap = () => {
                     </div>
                     <MapContainer center={[40.7478017, -73.9914126]} zoom={13} className="h-full w-full">
                         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                        {taxiZones && <GeoJSON data={taxiZones} style={() => ({ 
+                            // placeholder styles
+                            color: `#${Math.floor(Math.random() * 16777215).toString(16)}` })} />}
                         <div className="absolute bottom-2 z-50">
                             <CookieModal />
                         </div>
