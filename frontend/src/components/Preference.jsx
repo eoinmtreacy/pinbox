@@ -47,6 +47,7 @@ const Preference = () => {
                 action = '';
                 break;
         }
+        console.log(action);
         setCurrentIndex((prevIndex) => prevIndex + 1);
     };
 
