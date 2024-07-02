@@ -1,7 +1,7 @@
 """OpenStreetMaps Opening hours parser. 
 Adapter to MoralCode's opening_hours parser to allow it to parse OpenStreetMap's time format.
 """
-from opening_hours import OpeningHours
+from parse_hours import OpeningHours
 import re
 
 
