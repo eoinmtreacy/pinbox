@@ -8,6 +8,7 @@ import PreferenceWithoutButtons from './PreferenceWithoutButtons';
 import SearchBar from './SearchBar';
 import useFetchGeoJson from '../hooks/useFetchGeoJson';
 import HorizontalButtons from './HorizontalButtons';
+import CookieModal from './CookieModal';
 
 const CustomMap = ({ geoJsonData }) => {
     const { data: taxiZones, error } = useFetchGeoJson('taxi_zones.geojson');
@@ -150,6 +151,9 @@ const CustomMap = ({ geoJsonData }) => {
                         createPopupContent={createPopupContent}
                     />
                 )}
+                <div className="absolute bottom-2 z-50">
+                    <CookieModal />
+                </div>
             </MapContainer>
         </div>
     );
