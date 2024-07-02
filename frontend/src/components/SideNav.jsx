@@ -55,7 +55,7 @@ export const SideNav = ({
                 <img className="w-6 h-6 mb-1" alt="Profile Icon" src={profileIcon} />
             </button>
             <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/settings')}>
-                <img className="w-6 h-6 mb-1" alt="Profile Icon" src={settingsIcon} />
+                <img className="w-6 h-6 mb-1" alt="Settings Icon" src={settingsIcon} />
             </button>
             <div className="flex flex-col items-center space-y-4 mt-4">
                 <div className="flex flex-col items-center">
