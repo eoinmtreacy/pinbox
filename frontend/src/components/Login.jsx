@@ -17,18 +17,16 @@ function Login() {
 
     // Function to handle forgot password button click
     const handleForgotPasswordClick = () => {
-        navigate('./PasswordFind'); // Navigate to the password find page
+        navigate('/passwordfind'); // Navigate to the password find page
     };
 
     return (
         // Container for the entire login component
-        <div className="container px-4">
-            {/* Login title */}
-            <h1 className="text-center text-2xl font-bold my-4">Login</h1>
+        <div className="flex items-center justify-center min-h-screen bg-gray-100">
             {/* Form container */}
-            <div className="max-w-sm mx-auto p-8 rounded-lg">
+            <div className="max-w-sm w-full p-8 bg-white rounded-lg shadow-md">
                 {/* Login image */}
-                <img src={Loginimg} alt="Loginimg" className="mx-auto" />
+                <img src={Loginimg} alt="Loginimg" className="mx-auto mb-4" />
                 {/* Login form */}
                 <form>
                     {/* Email field */}
