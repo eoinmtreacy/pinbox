@@ -166,8 +166,7 @@ class OSMOpeningHours:
                         hr_1[search.start() + 6:search.start() + 8]) - 24
                     after = hr_1[search.start()+8:]
                     # Replace string with new formatted string
-                    opening_hours_list[j][k] = f"{
-                        before}0{hour_reduced}{after}"
+                    opening_hours_list[j][k] = f"{before}0{hour_reduced}{after}"
 
     @classmethod
     def remove_holidays(cls, opening_hours_list: list[str]) -> None:
