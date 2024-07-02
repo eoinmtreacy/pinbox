@@ -11,6 +11,8 @@ services:
       context: ./backend
     ports:
       - "8000:8080"
+    environment:
+      - DefaultConnection=${DefaultConnection}
     networks:
       - mappo 
 
@@ -27,3 +29,4 @@ services:
 networks:
   mappo:
     driver: bridge
+    

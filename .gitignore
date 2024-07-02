@@ -1,3 +1,6 @@
+# files
+places/
+
 # Data
 ml_pipeline/**/keys.json
 # Remove any csv or parquet files as these will be too large
