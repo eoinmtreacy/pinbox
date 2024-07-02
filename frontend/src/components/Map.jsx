@@ -37,8 +37,8 @@ const CustomMap = () => {
         <div className="relative flex flex-col h-screen">
             <div className="flex flex-grow">
                 <SideNav
-                    // onPreferenceToggle={handlePreferenceToggle}
-                    // onFriendsToggle={handleFriendsToggle}
+                    onPreferenceToggle={showPreference}
+                    onFriendsToggle={showFriends}
                     timeStamp={timeStamp}
                     setTimeStamp={setTimeStamp}
                     distance={distance}
