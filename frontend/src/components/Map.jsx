@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -8,10 +8,11 @@ import CookieModal from './CookieModal';
 import SideNav from './SideNav';
 import Preference from './Preference';
 import Friends from './Friends';
-import HorizontalButtons from './HorizontalButtons';
+import useFetchGeoJson from '../hooks/useFetchGeoJson';
+import useToggle from '../hooks/useToggle';
 import '../App.css';
 
-// Update Leaflet icon paths to resolve missing icons
+
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
     iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
@@ -20,9 +21,9 @@ L.Icon.Default.mergeOptions({
 });
 
 const CustomMap = () => {
-    const [geoJsonData, setGeoJsonData] = useState(null);
-    const [showPreference, setShowPreference] = useState(false);
-    const [showFriends, setShowFriends] = useState(false);
+    const { data: taxiZones, error } = useFetchGeoJson('taxi_zones.geojson');
+    const [showPreference, togglePreference] = useToggle();
+    const [showFriends, toggleFriends] = useToggle();
 
     // State for former TopNav components
     const [timeStamp, setTimeStamp] = useState(12);
@@ -30,22 +31,7 @@ const CustomMap = () => {
     const [showPins, setShowPins] = useState(true);
     const [mode, setMode] = useState('Day');
 
-    useEffect(() => {
-        fetch('nightclub_amenities.geojson')
-            .then((response) => response.json())
-            .then((data) => setGeoJsonData(data))
-            .catch((error) => console.error('Error fetching GeoJSON data:', error));
-    }, []);
-
-    const handlePreferenceToggle = () => {
-        setShowPreference((prev) => !prev);
-        if (showFriends) setShowFriends(false); // Ensure only one panel is open at a time
-    };
-
-    const handleFriendsToggle = () => {
-        setShowFriends((prev) => !prev);
-        if (showPreference) setShowPreference(false); // Ensure only one panel is open at a time
-    };
+    if (error) return <div>Error fetching Taxi Zones data: {error.message}</div>;
 
     return (
         <div className="relative flex flex-col h-screen">
