@@ -7,8 +7,7 @@ public class User_Likes
       public string Type { get; set; } = string.Empty; 
         public int PlaceId { get; set; }
         public string CategorySwipe { get; set; } = string.Empty; 
-        public DateTime Timestamp { get; set;} // This orders the likes by order of when they liked the place, do we want this feature 
-
+        public DateTime Timestamp { get; set;} 
         public Place? Place { get; set; } // made the place property it nullable 
     }
 }
