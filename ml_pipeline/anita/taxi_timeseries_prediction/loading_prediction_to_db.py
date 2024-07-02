@@ -102,7 +102,7 @@ def load_data_into_table(table_name, csv_file):
 if __name__ == "__main__":
     try:
         # Specify the database name
-        database_name = 'db-deploy'
+        database_name = 'DBdev'
 
         # List tables in the specified database
         tables = list_tables_in_database(database_name)
@@ -110,7 +110,7 @@ if __name__ == "__main__":
 
         # Load data from CSV into the table
         table_name = 'predictions'  # Adjust table name as needed
-        csv_file = 'ml_pipeline/updated_passenger_count.csv'  # Adjust CSV file path as needed
+        csv_file = 'ml_pipeline/anita/taxi_timeseries_prediction/july_prediction_data3.csv'  # Adjust CSV file path as needed
         load_data_into_table(table_name, csv_file)
 
         # Verify tables in the database again
