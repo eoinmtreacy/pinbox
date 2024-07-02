@@ -14,6 +14,7 @@ import OkSign from '../Images/wanna.png';
 import DonotCare from '../Images/dontcare.png';
 import StarRating from './StarRating';
 import PropTypes from 'prop-types';
+import Dropdown from './Dropdown';
 
 const updatePreference = async (name, action, setGeoJsonData) => {
     try {
@@ -38,58 +39,13 @@ const updatePreference = async (name, action, setGeoJsonData) => {
     }
 };
 
-const onSwipe = async (direction, name, setCurrentIndex, setGeoJsonData) => {
-    let action;
-    switch (direction) {
-        case 'left':
-            action = 'Hate it';
-            break;
-        case 'right':
-            action = 'Interested';
-            break;
-        case 'up':
-            action = 'Love it';
-            break;
-        case 'down':
-            action = "Don't care";
-            break;
-        default:
-            action = '';
-            break;
-    }
-    console.log(`${action} on ${name}`);
-    await updatePreference(name, action, setGeoJsonData);
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % 4); // Keeps index in bounds
-    document.dispatchEvent(new CustomEvent('userPreferenceChanged', { detail: { name, action } }));
-};
-
-const onCardLeftScreen = (myIdentifier, direction) => {
-    let action;
-    switch (direction) {
-        case 'left':
-            action = 'Hate it';
-            break;
-        case 'right':
-            action = 'Interested';
-            break;
-        case 'up':
-            action = 'Love it';
-            break;
-        case 'down':
-            action = "Don't care";
-            break;
-        default:
-            action = '';
-            break;
-    }
-    console.log(`${myIdentifier} left the screen to the ${direction} (${action})`);
-};
 const onButtonClick = async (action, name, setCurrentIndex, setGeoJsonData) => {
     console.log(`${action} on ${name}`);
     await updatePreference(name, action, setGeoJsonData);
     setCurrentIndex((prevIndex) => (prevIndex + 1) % 4); // Keeps index in bounds
     document.dispatchEvent(new CustomEvent('userPreferenceChanged', { detail: { name, action } }));
 };
+
 function Preference({ setGeoJsonData }) {
 
     const [cards, setCards] = useState([]);
@@ -169,8 +125,6 @@ function Preference({ setGeoJsonData }) {
         }
         console.log(`${myIdentifier} left the screen to the ${direction} (${action})`);
     };
-
-    const filteredCards = selectedSubtype === 'all' ? cards : cards.filter(card => card.subtype === selectedSubtype);
 
     return (
         <div className="preference-container flex flex-col items-center h-full bg-gray-100 p-4">
