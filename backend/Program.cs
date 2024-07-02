@@ -31,7 +31,7 @@ else
 var configuration = builder.Configuration;
 
 // Register the DbContext with the MySQL provider using the connection string from .env
-builder.Services.AddDbContext<YourDbContext>(options =>
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(
         connectionString,
         new MySqlServerVersion(new Version(8, 0, 21))

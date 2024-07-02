@@ -2,9 +2,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Models
 {
-    public class YourDbContext : DbContext
+   public class ApplicationDbContext : DbContext
     {
-        public YourDbContext(DbContextOptions<YourDbContext> options) : base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+
 
         public DbSet<User_Likes> UserLikes { get; set; }
         public DbSet<User_Preference> UserPreferences { get; set; }
