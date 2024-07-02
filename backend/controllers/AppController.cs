@@ -1,19 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
+using backend.data;
 using backend.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace backend.Controllers
+namespace Backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TestController : ControllerBase
+    public class AppController : ControllerBase
     {
-        private readonly YourDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public TestController(YourDbContext context)
+        public TestController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -27,15 +27,12 @@ namespace backend.Controllers
                 {
                     Name = "Test Location",
                     Lat = 0.0M, // The 'M' suffix specifies decimal literal 
-                    Lon = 0.0M 
+                    Lon = 0.0M
                 });
                 _context.SaveChanges();
             }
 
-            // var model = _context.Places.FirstOrDefault();
-            // return Ok(model);
-
-                       var place = await _context.Places
+            var place = await _context.Places
                 .OrderBy(p => p.Id) // Ensure deterministic results by ordering by a column
                 .FirstOrDefaultAsync();
 
@@ -45,6 +42,24 @@ namespace backend.Controllers
             }
 
             return Ok(place);
+        }
+
+        [HttpGet("get-places")]
+        public IActionResult GetAllPlaces()
+        {
+            try
+            {
+                // Query the Places table to get all records
+                var places = _context.Places.ToList(); // This retrieves all records from the Places table
+
+                // If the query succeeds, return the records
+                return Ok(places);
+            }
+            catch (Exception ex)
+            {
+                // If the query fails, catch the exception and return a failure response
+                return StatusCode(500, new { Message = "Failed to retrieve data from the database.", Error = ex.Message });
+            }
         }
     }
 }
