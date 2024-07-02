@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useState } from 'react';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -10,8 +10,8 @@ import Preference from './Preference';
 import Friends from './Friends';
 import useFetchGeoJson from '../hooks/useFetchGeoJson';
 import useToggle from '../hooks/useToggle';
+import HorizontalButtons from './HorizontalButtons';
 import '../App.css';
-
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -25,46 +25,51 @@ const CustomMap = () => {
     const [showPreference, togglePreference] = useToggle();
     const [showFriends, toggleFriends] = useToggle();
 
+    // State for former TopNav components
+    const [timeStamp, setTimeStamp] = useState(12);
+    const [distance, setDistance] = useState(50);
+    const [showPins, setShowPins] = useState(true);
+    const [mode, setMode] = useState('Day');
+
     if (error) return <div>Error fetching Taxi Zones data: {error.message}</div>;
 
     return (
-        <div className="relative w-full h-full flex">
-            <SideNav onPreferenceToggle={togglePreference} onFriendsToggle={toggleFriends} />
-            {showPreference && (
-                <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full ml-[70px]">
-                    <Preference />
-                </div>
-            )}
-            {showFriends && (
-                <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full ml-[70px]">
-                    <Friends userId={1} />
-                </div>
-            )}
-            <div className={`relative h-full flex-grow ${showPreference || showFriends ? 'w-3/4' : 'w-full'} ml-[70px]`}>
-                <div className="absolute top-10 left-3 z-[1000] flex">
-                    <SearchBar />
-                </div>
-                <MapContainer center={[40.7478017, -73.9914126]} zoom={13} className="h-full w-full">
-                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                    {taxiZones && (
-                        <GeoJSON
-                            data={taxiZones}
-                            style={(feature) => {
-                                const seed = Math.random();
-                                return {
-                                    color: `rgb(${seed * 256}, 0, ${(1 - seed) * 256})`,
-                                    weight: 1,
-                                    opacity: 0.3,
-                                    fillOpacity: 0.5,
-                                };
-                            }}
-                        />
-                    )}
-                    <GetUserLocation />
-                    <div className="absolute bottom-[0.5vh] z-[1000]">
-                        <CookieModal />
+        <div className="relative flex flex-col h-screen">
+            <div className="flex flex-grow">
+                <SideNav
+                    onPreferenceToggle={showPreference}
+                    onFriendsToggle={showFriends}
+                    timeStamp={timeStamp}
+                    setTimeStamp={setTimeStamp}
+                    distance={distance}
+                    setDistance={setDistance}
+                    showPins={showPins}
+                    setShowPins={setShowPins}
+                    mode={mode}
+                    setMode={setMode}
+                />
+                {showPreference && (
+                    <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full">
+                        <Preference />
                     </div>
-                </MapContainer>
+                )}
+                {showFriends && (
+                    <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full">
+                        <Friends userId={1} />
+                    </div>
+                )}
+                <div className={`relative h-full flex-grow ${showPreference || showFriends ? 'w-3/4' : 'w-full'}`}>
+                    <div className="absolute top-1 left-16 right-0 z-[1000] flex space-y-4">
+                        <SearchBar />
+                        <HorizontalButtons />
+                    </div>
+                    <MapContainer center={[40.7478017, -73.9914126]} zoom={13} className="h-full w-full">
+                        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                        <div className="absolute bottom-2 z-50">
+                            <CookieModal />
+                        </div>
+                    </MapContainer>
+                </div>
             </div>
         </div>
     );

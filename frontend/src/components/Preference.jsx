@@ -5,7 +5,6 @@ import JoePizza from '../Images/joepizza.png';
 import DeadRabbit from '../Images/deadrabbit.png';
 import Grumpy from '../Images/grumpy.png';
 import LeBernadin from '../Images/LeBernardin.png';
-
 import Phone from '../Images/phone.png';
 import Money from '../Images/money.png';
 import Clock from '../Images/clock.png';

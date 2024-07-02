@@ -27,7 +27,7 @@ describe('SideNav Component', () => {
   });
 
   it('renders correctly', () => {
-    expect(screen.getAllByRole('button')).toHaveLength(5);
+    expect(screen.getAllByRole('button')).toHaveLength(8);
     expect(screen.getByAltText('Home Icon')).toBeInTheDocument();
     expect(screen.getByAltText('Search Icon')).toBeInTheDocument();
     expect(screen.getByAltText('Like Icon')).toBeInTheDocument();
