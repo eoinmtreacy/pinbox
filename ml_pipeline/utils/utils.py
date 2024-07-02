@@ -29,10 +29,8 @@ class DataAnalysis:
         self.name = name
         self.df = df
         # File names for descriptive feature tables - allows tables to be inserted into data quality report
-        self.numeric_table_filename = f"{
-            self.name}-DataQualityReport-NumericFeatures-Table.png"
-        self.category_table_filename = f"{
-            self.name}-DataQualityReport-CategoricFeatures-Table.png"
+        self.numeric_table_filename = f"{self.name}-DataQualityReport-NumericFeatures-Table.png"
+        self.category_table_filename = f"{self.name}-DataQualityReport-CategoricFeatures-Table.png"
         # Initialize as empty list, add filenames when histograms added
         self.histogram_filenames = []
         self.boxplot_filenames = []  # Initialize as empty list.
