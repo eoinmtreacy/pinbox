@@ -1,23 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, useMap, GeoJSON } from 'react-leaflet';
+import { React, useState } from 'react';
+import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import Header from './Header';
 import SearchBar from './SearchBar';
-import Sidebar from './Sidebar';
 import GetUserLocation from './GetUserLocation';
 import CookieModal from './CookieModal';
+import SideNav from './SideNav';
+import Preference from './Preference';
+import Friends from './Friends';
+import useFetchGeoJson from '../hooks/useFetchGeoJson';
+import useToggle from '../hooks/useToggle';
+import HorizontalButtons from './HorizontalButtons';
 import '../App.css';
-const CustomZoomControl = () => {
-    const map = useMap();
-
-    // Remove ZoomController
-    React.useEffect(() => {
-        map.zoomControl.remove();
-    }, [map]);
-
-    return null;
-};
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -26,55 +20,59 @@ L.Icon.Default.mergeOptions({
     shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
 
-const Map = () => {
-    const [geoJsonData, setGeoJsonData] = useState(null);
+const CustomMap = () => {
+    const { data: taxiZones, error } = useFetchGeoJson('taxi_zones.geojson');
+    const [showPreference, togglePreference] = useToggle();
+    const [showFriends, toggleFriends] = useToggle();
 
-    useEffect(() => {
-        // Fetch GeoJSON data
-        fetch('nightclub_amenities.geojson') // Ensure the file is in the public directory
-            .then((response) => response.json())
-            .then((data) => {
-                console.log('GeoJSON data fetched:', data); // Debugging log
-                setGeoJsonData(data);
-            })
-            .catch((error) => {
-                console.error('Error fetching GeoJSON data:', error); // Debugging log
-            });
-    }, []);
+    // State for former TopNav components
+    const [timeStamp, setTimeStamp] = useState(12);
+    const [distance, setDistance] = useState(50);
+    const [showPins, setShowPins] = useState(true);
+    const [mode, setMode] = useState('Day');
+
+    if (error) return <div>Error fetching Taxi Zones data: {error.message}</div>;
 
     return (
-        <div className="w-[42vh] h-[100vh]">
-            <div className="absolute top-3 left-0 right-0 z-[1000]">
-                <Header />
-            </div>
-
-            <div className="absolute top-16 left-0 right-0 z-[1000]">
-                <SearchBar />
-            </div>
-
-            <div className="absolute top-[150px] left-[35vh] right-0 z-[1000]">
-                <Sidebar />
-            </div>
-            <MapContainer center={[40.7478017, -73.9914126]} zoom={13} style={{ height: '95vh', width: '100%' }}>
-                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                {geoJsonData && (
-                    <GeoJSON
-                        data={geoJsonData}
-                        onEachFeature={(feature, layer) => {
-                            if (feature.properties && feature.properties.name) {
-                                layer.bindPopup(`<b>${feature.properties.name}</b><br />${feature.properties.amenity}`);
-                            }
-                        }}
-                    />
+        <div className="relative flex flex-col h-screen">
+            <div className="flex flex-grow">
+                <SideNav
+                    onPreferenceToggle={showPreference}
+                    onFriendsToggle={showFriends}
+                    timeStamp={timeStamp}
+                    setTimeStamp={setTimeStamp}
+                    distance={distance}
+                    setDistance={setDistance}
+                    showPins={showPins}
+                    setShowPins={setShowPins}
+                    mode={mode}
+                    setMode={setMode}
+                />
+                {showPreference && (
+                    <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full">
+                        <Preference />
+                    </div>
                 )}
-                <GetUserLocation />
-                <CustomZoomControl />
-                <div className="absolute bottom-[0.5vh] z-[1000]">
-                    <CookieModal />
+                {showFriends && (
+                    <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full">
+                        <Friends userId={1} />
+                    </div>
+                )}
+                <div className={`relative h-full flex-grow ${showPreference || showFriends ? 'w-3/4' : 'w-full'}`}>
+                    <div className="absolute top-1 left-16 right-0 z-[1000] flex space-y-4">
+                        <SearchBar />
+                        <HorizontalButtons />
+                    </div>
+                    <MapContainer center={[40.7478017, -73.9914126]} zoom={13} className="h-full w-full">
+                        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                        <div className="absolute bottom-2 z-50">
+                            <CookieModal />
+                        </div>
+                    </MapContainer>
                 </div>
-            </MapContainer>
+            </div>
         </div>
     );
 };
 
-export default Map;
+export default CustomMap;
