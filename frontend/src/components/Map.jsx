@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -9,7 +9,9 @@ import Preference from './Preference';
 import Friends from './Friends';
 import useFetchGeoJson from '../hooks/useFetchGeoJson';
 import useToggle from '../hooks/useToggle';
+import useFetchBusyness from '../hooks/useFetchBusyness';
 import HorizontalButtons from './HorizontalButtons';
+import colorGen from '../utils/colorGen';
 import '../App.css';
 
 delete L.Icon.Default.prototype._getIconUrl;
@@ -21,6 +23,10 @@ L.Icon.Default.mergeOptions({
 
 const CustomMap = () => {
     const { data: taxiZones, error } = useFetchGeoJson('taxi_zones.geojson');
+    const { data: busynessData } = useFetchBusyness(
+        'http://localhost:8000/app/get-predictions',
+        'average_passenger_count.json'
+    );
     const [showPreference, togglePreference] = useToggle();
     const [showFriends, toggleFriends] = useToggle();
 
@@ -64,9 +70,22 @@ const CustomMap = () => {
                     </div>
                     <MapContainer center={[40.7478017, -73.9914126]} zoom={13} className="h-full w-full">
                         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                        {taxiZones && <GeoJSON data={taxiZones} style={() => ({ 
-                            // placeholder styles
-                            color: `#${Math.floor(Math.random() * 16777215).toString(16)}` })} />}
+                        {taxiZones && busynessData && <GeoJSON
+                            data={taxiZones}
+                            style={(feature) => {
+                                const locationId = feature.properties.location_id
+                                const busyness = busynessData[locationId] || 0; // Default to 0 if not found
+
+                                // Use the interpolateColor function to determine the color
+                                const color = colorGen(busyness);
+
+                                return {
+                                    color: color,
+                                    weight: 0.5,
+                                    fillOpacity: 0.5
+                                }
+                            }}
+                        />}
                         <div className="absolute bottom-2 z-50">
                             <CookieModal />
                         </div>
