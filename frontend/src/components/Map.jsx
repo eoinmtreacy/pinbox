@@ -8,10 +8,16 @@ import PreferenceWithoutButtons from './PreferenceWithoutButtons';
 import SearchBar from './SearchBar';
 import CookieModal from './CookieModal';
 import useFetchGeoJson from '../hooks/useFetchGeoJson';
+import useFetchBusyness from '../hooks/useFetchBusyness';
 import HorizontalButtons from './HorizontalButtons';
+import colorGen from '../utils/colorGen';
 
 const CustomMap = ({ geoJsonData }) => {
     const { data: taxiZones, error } = useFetchGeoJson('taxi_zones.geojson');
+    const { data: busynessData } = useFetchBusyness(
+        'http://localhost:8000/app/get-predictions', 
+        'average_passenger_count.json'
+    );
     const geoJsonLayerRef = useRef(null);
     const mapRef = useRef(null);
     const [initialLoad, setInitialLoad] = useState(true);
@@ -135,15 +141,20 @@ const CustomMap = ({ geoJsonData }) => {
                 }}
             >
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                {taxiZones && (
-                    <GeoJSON
-                        data={taxiZones}
-                        style={() => ({
-                            // placeholder styles
-                            color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
-                        })}
-                    />
-                )}
+                {taxiZones && busynessData && <GeoJSON
+                            data={taxiZones}
+                            style={(feature) => {
+                                const locationId = feature.properties.location_id
+                                const busyness = busynessData[locationId] || 0; 
+                                const color = colorGen(busyness);
+
+                                return {
+                                    color: color,
+                                    weight: 0.5,
+                                    fillOpacity: 0.5
+                                }
+                            }}
+                />}
                 {geoJsonData && (
                     <LayerComponent
                         data={geoJsonData}
