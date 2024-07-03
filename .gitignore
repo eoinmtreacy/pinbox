@@ -1,3 +1,6 @@
+# files
+places/
+
 # Data
 ml_pipeline/**/keys.json
 *_model_files/
