@@ -47,13 +47,11 @@ const onButtonClick = async (action, name, setCurrentIndex, setGeoJsonData) => {
 };
 
 function Preference({ setGeoJsonData }) {
-
     const [cards, setCards] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedSubtype, setSelectedSubtype] = useState('all');
 
     useEffect(() => {
-
         fetch('/preference_sample_data.json')
             .then((response) => response.json())
             .then((data) => {
@@ -73,7 +71,6 @@ function Preference({ setGeoJsonData }) {
                 });
                 setCards(cardsWithImages);
             });
-
     }, []);
 
     const handleSubtypeChange = (e) => {
@@ -81,7 +78,7 @@ function Preference({ setGeoJsonData }) {
         setCurrentIndex(0); // Reset index to start from the beginning of the filtered list
     };
 
-    const onSwipe = (direction, name) => {
+    const onSwipe = async (direction, name, setCurrentIndex, setGeoJsonData) => {
         let action;
         switch (direction) {
             case 'left':
@@ -100,30 +97,10 @@ function Preference({ setGeoJsonData }) {
                 action = '';
                 break;
         }
-        console.log(action);
-        setCurrentIndex((prevIndex) => prevIndex + 1);
-    };
-
-    const onCardLeftScreen = (myIdentifier, direction) => {
-        let action;
-        switch (direction) {
-            case 'left':
-                action = 'Hate it';
-                break;
-            case 'right':
-                action = 'Interested';
-                break;
-            case 'up':
-                action = 'Love it';
-                break;
-            case 'down':
-                action = "Don't care";
-                break;
-            default:
-                action = '';
-                break;
-        }
-        console.log(`${myIdentifier} left the screen to the ${direction} (${action})`);
+        console.log(`${action} on ${name}`);
+        await updatePreference(name, action, setGeoJsonData);
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % 4); // Keeps index in bounds
+        document.dispatchEvent(new CustomEvent('userPreferenceChanged', { detail: { name, action } }));
     };
 
     return (
@@ -138,7 +115,6 @@ function Preference({ setGeoJsonData }) {
                     <TinderCard
                         key={currentIndex}
                         onSwipe={(dir) => onSwipe(dir, cards[currentIndex].name, setCurrentIndex, setGeoJsonData)}
-                        onCardLeftScreen={(dir) => onCardLeftScreen(cards[currentIndex].name, dir)}
                         preventSwipe={['none']}
                     >
                         <div className="flex flex-col bg-white rounded-xl border border-solid border-stone-400 max-w-sm p-5">
@@ -235,17 +211,14 @@ function Preference({ setGeoJsonData }) {
                             </div>
                         </div>
                     </TinderCard>
-
                 )}
             </div>
         </div>
     );
-
 }
 
 Preference.propTypes = {
     setGeoJsonData: PropTypes.func.isRequired,
-
 };
 
 export default Preference;

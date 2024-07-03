@@ -1,3 +1,4 @@
+// src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
@@ -9,6 +10,7 @@ import Profile from './components/Profile';
 import Settings from './components/Settings';
 import Main from './components/Main';
 import MainPage from './components/MainPage';
+import LandingMain from './components/landing/LandingMain';
 
 function App() {
     return (
@@ -35,6 +37,7 @@ const AppContent = () => {
                     <Route path="/passwordfind" element={<PasswordFind />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/settings" element={<Settings />} />
+                    <Route path="/landingpage/*" element={<LandingMain />} />
                 </Routes>
             </div>
         </div>

@@ -13,7 +13,7 @@
                 "price": "€~€€",
                 "socialMedia": "Social Media",
                 "image": "SamplePhoto",
-                "preference": "default"
+                "preference": "love it"
             },
             "geometry": {
                 "type": "Point",
@@ -32,7 +32,7 @@
                 "price": "€€",
                 "socialMedia": "Social Media",
                 "image": "JoePizza",
-                "preference": "default"
+                "preference": "Hate it"
             },
             "geometry": {
                 "type": "Point",
@@ -51,7 +51,7 @@
                 "price": "€€€",
                 "socialMedia": "Social Media",
                 "image": "DeadRabbit",
-                "preference": "default"
+                "preference": "interested"
             },
             "geometry": {
                 "type": "Point",
@@ -70,7 +70,7 @@
                 "price": "€€",
                 "socialMedia": "Social Media",
                 "image": "Grumpy",
-                "preference": "default"
+                "preference": "love it"
             },
             "geometry": {
                 "type": "Point",
@@ -89,7 +89,7 @@
                 "price": "€€€€",
                 "socialMedia": "Social Media",
                 "image": "LeBernadin",
-                "preference": "default"
+                "preference": "interested"
             },
             "geometry": {
                 "type": "Point",
@@ -108,7 +108,7 @@
                 "price": "€€€",
                 "socialMedia": "Social Media",
                 "image": "SamplePhoto",
-                "preference": "default"
+                "preference": "hate it"
             },
             "geometry": {
                 "type": "Point",
@@ -127,7 +127,7 @@
                 "price": "€€",
                 "socialMedia": "Social Media",
                 "image": "SamplePhoto",
-                "preference": "default"
+                "preference": "don't care"
             },
             "geometry": {
                 "type": "Point",
