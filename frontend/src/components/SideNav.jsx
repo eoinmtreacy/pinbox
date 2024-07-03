@@ -75,7 +75,7 @@ export const SideNav = ({
                 </div>
                 <div className="flex flex-col items-center">
                     <img src={distanceIcon} alt="Distance Icon" className="w-6 h-6 mb-1" />
-                    
+
                     <input
                         type="range"
                         min="0"
@@ -100,8 +100,12 @@ export const SideNav = ({
                     />
                     <img src={pinsIcon} alt="Pins Icon" className="w-6 h-6" />
                 </div>
-                <button onClick={() => setMode('Day')} className="bg-blue-500 text-white px-2 py-1 rounded">Day</button>
-                <button onClick={() => setMode('Search Mode')} className="bg-blue-500 text-white px-2 py-1 rounded">Search Mode</button>
+                <button onClick={() => setMode('Day')} className="bg-blue-500 text-white px-2 py-1 rounded">
+                    Day
+                </button>
+                <button onClick={() => setMode('Search Mode')} className="bg-blue-500 text-white px-2 py-1 rounded">
+                    Search Mode
+                </button>
             </div>
         </div>
     );
