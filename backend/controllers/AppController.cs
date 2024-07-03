@@ -56,14 +56,17 @@ namespace Backend.Controllers
         {
             try
             {
-                // get the most recent prediction for each location
-                var predictions = _context.Predictions
+                // Get the current time
+                var now = DateTime.Now;
+
+                // Retrieve all predictions and group them by location
+                var groupedPredictions = _context.Predictions
+                    .AsEnumerable() // Switch to client-side processing for the next operations
                     .GroupBy(p => p.location)
-                    .Select(g => g.OrderByDescending(p => p.datetime).First())
+                    .Select(g => g.OrderBy(p => Math.Abs((p.datetime - now).Ticks)).First()) // For each group, find the prediction closest to now
                     .ToList();
 
-                // If the query succeeds, return the records
-                return Ok(predictions);
+                return Ok(groupedPredictions);
             }
             catch (Exception ex)
             {
