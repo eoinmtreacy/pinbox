@@ -6,7 +6,6 @@ services:
       - "8080:80"
     networks:
       - mappo
-
   backend:
     build:
       context: ./backend
@@ -20,3 +19,4 @@ services:
 networks:
   mappo:
     driver: bridge
+    
