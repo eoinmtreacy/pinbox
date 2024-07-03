@@ -49,15 +49,14 @@ namespace backend.Models
                 entity.Property(e => e.Num_Likes).HasDefaultValue(0);
                 entity.Property(e => e.Num_Dislikes).HasDefaultValue(0);
 
-                // Configure the relationships
+                /// Configure the relationships
                 entity.HasMany(e => e.UserLikes)
                       .WithOne(ul => ul.Place)
                       .HasForeignKey(ul => ul.PlaceId);
 
                 entity.HasMany(e => e.Amenities)
                       .WithOne(a => a.Place)
-                      .HasForeignKey(a => a.PlaceGoogleId)
-                      .HasPrincipalKey(p => p.Google_Id)
+                      .HasForeignKey(a => a.PlaceId)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
@@ -65,26 +64,32 @@ namespace backend.Models
             {
                 entity.ToTable("amenities");
 
-                entity.HasKey(e => e.Google_Id);
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Cuisine_Pizza).IsRequired();
+                entity.Property(e => e.Cuisine_Chinese).IsRequired();
+                entity.Property(e => e.Cuisine_Coffee_Shop).IsRequired();
+                entity.Property(e => e.Cuisine_Mexican).IsRequired();
+                entity.Property(e => e.Cuisine_Italian).IsRequired();
+                entity.Property(e => e.Cuisine_Burger).IsRequired();
+                entity.Property(e => e.Cuisine_Donut).IsRequired();
+                entity.Property(e => e.Cuisine_Sandwich).IsRequired();
+                entity.Property(e => e.Cuisine_Japanese).IsRequired();
+                entity.Property(e => e.Cuisine_American).IsRequired();
 
-                entity.Property(e => e.Gluten_Free).IsRequired();
-                entity.Property(e => e.Vegan).IsRequired();
-                entity.Property(e => e.Wheelchair).IsRequired().HasConversion<string>();
-                entity.Property(e => e.Beer).IsRequired();
-                entity.Property(e => e.Wine).IsRequired();
-                entity.Property(e => e.Second_Hand).IsRequired();
-                entity.Property(e => e.Atm).IsRequired();
-                entity.Property(e => e.Toilets).IsRequired();
-                entity.Property(e => e.Indoor_Seating).IsRequired();
+
+
+                entity.Property(e => e.Diet_Vegan).IsRequired();
+                entity.Property(e => e.Drink_Beer).IsRequired();
+                entity.Property(e => e.Drink_Tea).IsRequired();
+                entity.Property(e => e.Drink_Wine).IsRequired();
                 entity.Property(e => e.Outdoor_Seating).IsRequired();
-                entity.Property(e => e.Coffee).IsRequired();
-                entity.Property(e => e.Tea).IsRequired();
-                entity.Property(e => e.PlaceGoogleId).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.Wheelchair).IsRequired().HasConversion<string>();
+                
+                entity.Property(e => e.PlaceId).IsRequired();
 
                 entity.HasOne(d => d.Place)
                       .WithMany(p => p.Amenities)
-                      .HasForeignKey(d => d.PlaceGoogleId)
-                      .HasPrincipalKey(p => p.Google_Id)
+                      .HasForeignKey(d => d.PlaceId)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
