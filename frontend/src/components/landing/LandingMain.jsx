@@ -1,9 +1,9 @@
 import React from 'react';
 import LandingHeader from './LandingHeader';
-import Section1 from './LandingSection1';
-import Section2 from './LandingSection2';
-import Section3 from './LandingSection3';
-import Section4 from './LandingSection4';
+import LandingSection1 from './LandingSection1';
+import LandingSection2 from './LandingSection2';
+import LandingSection3 from './LandingSection3';
+import LandingSection4 from './LandingSection4';
 
 const LandingMain = () => {
     return (
@@ -11,16 +11,16 @@ const LandingMain = () => {
             <LandingHeader />
             <div className="h-screen overflow-y-scroll snap-y snap-mandatory pt-16">
                 <div className="snap-start h-screen">
-                    <Section1 />
+                    <LandingSection1 />
                 </div>
                 <div className="snap-start h-screen">
-                    <Section2 />
+                    <LandingSection2 />
                 </div>
                 <div className="snap-start h-screen">
-                    <Section3 />
+                    <LandingSection3 />
                 </div>
                 <div className="snap-start h-screen">
-                    <Section4 />
+                    <LandingSection4 />
                 </div>
             </div>
         </div>

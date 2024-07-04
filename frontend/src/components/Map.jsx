@@ -9,9 +9,10 @@ import SearchBar from './SearchBar';
 import CookieModal from './CookieModal';
 import useFetchGeoJson from '../hooks/useFetchGeoJson';
 import HorizontalButtons from './HorizontalButtons';
+import LoadingSpinner from './LoadingSpinner';
 
 const CustomMap = ({ geoJsonData }) => {
-    const { data: taxiZones, error } = useFetchGeoJson('taxi_zones.geojson');
+    const { data: taxiZones, error, loading } = useFetchGeoJson('taxi_zones.geojson');
     const geoJsonLayerRef = useRef(null);
     const mapRef = useRef(null);
     const [initialLoad, setInitialLoad] = useState(true);
@@ -72,7 +73,7 @@ const CustomMap = ({ geoJsonData }) => {
         const popupContent = ReactDOMServer.renderToString(<PreferenceWithoutButtons {...props} />);
         div.innerHTML = popupContent;
         return div;
-    }, [])
+    }, []);
 
     const addMarkersToMap = useCallback(
         (data) => {
@@ -116,46 +117,49 @@ const CustomMap = ({ geoJsonData }) => {
     }
 
     return (
-
         <div className="map-container relative flex flex-col h-screen">
             <div className="absolute top-1 left-16 right-0 z-[1000] flex space-y-4">
                 <SearchBar />
                 <HorizontalButtons />
             </div>
-            <MapContainer
-                center={[40.7478017, -73.9914126]}
-                zoom={13}
-                className="h-full w-full"
-                whenCreated={(mapInstance) => {
-                    mapRef.current = mapInstance;
-                    if (initialLoad) {
-                        mapInstance.setView([40.7478017, -73.9914126], 13);
-                        setInitialLoad(false);
-                    }
-                }}
-            >
-                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                {taxiZones && (
-                    <GeoJSON
-                        data={taxiZones}
-                        style={() => ({
-                            // placeholder styles
-                            color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
-                        })}
-                    />
-                )}
-                {geoJsonData && (
-                    <LayerComponent
-                        data={geoJsonData}
-                        geoJsonLayerRef={geoJsonLayerRef}
-                        getMarkerIcon={getMarkerIcon}
-                        createPopupContent={createPopupContent}
-                    />
-                )}
-                <div className="absolute bottom-2 z-50">
-                    <CookieModal />
-                </div>
-            </MapContainer>
+            {loading ? (
+                <LoadingSpinner />
+            ) : (
+                <MapContainer
+                    center={[40.7478017, -73.9914126]}
+                    zoom={13}
+                    className="h-full w-full"
+                    whenCreated={(mapInstance) => {
+                        mapRef.current = mapInstance;
+                        if (initialLoad) {
+                            mapInstance.setView([40.7478017, -73.9914126], 13);
+                            setInitialLoad(false);
+                        }
+                    }}
+                >
+                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                    {taxiZones && (
+                        <GeoJSON
+                            data={taxiZones}
+                            style={() => ({
+                                // placeholder styles
+                                color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+                            })}
+                        />
+                    )}
+                    {geoJsonData && (
+                        <LayerComponent
+                            data={geoJsonData}
+                            geoJsonLayerRef={geoJsonLayerRef}
+                            getMarkerIcon={getMarkerIcon}
+                            createPopupContent={createPopupContent}
+                        />
+                    )}
+                    <div className="absolute bottom-2 z-50">
+                        <CookieModal />
+                    </div>
+                </MapContainer>
+            )}
         </div>
     );
 };

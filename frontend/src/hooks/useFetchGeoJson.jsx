@@ -6,17 +6,22 @@ const useFetchGeoJson = (url) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        setLoading(true);
-        fetch(url)
-            .then((response) => response.json())
-            .then((data) => {
-                setData(data);
+        const fetchData = async () => {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const geoJson = await response.json();
+                setData(geoJson);
+            } catch (err) {
+                setError(err);
+            } finally {
                 setLoading(false);
-            })
-            .catch((error) => {
-                setError(error);
-                setLoading(false);
-            });
+            }
+        };
+
+        fetchData();
     }, [url]);
 
     return { data, error, loading };
