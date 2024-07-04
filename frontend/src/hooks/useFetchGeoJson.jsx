@@ -10,7 +10,8 @@ const useFetchGeoJson = (url) => {
         fetch(url)
             .then((response) => response.json())
             .then((data) => {
-                setData(data);
+                const manhattan = data.features.filter((feature) => feature.properties.borough === 'Manhattan');
+                setData(manhattan);
                 setLoading(false);
             })
             .catch((error) => {
