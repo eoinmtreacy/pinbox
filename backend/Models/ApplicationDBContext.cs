@@ -95,15 +95,16 @@ namespace backend.Models
 
             modelBuilder.Entity<User_Likes>(entity =>
             {
-                entity.ToTable("user_likes");
+                entity.ToTable("userlikes");
 
-                entity.HasKey(e => e.Id);
+                entity.HasKey(e => e.Id); // Maps to 'index'
 
-                entity.Property(e => e.UserId).IsRequired();
-                entity.Property(e => e.Type).IsRequired().HasMaxLength(50);
-                entity.Property(e => e.PlaceId).IsRequired();
-                entity.Property(e => e.CategorySwipe).IsRequired().HasMaxLength(50);
-                entity.Property(e => e.Timestamp).IsRequired();
+                entity.Property(e => e.Id).HasColumnName("index");
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.Type).HasColumnName("place_type").IsRequired().HasMaxLength(50);
+                entity.Property(e => e.PlaceId).HasColumnName("place_id");
+                entity.Property(e => e.CategorySwipe).HasColumnName("category_swipe");
+                entity.Property(e => e.Timestamp).HasColumnName("timestamp");
 
                 entity.HasOne(e => e.Place)
                       .WithMany(p => p.UserLikes)
@@ -116,7 +117,9 @@ namespace backend.Models
 
                 entity.HasKey(f => new { f.UserId, f.UserFriendId });
 
-                entity.Property(f => f.Timestamp).IsRequired();
+                entity.Property(f => f.UserId).HasColumnName("user_id");
+                entity.Property(f => f.UserFriendId).HasColumnName("user_friend_id");
+                entity.Property(f => f.Timestamp).HasColumnName("timestamp");
             });
         }
     }

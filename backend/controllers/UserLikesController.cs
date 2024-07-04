@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using backend.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace backend.Controllers
 {
@@ -15,38 +16,18 @@ namespace backend.Controllers
             _context = context;
         }
 
-        // POST: api/userlikes
-        [HttpPost]
-        public async Task<ActionResult<User_Likes>> AddUserLike([FromBody] User_Likes userLike)
+        [HttpGet]
+        public ActionResult<IEnumerable<User_Likes>> GetUserLikes()
         {
-            if (userLike == null)
-            {
-                return BadRequest(new { error = "Invalid user like data" });
-            }
-
-            _context.UserLikes.Add(userLike);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetUserLikesByCategorySwipe), new { id = userLike.Id }, userLike);
+            return _context.UserLikes.ToList();
         }
 
-        // GET: api/userlikes/category/{categorySwipe}
-        [HttpGet("category/{categorySwipe}")]
-        public async Task<ActionResult<IEnumerable<Place>>> GetUserLikesByCategorySwipe(string categorySwipe)
+        [HttpPost]
+        public ActionResult<User_Likes> AddUserLike(User_Likes userLike)
         {
-            var userLikes = await _context.UserLikes
-                .Include(ul => ul.Place)
-                .Where(ul => ul.CategorySwipe == categorySwipe)
-                .OrderBy(ul => ul.Timestamp)
-                .ToListAsync();
-
-            if (userLikes == null || userLikes.Count == 0)
-            {
-                return NotFound(new { error = "No likes found for this category" });
-            }
-
-            var places = userLikes.Select(ul => ul.Place).ToList();
-
-            return Ok(places);
+            _context.UserLikes.Add(userLike);
+            _context.SaveChanges();
+            return CreatedAtAction(nameof(GetUserLikes), new { id = userLike.Id }, userLike);
         }
     }
 }
