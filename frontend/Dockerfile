@@ -1,5 +1,5 @@
 # Step 1: Build the React app
-FROM node:16-alpine AS build
+FROM node:latest AS build
 
 WORKDIR /app
 

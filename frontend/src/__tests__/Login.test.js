@@ -15,7 +15,7 @@ describe('Login component', () => {
     test('renders login form', () => {
         render(<Login />);
         
-        expect(screen.getByRole('heading', { name: 'Login' })).toBeInTheDocument();
+        expect(screen.getByRole('img')).toBeInTheDocument();
         expect(screen.getByLabelText('Email')).toBeInTheDocument();
         expect(screen.getByLabelText('Password')).toBeInTheDocument();
         expect(screen.getByText('Forgot Password?')).toBeInTheDocument();

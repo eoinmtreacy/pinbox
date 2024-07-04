@@ -1,13 +1,14 @@
 namespace backend.Models
 {
-public class User_Likes
+    public class User_Likes
     {
-        public long Id { get; set; }
-        public long UserId { get; set; }
-      public string Type { get; set; } = string.Empty; 
-        public long PlaceId { get; set; }
-        public string CategorySwipe { get; set; } = string.Empty; 
-        public DateTime Timestamp { get; set;} 
-        public Place? Place { get; set; } // made the place property it nullable 
+        public long Id { get; set; } // This maps to the 'index' column
+        public required long UserId { get; set; } // 
+        public required long PlaceId { get; set; } // 
+        public required string Type { get; set; } // This maps to 'place_type'
+        public required string CategorySwipe { get; set; } // This maps to 'category_swipe'
+        public DateTime Timestamp { get; set; }
+
+        public required Place Place { get; set; }
     }
 }
