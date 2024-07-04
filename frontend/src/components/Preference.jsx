@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import TinderCard from 'react-tinder-card';
-import Phone from '../Images/phone.png';
-import Money from '../Images/money.png';
 import Clock from '../Images/clock.png';
 import Flag from '../Images/hateit.png';
 import Heart from '../Images/loveit.png';
@@ -19,15 +17,30 @@ function Preference({ places }) {
         // setCurrentIndex(0); // Reset index to start from the beginning of the filtered list
     };
 
+    function drawPin(id, lat, lon, attitude) {
+    }
+
     const updatePreference = (attitude) => {
-        setCard(places.pop())
+        drawPin(card.id, card.lat, card.lon, attitude)
         // placeholder logic for database updating
+        // fetch (/update-preference, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({
+        //         user_id: user_id,
+        //         place_id: card.place_id,
+        //         attitude: attitude
+        //     })
+
+        setCard(places.pop())
     };
 
     return (
         <div className="preference-container flex flex-col items-center h-full bg-gray-100 p-4">
             <div className="relative w-full mb-5">
-                {/* <dropdown selectedsubtype={selectedsubtype} handlesubtypechange={handlesubtypechange} /> */}
+                <Dropdown selectedSubtype={selectedSubtype} handleSubtypeChange={handleSubtypeChange}/>
             </div>
             <div className="text-4xl font-bold tracking-tight text-center text-black mb-5">smart recommendation</div>
 
