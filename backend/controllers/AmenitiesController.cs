@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using backend.Models;
 
@@ -16,12 +17,21 @@ namespace backend.Controllers
             _context = context;
         }
 
-        // Example method to demonstrate accessing Google_Id
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Amenity>>> GetAllAmenities()
+        {
+            var amenities = await _context.Amenities
+                .Include(a => a.Place)
+                .ToListAsync();
+
+            return Ok(amenities);
+        }
+
         [HttpGet("{id}")]
-        public async Task<ActionResult<Amenity>> GetAmenity(string id)
+        public async Task<ActionResult<Amenity>> GetAmenity(long id)
         {
             var amenity = await _context.Amenities
-                .Include(a => a.Place) // Include the related Place
+                .Include(a => a.Place)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
             if (amenity == null)
@@ -29,12 +39,15 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            // Access the Google_Id through the Place navigation property
             var googleId = amenity.Place.Google_Id;
 
             return Ok(new { Amenity = amenity, GoogleId = googleId });
         }
 
-        // Other controller methods...
+        [HttpGet("test")]
+        public ActionResult<string> Test()
+        {
+            return "Test endpoint is working!";
+        }
     }
 }

@@ -24,11 +24,13 @@ namespace backend.Controllers
             {
                 _context.Places.Add(new Place
                 {
+                    Google_Id = "default_google_id",
                     Name = "Test Location",
                     Lat = 0.0M, // The 'M' suffix specifies decimal literal 
-                    Lon = 0.0M
+                    Lon = 0.0M,
+                    Type = "default_type"
                 });
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
             var place = await _context.Places

@@ -1,10 +1,8 @@
-using Enums.Models;
-
 namespace backend.Models
 {
     public class Amenity
     {
-        public required string Id { get; set; }
+        public required long Id { get; set; } // Primary key and foreign key
         public bool Cuisine_Pizza { get; set; }
         public bool Cuisine_Chinese { get; set; }
         public bool Cuisine_Coffee_Shop { get; set; }
@@ -15,13 +13,14 @@ namespace backend.Models
         public bool Cuisine_Sandwich { get; set; }
         public bool Cuisine_Japanese { get; set; }
         public bool Cuisine_American { get; set; }
-        public bool Diet_Vegan { get; set; }
-        public bool Drink_Beer { get; set; }
-        public bool Drink_Tea { get; set; }
-        public bool Drink_Wine { get; set; }
-        public bool Outdoor_Seating { get; set; }
-        public AvailabilityStatus Wheelchair { get; set; } // Enum property
-        public required string PlaceId { get; set; } // Foreign key property
-        public required Place Place { get; set; } // Required navigation property
+        public AvailabilityStatus Diet_Vegan { get; set; } // AvailabiltyStatus = enum 
+        public AvailabilityStatus Drink_Beer { get; set; }
+        public AvailabilityStatus Drink_Tea { get; set; }
+        public AvailabilityStatus Drink_Wine { get; set; }
+        public AvailabilityStatus Outdoor_Seating { get; set; }
+        public AvailabilityStatus Wheelchair { get; set; } 
+
+        // Navigation property
+        public required Place Place { get; set; } 
     }
 }

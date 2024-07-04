@@ -1,14 +1,15 @@
 namespace backend.Models
 {
-public class User_Likes
+    public class User_Likes
     {
         public long Id { get; set; }
-        public long UserId { get; set; }
-      public string Type { get; set; } = string.Empty; 
-        public long PlaceId { get; set; }
-        public string CategorySwipe { get; set; } = string.Empty; 
-        public DateTime Timestamp { get; set;} // This orders the likes by order of when they liked the place, do we want this feature 
+        public required string UserId { get; set; }
+        public required long PlaceId { get; set; }
+        public required string Type { get; set; }
+        public required string CategorySwipe { get; set; }
+        public DateTime Timestamp { get; set; }
 
-        public Place? Place { get; set; } // made the place property it nullable 
+        public required Place Place { get; set; }
     }
 }
+

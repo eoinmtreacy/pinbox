@@ -1,9 +1,9 @@
-namespace Enums.Models
+namespace backend.Models
 {
     public enum AvailabilityStatus
     {
         Yes,
         No,
-        Limited
+        Unknown
     }
 }

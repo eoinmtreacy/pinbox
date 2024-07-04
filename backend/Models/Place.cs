@@ -1,13 +1,15 @@
+using System.Collections.Generic;
+
 namespace backend.Models
 {
     public class Place
     {
-        public long Id { get; set; }
-        public string Google_Id { get; set; } = string.Empty;
-        public string Name { get; set; } = string.Empty;
+        public long Id { get; set; } // Primary key
+        public required string Google_Id { get; set; } = string.Empty;
+        public required string Name { get; set; }
         public decimal Lat { get; set; }
         public decimal Lon { get; set; }
-        public string Type { get; set; } = string.Empty;
+        public required string Type { get; set; } = string.Empty;
         public string? Subtype { get; set; }
         public string? Addr_City { get; set; }
         public string? Addr_Housenumber { get; set; }
@@ -26,11 +28,10 @@ namespace backend.Models
         public string? Photo_7 { get; set; }
         public string? Photo_8 { get; set; }
         public string? Photo_9 { get; set; }
-        public long Num_Likes { get; set; } = 0;
-        public long Num_Dislikes { get; set; } = 0;
+        public int Num_Likes { get; set; }
+        public int Num_Dislikes { get; set; }
 
-        // Navigation properties
-        public ICollection<User_Likes>? UserLikes { get; set; }
-        public ICollection<Amenity>? Amenities { get; set; }
+        public ICollection<User_Likes> UserLikes { get; set; } = [];
+        public ICollection<Amenity> Amenities { get; set; } = [];
     }
 }

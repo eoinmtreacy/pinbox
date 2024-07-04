@@ -49,14 +49,14 @@ namespace backend.Models
                 entity.Property(e => e.Num_Likes).HasDefaultValue(0);
                 entity.Property(e => e.Num_Dislikes).HasDefaultValue(0);
 
-                /// Configure the relationships
+                // Configure the relationships
                 entity.HasMany(e => e.UserLikes)
                       .WithOne(ul => ul.Place)
                       .HasForeignKey(ul => ul.PlaceId);
 
                 entity.HasMany(e => e.Amenities)
                       .WithOne(a => a.Place)
-                      .HasForeignKey(a => a.PlaceId)
+                      .HasForeignKey(a => a.Id) // Foreign key on Id
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
@@ -76,20 +76,22 @@ namespace backend.Models
                 entity.Property(e => e.Cuisine_Japanese).IsRequired();
                 entity.Property(e => e.Cuisine_American).IsRequired();
 
-
-
-                entity.Property(e => e.Diet_Vegan).IsRequired();
-                entity.Property(e => e.Drink_Beer).IsRequired();
-                entity.Property(e => e.Drink_Tea).IsRequired();
-                entity.Property(e => e.Drink_Wine).IsRequired();
-                entity.Property(e => e.Outdoor_Seating).IsRequired();
-                entity.Property(e => e.Wheelchair).IsRequired().HasConversion<string>();
-                
-                entity.Property(e => e.PlaceId).IsRequired();
+                entity.Property(e => e.Diet_Vegan)
+                      .HasConversion<string>();
+                entity.Property(e => e.Drink_Beer)
+                      .HasConversion<string>();
+                entity.Property(e => e.Drink_Tea)
+                      .HasConversion<string>();
+                entity.Property(e => e.Drink_Wine)
+                      .HasConversion<string>();
+                entity.Property(e => e.Outdoor_Seating)
+                      .HasConversion<string>();
+                entity.Property(e => e.Wheelchair)
+                      .HasConversion<string>();
 
                 entity.HasOne(d => d.Place)
                       .WithMany(p => p.Amenities)
-                      .HasForeignKey(d => d.PlaceId)
+                      .HasForeignKey(d => d.Id) // Foreign key on Id
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
