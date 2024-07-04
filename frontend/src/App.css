@@ -35,3 +35,6 @@
 .animate-spin-horizontal {
     animation: spin-horizontal 2s linear infinite;
 }
+.teamlogo:hover {
+    animation: spin-horizontal 2s linear infinite;
+}

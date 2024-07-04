@@ -1,6 +1,7 @@
 import React from 'react';
 import Signup from '../Signup';
 import { useNavigate } from 'react-router-dom';
+import Landing1 from '../../Images/Landing1.png';
 const LandingSection1 = () => {
     const navigate = useNavigate();
     const signup = () => {
@@ -16,10 +17,10 @@ const LandingSection1 = () => {
                             A Trip Advisor for Enjoying Manhattan in New York
                         </p>
                         <h1 className="mt-4 text-4xl font-bold text-black lg:mt-8 sm:text-6xl xl:text-8xl">
-                            Share & Connect Extraordinary places with Friends
+                            Share & Connect Extraordinary Places with Friends
                         </h1>
-                        <p className="mt-4 text-base text-black lg:mt-8 sm:text-xl">
-                            Grow your career fast with right mentor.
+                        <p className="mt-4 font-semibold  text-black lg:mt-8 sm:text-xl">
+                            Find a Hidden Gem in Manhattan!
                         </p>
 
                         <a
@@ -55,11 +56,7 @@ const LandingSection1 = () => {
                     </div>
 
                     <div>
-                        <img
-                            className="w-full"
-                            src="https://cdn.rareblocks.xyz/collection/celebration/images/hero/1/hero-img.png"
-                            alt="Hero"
-                        />
+                        <img className="w-full" src={Landing1} alt="Hero" />
                     </div>
                 </div>
             </div>
