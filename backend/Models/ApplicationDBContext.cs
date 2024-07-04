@@ -97,11 +97,15 @@ namespace backend.Models
                 entity.Property(e => e.UserId).HasColumnName("user_id");
                 entity.Property(e => e.Type).HasColumnName("place_type").IsRequired().HasMaxLength(50);
                 entity.Property(e => e.PlaceId).HasColumnName("place_id");
-                entity.Property(e => e.CategorySwipe).HasColumnName("category_swipe");
+                entity.Property(e => e.CategorySwipe)
+                  .HasConversion(
+                      v => v.ToString(),  // Convert enum to string for storage
+                      v => (CategorySwipe)Enum.Parse(typeof(CategorySwipe), v))  // Convert string back to enum
+                  .HasColumnName("category_swipe");
                 entity.Property(e => e.Timestamp).HasColumnName("timestamp");
                 entity.HasOne(e => e.Place)
-                      .WithMany(p => p.UserLikes)
-                      .HasForeignKey(e => e.PlaceId);
+                    .WithMany(p => p.UserLikes)
+                    .HasForeignKey(e => e.PlaceId);
             });
 
             modelBuilder.Entity<Friends>(entity =>
