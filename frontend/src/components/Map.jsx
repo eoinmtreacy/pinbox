@@ -10,12 +10,13 @@ import CookieModal from './CookieModal';
 import useFetchGeoJson from '../hooks/useFetchGeoJson';
 import useFetchBusyness from '../hooks/useFetchBusyness';
 import HorizontalButtons from './HorizontalButtons';
+import LoadingSpinner from './LoadingSpinner';
 import colorGen from '../utils/colorGen';
 
 const CustomMap = ({ geoJsonData }) => {
-    const { data: taxiZones, error } = useFetchGeoJson('taxi_zones.geojson');
+    const { data: taxiZones, error, loading } = useFetchGeoJson('taxi_zones.geojson');
     const { data: busynessData } = useFetchBusyness(
-        'http://localhost:8000/app/get-predictions', 
+        'http://localhost:8000/app/get-predictions',
         'average_passenger_count.json'
     );
     const geoJsonLayerRef = useRef(null);
@@ -78,7 +79,7 @@ const CustomMap = ({ geoJsonData }) => {
         const popupContent = ReactDOMServer.renderToString(<PreferenceWithoutButtons {...props} />);
         div.innerHTML = popupContent;
         return div;
-    }, [])
+    }, []);
 
     const addMarkersToMap = useCallback(
         (data) => {
@@ -122,51 +123,56 @@ const CustomMap = ({ geoJsonData }) => {
     }
 
     return (
-
         <div className="map-container relative flex flex-col h-screen">
             <div className="absolute top-1 left-16 right-0 z-[1000] flex space-y-4">
                 <SearchBar />
                 <HorizontalButtons />
             </div>
-            <MapContainer
-                center={[40.7478017, -73.9914126]}
-                zoom={13}
-                className="h-full w-full"
-                whenCreated={(mapInstance) => {
-                    mapRef.current = mapInstance;
-                    if (initialLoad) {
-                        mapInstance.setView([40.7478017, -73.9914126], 13);
-                        setInitialLoad(false);
-                    }
-                }}
-            >
-                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                {taxiZones && busynessData && <GeoJSON
+            {loading ? (
+                <LoadingSpinner />
+            ) : (
+                <MapContainer
+                    center={[40.7478017, -73.9914126]}
+                    zoom={13}
+                    className="h-full w-full"
+                    whenCreated={(mapInstance) => {
+                        mapRef.current = mapInstance;
+                        if (initialLoad) {
+                            mapInstance.setView([40.7478017, -73.9914126], 13);
+                            setInitialLoad(false);
+                        }
+                    }}
+                >
+                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                    {taxiZones && busynessData && (
+                        <GeoJSON
                             data={taxiZones}
                             style={(feature) => {
-                                const locationId = feature.properties.location_id
-                                const busyness = busynessData[locationId] || 0; 
+                                const locationId = feature.properties.location_id;
+                                const busyness = busynessData[locationId] || 0;
                                 const color = colorGen(busyness);
 
                                 return {
                                     color: color,
                                     weight: 0.5,
-                                    fillOpacity: 0.5
-                                }
+                                    fillOpacity: 0.5,
+                                };
                             }}
-                />}
-                {geoJsonData && (
-                    <LayerComponent
-                        data={geoJsonData}
-                        geoJsonLayerRef={geoJsonLayerRef}
-                        getMarkerIcon={getMarkerIcon}
-                        createPopupContent={createPopupContent}
-                    />
-                )}
-                <div className="absolute bottom-2 z-50">
-                    <CookieModal />
-                </div>
-            </MapContainer>
+                        />
+                    )}
+                    {geoJsonData && (
+                        <LayerComponent
+                            data={geoJsonData}
+                            geoJsonLayerRef={geoJsonLayerRef}
+                            getMarkerIcon={getMarkerIcon}
+                            createPopupContent={createPopupContent}
+                        />
+                    )}
+                    <div className="absolute bottom-2 z-50">
+                        <CookieModal />
+                    </div>
+                </MapContainer>
+            )}
         </div>
     );
 };

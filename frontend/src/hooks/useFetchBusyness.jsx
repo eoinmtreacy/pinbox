@@ -24,7 +24,8 @@ function useFetchBusyness(endpoint, avgPassengerCountEndpoint) {
             .then((avgData) => {
                 // Update busynessTable with data from the second fetch
                 Object.keys(busynessTable).forEach((key) => {
-                    if (avgData[key] && avgData[key] !== 0) { // Check to avoid division by zero
+                    if (avgData[key] && avgData[key] !== 0) {
+                        // Check to avoid division by zero
                         busynessTable[key] = busynessTable[key] / avgData[key];
                     } else {
                         busynessTable[key] = null; // Handle division by zero or undefined avgData[key]
@@ -43,4 +44,4 @@ function useFetchBusyness(endpoint, avgPassengerCountEndpoint) {
     return { data, error, loading };
 }
 
-export default useFetchBusyness
+export default useFetchBusyness;
