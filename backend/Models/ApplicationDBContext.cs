@@ -15,6 +15,9 @@ namespace backend.Models
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Prediction>()
+                  .HasKey(p => new { p.location, p.datetime });
+
             modelBuilder.Entity<Place>(entity =>
             {
                 entity.ToTable("places");
