@@ -3,15 +3,11 @@ using Microsoft.EntityFrameworkCore;
 namespace backend.Models
 {
     public class ApplicationDbContext : DbContext
-    public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<User_Likes> UserLikes { get; set; }
         public DbSet<Place> Places { get; set; }
-        public DbSet<Amenity> Amenities { get; set; }
-        public DbSet<Friends> Friends { get; set; }
         public DbSet<Amenity> Amenities { get; set; }
         public DbSet<Friends> Friends { get; set; }
 
@@ -106,26 +102,13 @@ namespace backend.Models
             });
 
             modelBuilder.Entity<Friends>(entity =>
-            modelBuilder.Entity<Friends>(entity =>
             {
-                entity.ToTable("user_preferences");
-
-                entity.HasKey(e => e.Id);
-
-                entity.Property(e => e.Location)
-                      .IsRequired()
-                      .HasMaxLength(255);
-
-                entity.Property(e => e.Radius)
-                      .IsRequired();
-
-                entity.Property(e => e.TypeOfPlace)
-                      .HasMaxLength(255);
+                entity.ToTable("friends");
+                entity.HasKey(f => new { f.UserId, f.UserFriendId });
+                entity.Property(f => f.UserId).HasColumnName("user_id");
+                entity.Property(f => f.UserFriendId).HasColumnName("user_friend_id");
+                entity.Property(f => f.Timestamp).HasColumnName("timestamp");
             });
         }
     }
 }
-    
-    
-    
-
