@@ -7,10 +7,8 @@ namespace backend.Models
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<User_Likes> UserLikes { get; set; }
-        public DbSet<User_Preference> UserPreferences { get; set; }
         public DbSet<Place> Places { get; set; }
         public DbSet<Amenity> Amenities { get; set; }
-        public DbSet<UserAccount> UserAccounts { get; set; }
         public DbSet<Friends> Friends { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -112,42 +110,6 @@ namespace backend.Models
                       .HasForeignKey(e => e.PlaceId);
             });
 
-            modelBuilder.Entity<User_Preference>(entity =>
-            {
-                entity.ToTable("user_preferences");
-
-                entity.HasKey(e => e.Id);
-
-                entity.Property(e => e.Location).IsRequired().HasMaxLength(255);
-                entity.Property(e => e.Radius).IsRequired();
-                entity.Property(e => e.TypeOfPlace).HasMaxLength(255);
-            });
-
-            modelBuilder.Entity<UserAccount>(entity =>
-            {
-                entity.ToTable("user_account");
-
-                entity.HasKey(e => e.UserId);
-
-                entity.Property(e => e.Username).IsRequired().HasMaxLength(255);
-                entity.Property(e => e.Email).IsRequired().HasMaxLength(255);
-                entity.Property(e => e.Password).IsRequired().HasMaxLength(255);
-                entity.Property(e => e.Birthday).IsRequired();
-                entity.Property(e => e.Gender).IsRequired().HasMaxLength(50);
-                entity.Property(e => e.UserPhoto).IsRequired().HasMaxLength(500);
-
-                // Configure the one-to-many relationships
-                entity.HasMany(e => e.Friends)
-                      .WithOne(f => f.User)
-                      .HasForeignKey(f => f.UserId)
-                      .OnDelete(DeleteBehavior.Restrict);
-
-                entity.HasMany(e => e.FriendOf)
-                      .WithOne(f => f.Friend)
-                      .HasForeignKey(f => f.UserFriendId)
-                      .OnDelete(DeleteBehavior.Restrict);
-            });
-
             modelBuilder.Entity<Friends>(entity =>
             {
                 entity.ToTable("friends");
@@ -155,16 +117,6 @@ namespace backend.Models
                 entity.HasKey(f => new { f.UserId, f.UserFriendId });
 
                 entity.Property(f => f.Timestamp).IsRequired();
-
-                entity.HasOne(f => f.User)
-                      .WithMany(u => u.Friends)
-                      .HasForeignKey(f => f.UserId)
-                      .OnDelete(DeleteBehavior.Restrict);
-
-                entity.HasOne(f => f.Friend)
-                      .WithMany(u => u.FriendOf)
-                      .HasForeignKey(f => f.UserFriendId)
-                      .OnDelete(DeleteBehavior.Restrict);
             });
         }
     }
