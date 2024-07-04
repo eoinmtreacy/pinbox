@@ -9,7 +9,6 @@ import Dropdown from './Dropdown';
 
 
 function Preference({ places }) {
-    console.log(places);
     const [card, setCard] = useState(places.pop());
     const [selectedSubtype, setSelectedSubtype] = useState('all');
 
@@ -20,8 +19,28 @@ function Preference({ places }) {
     function drawPin(id, lat, lon, attitude) {
     }
 
-    const updatePreference = (attitude) => {
+    const updatePreference = (dir) => {
+        console.log(dir);
+        let attitude
+        switch (dir) {
+            case 'left':
+                attitude = 'hate it'
+                break
+            case 'right':
+                attitude = 'love it'
+                break
+            case 'up':
+                attitude = 'wanna'
+                break
+            case 'down':
+                attitude = "don't care"
+                break
+            default:
+                attitude = "don't care"
+        }
+
         drawPin(card.id, card.lat, card.lon, attitude)
+
         // placeholder logic for database updating
         // fetch (/update-preference, {
         //     method: 'POST',
@@ -47,9 +66,11 @@ function Preference({ places }) {
             <div className="flex flex-col items-center p-5 h-full overflow-auto">
                 {places.length > 0 && (
                     <TinderCard
-                        // key={currentindex}
-                        onswipe={() => updatePreference()}
+                        key={card.id}
+                        onCardLeftScreen={(dir) => updatePreference(dir)}
                         preventswipe={['none']}
+                        swipeRequirementType='position'
+                        sqwipeThreshold={100}
                     >
                         <div className="flex flex-col bg-white rounded-xl border border-solid border-stone-400 max-w-sm p-5">
                             <img
@@ -60,7 +81,10 @@ function Preference({ places }) {
                             <div className="text-center bg-black bg-opacity-50 p-2 rounded-lg mt-[-40px] w-full text-white">
                                 <div className="text-2xl font-bold">{card.name}</div>
                                 <div className="text-lg">{card.subtype}</div>
-                                <div className="text-base">{card.addr_Housenumber + " " + card.addr_Street}</div>
+                                <div className="text-base">{
+                                "" ? card.addr_Housenumber : card.addr_Housenumber + 
+                                "" ? card.addr_Street : card.addr_Street
+                                }</div>
                             </div>
 
                             {card.opening_Hours && (
@@ -74,7 +98,7 @@ function Preference({ places }) {
                             <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap">
                                 <img
                                     loading="lazy"
-                                    src="https://cdn.builder.io/api/v1/image/assets/temp/2cd84b25e3fffef0b5991cd70a6ef4fe5555c08a1a67a9cf3dac60311c18b4af?"
+                                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/2cd84b25e3fffef0b5991cd70a6ef4fe5555c08a1a67a9cf3dac60311c18b4af?"
                                     className="w-14"
                                     alt="social media"
                                 />
@@ -88,26 +112,26 @@ function Preference({ places }) {
                                         src={Flag}
                                         className="mx-auto rounded-full h-20 w-20 cursor-pointer"
                                         alt="hate it"
-                                        onClick={() => updatePreference('hate it')}
+                                        onClick={() => updatePreference('left')}
                                     />
                                     <img
                                         src={DonotCare}
                                         className="mx-auto rounded-full h-20 w-20 cursor-pointer"
                                         alt="don't care"
-                                        onClick={() => updatePreference("don't care")
+                                        onClick={() => updatePreference("down")
                                         }
                                     />
                                     <img
                                         src={OkSign}
                                         className="mx-auto rounded-full h-20 w-20 cursor-pointer"
                                         alt="wanna"
-                                        onClick={() => updatePreference('interested')}
+                                        onClick={() => updatePreference('up')}
                                     />
                                     <img
                                         src={Heart}
                                         className="mx-auto rounded-full h-20 w-20 cursor-pointer"
                                         alt="love it"
-                                        onClick={() => updatePreference('love it')}
+                                        onClick={() => updatePreference('right')}
                                     />
                                 </div>
                             </div>
