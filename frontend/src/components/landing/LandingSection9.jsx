@@ -7,7 +7,7 @@ const LandingSection9 = () => {
                 <div className="flex flex-col items-center">
                     <div className="text-center">
                         <p className="text-lg font-medium text-gray-600 font-pj">
-                            2,157 people have said how good Rareblocks
+                            2,157 Users have said how good Pinbox!
                         </p>
                         <h2 className="mt-4 text-3xl font-bold text-gray-900 sm:text-4xl xl:text-5xl font-pj">
                             Our happy clients say about us
@@ -102,9 +102,7 @@ const LandingSection9 = () => {
                                             <p className="text-base font-bold text-gray-900 font-pj">
                                                 Leslie Alexander
                                             </p>
-                                            <p className="mt-0.5 text-sm font-pj text-gray-600">
-                                                Freelance React Developer
-                                            </p>
+                                            <p className="mt-0.5 text-sm font-pj text-gray-600">Tourist, India</p>
                                         </div>
                                     </div>
                                 </div>
@@ -172,7 +170,7 @@ const LandingSection9 = () => {
                                         />
                                         <div className="ml-4">
                                             <p className="text-base font-bold text-gray-900 font-pj">Jacob Jones</p>
-                                            <p className="mt-0.5 text-sm font-pj text-gray-600">Digital Marketer</p>
+                                            <p className="mt-0.5 text-sm font-pj text-gray-600">Local , New York</p>
                                         </div>
                                     </div>
                                 </div>
@@ -240,7 +238,7 @@ const LandingSection9 = () => {
                                         />
                                         <div className="ml-4">
                                             <p className="text-base font-bold text-gray-900 font-pj">Jenny Wilson</p>
-                                            <p className="mt-0.5 text-sm font-pj text-gray-600">Graphic Designer</p>
+                                            <p className="mt-0.5 text-sm font-pj text-gray-600">Tourist, Indonesia</p>
                                         </div>
                                     </div>
                                 </div>
