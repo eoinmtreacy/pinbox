@@ -8,11 +8,11 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TestController : ControllerBase
+    public class AppController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public TestController(ApplicationDbContext context)
+        public AppController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -24,14 +24,16 @@ namespace backend.Controllers
             {
                 _context.Places.Add(new Place
                 {
+                    Google_Id = "default_google_id",
                     Name = "Test Location",
                     Lat = 0.0M, // The 'M' suffix specifies decimal literal 
-                    Lon = 0.0M 
+                    Lon = 0.0M,
+                    Type = "default_type"
                 });
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
-            
-                       var place = await _context.Places
+
+            var place = await _context.Places
                 .OrderBy(p => p.Id) // Ensure deterministic results by ordering by a column
                 .FirstOrDefaultAsync();
 
@@ -41,6 +43,13 @@ namespace backend.Controllers
             }
 
             return Ok(place);
+        }
+
+        [HttpGet("get-places")]
+        public IActionResult GetAllPlaces()
+        {
+            var places = _context.Places.ToList();
+            return Ok(places);
         }
     }
 }

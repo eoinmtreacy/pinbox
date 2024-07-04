@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using backend.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace backend.Controllers
 {
@@ -15,7 +18,12 @@ namespace backend.Controllers
             _context = context;
         }
 
-        // POST: api/userlikes
+        [HttpGet]
+        public ActionResult<IEnumerable<User_Likes>> GetUserLikes()
+        {
+            return _context.UserLikes.ToList();
+        }
+
         [HttpPost]
         public async Task<ActionResult<User_Likes>> AddUserLike([FromBody] User_Likes userLike)
         {
@@ -26,10 +34,9 @@ namespace backend.Controllers
 
             _context.UserLikes.Add(userLike);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetUserLikesByCategorySwipe), new { id = userLike.Id }, userLike);
+            return CreatedAtAction(nameof(GetUserLikes), new { id = userLike.Id }, userLike);
         }
 
-        // GET: api/userlikes/category/{categorySwipe}
         [HttpGet("category/{categorySwipe}")]
         public async Task<ActionResult<IEnumerable<Place>>> GetUserLikesByCategorySwipe(string categorySwipe)
         {
