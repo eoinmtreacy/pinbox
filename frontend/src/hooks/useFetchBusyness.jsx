@@ -12,7 +12,6 @@ function useFetchBusyness(endpoint, avgPassengerCountEndpoint) {
         fetch(endpoint)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
                 // Initialize busynessTable with the first fetch results
                 data.forEach((prediction) => {
                     busynessTable[prediction.location] = prediction.passenger_count;
