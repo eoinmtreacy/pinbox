@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import TinderCard from 'react-tinder-card';
 import Clock from '../Images/clock.png';
 import Flag from '../Images/hateit.png';

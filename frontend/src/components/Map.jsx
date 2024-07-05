@@ -1,9 +1,7 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { MapContainer, TileLayer, useMap, GeoJSON, Marker, Popup } from 'react-leaflet';
+import React, { useState, useRef } from 'react';
+import { MapContainer, TileLayer, GeoJSON, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
 import '../App.css';
-import ReactDOMServer from 'react-dom/server';
 import PreferenceWithoutButtons from './PreferenceWithoutButtons';
 import SearchBar from './SearchBar';
 import CookieModal from './CookieModal';

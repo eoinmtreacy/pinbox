@@ -1,21 +1,9 @@
 import React from 'react';
 import Clock from '../Images/clock.png';
-import SamplePhoto from '../Images/preferenceSample.png';
-import JoePizza from '../Images/joepizza.png';
-import DeadRabbit from '../Images/deadrabbit.png';
-import Grumpy from '../Images/grumpy.png';
-import LeBernadin from '../Images/LeBernardin.png';
 import Flag from '../Images/hateit.png';
 import Heart from '../Images/loveit.png';
 import OkSign from '../Images/wanna.png';
 import DonotCare from '../Images/dontcare.png';
-
-const imageMap = {
-    "Joe's Pizza": JoePizza,
-    'The Dead Rabbit': DeadRabbit,
-    'Café Grumpy': Grumpy,
-    'Le Bernardin': LeBernadin,
-};
 
 const PreferenceWithoutButtons = ({
     name,
@@ -26,7 +14,6 @@ const PreferenceWithoutButtons = ({
     socialMedia,
     preference,
 }) => {
-    const imageUrl = imageMap[name] || SamplePhoto;
 
     const getPreferenceButton = (preference) => {
         switch (preference) {
