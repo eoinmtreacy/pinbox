@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { MapContainer, TileLayer, useMap, GeoJSON } from 'react-leaflet';
+import { MapContainer, TileLayer, useMap, GeoJSON, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import '../App.css';
@@ -11,111 +11,16 @@ import useFetchGeoJson from '../hooks/useFetchGeoJson';
 import useFetchBusyness from '../hooks/useFetchBusyness';
 import HorizontalButtons from './HorizontalButtons';
 import colorGen from '../utils/colorGen';
+import iconGen from '../utils/iconGen';
 
-const CustomMap = ({ geoJsonData }) => {
+const CustomMap = ({ pins }) => {
     const { data: taxiZones, error } = useFetchGeoJson('taxi_zones.geojson');
     const { data: busynessData } = useFetchBusyness(
-        'http://localhost:8000/app/get-predictions', 
+        'http://localhost:8000/app/get-predictions',
         'average_passenger_count.json'
     );
-    const geoJsonLayerRef = useRef(null);
     const mapRef = useRef(null);
     const [initialLoad, setInitialLoad] = useState(true);
-
-    const getMarkerIcon = useCallback((preference) => {
-        const markerHtmlStyles = (color) => `
-            background-color: ${color};
-            width: 2rem;
-            height: 2rem;
-            display: block;
-            left: -1rem;
-            top: -1rem;
-            position: relative;
-            border-radius: 1rem 1rem 0;
-            transform: rotate(45deg);
-            border: 1px solid #FFFFFF`;
-
-        let color;
-        switch (preference) {
-            case 'hate it':
-                color = 'red';
-                break;
-            case "don't care":
-                color = 'pink';
-                break;
-            case 'interested':
-                color = 'blue';
-                break;
-            case 'love it':
-                color = 'green';
-                break;
-            default:
-                color = 'gray';
-                break;
-        }
-
-        return L.divIcon({
-            className: 'custom-marker',
-            html: `<span style="${markerHtmlStyles(color)}" />`,
-        });
-    }, []);
-
-    const createPopupContent = useCallback((feature) => {
-        const div = document.createElement('div');
-        const props = {
-            name: feature.properties.name,
-            image: feature.properties.image,
-            type: feature.properties.type,
-            address: feature.properties.address,
-            rating: feature.properties.rating,
-            phone: feature.properties.phone,
-            hours: feature.properties.hours,
-            price: feature.properties.price,
-            socialMedia: feature.properties.socialMedia,
-            preference: feature.properties.preference, // Pass preference
-        };
-
-        const popupContent = ReactDOMServer.renderToString(<PreferenceWithoutButtons {...props} />);
-        div.innerHTML = popupContent;
-        return div;
-    }, [])
-
-    const addMarkersToMap = useCallback(
-        (data) => {
-            if (geoJsonLayerRef.current) {
-                geoJsonLayerRef.current.clearLayers();
-                if (data) {
-                    data.features.forEach((feature) => {
-                        const marker = L.marker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], {
-                            icon: getMarkerIcon(feature.properties.preference),
-                        });
-
-                        if (feature.properties?.name) {
-                            const popupContent = createPopupContent(feature);
-                            marker.bindPopup(popupContent);
-                        }
-
-                        geoJsonLayerRef.current.addLayer(marker);
-                    });
-                }
-                geoJsonLayerRef.current.addTo(mapRef.current);
-            }
-        },
-        [getMarkerIcon, createPopupContent]
-    );
-
-    useEffect(() => {
-        if (mapRef.current && initialLoad) {
-            addMarkersToMap(geoJsonData);
-            setInitialLoad(false);
-        }
-    }, [geoJsonData, initialLoad, addMarkersToMap]);
-
-    useEffect(() => {
-        if (mapRef.current && geoJsonData) {
-            addMarkersToMap(geoJsonData);
-        }
-    }, [geoJsonData, addMarkersToMap]);
 
     if (error) {
         return <div>Error fetching Taxi Zones data: {error.message}</div>;
@@ -142,76 +47,50 @@ const CustomMap = ({ geoJsonData }) => {
             >
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                 {taxiZones && busynessData && <GeoJSON
-                            data={taxiZones}
-                            style={(feature) => {
-                                const locationId = feature.properties.location_id
-                                const busyness = busynessData[locationId] || 0; 
-                                const color = colorGen(busyness);
+                    data={taxiZones}
+                    style={(feature) => {
+                        const locationId = feature.properties.location_id
+                        const busyness = busynessData[locationId] || 0;
+                        const color = colorGen(busyness);
 
-                                return {
-                                    color: color,
-                                    weight: 0.5,
-                                    fillOpacity: 0.5
-                                }
-                            }}
+                        return {
+                            color: color,
+                            weight: 0.5,
+                            fillOpacity: 0.5
+                        }
+                    }}
                 />}
-                {geoJsonData && (
-                    <LayerComponent
-                        data={geoJsonData}
-                        geoJsonLayerRef={geoJsonLayerRef}
-                        getMarkerIcon={getMarkerIcon}
-                        createPopupContent={createPopupContent}
-                    />
-                )}
+                {pins ? pins.map((pin) => (
+                    <Marker
+                        key={pin.id}
+                        position={[pin.lat, pin.lon]}
+                        icon={iconGen(pin.attitude)}
+                    >
+                        <Popup>
+                            {/* create PreferenceWithoutButtons component
+                            with props passed from pin attributes */}
+                            <PreferenceWithoutButtons
+                                name={pin.name}
+                                image={pin.photo_0}
+                                type={pin.subtype}
+                                address={
+                                    "" ? pin.addr_Housenumber : pin.addr_Housenumber + 
+                                    "" ? pin.addr_Street : pin.addr_Street
+                                }
+                                hours={pin.opening_Hours}
+                                socialMedia={pin.website}
+                                preference={pin.attitude}
+                            />
+                        </Popup>
+                    </Marker>
+                )) : null}
+
                 <div className="absolute bottom-2 z-50">
                     <CookieModal />
                 </div>
             </MapContainer>
         </div>
     );
-};
-
-const LayerComponent = ({ data, geoJsonLayerRef, getMarkerIcon, createPopupContent }) => {
-    const map = useMap();
-
-    useEffect(() => {
-        if (geoJsonLayerRef.current) {
-            geoJsonLayerRef.current.clearLayers();
-            if (data) {
-                data.features.forEach((feature) => {
-                    const marker = L.marker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], {
-                        icon: getMarkerIcon(feature.properties.preference),
-                    });
-
-                    if (feature.properties?.name) {
-                        const popupContent = createPopupContent(feature);
-                        marker.bindPopup(popupContent);
-                    }
-
-                    geoJsonLayerRef.current.addLayer(marker);
-                });
-            }
-        } else {
-            geoJsonLayerRef.current = L.layerGroup();
-            if (data) {
-                data.features.forEach((feature) => {
-                    const marker = L.marker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], {
-                        icon: getMarkerIcon(feature.properties.preference),
-                    });
-
-                    if (feature.properties?.name) {
-                        const popupContent = createPopupContent(feature);
-                        marker.bindPopup(popupContent);
-                    }
-
-                    geoJsonLayerRef.current.addLayer(marker);
-                });
-            }
-            geoJsonLayerRef.current.addTo(map);
-        }
-    }, [data, getMarkerIcon, map, createPopupContent, geoJsonLayerRef]);
-
-    return null;
 };
 
 export default CustomMap;

@@ -8,16 +8,14 @@ import DonotCare from '../Images/dontcare.png';
 import Dropdown from './Dropdown';
 
 
-function Preference({ places }) {
+function Preference({ places, pins, setPins }) {
+    console.log(pins);
     const [card, setCard] = useState(places.pop());
     const [selectedSubtype, setSelectedSubtype] = useState('all');
 
     const handleSubtypeChange = (e) => {
         // setCurrentIndex(0); // Reset index to start from the beginning of the filtered list
     };
-
-    function drawPin(id, lat, lon, attitude) {
-    }
 
     const updatePreference = (dir) => {
         console.log(dir);
@@ -39,7 +37,9 @@ function Preference({ places }) {
                 attitude = "don't care"
         }
 
-        drawPin(card.id, card.lat, card.lon, attitude)
+        card.attitude = attitude
+
+        setPins([...pins, card])
 
         // placeholder logic for database updating
         // fetch (/update-preference, {
@@ -82,8 +82,8 @@ function Preference({ places }) {
                                 <div className="text-2xl font-bold">{card.name}</div>
                                 <div className="text-lg">{card.subtype}</div>
                                 <div className="text-base">{
-                                "" ? card.addr_Housenumber : card.addr_Housenumber + 
-                                "" ? card.addr_Street : card.addr_Street
+                                    "" ? card.addr_Housenumber : card.addr_Housenumber + 
+                                    "" ? card.addr_Street : card.addr_Street
                                 }</div>
                             </div>
 
