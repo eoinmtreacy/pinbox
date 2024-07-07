@@ -38,3 +38,22 @@
 .teamlogo:hover {
     animation: spin-horizontal 2s linear infinite;
 }
+
+/* SideNav Icon Name*/
+.icon-container:hover .icon-name {
+    opacity: 1;
+}
+
+.icon-name {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    position: absolute;
+    bottom: -20px;
+    white-space: nowrap;
+    font-size: 0.75rem;
+    text-align: center;
+    width: max-content;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 2px 6px;
+    border-radius: 4px;
+}

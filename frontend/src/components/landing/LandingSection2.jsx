@@ -4,29 +4,31 @@ import Landing3 from '../../Images/Landing2-1.jpg';
 
 const LandingSection2 = () => {
     return (
-        <section className="bg-[#FCF8F1] bg-opacity-30 h-screen flex items-center">
-            <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div className="mt-20 text-7xl font-bold tracking-tighter leading-[86px] text-slate-900 max-md:mt-10 max-md:max-w-full max-md:text-4xl">
+        <section
+            id="landing-section-2"
+            className="bg-[#FCF8F1] bg-opacity-30 h-full flex flex-col items-center justify-center px-4 lg:px-0 w-full overflow-x-hidden"
+        >
+            <div className="flex flex-col items-center justify-center w-full max-w-7xl sm:px-6 lg:px-8">
+                <div className="text-center text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tighter leading-tight text-slate-900">
                     Crowded or Chill? Let PinBox Guide You!
                 </div>
-
-                <div className="text-2xl font-semibold text-center mt-10 mb-10">
-                    Big Dilemma! Emergency! Ever wondered where to hit up when you’re on a trip? <br></br>Crowded spots?
-                    Maybe somewhere chill today? PinBox has got you covered.<br></br> This is the ultimate solution for
-                    all your travel dilemmas!
+                <div className="text-center text-base sm:text-lg mt-4 sm:mt-6 lg:mt-8 font-semibold text-gray-700">
+                    Big Dilemma! Emergency! Ever wondered where to hit up when you’re on a trip? Crowded spots? Maybe
+                    <br></br>
+                    somewhere chill today? PinBox has got you covered. This is the ultimate solution for all your travel
+                    dilemmas!
                 </div>
-
-                <div className="flex justify-center items-center">
+                <div className="mt-8 sm:mt-10 lg:mt-12">
                     <a
                         href="#"
                         title=""
                         onClick={Signup}
-                        className="inline-flex items-center px-6 py-4 font-semibold text-black transition-all duration-200 bg-yellow-300 rounded-full hover:bg-yellow-400 focus:bg-yellow-400"
+                        className="inline-flex items-center px-6 py-3 sm:px-8 sm:py-4 font-semibold text-black transition-all duration-200 bg-yellow-300 rounded-full hover:bg-yellow-400 focus:bg-yellow-400"
                         role="button"
                     >
                         Join for free
                         <svg
-                            className="w-6 h-6 ml-8 -mr-2"
+                            className="w-6 h-6 ml-2 -mr-1 sm:ml-4"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -35,18 +37,17 @@ const LandingSection2 = () => {
                             <path
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
-                                strokeWidth="1.5"
-                                d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                strokeWidth="2"
+                                d="M13 7l5 5m0 0l-5 5m5-5H6"
                             />
                         </svg>
                     </a>
                 </div>
-
-                <div className="flex overflow-hidden relative z-10 flex-col items-center self-stretch px-10 mt-7 text-base leading-7 min-h-[580px] pb-[594px] max-md:px-5 max-md:pb-10 max-md:max-w-full rounded-2xl">
+                <div className="flex items-center justify-center mt-8 sm:mt-10 lg:mt-12">
                     <img
-                        loading="lazy"
                         src={Landing3}
-                        className="object-cover absolute inset-0 size-full w-[1200px] h-[450px]"
+                        alt="Travel Image"
+                        className="w-full max-w-md sm:max-w-lg lg:max-w-2xl rounded-lg shadow-md"
                     />
                 </div>
             </div>

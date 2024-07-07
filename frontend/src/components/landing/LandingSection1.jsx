@@ -1,7 +1,7 @@
 import React from 'react';
-import Signup from '../Signup';
 import { useNavigate } from 'react-router-dom';
 import Landing1 from '../../Images/Landing1.png';
+
 const LandingSection1 = () => {
     const navigate = useNavigate();
     const signup = () => {
@@ -9,17 +9,17 @@ const LandingSection1 = () => {
     };
 
     return (
-        <section className="bg-[#FCF8F1] bg-opacity-30 h-screen flex items-center">
-            <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div className="grid items-center grid-cols-1 gap-12 lg:grid-cols-2">
-                    <div>
-                        <p className="text-base font-semibold tracking-wider text-blue-600 uppercase">
+        <section className="bg-[#FCF8F1] bg-opacity-30 h-full flex items-center justify-center px-4 lg:px-0 w-full overflow-x-hidden">
+            <div className="mx-auto w-full max-w-7xl sm:px-6 lg:px-8">
+                <div className="grid items-center grid-cols-1 gap-12 lg:grid-cols-2 w-full">
+                    <div className="text-center lg:text-left w-full">
+                        <p className="text-sm sm:text-base font-semibold tracking-wider text-blue-600 uppercase">
                             A Trip Advisor for Enjoying Manhattan in New York
                         </p>
-                        <h1 className="mt-4 text-4xl font-bold text-black lg:mt-8 sm:text-6xl xl:text-8xl">
+                        <h1 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold text-black lg:mt-8">
                             Share & Connect Extraordinary Places with Friends
                         </h1>
-                        <p className="mt-4 font-semibold  text-black lg:mt-8 sm:text-xl">
+                        <p className="mt-4 font-semibold text-black lg:mt-8 sm:text-lg lg:text-xl">
                             Find a Hidden Gem in Manhattan!
                         </p>
 
@@ -27,12 +27,12 @@ const LandingSection1 = () => {
                             href="#"
                             title=""
                             onClick={signup}
-                            className="inline-flex items-center px-6 py-4 mt-8 font-semibold text-black transition-all duration-200 bg-yellow-300 rounded-full lg:mt-16 hover:bg-yellow-400 focus:bg-yellow-400"
+                            className="inline-flex items-center px-4 py-3 sm:px-6 sm:py-4 mt-6 sm:mt-8 font-semibold text-black transition-all duration-200 bg-yellow-300 rounded-full lg:mt-16 hover:bg-yellow-400 focus:bg-yellow-400"
                             role="button"
                         >
                             Join for free
                             <svg
-                                className="w-6 h-6 ml-8 -mr-2"
+                                className="w-5 h-5 sm:w-6 sm:h-6 ml-4 sm:ml-8 -mr-2"
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
                                 viewBox="0 0 24 24"
@@ -55,8 +55,8 @@ const LandingSection1 = () => {
                         </p>
                     </div>
 
-                    <div>
-                        <img className="w-full" src={Landing1} alt="Hero" />
+                    <div className="flex justify-center lg:justify-end mt-8 lg:mt-0 w-full">
+                        <img className="w-full max-w-xs lg:max-w-full" src={Landing1} alt="Hero" />
                     </div>
                 </div>
             </div>
