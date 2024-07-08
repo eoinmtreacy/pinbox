@@ -571,3 +571,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 autogluon-m4-hourly
+subway_timeseries/subway_timeseries/subway_autogluon_model/
