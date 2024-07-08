@@ -52,5 +52,13 @@ namespace backend.controllers
             }
             return BadRequest("Error occured");
         }
+
+        // log out endpoint
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+            return Ok("You are successfully logged out");
+        }
     }
 }
