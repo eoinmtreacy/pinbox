@@ -32,11 +32,13 @@ def Convert(string):
 # Driver code
 #unique_values_list = Convert(unique_values)
 #print(unique_values_list)
-
-# Loop through each unique item_id and generate a plot
-for item_id in unique_values:
-    # Plot the time series and the respective forecasts for the specific item_id
-    plot1 = predictor.plot(train_data, predictions, quantile_levels=[0.1, 0.9], item_ids=[item_id], max_history_length=200)
+plot1 = predictor.plot(train_data, predictions, quantile_levels=[0.1, 0.9], item_ids=[231], max_history_length=200)
     
-    plt.savefig(f'plot_{item_id}.png', format='png')
+plt.savefig(f'plot_231.png', format='png')
+# Loop through each unique item_id and generate a plot
+#for item_id in unique_values:
+    # Plot the time series and the respective forecasts for the specific item_id
+    #plot1 = predictor.plot(train_data, predictions, quantile_levels=[0.1, 0.9], item_ids=[item_id], max_history_length=200)
+    
+    #plt.savefig(f'plot_{item_id}.png', format='png')
     
