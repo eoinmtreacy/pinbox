@@ -31,7 +31,22 @@ const Header = () => {
                             type="button"
                             className="inline-flex p-2 text-black transition-all duration-200 rounded-md focus:bg-gray-100 hover:bg-gray-100"
                             onClick={toggleMenu}
-                        ></button>
+                        >
+                            <svg
+                                className="w-6 h-6"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M4 6h16M4 12h16m-7 6h7"
+                                ></path>
+                            </svg>
+                        </button>
                     </div>
 
                     <div
@@ -41,7 +56,7 @@ const Header = () => {
                     >
                         <button
                             onClick={(e) => handleScrollToSection(e, 'landing-section-3')}
-                            className="text-2xl font-semibold text-black transition-all duration-200 hover:text-opacity-80 "
+                            className="text-2xl font-semibold text-black transition-all duration-200 hover:text-opacity-80"
                         >
                             Features
                         </button>
@@ -84,7 +99,7 @@ const Header = () => {
                 </div>
             </div>
             {menuOpen && (
-                <div className="lg:hidden bg-white w-full absolute top-16 left-0 py-5 space-y-4 shadow-lg">
+                <div className="lg:hidden bg-white w-full absolute top-16 left-0 py-5 space-y-4 shadow-lg h-screen">
                     <button
                         onClick={(e) => {
                             handleScrollToSection(e, 'landing-section-3');
@@ -111,6 +126,15 @@ const Header = () => {
                         className="block w-full text-base text-black transition-all duration-200 hover:text-opacity-80 px-4 text-left"
                     >
                         Vision
+                    </button>
+                    <button
+                        onClick={(e) => {
+                            handleScrollToSection(e, 'landing-section-8');
+                            toggleMenu();
+                        }}
+                        className="block w-full text-base text-black transition-all duration-200 hover:text-opacity-80 px-4 text-left"
+                    >
+                        Our Team
                     </button>
                     <a
                         href="#resources"

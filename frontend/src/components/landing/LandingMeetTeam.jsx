@@ -9,9 +9,9 @@ import Logo from '../../Images/logo.png';
 
 function LandingSection8() {
     return (
-        <div id="landing-section-8" className="bg-[#FCF8F1] bg-opacity-30 py-10 sm:py-16 lg:py-24">
+        <div id="landing-section-8" className="bg-[#FCF8F1] bg-opacity-30 py-10 sm:py-16 lg:py-24 mt-6">
             <div className="flex flex-col items-center justify-center w-full max-w-7xl sm:px-6 lg:px-8">
-                <div className="text-center text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tighter leading-tight text-gray-950">
+                <div className=" text-center text-3xl sm:text-4xl lg:text-5xl font-black tracking-tighter text-zinc-900 uppercase">
                     Meet our team!
                 </div>
                 <div className="flex items-center justify-center my-4 teamlogo">

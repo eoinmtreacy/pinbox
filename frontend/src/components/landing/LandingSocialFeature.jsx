@@ -7,7 +7,7 @@ const LandingSection5 = () => {
         <section id="landing-section-5" className="bg-[#FCF8F1] bg-opacity-30 py-10 sm:py-16 lg:py-24">
             <div className="mx-auto w-full max-w-7xl sm:px-6 lg:px-8">
                 <div className="text-center">
-                    <div className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tighter leading-tight text-slate-900 mt-20">
+                    <div className=" text-center text-3xl sm:text-4xl lg:text-5xl font-black tracking-tighter text-zinc-900 mb-8 uppercase">
                         Discover Your Friends' Favourite Places!
                     </div>
 

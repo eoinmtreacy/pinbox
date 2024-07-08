@@ -9,7 +9,7 @@ const LandingSection2 = () => {
             className="bg-[#FCF8F1] bg-opacity-30 h-full flex flex-col items-center justify-center px-4 lg:px-0 w-full overflow-x-hidden"
         >
             <div className="flex flex-col items-center justify-center w-full max-w-7xl sm:px-6 lg:px-8">
-                <div className="text-center text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tighter leading-tight text-slate-900">
+                <div className="text-center text-xl sm:text-4xl lg:text-5xl font-bold tracking-tighter leading-tight text-slate-900">
                     Crowded or Chill? Let PinBox Guide You!
                 </div>
                 <div className="text-center text-base sm:text-lg mt-4 sm:mt-6 lg:mt-8 font-semibold text-gray-700">

@@ -5,7 +5,7 @@ const LandingSection4 = () => {
     return (
         <section className="bg-[#FCF8F1] bg-opacity-30 py-10 sm:py-16 lg:py-24">
             <div className="px-4 mx-auto max-w-5xl sm:px-6 lg:px-8">
-                <div className="text-center text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tighter leading-tight text-slate-900 mb-8">
+                <div className=" text-center text-3xl sm:text-4xl lg:text-5xl font-black tracking-tighter text-zinc-900 mb-8 uppercase">
                     Real-time Data and Insights
                 </div>
                 <div className="text-center text-sm sm:text-base font-semibold text-gray-700 mb-8">

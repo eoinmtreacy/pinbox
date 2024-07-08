@@ -9,10 +9,11 @@ const LandingSection1 = () => {
     };
 
     return (
-        <section className="bg-[#FCF8F1] bg-opacity-30 h-full flex items-center justify-center px-4 lg:px-0 w-full overflow-x-hidden">
-            <div className="mx-auto w-full max-w-7xl sm:px-6 lg:px-8">
-                <div className="grid items-center grid-cols-1 gap-12 lg:grid-cols-2 w-full">
+        <section className="flex items-center  bg-[#FCF8F1] bg-opacity-30 h-full  justify-center w-full overflow-x-hidden">
+            <div className="mx-auto w-full max-w-7xl sm:px-4 ">
+                <div className="grid items-center grid-cols-1 gap-8 lg:gap-10 lg:grid-cols-2 w-full  tracking-wider ">
                     <div className="text-center lg:text-left w-full">
+                        <p className="text-5xl sm:text-4xl font-bold tracking-wider uppercase">Welcome to PinBox!</p>
                         <p className="text-sm sm:text-base font-semibold tracking-wider text-blue-600 uppercase">
                             A Trip Advisor for Enjoying Manhattan in New York
                         </p>
