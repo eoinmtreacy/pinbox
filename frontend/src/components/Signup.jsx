@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../App.css';
 
 async function handleSubmit(e, setErrors) {
@@ -12,31 +13,29 @@ async function handleSubmit(e, setErrors) {
         body: JSON.stringify({
             email: e.target.email.value,
             password: e.target.password.value,
-        }),
-    })
-       .then((response) => response.json())
-       .then((data) => {
-            console.log(Object.values(data.errors))
-            if (data.errors) {
-                setErrors(Object.values(data.errors).map((error) => error[0]));
-                throw new Error(data.errors);
-            } else {
-                console.log('Success:', data);
-            }
         })
-       .catch((error) => {
-            console.error('Error:', error);
+    })
+       .then((response) => {
+            if (!response.ok) {
+                throw new Error(response.json().errors);
+            }
+
+        })
+       .catch((errors) => {
+            setErrors(Object.values(errors).map((error) => error[0]));
+            console.error('Error:', errors);
         });
 }
 
 function Signup() {
+    const navigate = useNavigate();
     const [errors, setErrors] = useState([])
 
     return (
         <div className="container px-4">
             <h1 className="text-center text-2xl font-bold my-4">Sign up</h1>
             <div className="max-w-sm mx-auto p-8 rounded-lg border-solid border-[#020202]">
-                <form onSubmit={(e) => handleSubmit(e, setErrors)}>
+                <form onSubmit={(e) => { if (handleSubmit(e, setErrors)) navigate(`/mainpage/${e.target.email.value}`)} }>
 
                     {errors.length > 0 && errors.map((error, index) => (
                         <div key={index} className="error-message">
