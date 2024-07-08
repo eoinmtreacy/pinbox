@@ -3,10 +3,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using Microsoft.EntityFrameworkCore;
+
 using backend.Models;
 
-var builder = WebApplication.CreateBuilder(args);
+
 
 try
 {
@@ -28,6 +31,12 @@ else
     Console.WriteLine($"Connection String from .env: {connectionString}");
 }
 
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
+
+builder.Services.AddSwaggerGen();  
+
 var configuration = builder.Configuration;
 
 // Register the DbContext with the MySQL provider using the connection string from .env
@@ -37,6 +46,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         new MySqlServerVersion(new Version(8, 0, 21))
     )
 );
+builder.Services.AddAuthentication();
+builder.Services.AddIdentityApiEndpoints<AppUser>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
 
 builder.Services.AddCors(options =>
 {
@@ -48,13 +61,14 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddControllers();
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 else
 {
@@ -67,8 +81,6 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
-
 app.UseCors("AllowSpecificOrigin");
 
 app.MapControllerRoute(
@@ -76,6 +88,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllers();
+app.MapIdentityApi<AppUser>();
 
 app.MapGet("/", () => "Hello World!");
 
