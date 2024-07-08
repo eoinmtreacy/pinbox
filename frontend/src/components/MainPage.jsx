@@ -4,6 +4,7 @@ import Preference from './Preference';
 import Friends from './Friends';
 import Map from './Map';
 import useToggle from '../hooks/useToggle';
+import useFetchPlaces from '../hooks/useFetchPlaces';
 
 const MainPage = () => {
     const [showPreference, setShowPreference] = useState(false);
@@ -13,6 +14,8 @@ const MainPage = () => {
     const [showPins, setShowPins] = useState(true);
     const [showFriends, toggleFriends] = useToggle();
     const [mode, setMode] = useState('Day');
+    const { places, loading, error } = useFetchPlaces('http://localhost:8000/app/get-places');
+    const [ pins, setPins ] = useState([]);
 
     const togglePreference = () => {
         setShowPreference(!showPreference);
@@ -51,9 +54,9 @@ const MainPage = () => {
                     setMode={setMode}
                 />
             </div>
-            {showPreference && (
+            {showPreference && places.length > 1 && (
                 <div className="flex-none w-4/24">
-                    <Preference setGeoJsonData={setGeoJsonData} geoJsonData={geoJsonData} />{' '}
+                    <Preference places={places} pins={pins} setPins={setPins} />{' '}
                     {/* Pass setGeoJsonData to Preference */}
                 </div>
             )}
@@ -63,7 +66,7 @@ const MainPage = () => {
                 </div>
             )}
             <div className={`${showPreference ? 'flex-grow w-17/24' : 'flex-grow w-22/24'}`}>
-                <Map geoJsonData={geoJsonData} /> {/* Pass geoJsonData to Map */}
+                <Map geoJsonData={geoJsonData} pins={pins}/> {/* Pass geoJsonData to Map */}
             </div>
         </div>
     );
