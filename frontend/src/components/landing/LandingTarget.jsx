@@ -2,7 +2,7 @@ import React from 'react';
 import TouristImage from '../../Images/tourist.png';
 import BusinessOwnerImage from '../../Images/business-owner.png';
 
-const LandingSection2 = () => {
+const LandingTarget = () => {
     return (
         <section className="bg-[#FCF8F1] bg-opacity-30 py-10 sm:py-16 lg:py-24">
             <div className="mx-auto w-full max-w-7xl sm:px-6 lg:px-8 text-center">
@@ -51,4 +51,4 @@ const LandingSection2 = () => {
     );
 };
 
-export default LandingSection2;
+export default LandingTarget;

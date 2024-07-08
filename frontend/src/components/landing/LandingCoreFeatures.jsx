@@ -2,7 +2,7 @@ import React from 'react';
 import PreferenceSelection from '../../Images/PreferenceSelection.png';
 import LandingSectionImg from '../../Images/Landing3-1.png';
 
-const LandingSection3 = () => {
+const LandingCoreFeatures = () => {
     return (
         <section id="landing-section-3" className="bg-[#FCF8F1] bg-opacity-30 py-10 sm:py-16 lg:py-24">
             <div className="px-4 mx-auto max-w-5xl sm:px-6 lg:px-8">
@@ -60,4 +60,4 @@ const LandingSection3 = () => {
     );
 };
 
-export default LandingSection3;
+export default LandingCoreFeatures;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-function LandingSection6() {
+function LandingUserInsights() {
     return (
         <section id="landing-section-6" className="bg-[#FCF8F1] bg-opacity-30 py-10 sm:py-16 lg:py-24">
             <div className="mx-auto w-full max-w-7xl sm:px-6 lg:px-8 text-center">
@@ -52,4 +52,4 @@ function LandingSection6() {
     );
 }
 
-export default LandingSection6;
+export default LandingUserInsights;

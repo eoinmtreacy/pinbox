@@ -1,7 +1,7 @@
 import React from 'react';
 import Heatmap from '../../Images/heatmap.png';
 import '../../App.css';
-const LandingSection4 = () => {
+const LandingFeatureRealTime = () => {
     return (
         <section className="bg-[#FCF8F1] bg-opacity-30 py-10 sm:py-16 lg:py-24">
             <div className="px-4 mx-auto max-w-5xl sm:px-6 lg:px-8">
@@ -48,4 +48,4 @@ const LandingSection4 = () => {
     );
 };
 
-export default LandingSection4;
+export default LandingFeatureRealTime;

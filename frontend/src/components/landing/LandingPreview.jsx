@@ -2,7 +2,7 @@ import React from 'react';
 import Signup from '../Signup';
 import Landing3 from '../../Images/Landing2-1.jpg';
 
-const LandingSection2 = () => {
+const LandingPreview = () => {
     return (
         <section
             id="landing-section-2"
@@ -38,4 +38,4 @@ const LandingSection2 = () => {
     );
 };
 
-export default LandingSection2;
+export default LandingPreview;

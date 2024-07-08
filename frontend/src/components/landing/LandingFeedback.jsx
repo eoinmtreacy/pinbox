@@ -2,7 +2,7 @@ import React from 'react';
 import reviewPic1 from '../../Images/Review/reveiw1.png';
 import reviewPic2 from '../../Images/Review/review2.png';
 import reviewPic3 from '../../Images/Review/review3.png';
-const LandingSection9 = () => {
+const LandingFeedback = () => {
     return (
         <section className="bg-[#FCF8F1] bg-opacity-30 h-full flex items-center justify-center px-4 lg:px-0 w-full overflow-x-hidden">
             <div className="mx-auto w-full max-w-7xl sm:px-6 lg:px-8">
@@ -122,4 +122,4 @@ const LandingSection9 = () => {
     );
 };
 
-export default LandingSection9;
+export default LandingFeedback;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Logo from '../../Images/logo.png';
 
-const Header = () => {
+const LandingHeader = () => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const handleScrollToSection = (event, sectionId) => {
@@ -144,4 +144,4 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default LandingHeader;

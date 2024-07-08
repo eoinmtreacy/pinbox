@@ -2,7 +2,7 @@ import React from 'react';
 import Signup from '../Signup';
 import Landing2 from '../../Images/Landing2.png';
 
-const LandingSection5 = () => {
+const LandingSocialFeature = () => {
     return (
         <section id="landing-section-5" className="bg-[#FCF8F1] bg-opacity-30 py-10 sm:py-16 lg:py-24">
             <div className="mx-auto w-full max-w-7xl sm:px-6 lg:px-8">
@@ -42,4 +42,4 @@ const LandingSection5 = () => {
     );
 };
 
-export default LandingSection5;
+export default LandingSocialFeature;

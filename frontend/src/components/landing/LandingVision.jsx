@@ -3,7 +3,7 @@ import Community from '../../Images/community.png';
 import Queue from '../../Images/queue.png';
 import Memory from '../../Images/memory.png';
 
-function LandingSection8_1() {
+function LandingVision() {
     return (
         <section id="landing-section-8_1" className="bg-[#FCF8F1] bg-opacity-30 py-10 sm:py-16 lg:py-24 mt-10">
             <div className="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -66,4 +66,4 @@ function LandingSection8_1() {
     );
 }
 
-export default LandingSection8_1;
+export default LandingVision;

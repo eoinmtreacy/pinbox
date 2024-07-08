@@ -7,7 +7,7 @@ import PhilipProfile from './TeamProfile/Philip';
 import AnitaProfile from './TeamProfile/Anita';
 import Logo from '../../Images/logo.png';
 
-function LandingSection8() {
+function LandingMeetTeam() {
     return (
         <div id="landing-section-8" className="bg-[#FCF8F1] bg-opacity-30 py-10 sm:py-16 lg:py-24 mt-6">
             <div className="flex flex-col items-center justify-center w-full max-w-7xl sm:px-6 lg:px-8">
@@ -37,4 +37,4 @@ function LandingSection8() {
     );
 }
 
-export default LandingSection8;
+export default LandingMeetTeam;

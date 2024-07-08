@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Landing1 from '../../Images/Landing1.png';
 
-const LandingSection1 = () => {
+const LandingFirst = () => {
     const navigate = useNavigate();
     const signup = () => {
         navigate('/signup'); // Navigate to the login page
@@ -65,4 +65,4 @@ const LandingSection1 = () => {
     );
 };
 
-export default LandingSection1;
+export default LandingFirst;
