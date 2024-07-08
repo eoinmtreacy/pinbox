@@ -72,13 +72,6 @@ const Header = () => {
                         >
                             Vision
                         </button>
-                        <a
-                            href="#resources"
-                            title="Resources"
-                            className="text-2xl font-semibold text-black transition-all duration-200 hover:text-opacity-80"
-                        >
-                            Resources
-                        </a>
 
                         <button
                             onClick={(e) => handleScrollToSection(e, 'landing-section-8')}
@@ -136,14 +129,6 @@ const Header = () => {
                     >
                         Our Team
                     </button>
-                    <a
-                        href="#resources"
-                        title="Resources"
-                        className="block w-full text-base text-black transition-all duration-200 hover:text-opacity-80 px-4 text-left"
-                        onClick={toggleMenu}
-                    >
-                        Resources
-                    </a>
 
                     <a
                         href="/join"

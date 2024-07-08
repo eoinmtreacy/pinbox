@@ -4,7 +4,7 @@ function LandingSection6() {
     return (
         <section id="landing-section-6" className="bg-[#FCF8F1] bg-opacity-30 py-10 sm:py-16 lg:py-24">
             <div className="mx-auto w-full max-w-7xl sm:px-6 lg:px-8 text-center">
-                <div className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tighter text-zinc-900">
+                <div className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tighter text-zinc-900 mb-8 uppercase">
                     User Insights
                 </div>
                 <div className="mt-6 text-lg sm:text-2xl tracking-tighter text-black max-w-[800px] w-full mx-auto">
