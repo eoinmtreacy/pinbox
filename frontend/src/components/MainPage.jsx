@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SideNav from './SideNav';
 import Preference from './Preference';
-import Friends from './Friends';
+import Friends from './FriendsList.';
 import Map from './Map';
 import useToggle from '../hooks/useToggle';
 import useFetchPlaces from '../hooks/useFetchPlaces';
