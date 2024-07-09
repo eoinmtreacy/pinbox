@@ -99,10 +99,6 @@ app.MapIdentityApi<AppUser>();
 app.MapGet("/", () => "Hello World!");
 
 app.UseAuthorization();
-app.MapGet("/auth", (ClaimsPrincipal user) => 
-{
-    var pinbox_id = user.FindFirstValue("Pinbox_Id");
-    return Results.Json(new { pinbox_id });
-});
+
 
 app.Run();

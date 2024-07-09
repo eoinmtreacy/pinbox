@@ -13,6 +13,7 @@ const useCurrentUser = () => {
                     throw new Error('Failed to fetch current user');
                 }
                 const user = await response.json(); // Parse the JSON from the response
+                console.log(user);
                 setCurrentUser(user.pinbox_id);
             } catch (error) {
                 console.error("Failed to fetch current user", error);

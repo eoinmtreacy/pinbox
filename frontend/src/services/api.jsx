@@ -1,6 +1,6 @@
 export const fetchPlaces = async () => {
   try {
-    const response = await fetch('http://localhost:8000/app/get-places');
+    const response = await fetch('http://localhost:5165/app/get-places');
     if (!response.ok) {
 
       throw new Error(`HTTP error! status: ${response.status}`);

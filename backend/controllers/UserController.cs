@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using backend.Models;
 using Microsoft.AspNetCore.Identity.Data;
+using System.Security.Claims;
 
 namespace backend.controllers
 {
@@ -12,6 +13,7 @@ namespace backend.controllers
     {
         private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManager;
+
 
         public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
@@ -51,6 +53,16 @@ namespace backend.controllers
                 var user = await userManager.FindByEmailAsync(request.Email);
                 if (user != null)
                 {
+                    var claims = new List<Claim>
+                    {
+                        new Claim("Pinbox_Id", user.Pinbox_Id)
+                    };
+                    var identityResult = await userManager.AddClaimsAsync(user, claims);
+
+                    if (!identityResult.Succeeded)
+                    {
+                        return BadRequest("Failed to add user claims.");
+                    }
                     // Create a response object excluding sensitive details
                     var userResponse = new
                     {
@@ -83,6 +95,20 @@ namespace backend.controllers
             if (user == null)
                 return NotFound("User not found");
             return Ok(user);
+        }
+
+        [HttpGet("auth")]
+        public IActionResult IsAuthenticated()
+        {
+            var pinboxIdClaim = User.Claims.FirstOrDefault(c => c.Type == "Pinbox_Id");
+            if (pinboxIdClaim != null)
+            {
+                return Ok(new { Pinbox_Id = pinboxIdClaim.Value });
+            }
+            else
+            {
+                return BadRequest("Pinbox_Id claim not found.");
+            }
         }
     }
 }

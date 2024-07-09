@@ -14,7 +14,7 @@ import iconGen from '../utils/iconGen';
 const CustomMap = ({ pins }) => {
     const { data: taxiZones, error } = useFetchGeoJson('/taxi_zones.geojson');
     const { data: busynessData } = useFetchBusyness(
-        'http://localhost:8000/app/get-predictions',
+        'http://localhost:5165/app/get-predictions',
         '/average_passenger_count.json'
     );
     const mapRef = useRef(null);
