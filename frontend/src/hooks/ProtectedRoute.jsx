@@ -13,7 +13,6 @@ export default function ProtectedRoute({ element: Component }) {
   useEffect(() => {
     const fetchUser = async () => {
       const exists = await checkUserExists(pinbox_id);
-      console.log(exists);
       setUserExists(exists);
       setIsLoading(false);
     };

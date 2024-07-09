@@ -14,11 +14,13 @@ namespace backend.controllers
         private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManager;
 
+        private readonly ILogger<UserController> _logger; // Add this line
 
-        public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ILogger<UserController> logger)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this._logger = logger; 
         }
 
 
@@ -100,6 +102,13 @@ namespace backend.controllers
         [HttpGet("auth")]
         public IActionResult IsAuthenticated()
         {
+            // Assuming _logger is an instance of ILogger available in your controller
+            _logger.LogInformation("Available claims:");
+            foreach (var claim in User.Claims)
+            {
+                _logger.LogInformation($"Type: {claim.Type}, Value: {claim.Value}");
+            }
+
             var pinboxIdClaim = User.Claims.FirstOrDefault(c => c.Type == "Pinbox_Id");
             if (pinboxIdClaim != null)
             {

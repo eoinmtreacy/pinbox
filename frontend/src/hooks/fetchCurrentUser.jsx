@@ -8,9 +8,17 @@ const useCurrentUser = () => {
     useEffect(() => {
         const fetchCurrentUser = async () => {
             try {
-                const response = await fetch('http://localhost:5165/auth');
+                const response = await fetch('http://localhost:5165/User/auth');
                 if (!response.ok) {
-                    throw new Error('Failed to fetch current user');
+                    let errorMsg = 'Failed to fetch current user';
+                    try {
+                        const errorData = await response.json(); // Assuming the error message is in JSON format
+                        errorMsg += `: ${errorData.message}`; // Append the error message from the server
+                    } catch (e) {
+                        // If reading the error message fails, use the status text
+                        errorMsg += `: ${response.statusText}`;
+                    }
+                    throw new Error(`${errorMsg} (Status: ${response.status})`);
                 }
                 const user = await response.json(); // Parse the JSON from the response
                 console.log(user);
