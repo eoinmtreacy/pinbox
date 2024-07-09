@@ -32,8 +32,7 @@ namespace backend.controllers
             var result = await userManager.CreateAsync(user, user.PasswordHash!);
             if (result.Succeeded)
                 return Ok("Registration made successfully");
-            
-            return BadRequest("Error occurred: " + string.Join(", ", result.Errors.Select(e => e.Description)));;
+            return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
         }
 
 

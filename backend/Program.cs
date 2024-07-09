@@ -8,6 +8,9 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using Microsoft.EntityFrameworkCore;
 
 using backend.Models;
+using System.Security.Claims;
+using Sprache;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 
 
@@ -34,6 +37,8 @@ else
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+
+builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();  
 
@@ -91,5 +96,12 @@ app.MapControllers();
 app.MapIdentityApi<AppUser>();
 
 app.MapGet("/", () => "Hello World!");
+
+app.UseAuthorization();
+app.MapGet("/auth", (ClaimsPrincipal user) => 
+{
+    var pinbox_id = user.FindFirstValue("Pinbox_Id");
+    return Results.Json(new { pinbox_id });
+}).RequireAuthorization();
 
 app.Run();
