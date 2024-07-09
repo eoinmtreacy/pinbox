@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using backend.Models;
+using Microsoft.AspNetCore.Identity.Data;
 
 namespace backend.controllers
 {
@@ -37,17 +38,17 @@ namespace backend.controllers
 
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(string email, string password)
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             var signInResult = await signInManager.PasswordSignInAsync(
-                  userName: email!,
-                  password: password!,
+                  userName: request.Email!,
+                  password: request.Password!,
                   isPersistent: false,
                   lockoutOnFailure: false
                   );
             if (signInResult.Succeeded)
             {
-                var user = await userManager.FindByEmailAsync(email);
+                var user = await userManager.FindByEmailAsync(request.Email);
                 if (user != null)
                 {
                     // Create a response object excluding sensitive details
