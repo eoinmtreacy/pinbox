@@ -11,6 +11,7 @@ import Settings from './components/Settings';
 import Main from './components/Main';
 import MainPage from './components/MainPage';
 import LandingMain from './components/landing/LandingMain';
+import ProtectedRoute from './hooks/ProtectedRoute';
 
 function App() {
     return (
@@ -31,7 +32,7 @@ const AppContent = () => {
             <div className={!hideSideNav ? 'flex-1 ml-[70px]' : 'flex-1'}>
                 <Routes>
                     <Route path="/" element={<Main />} />
-                    <Route path="/mainpage/:pinbox_id?" element={<MainPage />} />
+                    <Route path="/mainpage/:pinbox_id?" element={<ProtectedRoute element={MainPage} />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/passwordfind" element={<PasswordFind />} />
