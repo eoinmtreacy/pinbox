@@ -5,6 +5,7 @@ import Friends from './Friends';
 import Map from './Map';
 import useToggle from '../hooks/useToggle';
 import useFetchPlaces from '../hooks/useFetchPlaces';
+import useCurrentUser from '../hooks/fetchCurrentUser';
 
 const MainPage = () => {
     const [showPreference, setShowPreference] = useState(false);
@@ -16,6 +17,7 @@ const MainPage = () => {
     const [mode, setMode] = useState('Day');
     const { places, loading, error } = useFetchPlaces('http://localhost:8000/app/get-places');
     const [ pins, setPins ] = useState([]);
+    const { currentUser, isLoading } = useCurrentUser();
 
     const togglePreference = () => {
         setShowPreference(!showPreference);

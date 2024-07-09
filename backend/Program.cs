@@ -102,6 +102,6 @@ app.MapGet("/auth", (ClaimsPrincipal user) =>
 {
     var pinbox_id = user.FindFirstValue("Pinbox_Id");
     return Results.Json(new { pinbox_id });
-}).RequireAuthorization();
+});
 
 app.Run();
