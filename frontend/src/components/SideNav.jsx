@@ -61,7 +61,7 @@ export const SideNav = ({
             </div>
             <div className="flex flex-col items-center space-y-4 mt-4">
                 <div className="flex flex-col items-center">
-                    <span className="text-white text-xs mb-1">Adjust Time</span>
+                    <span className="text-white text-xs mb-1">Time</span>
                     <img src={timeIcon} alt="Time Icon" className="w-6 h-6 mb-1" />
                     <input
                         type="range"
@@ -77,7 +77,7 @@ export const SideNav = ({
                     </div>
                 </div>
                 <div className="flex flex-col items-center">
-                    <span className="text-white text-xs mb-1">Adjust Distance</span>
+                    <span className="text-white text-xs mb-1">Distance</span>
                     <img src={distanceIcon} alt="Distance Icon" className="w-6 h-6 mb-1" />
                     <input
                         type="range"
