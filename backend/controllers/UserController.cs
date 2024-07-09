@@ -59,5 +59,14 @@ namespace backend.controllers
             await signInManager.SignOutAsync();
             return Ok("You are successfully logged out");
         }
+
+        [HttpGet("get-user/{pinbox_id}")]
+        public IActionResult GetUser(string pinbox_id)
+        {
+            var user = userManager.Users.FirstOrDefault(u => u.Pinbox_Id == pinbox_id);
+            if (user == null)
+                return NotFound("User not found");
+            return Ok(user);
+        }
     }
 }
