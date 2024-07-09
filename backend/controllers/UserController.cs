@@ -18,7 +18,7 @@ namespace backend.controllers
             this.signInManager = signInManager;
         }
 
-   
+
         [HttpPost("add-user")]
         public async Task<IActionResult> Register(RegisterModel model)
         {
@@ -47,7 +47,22 @@ namespace backend.controllers
                   );
             if (signInResult.Succeeded)
             {
-                return Ok("You are successfully logged in");
+                var user = await userManager.FindByEmailAsync(email);
+                if (user != null)
+                {
+                    // Create a response object excluding sensitive details
+                    var userResponse = new
+                    {
+                        user.Pinbox_Id
+                    };
+                    return Ok(userResponse);
+                }
+                else
+                {
+                    // User not found (this should theoretically not happen here)
+                    return BadRequest("User not found.");
+                }
+
             }
             return BadRequest("Error occured");
         }
