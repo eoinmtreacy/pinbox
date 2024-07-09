@@ -7,10 +7,8 @@ import profileIcon from '../Images/profile.png';
 import home from '../Images/home.png';
 import like from '../Images/like.png';
 import friends from '../Images/friends.png';
-import search from '../Images/search.png';
 import timeIcon from '../Images/time.png';
 import distanceIcon from '../Images/distance.png';
-import pinsIcon from '../Images/pin.png';
 
 export const SideNav = ({
     onPreferenceToggle,
@@ -37,28 +35,33 @@ export const SideNav = ({
     };
 
     return (
-        <div className="w-[70px] h-full bg-blue-600 fixed left-0 top-0 flex flex-col justify-around items-center pt-4 pb-4">
+        <div className="w-[70px] h-full bg-blue-600 fixed left-0 top-0 flex flex-col justify-between items-center pt-4 pb-4">
             <img className="w-20 h-20 mb-4" alt="Logo" src={logo} />
-            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/map')}>
-                <img className="w-6 h-6 mb-1" alt="Home Icon" src={home} />
-            </button>
-            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/search')}>
-                <img className="w-6 h-6 mb-1" alt="Search Icon" src={search} />
-            </button>
-            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/preference')}>
-                <img className="w-6 h-6 mb-1" alt="Like Icon" src={like} />
-            </button>
-            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/friends')}>
-                <img className="w-6 h-6 mb-1" alt="Friends Icon" src={friends} />
-            </button>
-            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/Profile')}>
-                <img className="w-6 h-6 mb-1" alt="Profile Icon" src={profileIcon} />
-            </button>
-            <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/settings')}>
-                <img className="w-6 h-6 mb-1" alt="Settings Icon" src={settingsIcon} />
-            </button>
+            <div className="flex flex-col items-center">
+                <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/map')}>
+                    <img className="w-6 h-6 mb-1" alt="Home Icon" src={home} />
+                    <span className="text-white text-xs">Home</span>
+                </button>
+                <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/preference')}>
+                    <img className="w-6 h-6 mb-1" alt="Like Icon" src={like} />
+                    <span className="text-white text-xs">Preference</span>
+                </button>
+                <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/friends')}>
+                    <img className="w-6 h-6 mb-1" alt="Friends Icon" src={friends} />
+                    <span className="text-white text-xs">Friends</span>
+                </button>
+                <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/profile')}>
+                    <img className="w-6 h-6 mb-1" alt="Profile Icon" src={profileIcon} />
+                    <span className="text-white text-xs">Profile</span>
+                </button>
+                <button className="flex flex-col items-center mb-4" onClick={() => navigateTo('/settings')}>
+                    <img className="w-6 h-6 mb-1" alt="Settings Icon" src={settingsIcon} />
+                    <span className="text-white text-xs">Settings</span>
+                </button>
+            </div>
             <div className="flex flex-col items-center space-y-4 mt-4">
                 <div className="flex flex-col items-center">
+                    <span className="text-white text-xs mb-1">Adjust Time</span>
                     <img src={timeIcon} alt="Time Icon" className="w-6 h-6 mb-1" />
                     <input
                         type="range"
@@ -74,8 +77,8 @@ export const SideNav = ({
                     </div>
                 </div>
                 <div className="flex flex-col items-center">
+                    <span className="text-white text-xs mb-1">Adjust Distance</span>
                     <img src={distanceIcon} alt="Distance Icon" className="w-6 h-6 mb-1" />
-
                     <input
                         type="range"
                         min="0"
@@ -98,14 +101,8 @@ export const SideNav = ({
                         onChange={(e) => setShowPins(e.target.checked)}
                         className="h-5 w-5 rounded-full"
                     />
-                    <img src={pinsIcon} alt="Pins Icon" className="w-6 h-6" />
+                    <span className="text-white text-xs">{showPins ? 'Hide Pins' : 'Show Pins'}</span>
                 </div>
-                <button onClick={() => setMode('Day')} className="bg-blue-500 text-white px-2 py-1 rounded">
-                    Day
-                </button>
-                <button onClick={() => setMode('Search Mode')} className="bg-blue-500 text-white px-2 py-1 rounded">
-                    Search Mode
-                </button>
             </div>
         </div>
     );

@@ -39,7 +39,7 @@ const MainPage = () => {
     }, []);
 
     return (
-        <div className="flex h-screen">
+        <div className="flex flex-wrap h-screen">
             <div className="SideNav flex-none w-1/24 ">
                 <SideNav
                     onPreferenceToggle={togglePreference}
@@ -61,13 +61,14 @@ const MainPage = () => {
                 </div>
             )}
             {showFriends && (
-                <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full">
+                <div className="w-full md:w-1/4 p-4 bg-white border-r border-gray-300 h-full">
                     <Friends userId={1} />
                 </div>
             )}
             <div className={`${showPreference ? 'flex-grow w-17/24' : 'flex-grow w-22/24'}`}>
                 <Map geoJsonData={geoJsonData} pins={pins}/> {/* Pass geoJsonData to Map */}
             </div>
+            
         </div>
     );
 };
