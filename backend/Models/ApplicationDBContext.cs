@@ -1,8 +1,9 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Models 
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<AppUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -15,6 +16,11 @@ namespace backend.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // Configure Pinbox_Id to be unique
+            modelBuilder.Entity<AppUser>()
+                .HasIndex(u => u.Pinbox_Id)
+                .IsUnique();
 
             modelBuilder.Entity<Prediction>()
                   .HasKey(p => new { p.location, p.datetime });
