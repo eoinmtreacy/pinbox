@@ -15,20 +15,20 @@ describe('Login component', () => {
     test('renders login form', () => {
         render(<Login />);
         
-        expect(screen.getByRole('heading', { name: 'Login' })).toBeInTheDocument();
+        expect(screen.getByRole('img')).toBeInTheDocument();
         expect(screen.getByLabelText('Email')).toBeInTheDocument();
         expect(screen.getByLabelText('Password')).toBeInTheDocument();
         expect(screen.getByText('Forgot Password?')).toBeInTheDocument();
         expect(screen.getByRole('button', { name: 'Login' })).toBeInTheDocument();
     });
 
-    test('navigates to /map on login button click', () => {
+    test('navigates to /mainpage on login button click', () => {
         const mockNavigate = jest.fn();
         useNavigate.mockImplementation(() => mockNavigate);
         render(<Login />);
         
         fireEvent.click(screen.getByRole('button', { name: 'Login' }));
         
-        expect(mockNavigate).toHaveBeenCalledWith('/map');
+        expect(mockNavigate).toHaveBeenCalledWith('/mainpage');
     });
 });

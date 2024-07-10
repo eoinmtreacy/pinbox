@@ -1,5 +1,9 @@
+# files
+places/
+
 # Data
 ml_pipeline/**/keys.json
+*_model_files/
 # Remove any csv or parquet files as these will be too large
 ml_pipeline/**/*.csv
 ml_pipeline/**/*.psv
@@ -570,3 +574,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+autogluon-m4-hourly

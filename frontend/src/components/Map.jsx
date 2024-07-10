@@ -1,58 +1,89 @@
-import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
+import React, { useState, useRef } from 'react';
+import { MapContainer, TileLayer, GeoJSON, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
-import Header from './Header';
-import SearchBar from './SearchBar';
-import Sidebar from './Sidebar';
-import GetUserLocation from './GetUserLocation';
-import CookieModal from './CookieModal';
 import '../App.css';
+import PreferenceWithoutButtons from './PreferenceWithoutButtons';
+import SearchBar from './SearchBar';
+import CookieModal from './CookieModal';
+import useFetchGeoJson from '../hooks/useFetchGeoJson';
+import useFetchBusyness from '../hooks/useFetchBusyness';
+import HorizontalButtons from './HorizontalButtons';
+import colorGen from '../utils/colorGen';
+import iconGen from '../utils/iconGen';
 
+const CustomMap = ({ pins }) => {
+    const { data: taxiZones, error } = useFetchGeoJson('taxi_zones.geojson');
+    const { data: busynessData } = useFetchBusyness(
+        'http://localhost:8000/app/get-predictions',
+        'average_passenger_count.json'
+    );
+    const mapRef = useRef(null);
+    const [initialLoad, setInitialLoad] = useState(true);
 
-// Update Leaflet icon paths to resolve missing icons
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-    iconUrl: require('leaflet/dist/images/marker-icon.png'),
-    shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
-});
-
-const CustomMap = () => {
-    const [geoJsonData, setGeoJsonData] = useState(null);
-
-    useEffect(() => {
-        fetch('nightclub_amenities.geojson')
-            .then((response) => response.json())
-            .then((data) => setGeoJsonData(data))
-            .catch((error) => console.error('Error fetching GeoJSON data:', error));
-    }, []);
+    if (error) {
+        return <div>Error fetching Taxi Zones data: {error.message}</div>;
+    }
 
     return (
-        <div className="relative w-full h-full flex-grow">
-            <div className="absolute top-3 left-0 right-0 z-[1000]">
-                <Header />
-            </div>
-            <div className="absolute top-16 left-0 right-0 z-[1000]">
+
+        <div className="map-container relative flex flex-col h-screen">
+            <div className="absolute top-1 left-16 right-0 z-[1000] flex space-y-4">
                 <SearchBar />
+                <HorizontalButtons />
             </div>
-            <div className="absolute top-[150px]  right-0 z-[1000]">
-                <Sidebar />
-            </div>
-            <MapContainer center={[40.7478017, -73.9914126]} zoom={13} className="h-full w-full">
+            <MapContainer
+                center={[40.7478017, -73.9914126]}
+                zoom={13}
+                className="h-full w-full"
+                whenCreated={(mapInstance) => {
+                    mapRef.current = mapInstance;
+                    if (initialLoad) {
+                        mapInstance.setView([40.7478017, -73.9914126], 13);
+                        setInitialLoad(false);
+                    }
+                }}
+            >
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                {geoJsonData && (
-                    <GeoJSON
-                        data={geoJsonData}
-                        onEachFeature={(feature, layer) => {
-                            if (feature.properties?.name) {
-                                layer.bindPopup(`<b>${feature.properties.name}</b><br />${feature.properties.amenity}`);
-                            }
-                        }}
-                    />
-                )}
-                <GetUserLocation />
-                <div className="absolute bottom-[0.5vh] z-[1000]">
+                {taxiZones && busynessData && <GeoJSON
+                    data={taxiZones}
+                    style={(feature) => {
+                        const locationId = feature.properties.location_id
+                        const busyness = busynessData[locationId] || 0;
+                        const color = colorGen(busyness);
+
+                        return {
+                            color: color,
+                            weight: 0.5,
+                            fillOpacity: 0.5
+                        }
+                    }}
+                />}
+                {pins ? pins.map((pin) => (
+                    <Marker
+                        key={pin.id}
+                        position={[pin.lat, pin.lon]}
+                        icon={iconGen(pin.attitude)}
+                    >
+                        <Popup>
+                            {/* create PreferenceWithoutButtons component
+                            with props passed from pin attributes */}
+                            <PreferenceWithoutButtons
+                                name={pin.name}
+                                image={pin.photo_0}
+                                type={pin.subtype}
+                                address={
+                                    "" ? pin.addr_Housenumber : pin.addr_Housenumber + 
+                                    "" ? pin.addr_Street : pin.addr_Street
+                                }
+                                hours={pin.opening_Hours}
+                                socialMedia={pin.website}
+                                preference={pin.attitude}
+                            />
+                        </Popup>
+                    </Marker>
+                )) : null}
+
+                <div className="absolute bottom-2 z-50">
                     <CookieModal />
                 </div>
             </MapContainer>

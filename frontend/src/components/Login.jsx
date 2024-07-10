@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Loginimg from '../Images/appimage.png'; // Importing the Login image
-import '../App.css'; // Importing custom CSS
-import 'leaflet/dist/leaflet.css'; // Importing Leaflet CSS for map styling
+import Loginimg from '../Images/logo.png';
+import '../App.css';
+import 'leaflet/dist/leaflet.css';
 
 // Login component
 function Login() {
@@ -12,7 +12,7 @@ function Login() {
     // Function to handle login button click
     const handleLoginClick = (event) => {
         event.preventDefault(); // Prevent the default form submission
-        navigate('/map'); // Navigate to the map page on login
+        navigate('/mainpage'); // Navigate to the map page on login
     };
 
     // Function to handle forgot password button click
@@ -22,13 +22,11 @@ function Login() {
 
     return (
         // Container for the entire login component
-        <div className="container px-4">
-            {/* Login title */}
-            <h1 className="text-center text-2xl font-bold my-4">Login</h1>
+        <div className="flex items-center justify-center min-h-screen bg-gray-100">
             {/* Form container */}
-            <div className="max-w-sm mx-auto p-8 rounded-lg">
+            <div className="max-w-sm w-full p-8 bg-white rounded-lg shadow-md">
                 {/* Login image */}
-                <img src={Loginimg} alt="Loginimg" className="mx-auto" />
+                <img src={Loginimg} alt="Loginimg" className="mx-auto mb-4" />
                 {/* Login form */}
                 <form>
                     {/* Email field */}

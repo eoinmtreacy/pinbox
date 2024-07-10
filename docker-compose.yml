@@ -3,19 +3,24 @@ services:
     build:
       context: ./frontend
     ports:
-      - "8080:80"
+      - "8080:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
     networks:
-      - mappo
+      - pinbox
 
   backend:
     build:
       context: ./backend
     ports:
       - "8000:8080"
+    environment:
+      - DefaultConnection=${DefaultConnection}
     networks:
-      - mappo 
+      - pinbox 
 
 networks:
-  mappo:
+  pinbox:
     driver: bridge
-
+    

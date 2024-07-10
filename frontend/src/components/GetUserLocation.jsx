@@ -1,29 +1,30 @@
-import { useEffect } from 'react';
-import L from 'leaflet';
-import { useMap } from 'react-leaflet';
+import React, { useState, useEffect } from 'react';
+import { Marker, Popup, useMap } from 'react-leaflet'; 
 
 const GetUserLocation = () => {
+    const [position, setPosition] = useState(null);
     const map = useMap();
 
     useEffect(() => {
-        // Manhattan, New York coordinates
-        const manhattanCoordinates = L.latLng(40.7831, -73.9712);
-
-        // Simulate location found
-        map.flyTo(manhattanCoordinates, 13); // You can adjust the zoom level here
-        const radius = 200; // Simulated accuracy radius in meters
-        const circle = L.circle(manhattanCoordinates, { radius });
-        circle.addTo(map);
-
-        // Optionally set bounds around the location
-        const bounds = circle.getBounds();
-        map.fitBounds(bounds);
-
-        // Remove default zoom controls
-        map.zoomControl.remove();
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    const { latitude, longitude } = pos.coords;
+                    setPosition([latitude, longitude]);
+                    map.flyTo([latitude, longitude], 13);
+                },
+                (err) => {
+                    console.error(err);
+                }
+            );
+        }
     }, [map]);
 
-    return null;
+    return position === null ? null : (
+        <Marker position={position}>
+            <Popup>You are here</Popup> {/* Use Popup here */}
+        </Marker>
+    );
 };
 
 export default GetUserLocation;

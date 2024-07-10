@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.data 
+namespace backend.Models 
 {
     public class ApplicationDbContext : DbContext
     {
@@ -10,10 +10,14 @@ namespace backend.data
         }
 
         public DbSet<Place> Places { get; set; }
+        public DbSet<Prediction> Predictions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Prediction>()
+                  .HasKey(p => new { p.location, p.datetime });
 
             modelBuilder.Entity<Place>(entity =>
             {
@@ -106,7 +110,7 @@ namespace backend.data
     
     public class Place
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Google_Id { get; set; } = string.Empty; 
         public string Name { get; set; } = string.Empty; 
         public decimal Lat { get; set; }
@@ -130,7 +134,7 @@ namespace backend.data
         public string? Photo_7 { get; set; }
         public string? Photo_8 { get; set; }
         public string? Photo_9 { get; set; }
-        public int Num_Likes { get; set; } = 0;
-        public int Num_Dislikes { get; set; } = 0;
+        public long Num_Likes { get; set; } = 0;
+        public long Num_Dislikes { get; set; } = 0;
     }
 }
