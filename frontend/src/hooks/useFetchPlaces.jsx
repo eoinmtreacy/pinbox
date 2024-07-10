@@ -8,7 +8,7 @@ export default function useFetchPlaces() {
 
     useEffect(() => {
         setLoading(true);
-        fetch("http://localhost:5165/api/app/get-places")
+        fetch("http://localhost:8000/api/app/get-places")
             .then((response) => response.json())
             .then(async (data) => {
                 console.log(Object.values(data)[1]);

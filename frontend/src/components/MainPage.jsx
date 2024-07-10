@@ -14,7 +14,7 @@ const MainPage = () => {
     const [showPins, setShowPins] = useState(true);
     const [showFriends, toggleFriends] = useToggle();
     const [mode, setMode] = useState('Day');
-    const { places, loading, error } = useFetchPlaces('http://localhost:8000/app/get-places');
+    const { places, loading, error } = useFetchPlaces();
     const [pins, setPins] = useState([]);
 
     const togglePreference = () => {
