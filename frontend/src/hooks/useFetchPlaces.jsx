@@ -11,8 +11,8 @@ export default function useFetchPlaces() {
         fetch("http://localhost:5165/api/app/get-places")
             .then((response) => response.json())
             .then(async (data) => {
-                const filteredPlaces = await filterForPhotos(data);
-                console.log(filteredPlaces);
+                console.log(Object.values(data)[1]);
+                const filteredPlaces = await filterForPhotos(Object.values(data)[1])
                 setPlaces(filteredPlaces);
                 setLoading(false);
             })

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-function useFetchBusyness(endpoint, avgPassengerCountEndpoint) {
+function useFetchBusyness() {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -13,7 +13,7 @@ function useFetchBusyness(endpoint, avgPassengerCountEndpoint) {
             .then((response) => response.json())
             .then((data) => {
                 // Initialize busynessTable with the first fetch results
-                data.forEach((prediction) => {
+                Object.values(data)[1].forEach((prediction) => {
                     busynessTable[prediction.location] = prediction.passenger_count;
                 });
                 // Return a promise for the next fetch operation
@@ -37,7 +37,7 @@ function useFetchBusyness(endpoint, avgPassengerCountEndpoint) {
             .finally(() => {
                 setLoading(false); // Ensure loading is set to false in both success and error cases
             });
-    }, [endpoint, avgPassengerCountEndpoint]); // Use correct dependency variables
+    }, []); // Use correct dependency variables
 
     return { data, error, loading };
 }
