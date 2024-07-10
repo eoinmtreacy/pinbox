@@ -19,6 +19,7 @@ namespace backend.Controllers
             _context = context;
         }
 
+        // Test endpoint to return a default place if the database is empty
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -47,37 +48,35 @@ namespace backend.Controllers
             return Ok(place);
         }
 
+        // Endpoint to get all places
         [HttpGet("get-places")]
         public IActionResult GetAllPlaces()
         {
             try
             {
-                // Query the Places table to get all records
-                var places = _context.Places.ToList(); // This retrieves all records from the Places table
-
-                // If the query succeeds, return the records
+                var places = _context.Places.ToList();
                 return Ok(places);
             }
             catch (Exception ex)
             {
-                // If the query fails, catch the exception and return a failure response
                 return StatusCode(500, new { Message = "Failed to retrieve data from the database.", Error = ex.Message });
             }
         }
 
-        // Endpoint to get places not seen by the user (Feed)
-        [HttpGet("feed/{userId?}")]
-        public async Task<ActionResult<IEnumerable<Place>>> GetPlacesNotSeenByUser(long? userId = null)
+        // Feed for users who are not logged in (ghost mode): Returns all places
+        [HttpGet("feed/ghost")]
+        public async Task<ActionResult<IEnumerable<Place>>> GetAllPlacesForGhostMode()
         {
-            if (userId == null)
-            {
-                // If no userId is provided, return all places (full feed)
-                var allPlaces = await _context.Places.ToListAsync();
-                return Ok(allPlaces);
-            }
+            var allPlaces = await _context.Places.ToListAsync();
+            return Ok(allPlaces);
+        }
 
+        // Feed for users who are logged in: Returns places not in their UserLikes (places they haven't seen)
+        [HttpGet("feed/{userId}")]
+        public async Task<ActionResult<IEnumerable<Place>>> GetPlacesNotSeenByUser(long userId)
+        {
             var userLikes = await _context.UserLikes
-                .Where(ul => ul.UserId == userId.Value)
+                .Where(ul => ul.UserId == userId)
                 .Select(ul => ul.PlaceId)
                 .ToListAsync();
 
@@ -88,18 +87,23 @@ namespace backend.Controllers
             return Ok(placesNotSeen);
         }
 
-        // Endpoint to get places liked by the user (Saved Pins)
-        [HttpGet("saved/{userId}")]
-        public async Task<ActionResult<IEnumerable<Place>>> GetPlacesLikedByUser(long userId)
+        // Endpoint to get places seen by the user (UserLikes)
+        [HttpGet("seen-places/{userId}")]
+        public async Task<ActionResult<IEnumerable<Place>>> GetUserSeenPlaces(long userId)
         {
             var userLikes = await _context.UserLikes
                 .Where(ul => ul.UserId == userId)
                 .Include(ul => ul.Place)
                 .ToListAsync();
 
-            var placesLiked = userLikes.Select(ul => ul.Place).ToList();
+            var seenPlaces = userLikes.Select(ul => ul.Place).ToList();
 
-            return Ok(placesLiked);
+            if (!seenPlaces.Any())
+            {
+                return NotFound(new { Message = "No places found for the given user." });
+            }
+
+            return Ok(seenPlaces);
         }
     }
 }
