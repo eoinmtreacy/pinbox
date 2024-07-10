@@ -1,14 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using backend.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace backend.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class UserLikesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -18,54 +17,100 @@ namespace backend.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<User_Likes>>> GetUserLikes()
-        {
-            return await _context.UserLikes.ToListAsync();
-        }
-
         [HttpPost]
-        public async Task<ActionResult<User_Likes>> AddUserLike([FromBody] User_Likes userLike)
+        public async Task<IActionResult> PostUserLike([FromBody] User_Likes userLike)
         {
             if (userLike == null)
             {
-                return BadRequest(new { error = "Invalid user like data" });
+                return BadRequest(new { Message = "User like data is null." });
             }
 
-            // Check if the PlaceId exists in the Places table
-            var place = await _context.Places
-                .Where(p => p.Id == userLike.PlaceId && p.Type == userLike.Type)
-                .FirstOrDefaultAsync();
-
-            if (place == null)
+            // Validate the incoming data
+            if (!ModelState.IsValid)
             {
-                return NotFound(new { Message = "Place not found." });
+                return BadRequest(new { Message = "Invalid user like data.", Details = ModelState });
             }
 
-            userLike.Place = place; // Assign the place to the userLike
+            try
+            {
+                // Check if the PlaceId and PlaceType exist in the Places table
+                var place = await _context.Places
+                    .Where(p => p.Id == userLike.PlaceId && p.Type == userLike.Type)
+                    .FirstOrDefaultAsync();
 
-            _context.UserLikes.Add(userLike);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetUserLikes), new { id = userLike.Id }, userLike);
+                if (place == null)
+                {
+                    return NotFound(new { Message = "Place not found." });
+                }
+
+                // If Timestamp is not provided in the request, set it to the current UTC time
+                if (userLike.Timestamp == default(DateTime))
+                {
+                    userLike.Timestamp = DateTime.UtcNow;
+                }
+
+                // Add the UserLike to the database
+                _context.UserLikes.Add(userLike);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction(nameof(PostUserLike), new { id = userLike.UserId }, userLike);
+            }
+            catch (DbUpdateException dbEx)
+            {
+                // Handle database update exceptions
+                return StatusCode(500, new { Message = "An error occurred while updating the database.", Details = dbEx.Message });
+            }
+            catch (Exception ex)
+            {
+                // Handle general exceptions
+                return StatusCode(500, new { Message = "An unexpected error occurred.", Details = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllUserLikes()
+        {
+            try
+            {
+                var userLikes = await _context.UserLikes.ToListAsync();
+                return Ok(userLikes);
+            }
+            catch (Exception ex)
+            {
+                // Handle general exceptions
+                return StatusCode(500, new { Message = "An unexpected error occurred while retrieving user likes.", Details = ex.Message });
+            }
         }
 
         [HttpGet("category/{categorySwipe}")]
-        public async Task<ActionResult<IEnumerable<Place>>> GetUserLikesByCategorySwipe(string categorySwipe)
+        public async Task<IActionResult> GetUserLikesByCategorySwipe(string categorySwipe)
         {
-            var userLikes = await _context.UserLikes
-                .Include(ul => ul.Place)
-                .Where(ul => ul.CategorySwipe == categorySwipe)
-                .OrderBy(ul => ul.Timestamp)
-                .ToListAsync();
-
-            if (userLikes == null || userLikes.Count == 0)
+            if (string.IsNullOrWhiteSpace(categorySwipe))
             {
-                return NotFound(new { error = "No likes found for this category" });
+                return BadRequest(new { Message = "Category swipe value is required." });
             }
 
-            var places = userLikes.Select(ul => ul.Place).ToList();
+            try
+            {
+                var userLikes = await _context.UserLikes
+                    .Include(ul => ul.Place)
+                    .Where(ul => ul.CategorySwipe == categorySwipe)
+                    .OrderBy(ul => ul.Timestamp)
+                    .ToListAsync();
 
-            return Ok(places);
+                if (userLikes == null || userLikes.Count == 0)
+                {
+                    return NotFound(new { Message = "No likes found for this category." });
+                }
+
+                var places = userLikes.Select(ul => ul.Place).ToList();
+                return Ok(places);
+            }
+            catch (Exception ex)
+            {
+                // Handle general exceptions
+                return StatusCode(500, new { Message = "An unexpected error occurred while retrieving user likes by category.", Details = ex.Message });
+            }
         }
     }
 }
