@@ -19,7 +19,6 @@ namespace backend.Models
             modelBuilder.Entity<Prediction>()
                   .HasKey(p => new { p.location, p.datetime });
 
-            // Define Place entity
             modelBuilder.Entity<Place>(entity =>
             {
                 entity.ToTable("places");
@@ -50,18 +49,17 @@ namespace backend.Models
                 entity.Property(e => e.Num_Likes).HasDefaultValue(0);
                 entity.Property(e => e.Num_Dislikes).HasDefaultValue(0);
                 
-                // Configure the relationships
                 entity.HasMany(e => e.UserLikes)
                       .WithOne(ul => ul.Place)
                       .HasForeignKey(ul => ul.PlaceId)
                       .OnDelete(DeleteBehavior.Cascade);
+
                 entity.HasMany(e => e.Amenities)
                       .WithOne(a => a.Place)
-                      .HasForeignKey(a => a.Id) // Foreign key on Id
+                      .HasForeignKey(a => a.Id)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // Define Amenity entity
             modelBuilder.Entity<Amenity>(entity =>
             {
                 entity.ToTable("amenities");
@@ -94,27 +92,25 @@ namespace backend.Models
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // Define User_Likes entity
             modelBuilder.Entity<User_Likes>(entity =>
             {
                 entity.ToTable("userlikes");
-                entity.HasKey(e => new { e.UserId, e.Type, e.PlaceId }); // Composite key
+                entity.HasKey(e => new { e.UserId, e.Type, e.PlaceId });
                 entity.Property(e => e.UserId).HasColumnName("user_id");
                 entity.Property(e => e.Type).HasColumnName("place_type").IsRequired().HasMaxLength(50);
                 entity.Property(e => e.PlaceId).HasColumnName("place_id");
                 entity.Property(e => e.CategorySwipe)
                   .HasConversion(
-                      v => v.ToString(),  // Convert enum to string for storage
-                      v => (CategorySwipe)Enum.Parse(typeof(CategorySwipe), v))  // Convert string back to enum
+                      v => v.ToString(),
+                      v => (CategorySwipe)Enum.Parse(typeof(CategorySwipe), v))
                   .HasColumnName("category_swipe");
                 entity.Property(e => e.Timestamp).HasColumnName("timestamp");
 
                 entity.HasOne(e => e.Place)
                     .WithMany(p => p.UserLikes)
-                    .HasForeignKey(e => e.PlaceId); // Foreign key on PlaceId
+                    .HasForeignKey(e => e.PlaceId);
             });
 
-            // Define Friends entity
             modelBuilder.Entity<Friends>(entity =>
             {
                 entity.ToTable("friends");
