@@ -19,9 +19,9 @@ namespace backend.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<User_Likes>> GetUserLikes()
+        public async Task<ActionResult<IEnumerable<User_Likes>>> GetUserLikes()
         {
-            return _context.UserLikes.ToList();
+            return await _context.UserLikes.ToListAsync();
         }
 
         [HttpPost]
@@ -31,6 +31,18 @@ namespace backend.Controllers
             {
                 return BadRequest(new { error = "Invalid user like data" });
             }
+
+            // Check if the PlaceId exists in the Places table
+            var place = await _context.Places
+                .Where(p => p.Id == userLike.PlaceId && p.Type == userLike.Type)
+                .FirstOrDefaultAsync();
+
+            if (place == null)
+            {
+                return NotFound(new { Message = "Place not found." });
+            }
+
+            userLike.Place = place; // Assign the place to the userLike
 
             _context.UserLikes.Add(userLike);
             await _context.SaveChangesAsync();
