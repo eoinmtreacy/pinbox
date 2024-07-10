@@ -1,5 +1,6 @@
 using DotNetEnv;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -12,6 +13,8 @@ using System.Security.Claims;
 using Sprache;
 using Microsoft.AspNetCore.Http.HttpResults;
 
+using System;
+using System.Text.Json.Serialization;
 
 
 try
@@ -66,6 +69,11 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+});
 
 var app = builder.Build();
 
