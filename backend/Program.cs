@@ -1,10 +1,12 @@
 using DotNetEnv;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
 using backend.Models;
+using System;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,8 +30,6 @@ else
     Console.WriteLine($"Connection String from .env: {connectionString}");
 }
 
-var configuration = builder.Configuration;
-
 // Register the DbContext with the MySQL provider using the connection string from .env
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(
@@ -48,7 +48,11 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+});
 
 var app = builder.Build();
 

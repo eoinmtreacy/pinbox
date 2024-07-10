@@ -1,16 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.Models 
+namespace backend.Models
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
+        public DbSet<User_Likes> UserLikes { get; set; }
         public DbSet<Place> Places { get; set; }
-        public DbSet<Prediction> Predictions { get; set; }
+        public DbSet<Amenity> Amenities { get; set; }
+        public DbSet<Friends> Friends { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,120 +20,110 @@ namespace backend.Models
 
             modelBuilder.Entity<Place>(entity =>
             {
-                entity.ToTable("places"); 
-                
+                entity.ToTable("places");
+
                 entity.HasKey(e => e.Id);
-                
-                entity.Property(e => e.Google_Id)
-                      .IsRequired()
-                      .HasMaxLength(255);
-                
-                entity.Property(e => e.Name)
-                      .IsRequired()
-                      .HasMaxLength(255);
-                
-                entity.Property(e => e.Lat)
-                      .IsRequired()
-                      .HasColumnType("decimal(9,6)");
-                
-                entity.Property(e => e.Lon)
-                      .IsRequired()
-                      .HasColumnType("decimal(9,6)");
 
-                entity.Property(e => e.Type)
-                      .IsRequired()
-                      .HasMaxLength(50);
+                entity.Property(e => e.Google_Id).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.Name).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.Lat).IsRequired().HasColumnType("decimal(9,6)");
+                entity.Property(e => e.Lon).IsRequired().HasColumnType("decimal(9,6)");
+                entity.Property(e => e.Type).IsRequired().HasMaxLength(50);
+                entity.Property(e => e.Subtype).HasMaxLength(50);
+                entity.Property(e => e.Addr_City).HasMaxLength(100);
+                entity.Property(e => e.Addr_Housenumber).HasMaxLength(20);
+                entity.Property(e => e.Addr_Postcode).HasMaxLength(20);
+                entity.Property(e => e.Addr_State).HasMaxLength(100);
+                entity.Property(e => e.Addr_Street).HasMaxLength(255);
+                entity.Property(e => e.Opening_Hours).HasMaxLength(255);
+                entity.Property(e => e.Website).HasMaxLength(255);
+                entity.Property(e => e.Photo_0).HasMaxLength(500);
+                entity.Property(e => e.Photo_1).HasMaxLength(500);
+                entity.Property(e => e.Photo_2).HasMaxLength(500);
+                entity.Property(e => e.Photo_3).HasMaxLength(500);
+                entity.Property(e => e.Photo_4).HasMaxLength(500);
+                entity.Property(e => e.Photo_5).HasMaxLength(500);
+                entity.Property(e => e.Photo_6).HasMaxLength(500);
+                entity.Property(e => e.Photo_7).HasMaxLength(500);
+                entity.Property(e => e.Photo_8).HasMaxLength(500);
+                entity.Property(e => e.Photo_9).HasMaxLength(500);
+                entity.Property(e => e.Num_Likes).HasDefaultValue(0);
+                entity.Property(e => e.Num_Dislikes).HasDefaultValue(0);
 
-                entity.Property(e => e.Subtype)
-                      .HasMaxLength(50);
-                
-                entity.Property(e => e.Addr_City)
-                      .HasMaxLength(100);
-                
-                entity.Property(e => e.Addr_Housenumber)
-                      .HasMaxLength(20);
-                
-                entity.Property(e => e.Addr_Postcode)
-                      .HasMaxLength(20);
-                
-                entity.Property(e => e.Addr_State)
-                      .HasMaxLength(100);
-                
-                entity.Property(e => e.Addr_Street)
-                      .HasMaxLength(255);
+                // Configure the relationships
+                entity.HasMany(e => e.UserLikes)
+                      .WithOne(ul => ul.Place)
+                      .HasForeignKey(ul => ul.PlaceId);
 
-                entity.Property(e => e.Opening_Hours)
-                      .HasMaxLength(255);
-                
-                entity.Property(e => e.Website)
-                      .HasMaxLength(255);
+                entity.HasMany(e => e.Amenities)
+                      .WithOne(a => a.Place)
+                      .HasForeignKey(a => a.Id) // Foreign key on Id
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
 
-                entity.Property(e => e.Photo_0)
-                      .HasMaxLength(500);
+            modelBuilder.Entity<Amenity>(entity =>
+            {
+                entity.ToTable("amenities");
 
-                entity.Property(e => e.Photo_1)
-                      .HasMaxLength(500);
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Cuisine_Pizza).IsRequired();
+                entity.Property(e => e.Cuisine_Chinese).IsRequired();
+                entity.Property(e => e.Cuisine_Coffee_Shop).IsRequired();
+                entity.Property(e => e.Cuisine_Mexican).IsRequired();
+                entity.Property(e => e.Cuisine_Italian).IsRequired();
+                entity.Property(e => e.Cuisine_Burger).IsRequired();
+                entity.Property(e => e.Cuisine_Donut).IsRequired();
+                entity.Property(e => e.Cuisine_Sandwich).IsRequired();
+                entity.Property(e => e.Cuisine_Japanese).IsRequired();
+                entity.Property(e => e.Cuisine_American).IsRequired();
 
-                entity.Property(e => e.Photo_2)
-                      .HasMaxLength(500);
+                entity.Property(e => e.Diet_Vegan)
+                      .HasConversion<string>();
+                entity.Property(e => e.Drink_Beer)
+                      .HasConversion<string>();
+                entity.Property(e => e.Drink_Tea)
+                      .HasConversion<string>();
+                entity.Property(e => e.Drink_Wine)
+                      .HasConversion<string>();
+                entity.Property(e => e.Outdoor_Seating)
+                      .HasConversion<string>();
+                entity.Property(e => e.Wheelchair)
+                      .HasConversion<string>();
 
-                entity.Property(e => e.Photo_3)
-                      .HasMaxLength(500);
+                entity.HasOne(d => d.Place)
+                      .WithMany(p => p.Amenities)
+                      .HasForeignKey(d => d.Id) // Foreign key on Id
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
 
-                entity.Property(e => e.Photo_4)
-                      .HasMaxLength(500);
+            modelBuilder.Entity<User_Likes>(entity =>
+            {
+                entity.ToTable("userlikes");
 
-                entity.Property(e => e.Photo_5)
-                      .HasMaxLength(500);
+                entity.HasKey(e => e.Id); // Maps to 'index'
 
-                entity.Property(e => e.Photo_6)
-                      .HasMaxLength(500);
+                entity.Property(e => e.Id).HasColumnName("index");
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.Type).HasColumnName("place_type").IsRequired().HasMaxLength(50);
+                entity.Property(e => e.PlaceId).HasColumnName("place_id");
+                entity.Property(e => e.CategorySwipe).HasColumnName("category_swipe");
+                entity.Property(e => e.Timestamp).HasColumnName("timestamp");
 
-                entity.Property(e => e.Photo_7)
-                      .HasMaxLength(500);
+                entity.HasOne(e => e.Place)
+                      .WithMany(p => p.UserLikes)
+                      .HasForeignKey(e => e.PlaceId);
+            });
 
-                entity.Property(e => e.Photo_8)
-                      .HasMaxLength(500);
+            modelBuilder.Entity<Friends>(entity =>
+            {
+                entity.ToTable("friends");
 
-                entity.Property(e => e.Photo_9)
-                      .HasMaxLength(500);
+                entity.HasKey(f => new { f.UserId, f.UserFriendId });
 
-                entity.Property(e => e.Num_Likes)
-                      .HasDefaultValue(0);
-
-                entity.Property(e => e.Num_Dislikes)
-                      .HasDefaultValue(0);
+                entity.Property(f => f.UserId).HasColumnName("user_id");
+                entity.Property(f => f.UserFriendId).HasColumnName("user_friend_id");
+                entity.Property(f => f.Timestamp).HasColumnName("timestamp");
             });
         }
-    }
-    
-    public class Place
-    {
-        public long Id { get; set; }
-        public string Google_Id { get; set; } = string.Empty; 
-        public string Name { get; set; } = string.Empty; 
-        public decimal Lat { get; set; }
-        public decimal Lon { get; set; }
-        public string Type { get; set; } = string.Empty; 
-        public string? Subtype { get; set; }
-        public string? Addr_City { get; set; }
-        public string? Addr_Housenumber { get; set; }
-        public string? Addr_Postcode { get; set; }
-        public string? Addr_State  { get; set; }
-        public string? Addr_Street { get; set; }
-        public string? Opening_Hours { get; set; }
-        public string? Website { get; set; }
-        public string? Photo_0 { get; set; }
-        public string? Photo_1 { get; set; }
-        public string? Photo_2 { get; set; }
-        public string? Photo_3 { get; set; }
-        public string? Photo_4 { get; set; }
-        public string? Photo_5 { get; set; }
-        public string? Photo_6 { get; set; }
-        public string? Photo_7 { get; set; }
-        public string? Photo_8 { get; set; }
-        public string? Photo_9 { get; set; }
-        public long Num_Likes { get; set; } = 0;
-        public long Num_Dislikes { get; set; } = 0;
     }
 }
