@@ -9,7 +9,7 @@ function useFetchBusyness(endpoint, avgPassengerCountEndpoint) {
         setLoading(true);
         let busynessTable = {}; // Define outside to be accessible in all then blocks
 
-        fetch(endpoint)
+        fetch("http://localhost:5165/api/app/get-predictions")
             .then((response) => response.json())
             .then((data) => {
                 // Initialize busynessTable with the first fetch results
@@ -17,7 +17,7 @@ function useFetchBusyness(endpoint, avgPassengerCountEndpoint) {
                     busynessTable[prediction.location] = prediction.passenger_count;
                 });
                 // Return a promise for the next fetch operation
-                return fetch(avgPassengerCountEndpoint);
+                return fetch("/average_passenger_count.json");
             })
             .then((response) => response.json())
             .then((avgData) => {
