@@ -109,6 +109,7 @@ namespace backend.Models
 
                 entity.HasKey(e => new { e.UserId, e.PlaceId, e.Type }); // Composite key
 
+                entity.Property(e => e.Id).HasColumnName("index");
                 entity.Property(e => e.UserId).HasColumnName("user_id");
                 entity.Property(e => e.Type).HasColumnName("place_type").IsRequired().HasMaxLength(50);
                 entity.Property(e => e.PlaceId).HasColumnName("place_id");
