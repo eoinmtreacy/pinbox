@@ -20,7 +20,7 @@ const PhilipProfile = () => {
                 alt="Philip Murphy"
                 className="rounded-full w-full h-full object-cover mr-5 -mb-4"
             />
-            {hovered && <Tooltip name="Philip Murphy" role="FrontEnd Lead" />}
+            {hovered && <Tooltip name="Philip Cyriac" role="FrontEnd Lead" />}
         </button>
     );
 };
