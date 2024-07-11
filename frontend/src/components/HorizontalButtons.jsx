@@ -45,7 +45,7 @@ const HorizontalButtons = () => {
                     onClick={toggleIcon}
                 >
                     <img src={isInferno ? infernoImage : iceImage} alt="Toggle Icon" className="w-5 h-5 button-icon" />
-                    <span className="button-text">{isInferno ? 'Inferno' : 'Ice'}</span>
+                    <span className="button-text">{isInferno ? 'Busy' : 'Quiet'}</span>
                 </button>
             </div>
         </div>
