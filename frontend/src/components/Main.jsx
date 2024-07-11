@@ -19,6 +19,12 @@ function Main() {
         navigate('/signup'); // Navigate to the signup page
     };
 
+    // Handler for guest login button click
+    const handleGuestLoginClick = (event) => {
+        event.preventDefault(); // Prevent the default form submission
+        navigate('/mainpage'); // Navigate to the mainpage
+    };
+
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="flex flex-col items-center px-6 pt-5 pb-10 mx-auto w-full bg-white max-w-[480px] rounded-lg shadow-md">
@@ -53,6 +59,14 @@ function Main() {
                     className="justify-center px-6 py-3 mt-10 max-w-full text-2xl font-bold text-center bg-white border border-solid border-slate-500 rounded-[30px] text-slate-500 w-[280px] cursor-pointer"
                 >
                     Sign Up
+                </button>
+
+                {/* Guest login button */}
+                <button
+                    onClick={handleGuestLoginClick}
+                    className="justify-center px-6 py-3 mt-10 max-w-full text-2xl font-bold text-center bg-gray-200 border border-solid border-gray-400 rounded-[30px] text-gray-700 w-[280px] cursor-pointer"
+                >
+                    Log in as Guest
                 </button>
 
                 {/* Sign-up using other services message */}

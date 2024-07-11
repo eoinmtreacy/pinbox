@@ -24,7 +24,7 @@ function App() {
 
 const AppContent = () => {
     const location = useLocation();
-    const hideSideNav = ['/login', '/signup'].includes(location.pathname);
+    const hideSideNav = ['/Login', '/Signup','/Main'].includes(location.pathname);
 
     return (
         <div className="flex flex-1">
