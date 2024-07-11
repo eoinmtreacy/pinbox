@@ -24,6 +24,7 @@ const MainPage = () => {
     const { places, loading, error } = useFetchPlaces();
     const [pins, setPins] = useState([]);
     const isMobile = useScreenWidth();
+    const [showBusynessTable, setShowBusynessTable] = useState(true);
 
     const togglePreference = () => {
         setShowPreference(!showPreference);
@@ -31,6 +32,13 @@ const MainPage = () => {
 
     const handleLoginLogout = () => {
         setIsLoggedIn(!isLoggedIn);
+    };
+
+    const handleFriendsToggle = () => {
+        toggleFriends();
+        if (isMobile) {
+            setShowBusynessTable(showFriends); // Toggle the busyness table visibility
+        }
     };
 
     useEffect(() => {
@@ -57,7 +65,7 @@ const MainPage = () => {
                     <div className="SideNav flex-none w-1/24 h-full">
                         <SideNav
                             onPreferenceToggle={togglePreference}
-                            onFriendsToggle={toggleFriends}
+                            onFriendsToggle={handleFriendsToggle}
                         />
                     </div>
                 )}
@@ -99,7 +107,7 @@ const MainPage = () => {
                             </div>
                         )}
                         <div className={`${showPreference ? 'flex-grow w-17/24' : 'flex-grow w-22/24'} h-full overflow-auto`}>
-                            <Map geoJsonData={geoJsonData} pins={pins} />
+                            <Map geoJsonData={geoJsonData} pins={pins} showBusynessTable={showBusynessTable} />
                         </div>
                     </div>
                 </div>
@@ -107,7 +115,7 @@ const MainPage = () => {
             {isMobile && (
                 <BottomNav
                     onPreferenceToggle={togglePreference}
-                    onFriendsToggle={toggleFriends}
+                    onFriendsToggle={handleFriendsToggle}
                 />
             )}
         </div>

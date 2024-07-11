@@ -1,6 +1,5 @@
 /* App.css */
 
-/* Set global font family to monospace */
 body, html {
     font-family: monospace;
     font-weight: bold;
@@ -34,7 +33,6 @@ body, html {
     overflow: hidden;
 }
 
-/* Add hard light blend mode */
 .hard-light-blend {
     mix-blend-mode: hard-light;
 }

@@ -12,7 +12,7 @@ import colorGen from '../utils/colorGen';
 import iconGen from '../utils/iconGen';
 import BusynessTable from './Map/BusynessTable';
 
-const CustomMap = ({ pins }) => {
+const CustomMap = ({ pins, showBusynessTable }) => {
     const { data: taxiZones, error } = useFetchGeoJson('/taxi_zones.geojson');
     const { data: busynessData } = useFetchBusyness();
     const mapRef = useRef(null);
@@ -84,9 +84,11 @@ const CustomMap = ({ pins }) => {
                 <div className="absolute bottom-2 z-50">
                     <CookieModal />
                 </div>
-                <div className="busyness-table">
-                    <BusynessTable />
-                </div>
+                {showBusynessTable && (
+                    <div className="busyness-table">
+                        <BusynessTable />
+                    </div>
+                )}
             </MapContainer>
         </div>
     );
