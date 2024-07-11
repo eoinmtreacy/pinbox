@@ -1,3 +1,5 @@
+/* App.css */
+
 /* Set global font family to monospace */
 body, html {
     font-family: monospace;
@@ -35,4 +37,66 @@ body, html {
 /* Add hard light blend mode */
 .hard-light-blend {
     mix-blend-mode: hard-light;
+}
+
+@media (max-width: 768px) {
+    .top-nav {
+        display: none;
+    }
+    .mobile-icons {
+        display: flex;
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        background: blue;
+        justify-content: space-around;
+        z-index: 1000;
+        padding: 10px;
+    }
+    .button-text {
+        display: none;
+    }
+    .button-icon {
+        display: inline-block;
+    }
+
+    .horizontal-buttons-wrapper {
+        display: block;
+        position: absolute;
+        top: 50px;  /* Adjust as needed */
+        left: 0;
+        z-index: 1000;
+    }
+
+    .desktop-searchbar {
+        display: none;
+    }
+
+    .desktop-horizontal-buttons{
+        display: none;
+    }
+
+
+
+}
+
+@media (min-width: 769px) {
+    .mobile-icons {
+        display: none;
+    }
+    .button-text {
+        display: inline-block;
+    }
+    .button-icon {
+        display: none;
+    }
+
+    .horizontal-buttons-wrapper {
+        display: none;
+    }
+
+    .desktop-searchbar {
+        display: block;
+    }
 }

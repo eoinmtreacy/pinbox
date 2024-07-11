@@ -13,8 +13,7 @@ import iconGen from '../utils/iconGen';
 
 const CustomMap = ({ pins }) => {
     const { data: taxiZones, error } = useFetchGeoJson('/taxi_zones.geojson');
-    const { data: busynessData } = useFetchBusyness(
-    );
+    const { data: busynessData } = useFetchBusyness();
     const mapRef = useRef(null);
     const [initialLoad, setInitialLoad] = useState(true);
 
@@ -25,17 +24,21 @@ const CustomMap = ({ pins }) => {
     return (
         <div className="map-container relative flex flex-col h-screen">
             <div className="flex flex-col md:flex-row md:items-start absolute top-1 left-16 right-0 z-[1000] space-y-4 md:space-y-0 md:space-x-4">
-                <div className="w-full md:w-auto flex justify-end md:justify-start">
+                <div className="desktop-searchbar w-full md:w-auto flex justify-end md:justify-start">
                     <SearchBar />
                 </div>
-                <div className="w-full md:w-auto flex justify-end md:justify-start">
+                <div className="desktop-horizontal-buttons w-full md:w-auto flex justify-end md:justify-start">
                     <HorizontalButtons />
                 </div>
+            </div>
+            <div className="horizontal-buttons-wrapper">
+                <HorizontalButtons />
             </div>
             <MapContainer
                 center={[40.7478017, -73.9914126]}
                 zoom={13}
                 className="h-full w-full"
+                zoomControl={false}  // Disable zoom control buttons
                 whenCreated={(mapInstance) => {
                     mapRef.current = mapInstance;
                     if (initialLoad) {

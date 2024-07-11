@@ -17,10 +17,8 @@ const TopNav = ({
     onLoginLogout,
     userName
 }) => {
-    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
     return (
-        <div className="w-full bg-white flex justify-between items-center p-2 shadow-md">
+        <div className="w-full bg-white flex justify-between items-center p-2 shadow-md top-nav">
             <div className="flex items-center space-x-4">
                 <div className="flex flex-col items-center mx-2">
                     <span className="text-gray-700 text-xs mb-1">Time</span>
@@ -75,7 +73,7 @@ const TopNav = ({
                         onChange={(e) => setMode(e.target.value)}
                         className="bg-white border border-gray-300 rounded p-1 text-xs"
                     >
-                        {daysOfWeek.map(day => (
+                        {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map(day => (
                             <option key={day} value={day}>{day}</option>
                         ))}
                     </select>
@@ -93,20 +91,6 @@ const TopNav = ({
             </div>
         </div>
     );
-};
-
-TopNav.propTypes = {
-    timeStamp: PropTypes.number.isRequired,
-    setTimeStamp: PropTypes.func.isRequired,
-    distance: PropTypes.number.isRequired,
-    setDistance: PropTypes.func.isRequired,
-    showPins: PropTypes.bool.isRequired,
-    setShowPins: PropTypes.func.isRequired,
-    mode: PropTypes.string.isRequired,
-    setMode: PropTypes.func.isRequired,
-    isLoggedIn: PropTypes.bool.isRequired,
-    onLoginLogout: PropTypes.func.isRequired,
-    userName: PropTypes.string.isRequired,
 };
 
 export default TopNav;
