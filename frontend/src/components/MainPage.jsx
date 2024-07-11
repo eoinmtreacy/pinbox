@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import SideNav from './SideNav';
 import Preference from './Preference';
-import Friends from './Friends';
+import Friends from './FriendsList.';
 import Map from './Map';
 import useToggle from '../hooks/useToggle';
+import useFetchPlaces from '../hooks/useFetchPlaces';
 
 const MainPage = () => {
     const [showPreference, setShowPreference] = useState(false);
@@ -13,6 +14,8 @@ const MainPage = () => {
     const [showPins, setShowPins] = useState(true);
     const [showFriends, toggleFriends] = useToggle();
     const [mode, setMode] = useState('Day');
+    const { places, loading, error } = useFetchPlaces();
+    const [pins, setPins] = useState([]);
 
     const togglePreference = () => {
         setShowPreference(!showPreference);
@@ -36,7 +39,7 @@ const MainPage = () => {
     }, []);
 
     return (
-        <div className="flex h-screen">
+        <div className="flex flex-wrap h-screen">
             <div className="SideNav flex-none w-1/24 ">
                 <SideNav
                     onPreferenceToggle={togglePreference}
@@ -51,20 +54,21 @@ const MainPage = () => {
                     setMode={setMode}
                 />
             </div>
-            {showPreference && (
+            {showPreference && places.length > 1 && (
                 <div className="flex-none w-4/24">
-                    <Preference setGeoJsonData={setGeoJsonData} geoJsonData={geoJsonData} />{' '}
+                    <Preference places={places} pins={pins} setPins={setPins} />{' '}
                     {/* Pass setGeoJsonData to Preference */}
                 </div>
             )}
             {showFriends && (
-                <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full">
+                <div className="w-full md:w-1/4 p-4 bg-white border-r border-gray-300 h-full">
                     <Friends userId={1} />
                 </div>
             )}
             <div className={`${showPreference ? 'flex-grow w-17/24' : 'flex-grow w-22/24'}`}>
-                <Map geoJsonData={geoJsonData} /> {/* Pass geoJsonData to Map */}
+                <Map geoJsonData={geoJsonData} pins={pins} /> {/* Pass geoJsonData to Map */}
             </div>
+            
         </div>
     );
 };
