@@ -27,22 +27,16 @@ describe('SideNav Component', () => {
   });
 
   it('renders correctly', () => {
-    expect(screen.getAllByRole('button')).toHaveLength(8);
+    expect(screen.getAllByRole('button')).toHaveLength(5);
     expect(screen.getByAltText('Home Icon')).toBeInTheDocument();
-    expect(screen.getByAltText('Search Icon')).toBeInTheDocument();
     expect(screen.getByAltText('Like Icon')).toBeInTheDocument();
     expect(screen.getByAltText('Friends Icon')).toBeInTheDocument();
     expect(screen.getByAltText('Profile Icon')).toBeInTheDocument();
   });
 
-  it('navigates to /home when home button is clicked', () => {
+  it('navigates to /map when home button is clicked', () => {
     fireEvent.click(screen.getByAltText('Home Icon'));
     expect(mockNavigate).toHaveBeenCalledWith('/map');
-  });
-
-  it('navigates to /search when search button is clicked', () => {
-    fireEvent.click(screen.getByAltText('Search Icon'));
-    expect(mockNavigate).toHaveBeenCalledWith('/search');
   });
 
   it('calls onPreferenceToggle when preference button is clicked', () => {
