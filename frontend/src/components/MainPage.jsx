@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import SideNav from './SideNav';
 import Preference from './Preference';
-import Friends from './FriendsList.';
+import Friends from './FriendsList';
 import Map from './Map';
 import useToggle from '../hooks/useToggle';
 import useFetchPlaces from '../hooks/useFetchPlaces';
+import TopNav from './TopNav';
+import withHardLightBlend from './withHardLightBlend';
 
 const MainPage = () => {
     const [showPreference, setShowPreference] = useState(false);
@@ -14,11 +16,17 @@ const MainPage = () => {
     const [showPins, setShowPins] = useState(true);
     const [showFriends, toggleFriends] = useToggle();
     const [mode, setMode] = useState('Day');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userName, setUserName] = useState('User'); // Example username
     const { places, loading, error } = useFetchPlaces();
     const [pins, setPins] = useState([]);
 
     const togglePreference = () => {
         setShowPreference(!showPreference);
+    };
+
+    const handleLoginLogout = () => {
+        setIsLoggedIn(!isLoggedIn);
     };
 
     useEffect(() => {
@@ -39,38 +47,48 @@ const MainPage = () => {
     }, []);
 
     return (
-        <div className="flex flex-wrap h-screen">
-            <div className="SideNav flex-none w-1/24 ">
-                <SideNav
-                    onPreferenceToggle={togglePreference}
-                    onFriendsToggle={toggleFriends}
-                    timeStamp={timeStamp}
-                    setTimeStamp={setTimeStamp}
-                    distance={distance}
-                    setDistance={setDistance}
-                    showPins={showPins}
-                    setShowPins={setShowPins}
-                    mode={mode}
-                    setMode={setMode}
-                />
-            </div>
-            {showPreference && places.length > 1 && (
-                <div className="flex-none w-4/24">
-                    <Preference places={places} pins={pins} setPins={setPins} />{' '}
-                    {/* Pass setGeoJsonData to Preference */}
+        <div className="App">
+            <div className="flex h-full w-full overflow-hidden">
+                <div className="SideNav flex-none w-1/24 h-full">
+                    <SideNav
+                        onPreferenceToggle={togglePreference}
+                        onFriendsToggle={toggleFriends}
+                    />
                 </div>
-            )}
-            {showFriends && (
-                <div className="w-full md:w-1/4 p-4 bg-white border-r border-gray-300 h-full">
-                    <Friends userId={1} />
+                <div className="flex-grow h-full">
+                    <TopNav
+                        timeStamp={timeStamp}
+                        setTimeStamp={setTimeStamp}
+                        distance={distance}
+                        setDistance={setDistance}
+                        showPins={showPins}
+                        setShowPins={setShowPins}
+                        mode={mode}
+                        setMode={setMode}
+                        isLoggedIn={isLoggedIn}
+                        onLoginLogout={handleLoginLogout}
+                        userName={userName}
+                    />
+                    <div className="flex h-full overflow-hidden">
+                        {showPreference && places.length > 1 && (
+                            <div className="flex-none w-4/24 h-full overflow-auto">
+                                <Preference places={places} pins={pins} setPins={setPins} />{' '}
+                                {/* Pass setGeoJsonData to Preference */}
+                            </div>
+                        )}
+                        {showFriends && (
+                            <div className="w-full md:w-1/4 p-4 bg-white border-r border-gray-300 h-full overflow-auto">
+                                <Friends userId={1} />
+                            </div>
+                        )}
+                        <div className={`${showPreference ? 'flex-grow w-17/24' : 'flex-grow w-22/24'} h-full overflow-auto`}>
+                            <Map geoJsonData={geoJsonData} pins={pins} /> {/* Pass geoJsonData to Map */}
+                        </div>
+                    </div>
                 </div>
-            )}
-            <div className={`${showPreference ? 'flex-grow w-17/24' : 'flex-grow w-22/24'}`}>
-                <Map geoJsonData={geoJsonData} pins={pins} /> {/* Pass geoJsonData to Map */}
             </div>
-            
         </div>
     );
 };
 
-export default MainPage;
+export default withHardLightBlend(MainPage);
