@@ -1,11 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using backend.Models;
 using Microsoft.EntityFrameworkCore;
-<<<<<<< HEAD
-=======
 using System;
 using System.Collections.Generic;
->>>>>>> aidamariacoughlan/res-230
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -50,15 +47,6 @@ namespace backend.Controllers
         [HttpGet("get-places")]
         public IActionResult GetAllPlaces()
         {
-<<<<<<< HEAD
-            try
-            {
-                // Query the Places table to get all records
-                var places = _context.Places.ToList(); // This retrieves all records from the Places table
-
-                // If the query succeeds, return the records
-                return Ok(places);
-=======
             try
             {
                 var places = _context.Places.ToList();
@@ -84,7 +72,6 @@ namespace backend.Controllers
                     .ToList();
 
                 return Ok(groupedPredictions);
->>>>>>> aidamariacoughlan/res-230
             }
             catch (Exception ex)
             {

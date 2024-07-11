@@ -3,10 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Models
 {
-    public class ApplicationDbContext : IdentityDbContext<AppUser>
+    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<AppUser>(options)
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-
         public DbSet<User_Likes> UserLikes { get; set; }
         public DbSet<Place> Places { get; set; }
         public DbSet<Amenity> Amenities { get; set; }
