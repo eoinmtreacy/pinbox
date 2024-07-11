@@ -100,6 +100,7 @@ namespace backend.Models
             modelBuilder.Entity<User_Likes>(entity =>
             {
                 entity.ToTable("userlikes");
+<<<<<<< HEAD
                 entity.HasKey(e => new { e.UserId, e.Type, e.PlaceId });
                 entity.Property(e => e.UserId).HasColumnName("user_id");
                 entity.Property(e => e.Type).HasColumnName("place_type").IsRequired().HasMaxLength(50);
@@ -109,6 +110,16 @@ namespace backend.Models
                       v => v.ToString(),
                       v => (CategorySwipe)Enum.Parse(typeof(CategorySwipe), v))
                   .HasColumnName("category_swipe");
+=======
+
+                entity.HasKey(e => new { e.UserId, e.PlaceId, e.Type }); // Composite key
+
+                entity.Property(e => e.Id).HasColumnName("index");
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.Type).HasColumnName("place_type").IsRequired().HasMaxLength(50);
+                entity.Property(e => e.PlaceId).HasColumnName("place_id");
+                entity.Property(e => e.CategorySwipe).HasColumnName("category_swipe").HasConversion<string>();
+>>>>>>> aidamariacoughlan/res-252
                 entity.Property(e => e.Timestamp).HasColumnName("timestamp");
 
                 entity.HasOne(e => e.Place)
