@@ -12,7 +12,6 @@ export default function useFetchPlaces(url) {
             .then((response) => response.json())
             .then(async (data) => {
                 const filteredPlaces = await filterForPhotos(data);
-                console.log(filteredPlaces);
                 setPlaces(filteredPlaces);
                 setLoading(false);
             })

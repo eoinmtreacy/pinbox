@@ -9,8 +9,7 @@ function Login() {
 
     const handleLoginClick = async (event) => {
         event.preventDefault(); 
-        const response = await fetch('http://localhost:5165/User/login', {
-            credentials: "include",
+        const response = await fetch('http://localhost:5165/login?useCookies=true', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -21,10 +20,10 @@ function Login() {
             })
         });
         if (response.status == 200) {
-            const data  = await response.json()
-            const pinbox_Id = data.pinbox_Id;
-            console.log(pinbox_Id);
-            navigate(`/mainpage/${pinbox_Id}`);
+            // const data  = await response.json()
+            // const pinbox_Id = data.pinbox_Id;
+            // console.log(pinbox_Id);
+            navigate(`/mainpage/`);
         }
         else {
             console.log(response);

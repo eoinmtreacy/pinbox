@@ -110,13 +110,14 @@ namespace backend.controllers
             }
 
             var pinboxIdClaim = User.Claims.FirstOrDefault(c => c.Type == "Pinbox_Id");
+            _logger.LogInformation(pinboxIdClaim?.Value ?? "No Pinbox_Id claim found");
             if (pinboxIdClaim != null)
             {
                 return Ok(new { Pinbox_Id = pinboxIdClaim.Value });
             }
             else
             {
-                return BadRequest("Pinbox_Id claim not found.");
+                return Ok(new { Pinbox_Id = "" });
             }
         }
     }

@@ -98,6 +98,7 @@ app.MapIdentityApi<AppUser>();
 
 app.MapGet("/", () => "Hello World!");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 
