@@ -74,7 +74,7 @@ function Preference({ places, pins, setPins }) {
                     >
                         <div className="flex flex-col bg-white rounded-xl border border-solid border-stone-400 max-w-sm p-5">
                             <img
-                                src={card.photo_0 + '.png'}
+                                src={"/" + card.photo_0 + '.png'}
                                 alt={card.name}
                                 className=" h-60 object-cover rounded-lg"
                             />
