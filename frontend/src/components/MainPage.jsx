@@ -8,6 +8,8 @@ import useFetchPlaces from '../hooks/useFetchPlaces';
 import TopNav from './TopNav';
 import withHardLightBlend from './withHardLightBlend';
 import MobileIcons from './MobileIcons';
+import BottomNav from './BottomNav';
+import useScreenWidth from '../hooks/useScreenWidth';
 
 const MainPage = () => {
     const [showPreference, setShowPreference] = useState(false);
@@ -21,6 +23,7 @@ const MainPage = () => {
     const [userName, setUserName] = useState('User');
     const { places, loading, error } = useFetchPlaces();
     const [pins, setPins] = useState([]);
+    const isMobile = useScreenWidth();
 
     const togglePreference = () => {
         setShowPreference(!showPreference);
@@ -50,12 +53,14 @@ const MainPage = () => {
     return (
         <div className="App">
             <div className="flex h-full w-full overflow-hidden">
-                <div className="SideNav flex-none w-1/24 h-full">
-                    <SideNav
-                        onPreferenceToggle={togglePreference}
-                        onFriendsToggle={toggleFriends}
-                    />
-                </div>
+                {!isMobile && (
+                    <div className="SideNav flex-none w-1/24 h-full">
+                        <SideNav
+                            onPreferenceToggle={togglePreference}
+                            onFriendsToggle={toggleFriends}
+                        />
+                    </div>
+                )}
                 <div className="flex-grow h-full">
                     <TopNav
                         timeStamp={timeStamp}
@@ -99,6 +104,12 @@ const MainPage = () => {
                     </div>
                 </div>
             </div>
+            {isMobile && (
+                <BottomNav
+                    onPreferenceToggle={togglePreference}
+                    onFriendsToggle={toggleFriends}
+                />
+            )}
         </div>
     );
 };

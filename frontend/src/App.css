@@ -73,12 +73,30 @@ body, html {
         display: none;
     }
 
-    .desktop-horizontal-buttons{
+    .desktop-horizontal-buttons {
         display: none;
     }
 
+    .SideNav {
+        display: none;
+    }
 
+    .BottomNav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: white;
+        justify-content: space-around;
+        z-index: 1000;
+        padding: 10px 0;
+        border-top: 1px solid #ccc;
+    }
 
+    .ml-for-desktop {
+        margin-left: 0;
+    }
 }
 
 @media (min-width: 769px) {
@@ -98,5 +116,13 @@ body, html {
 
     .desktop-searchbar {
         display: block;
+    }
+
+    .BottomNav {
+        display: none;
+    }
+
+    .ml-for-desktop {
+        margin-left: 70px;
     }
 }

@@ -28,7 +28,7 @@ const AppContent = () => {
 
     return (
         <div className="flex flex-1">
-            <div className={!hideSideNav ? 'flex-1 ml-[70px]' : 'flex-1'}>
+            <div className={!hideSideNav ? 'flex-1 ml-for-desktop' : 'flex-1'}>
                 <Routes>
                     <Route path="/" element={<Main />} />
                     <Route path="/mainpage/:pinbox_id?" element={<MainPage />} />
