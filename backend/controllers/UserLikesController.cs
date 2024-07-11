@@ -55,8 +55,20 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllUserLikes()
         {
-            var userLikes = await _context.UserLikes.ToListAsync();
-            return Ok(userLikes);
+            try
+            {
+                var userLikes = await _context.UserLikes.ToListAsync();
+                if (userLikes == null || userLikes.Count == 0)
+                {
+                    return NotFound("No user likes found.");
+                }
+                return Ok(userLikes);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+            
         }
     }
 }
