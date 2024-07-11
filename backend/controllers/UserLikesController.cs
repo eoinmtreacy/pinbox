@@ -94,7 +94,7 @@ namespace backend.Controllers
                 {
                     Place = ul.Place,
                     CategorySwipe = ul.CategorySwipe,
-                    Color = GetColourForCategory(ul.CategorySwipe)
+                    Colour = GetColourForCategory(ul.CategorySwipe)
                 }).ToList();
 
                 return Ok(categorizedPlaces);
@@ -113,7 +113,7 @@ namespace backend.Controllers
                 "hate_it" => "Yellow",
                 "don't_care" => "Green",
                 "wanna" => "Blue",
-                _ => "Black" // Default color if no match found
+                _ => "Black" // Default colour if no match found
             };
         }
     }
