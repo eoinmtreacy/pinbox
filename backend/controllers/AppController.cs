@@ -10,14 +10,9 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AppController : ControllerBase
+    public class AppController(ApplicationDbContext context) : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-
-        public AppController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        private readonly ApplicationDbContext _context = context;
 
         // Test endpoint to return a default place if the database is empty
         [HttpGet]
@@ -62,7 +57,27 @@ namespace backend.Controllers
                 return StatusCode(500, new { Message = "Failed to retrieve data from the database.", Error = ex.Message });
             }
         }
-<<<<<<< HEAD
+
+        // Endpoint to get predictions grouped by location
+        [HttpGet("get-predictions")]
+        public IActionResult GetPredictions()
+        {
+            try
+            {
+                var now = DateTime.Now;
+                var groupedPredictions = _context.Predictions
+                    .AsEnumerable()
+                    .GroupBy(p => p.location)
+                    .Select(g => g.OrderBy(p => Math.Abs((p.datetime - now).Ticks)).First())
+                    .ToList();
+
+                return Ok(groupedPredictions);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "Failed to retrieve data from the database.", Error = ex.Message });
+            }
+        }
 
         // Feed for users who are not logged in (ghost mode): Returns all places
         [HttpGet("feed/ghost")]
@@ -106,32 +121,5 @@ namespace backend.Controllers
 
             return Ok(seenPlaces);
         }
-=======
-        
-        [HttpGet("get-predictions")]
-        public IActionResult GetPredictions()
-        {
-            try
-            {
-                // Get the current time
-                var now = DateTime.Now;
-
-                // Retrieve all predictions and group them by location
-                var groupedPredictions = _context.Predictions
-                    .AsEnumerable() // Switch to client-side processing for the next operations
-                    .GroupBy(p => p.location)
-                    .Select(g => g.OrderBy(p => Math.Abs((p.datetime - now).Ticks)).First()) // For each group, find the prediction closest to now
-                    .ToList();
-
-                return Ok(groupedPredictions);
-            }
-            catch (Exception ex)
-            {
-                // If the query fails, catch the exception and return a failure response
-                return StatusCode(500, new { Message = "Failed to retrieve data from the database.", Error = ex.Message });
-            }
-        }
-
->>>>>>> dev
     }
 }
