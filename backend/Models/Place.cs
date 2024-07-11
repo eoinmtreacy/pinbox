@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace backend.Models
 {
     public class Place

@@ -9,15 +9,10 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserLikesController : ControllerBase
+    public class UserLikesController(ApplicationDbContext context) : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        private readonly string[] allowedCategorySwipes = { "love it", "hate it", "wanna", "don't care" };
-
-        public UserLikesController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        private readonly ApplicationDbContext _context = context;
+        private readonly string[] allowedCategorySwipes = ["love_it", "hate_it", "wanna", "dont_care"];
 
         [HttpPost]
         public async Task<IActionResult> PostUserLike([FromBody] User_Likes userLike)
