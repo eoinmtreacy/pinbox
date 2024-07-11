@@ -9,10 +9,15 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserLikesController(ApplicationDbContext context) : ControllerBase
+    public class UserLikesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context = context;
-        private readonly string[] allowedCategorySwipes = ["love_it", "hate_it", "wanna", "dont_care"];
+        private readonly ApplicationDbContext _context;
+        private readonly string[] allowedCategorySwipes = ["love_it", "hate_it", "wanna", "don't_care"];
+
+        public UserLikesController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
         [HttpPost]
         public async Task<IActionResult> PostUserLike([FromBody] User_Likes userLike)
@@ -68,7 +73,48 @@ namespace backend.Controllers
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
-            
+        }
+
+        [HttpGet("places-with-categories/{userId}")]
+        public async Task<IActionResult> GetPlacesWithCategories(long userId)
+        {
+            try
+            {
+                var userLikes = await _context.UserLikes
+                    .Where(ul => ul.UserId == userId)
+                    .Include(ul => ul.Place)
+                    .ToListAsync();
+
+                if (userLikes == null || userLikes.Count == 0)
+                {
+                    return NotFound(new { Message = "No places found for the given user." });
+                }
+
+                var categorizedPlaces = userLikes.Select(ul => new
+                {
+                    Place = ul.Place,
+                    CategorySwipe = ul.CategorySwipe,
+                    Colour = GetColourForCategory(ul.CategorySwipe)
+                }).ToList();
+
+                return Ok(categorizedPlaces);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        private string GetColourForCategory(string categorySwipe)
+        {
+            return categorySwipe switch
+            {
+                "love_it" => "Red",
+                "hate_it" => "Yellow",
+                "don't_care" => "Green",
+                "wanna" => "Blue",
+                _ => "Black" // Default colour if no match found
+            };
         }
     }
 }
