@@ -11,7 +11,6 @@ namespace backend.Models
         public DbSet<Place> Places { get; set; }
         public DbSet<Amenity> Amenities { get; set; }
         public DbSet<Friends> Friends { get; set; }
-
         public DbSet<Prediction> Predictions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -58,14 +57,14 @@ namespace backend.Models
                 entity.Property(e => e.Num_Likes).HasDefaultValue(0);
                 entity.Property(e => e.Num_Dislikes).HasDefaultValue(0);
 
-                // Configure the relationships
                 entity.HasMany(e => e.UserLikes)
                       .WithOne(ul => ul.Place)
-                      .HasForeignKey(ul => ul.PlaceId);
+                      .HasForeignKey(ul => ul.PlaceId)
+                      .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasMany(e => e.Amenities)
                       .WithOne(a => a.Place)
-                      .HasForeignKey(a => a.Id) // Foreign key on Id
+                      .HasForeignKey(a => a.Id)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
@@ -108,13 +107,13 @@ namespace backend.Models
             {
                 entity.ToTable("userlikes");
 
-                entity.HasKey(e => e.Id); // Maps to 'index'
+                entity.HasKey(e => new { e.UserId, e.PlaceId, e.Type }); // Composite key
 
                 entity.Property(e => e.Id).HasColumnName("index");
                 entity.Property(e => e.UserId).HasColumnName("user_id");
                 entity.Property(e => e.Type).HasColumnName("place_type").IsRequired().HasMaxLength(50);
                 entity.Property(e => e.PlaceId).HasColumnName("place_id");
-                entity.Property(e => e.CategorySwipe).HasColumnName("category_swipe");
+                entity.Property(e => e.CategorySwipe).HasColumnName("category_swipe").HasConversion<string>();
                 entity.Property(e => e.Timestamp).HasColumnName("timestamp");
 
                 entity.HasOne(e => e.Place)

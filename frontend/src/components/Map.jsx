@@ -10,11 +10,10 @@ import useFetchBusyness from '../hooks/useFetchBusyness';
 import HorizontalButtons from './HorizontalButtons';
 import colorGen from '../utils/colorGen';
 import iconGen from '../utils/iconGen';
-
+import BusynessTable from './Map/BusynessTable';
 const CustomMap = ({ pins }) => {
     const { data: taxiZones, error } = useFetchGeoJson('/taxi_zones.geojson');
-    const { data: busynessData } = useFetchBusyness(
-    );
+    const { data: busynessData } = useFetchBusyness();
     const mapRef = useRef(null);
     const [initialLoad, setInitialLoad] = useState(true);
 
@@ -63,11 +62,7 @@ const CustomMap = ({ pins }) => {
                 )}
                 {pins &&
                     pins.map((pin) => (
-                        <Marker
-                            key={pin.id}
-                            position={[pin.lat, pin.lon]}
-                            icon={iconGen(pin.attitude)}
-                        >
+                        <Marker key={pin.id} position={[pin.lat, pin.lon]} icon={iconGen(pin.attitude)}>
                             <Popup>
                                 <PreferenceWithoutButtons
                                     name={pin.name}
@@ -83,6 +78,11 @@ const CustomMap = ({ pins }) => {
                     ))}
                 <div className="absolute bottom-2 z-50">
                     <CookieModal />
+                </div>
+                <div className="flex flex-col md:flex-row md:items-start absolute top-1 left-16 right-0 z-[1000] space-y-4 md:space-y-0 md:space-x-4">
+                    <div className="fixed bottom-2 right-2 z-50">
+                        <BusynessTable />
+                    </div>
                 </div>
             </MapContainer>
         </div>
