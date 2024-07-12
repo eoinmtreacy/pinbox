@@ -18,11 +18,11 @@ const BusynessModal = ({ isOpen, onRequestClose, busyness }) => {
                     </tr>
                     <tr style={{ backgroundColor: '#2ca02c' }}>
                         <td className="border px-4 py-2">0.5 ~ 1.0</td>
-                        <td className="border px-4 py-2">Moderate</td>
+                        <td className="border px-4 py-2">A little busy </td>
                     </tr>
                     <tr style={{ backgroundColor: '#ff7f0e' }}>
                         <td className="border px-4 py-2">1.0 to 1.5</td>
-                        <td className="border px-4 py-2">A little busy</td>
+                        <td className="border px-4 py-2">Moderate</td>
                     </tr>
                     <tr style={{ backgroundColor: '#d62728' }}>
                         <td className="border px-4 py-2">1.5 to 2.0</td>
