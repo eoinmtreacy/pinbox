@@ -27,7 +27,7 @@ const LoadingSpinner = () => {
 
     return (
         <div className="flex flex-col justify-center items-center h-screen">
-            <div className="spinner-border inline-block w-30px h-30px relative">
+            <div className="spinner-border inline-block w-20px h-20px relative">
                 <img
                     src={Logo}
                     className="animate-spin-horizontal"
@@ -38,7 +38,7 @@ const LoadingSpinner = () => {
                     }}
                 />
             </div>
-            <span className="visually-hidden mt-2 font-bold text-xl">{fact}</span>
+            <span className="flex items-center visually-hidden mt-2 font-bold text-xl">{fact}</span>
         </div>
     );
 };

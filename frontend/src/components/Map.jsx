@@ -7,6 +7,7 @@ import SearchBar from './SearchBar';
 import CookieModal from './CookieModal';
 import useFetchGeoJson from '../hooks/useFetchGeoJson';
 import useFetchBusyness from '../hooks/useFetchBusyness';
+import useFetchPlaces from '../hooks/useFetchPlaces';
 import HorizontalButtons from './HorizontalButtons';
 import colorGen from '../utils/colorGen';
 import iconGen from '../utils/iconGen';
@@ -20,8 +21,14 @@ const CustomMap = ({ pins, showBusynessTable }) => {
     const mapRef = useRef(null);
     const [initialLoad, setInitialLoad] = useState(true);
 
-    if (error) {
-        return <div>Error fetching Taxi Zones data: {error.message}</div>;
+    if (geoJsonError || busynessError || placesError) {
+        return (
+            <div>Error fetching data: {geoJsonError?.message || busynessError?.message || placesError?.message}</div>
+        );
+    }
+
+    if (loadingGeoJson || loadingBusyness || loadingPlaces) {
+        return <LoadingSpinner />;
     }
 
     return (
@@ -83,11 +90,11 @@ const CustomMap = ({ pins, showBusynessTable }) => {
                             </Popup>
                         </Marker>
                     ))}
-                <div className="absolute bottom-2 z-50">
+                <div className="absolute bottom-2 z-[1000]">
                     <CookieModal />
                 </div>
                 {showBusynessTable && (
-                    <div className="busyness-table">
+                    <div className="busyness-table z-[1000]">
                         <BusynessTable />
                     </div>
                 )}
