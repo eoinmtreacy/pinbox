@@ -10,10 +10,14 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AppController(ApplicationDbContext context) : ControllerBase
+    public class AppController : ControllerBase
     {
-        private readonly ApplicationDbContext _context = context;
+        private readonly ApplicationDbContext _context;
 
+        public AppController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
         // Test endpoint to return a default place if the database is empty
         [HttpGet]
         public async Task<IActionResult> Get()
