@@ -4,22 +4,43 @@ import distanceIcon from '../Images/distance.png';
 import profileIcon from '../Images/profile.png';
 import showPinsIcon from '../Images/pin.png';
 import hidePinsIcon from '../Images/pin-x.png';
+import searchIcon from '../Images/search.png'; // Import the search icon
 import PropTypes from 'prop-types';
 
-const MobileIcons = ({ timeStamp, setTimeStamp, distance, setDistance, showPins, setShowPins, mode, setMode, isLoggedIn, onLoginLogout }) => {
+const MobileIcons = ({
+    timeStamp, setTimeStamp,
+    distance, setDistance,
+    showPins, setShowPins,
+    mode, setMode,
+    isLoggedIn, onLoginLogout
+}) => {
     const [showTimeSlider, setShowTimeSlider] = useState(false);
     const [showDistanceSlider, setShowDistanceSlider] = useState(false);
+    const [showSearchBar, setShowSearchBar] = useState(false); // State for search bar visibility
 
     const toggleShowTimeSlider = () => setShowTimeSlider(!showTimeSlider);
     const toggleShowDistanceSlider = () => setShowDistanceSlider(!showDistanceSlider);
     const togglePins = () => setShowPins(!showPins);
+    const toggleSearchBar = () => setShowSearchBar(!showSearchBar); // Toggle search bar visibility
 
     return (
-        <div className="mobile-icons flex items-center">
+        <div className="mobile-icons flex items-center justify-between">
+            <div className="relative">
+                <img src={searchIcon} alt="Search Icon" className="w-8 h-8" onClick={toggleSearchBar} />
+                {showSearchBar && (
+                   <div className="absolute top-12 left-0 right-0 rounded shadow-md" style={{ width: '50vw' }}>
+                        <input
+                            type="text"
+                            placeholder="Search"
+                            className="w-full p-2 rounded-full border border-solid border-gray-300"
+                        />
+                    </div>
+                )}
+            </div>
             <div className="relative">
                 <img src={timeIcon} alt="Time Icon" className="w-8 h-8" onClick={toggleShowTimeSlider} />
                 {showTimeSlider && (
-                    <div className="absolute top-12 left-0 bg-white p-2 rounded shadow-md">
+                    <div className="absolute top-12 left-0 bg-white p-2 rounded shadow-md w-screen max-w-full">
                         <input
                             type="range"
                             min="0"
@@ -38,7 +59,7 @@ const MobileIcons = ({ timeStamp, setTimeStamp, distance, setDistance, showPins,
             <div className="relative">
                 <img src={distanceIcon} alt="Distance Icon" className="w-8 h-8" onClick={toggleShowDistanceSlider} />
                 {showDistanceSlider && (
-                    <div className="absolute top-12 left-0 bg-white p-2 rounded shadow-md">
+                    <div className="absolute top-12 left-0 bg-white p-2 rounded shadow-md w-screen max-w-full">
                         <input
                             type="range"
                             min="0"
@@ -83,3 +104,4 @@ MobileIcons.propTypes = {
 };
 
 export default MobileIcons;
+

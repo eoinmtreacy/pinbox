@@ -48,7 +48,7 @@ body, html {
         right: 0;
         left: 0;
         background: white;
-        justify-content: space-around;
+        justify-content: space-between;
         z-index: 1000;
         padding: 10px;
     }
