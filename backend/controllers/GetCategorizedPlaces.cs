@@ -25,12 +25,13 @@ namespace backend.Controllers
             {
                 var categorizedPlaces = await _context.UserLikes
                     .Include(ul => ul.Place)
+                    .Where(ul => ul.Place != null)  // Null check for ul.Place
                     .Select(ul => new 
                     {
-                        ul.Place.Id,
-                        ul.Place.Name,
-                        ul.Place.Lat,
-                        ul.Place.Lon,
+                        Id = ul.Place!.Id,           // Null-forgiving operator
+                        Name = ul.Place!.Name,       // Null-forgiving operator
+                        Lat = ul.Place!.Lat,         // Null-forgiving operator
+                        Lon = ul.Place!.Lon,         // Null-forgiving operator
                         ul.CategorySwipe
                     })
                     .ToListAsync();

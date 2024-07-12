@@ -7,9 +7,11 @@ import useToggle from '../hooks/useToggle';
 import useFetchPlaces from '../hooks/useFetchPlaces';
 import TopNav from './TopNav';
 import withHardLightBlend from './withHardLightBlend';
+
 import MobileIcons from './MobileIcons';
 import BottomNav from './BottomNav';
 import useScreenWidth from '../hooks/useScreenWidth';
+
 
 const MainPage = () => {
     const [showPreference, setShowPreference] = useState(false);
@@ -20,7 +22,9 @@ const MainPage = () => {
     const [showFriends, toggleFriends] = useToggle();
     const [mode, setMode] = useState('Day');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+
     const [userName, setUserName] = useState('User');
+
     const { places, loading, error } = useFetchPlaces();
     const [pins, setPins] = useState([]);
     const isMobile = useScreenWidth();
@@ -34,12 +38,14 @@ const MainPage = () => {
         setIsLoggedIn(!isLoggedIn);
     };
 
+
     const handleFriendsToggle = () => {
         toggleFriends();
         if (isMobile) {
             setShowBusynessTable(showFriends); // Toggle the busyness table visibility
         }
     };
+
 
     useEffect(() => {
         const fetchGeoJsonData = async () => {
@@ -61,6 +67,7 @@ const MainPage = () => {
     return (
         <div className="App">
             <div className="flex h-full w-full overflow-hidden">
+
                 {!isMobile && (
                     <div className="SideNav flex-none w-1/24 h-full">
                         <SideNav
@@ -69,6 +76,7 @@ const MainPage = () => {
                         />
                     </div>
                 )}
+
                 <div className="flex-grow h-full">
                     <TopNav
                         timeStamp={timeStamp}
@@ -83,6 +91,7 @@ const MainPage = () => {
                         onLoginLogout={handleLoginLogout}
                         userName={userName}
                     />
+
                     <MobileIcons
                         timeStamp={timeStamp}
                         setTimeStamp={setTimeStamp}
@@ -99,6 +108,7 @@ const MainPage = () => {
                         {showPreference && places.length > 1 && (
                             <div className="flex-none w-4/24 h-full overflow-auto">
                                 <Preference places={places} pins={pins} setPins={setPins} />
+
                             </div>
                         )}
                         {showFriends && (
@@ -107,17 +117,21 @@ const MainPage = () => {
                             </div>
                         )}
                         <div className={`${showPreference ? 'flex-grow w-17/24' : 'flex-grow w-22/24'} h-full overflow-auto`}>
+
                             <Map geoJsonData={geoJsonData} pins={pins} showBusynessTable={showBusynessTable} />
+
                         </div>
                     </div>
                 </div>
             </div>
+
             {isMobile && (
                 <BottomNav
                     onPreferenceToggle={togglePreference}
                     onFriendsToggle={handleFriendsToggle}
                 />
             )}
+
         </div>
     );
 };
