@@ -3,11 +3,16 @@ import Signup from '../Signup';
 import Landing2 from '../../Images/Landing2.png';
 
 const LandingSocialFeature = () => {
+    const handleSignup = (event) => {
+        event.preventDefault();
+        Signup();
+    };
+
     return (
         <section id="landing-section-5" className="bg-[#FCF8F1] bg-opacity-30 py-10 sm:py-16 lg:py-24">
             <div className="mx-auto w-full max-w-7xl sm:px-6 lg:px-8">
                 <div className="text-center">
-                    <div className=" text-center text-3xl sm:text-4xl lg:text-5xl font-black tracking-tighter text-zinc-900 mb-8 uppercase">
+                    <div className="text-center text-3xl sm:text-4xl lg:text-5xl font-black tracking-tighter text-zinc-900 mb-8 uppercase">
                         Discover Your Friends' Favourite Places!
                     </div>
 
@@ -17,15 +22,12 @@ const LandingSocialFeature = () => {
                         pinboxes. You can also collaborate on spots your friends have created!
                     </div>
                     <div className="flex justify-center items-center">
-                        <a
-                            href="#"
-                            title=""
-                            onClick={Signup}
+                        <button
+                            onClick={handleSignup}
                             className="inline-flex items-center px-4 py-3 sm:px-6 sm:py-4 font-semibold text-black transition-all duration-200 bg-yellow-300 rounded-full hover:bg-yellow-400 focus:bg-yellow-400"
-                            role="button"
                         >
                             Join for free
-                        </a>
+                        </button>
                     </div>
                 </div>
 

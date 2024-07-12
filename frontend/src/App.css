@@ -1,7 +1,9 @@
 /* Set global font family to monospace */
-body {
+body, html {
     font-family: monospace;
     font-weight: bold;
+    height: 100%;
+    margin: 0;
 }
 
 .App {
@@ -19,6 +21,7 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
+    height: 100%;
 }
 
 .snap-y {
@@ -27,4 +30,9 @@ body {
 
 .snap-start {
     overflow: hidden;
+}
+
+/* Add hard light blend mode */
+.hard-light-blend {
+    mix-blend-mode: hard-light;
 }
