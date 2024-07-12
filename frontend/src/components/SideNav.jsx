@@ -27,7 +27,9 @@ export const SideNav = ({
         <div className="w-[70px] h-full bg-blue-600 fixed left-0 top-0 flex flex-col items-center pt-4 pb-4">
             <img className="w-20 h-20 mb-4" alt="Logo" src={logo} />
             <div className="flex flex-col items-center flex-grow justify-around">
+
                 <button className="relative group flex flex-col items-center mb-4" onClick={() => navigateTo('/mainpage')}>
+
                     <img className="w-6 h-6 mb-1" alt="Home Icon" src={home} />
                     <span className="absolute bottom-[-1.5rem] bg-blue-600 text-white text-xs p-1 rounded opacity-0 group-hover:opacity-100">Home</span>
                 </button>

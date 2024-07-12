@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { useNavigate } from 'react-router-dom';
+
 import timeIcon from '../Images/time.png';
 import distanceIcon from '../Images/distance.png';
 import profileIcon from '../Images/profile.png';
@@ -18,6 +20,7 @@ const TopNav = ({
     onLoginLogout,
     userName
 }) => {
+
     const navigate = useNavigate(); // Use useNavigate to navigate programmatically
 
     const handleLoginLogoutClick = () => {
@@ -34,6 +37,7 @@ const TopNav = ({
 
     return (
         <div className="w-full bg-white flex justify-between items-center p-2 shadow-md top-nav">
+
             <div className="flex items-center space-x-4">
                 <div className="flex flex-col items-center mx-2">
                     <span className="text-gray-700 text-xs mb-1">Time</span>
@@ -88,11 +92,14 @@ const TopNav = ({
                         onChange={(e) => setMode(e.target.value)}
                         className="bg-white border border-gray-300 rounded p-1 text-xs"
                     >
+
                         {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map(day => (
+
                             <option key={day} value={day}>{day}</option>
                         ))}
                     </select>
                 </div>
+
                 <div className="flex items-center space-x-2 cursor-pointer" onClick={handleProfileClick}>
                     <img src={profileIcon} alt="Profile Icon" className="w-6 h-6" />
                     <span className="text-gray-700 text-xs">{userName}</span>
@@ -103,6 +110,7 @@ const TopNav = ({
                 >
                     {isLoggedIn ? 'Logout' : 'Login'}
                 </button>
+
             </div>
         </div>
     );

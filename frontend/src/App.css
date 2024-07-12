@@ -1,5 +1,7 @@
-body,
-html {
+
+/* Set global font family to monospace */
+body, html {
+
     font-family: monospace;
     font-weight: bold;
     height: 100%;
@@ -31,6 +33,7 @@ html {
 .snap-start {
     overflow: hidden;
 }
+
 
 .hard-light-blend {
     mix-blend-mode: hard-light;
@@ -153,3 +156,9 @@ html {
 .animate-spin-horizontal {
     animation: spin-horizontal 2s linear infinite;
 }
+
+/* Add hard light blend mode */
+.hard-light-blend {
+    mix-blend-mode: hard-light;
+}
+

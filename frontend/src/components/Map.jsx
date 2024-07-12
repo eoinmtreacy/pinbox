@@ -12,12 +12,14 @@ import HorizontalButtons from './HorizontalButtons';
 import colorGen from '../utils/colorGen';
 import iconGen from '../utils/iconGen';
 import BusynessTable from './Map/BusynessTable';
+
 import LoadingSpinner from './LoadingSpinner';
 
 const CustomMap = ({ pins, showBusynessTable }) => {
     const { data: taxiZones, error: geoJsonError, loading: loadingGeoJson } = useFetchGeoJson('/taxi_zones.geojson');
     const { data: busynessData, error: busynessError, loading: loadingBusyness } = useFetchBusyness();
     const { places, error: placesError, loading: loadingPlaces } = useFetchPlaces();
+
     const mapRef = useRef(null);
     const [initialLoad, setInitialLoad] = useState(true);
 
@@ -93,11 +95,13 @@ const CustomMap = ({ pins, showBusynessTable }) => {
                 <div className="absolute bottom-2 z-[1000]">
                     <CookieModal />
                 </div>
+
                 {showBusynessTable && (
                     <div className="busyness-table z-[1000]">
                         <BusynessTable />
                     </div>
                 )}
+
             </MapContainer>
         </div>
     );
