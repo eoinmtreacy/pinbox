@@ -7,18 +7,28 @@ import SearchBar from './SearchBar';
 import CookieModal from './CookieModal';
 import useFetchGeoJson from '../hooks/useFetchGeoJson';
 import useFetchBusyness from '../hooks/useFetchBusyness';
+import useFetchPlaces from '../hooks/useFetchPlaces';
 import HorizontalButtons from './HorizontalButtons';
 import colorGen from '../utils/colorGen';
 import iconGen from '../utils/iconGen';
+import LoadingSpinner from './LoadingSpinner';
 import BusynessTable from './Map/BusynessTable';
+
 const CustomMap = ({ pins }) => {
-    const { data: taxiZones, error } = useFetchGeoJson('/taxi_zones.geojson');
-    const { data: busynessData } = useFetchBusyness();
+    const { data: taxiZones, error: geoJsonError, loading: loadingGeoJson } = useFetchGeoJson('/taxi_zones.geojson');
+    const { data: busynessData, error: busynessError, loading: loadingBusyness } = useFetchBusyness();
+    const { places, error: placesError, loading: loadingPlaces } = useFetchPlaces();
     const mapRef = useRef(null);
     const [initialLoad, setInitialLoad] = useState(true);
 
-    if (error) {
-        return <div>Error fetching Taxi Zones data: {error.message}</div>;
+    if (geoJsonError || busynessError || placesError) {
+        return (
+            <div>Error fetching data: {geoJsonError?.message || busynessError?.message || placesError?.message}</div>
+        );
+    }
+
+    if (loadingGeoJson || loadingBusyness || loadingPlaces) {
+        return <LoadingSpinner />;
     }
 
     return (
@@ -76,13 +86,11 @@ const CustomMap = ({ pins }) => {
                             </Popup>
                         </Marker>
                     ))}
-                <div className="absolute bottom-2 z-50">
+                <div className="absolute bottom-2 z-[1000]">
                     <CookieModal />
                 </div>
-                <div className="flex flex-col md:flex-row md:items-start absolute top-1 left-16 right-0 z-[1000] space-y-4 md:space-y-0 md:space-x-4">
-                    <div className="fixed bottom-2 right-2 z-50">
-                        <BusynessTable />
-                    </div>
+                <div className="fixed bottom-2 right-2 z-[1000]">
+                    <BusynessTable />
                 </div>
             </MapContainer>
         </div>

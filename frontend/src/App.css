@@ -1,5 +1,6 @@
 /* Set global font family to monospace */
-body, html {
+body,
+html {
     font-family: monospace;
     font-weight: bold;
     height: 100%;
@@ -35,4 +36,25 @@ body, html {
 /* Add hard light blend mode */
 .hard-light-blend {
     mix-blend-mode: hard-light;
+}
+/* Tailwind CSS already includes responsive utilities, so the additional CSS is minimal */
+
+@media (max-width: 768px) {
+    .busyness-table {
+        transform: scale(0.67); /* Scale down to 2/3 of the original size */
+        transform-origin: bottom right; /* Ensure it scales from the bottom right */
+    }
+}
+/* Loading Spinner */
+@keyframes spin-horizontal {
+    0% {
+        transform: rotateY(0deg);
+    }
+    100% {
+        transform: rotateY(360deg);
+    }
+}
+
+.animate-spin-horizontal {
+    animation: spin-horizontal 2s linear infinite;
 }
