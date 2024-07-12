@@ -10,11 +10,11 @@ import useFetchBusyness from '../hooks/useFetchBusyness';
 import HorizontalButtons from './HorizontalButtons';
 import colorGen from '../utils/colorGen';
 import iconGen from '../utils/iconGen';
+import LoadingSpinner from './LoadingSpinner';
 
 const CustomMap = ({ pins }) => {
     const { data: taxiZones, error } = useFetchGeoJson('/taxi_zones.geojson');
-    const { data: busynessData } = useFetchBusyness(
-    );
+    const { data: busynessData } = useFetchBusyness();
     const mapRef = useRef(null);
     const [initialLoad, setInitialLoad] = useState(true);
 
@@ -63,11 +63,7 @@ const CustomMap = ({ pins }) => {
                 )}
                 {pins &&
                     pins.map((pin) => (
-                        <Marker
-                            key={pin.id}
-                            position={[pin.lat, pin.lon]}
-                            icon={iconGen(pin.attitude)}
-                        >
+                        <Marker key={pin.id} position={[pin.lat, pin.lon]} icon={iconGen(pin.attitude)}>
                             <Popup>
                                 <PreferenceWithoutButtons
                                     name={pin.name}
