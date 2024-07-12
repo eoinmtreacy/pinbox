@@ -11,10 +11,12 @@ import HorizontalButtons from './HorizontalButtons';
 import colorGen from '../utils/colorGen';
 import iconGen from '../utils/iconGen';
 import BusynessTable from './Map/BusynessTable';
+import LoadingSpinner from './LoadingSpinner';
 
 const CustomMap = ({ pins, showBusynessTable }) => {
-    const { data: taxiZones, error } = useFetchGeoJson('/taxi_zones.geojson');
-    const { data: busynessData } = useFetchBusyness();
+    const { data: taxiZones, error: geoJsonError, loading: loadingGeoJson } = useFetchGeoJson('/taxi_zones.geojson');
+    const { data: busynessData, error: busynessError, loading: loadingBusyness } = useFetchBusyness();
+    const { places, error: placesError, loading: loadingPlaces } = useFetchPlaces();
     const mapRef = useRef(null);
     const [initialLoad, setInitialLoad] = useState(true);
 
@@ -39,7 +41,7 @@ const CustomMap = ({ pins, showBusynessTable }) => {
                 center={[40.7478017, -73.9914126]}
                 zoom={13}
                 className="h-full w-full"
-                zoomControl={false}  // Disable zoom control buttons
+                zoomControl={false} // Disable zoom control buttons
                 whenCreated={(mapInstance) => {
                     mapRef.current = mapInstance;
                     if (initialLoad) {
