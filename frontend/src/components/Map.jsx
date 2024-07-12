@@ -24,7 +24,7 @@ const CustomMap = ({ pins, showBusynessTable }) => {
 
     return (
         <div className="map-container relative flex flex-col h-screen">
-            <div className="flex flex-col md:flex-row md:items-start absolute top-1 left-16 right-0 z-[1000] space-y-4 md:space-y-0 md:space-x-4">
+            <div className="flex flex-col md:flex-row md:items-start absolute top-1 left-0.5 right-0 z-[1000] space-y-4 md:space-y-0 md:space-x-4">
                 <div className="desktop-searchbar w-full md:w-auto flex justify-end md:justify-start">
                     <SearchBar />
                 </div>
