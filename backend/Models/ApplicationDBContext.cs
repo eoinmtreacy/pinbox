@@ -11,7 +11,6 @@ namespace backend.Models
         public DbSet<Place> Places { get; set; }
         public DbSet<Amenity> Amenities { get; set; }
         public DbSet<Friends> Friends { get; set; }
-
         public DbSet<Prediction> Predictions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -58,14 +57,14 @@ namespace backend.Models
                 entity.Property(e => e.Num_Likes).HasDefaultValue(0);
                 entity.Property(e => e.Num_Dislikes).HasDefaultValue(0);
 
-                // Configure the relationships
                 entity.HasMany(e => e.UserLikes)
                       .WithOne(ul => ul.Place)
-                      .HasForeignKey(ul => ul.PlaceId);
+                      .HasForeignKey(ul => ul.PlaceId)
+                      .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasMany(e => e.Amenities)
                       .WithOne(a => a.Place)
-                      .HasForeignKey(a => a.Id) // Foreign key on Id
+                      .HasForeignKey(a => a.Id)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
