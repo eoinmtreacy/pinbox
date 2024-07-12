@@ -10,7 +10,7 @@ import Settings from './components/Settings';
 import Main from './components/Main';
 import MainPage from './components/MainPage';
 import LandingMain from './components/landing/LandingMain';
-import SideNav from './components/SideNav'; // Import SideNav
+import SideNav from './components/SideNav'; // Import the SideNav component
 
 function App() {
     return (
@@ -24,13 +24,16 @@ function App() {
 
 const AppContent = () => {
     const location = useLocation();
-    const hideSideNav = ['/login', '/signup', '/main'].includes(location.pathname);
+    const hideSideNav = ['/login', '/signup', '/', '/main'].includes(location.pathname.toLowerCase());
 
     return (
         <div className="flex flex-1">
             {!hideSideNav && (
-                <div className="SideNav flex-none w-1/24 h-full">
-                    <SideNav />
+                <div className="flex-none w-1/24 h-full">
+                    <SideNav
+                        onPreferenceToggle={() => {}}
+                        onFriendsToggle={() => {}}
+                    />
                 </div>
             )}
             <div className={!hideSideNav ? 'flex-1 ml-for-desktop' : 'flex-1'}>
