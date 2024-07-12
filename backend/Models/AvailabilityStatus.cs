@@ -10,13 +10,13 @@ namespace backend.Models
     }
     public enum CategorySwipe
 {
-    [EnumMember(Value = "love it")]
+    [EnumMember(Value = "love_it")]
     LoveIt,
-    [EnumMember(Value = "hate it")]
+    [EnumMember(Value = "hate_it")]
     HateIt,
     [EnumMember(Value = "wanna")]
     Wanna,
-    [EnumMember(Value = "don't care")]
+    [EnumMember(Value = "dont_care")]
     DontCare
 }
 

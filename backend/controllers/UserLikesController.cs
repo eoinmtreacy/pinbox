@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using backend.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
 {
@@ -12,81 +12,109 @@ namespace backend.Controllers
     public class UserLikesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly string[] allowedCategorySwipes = { "love_it", "hate_it", "wanna", "don't_care" };
 
         public UserLikesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        [HttpGet("category/{categorySwipe}")]
-        public async Task<ActionResult<IEnumerable<Place>>> GetUserLikesByCategorySwipe(string categorySwipe)
+        [HttpPost]
+        public async Task<IActionResult> PostUserLike([FromBody] User_Likes userLike)
         {
-            // Adjusted to ensure case-insensitive comparison and match enum strings
-            if (!Enum.TryParse<CategorySwipe>(categorySwipe.Replace(" ", string.Empty), true, out var parsedCategorySwipe))
+            // Validate the incoming data
+            if (!ModelState.IsValid)
             {
-                return BadRequest(new { Message = "Invalid category swipe value." });
+                return BadRequest(ModelState);
             }
 
-            var userLikes = await _context.UserLikes
-                .Include(ul => ul.Place)
-                .Where(ul => ul.CategorySwipe == parsedCategorySwipe)
-                .OrderBy(ul => ul.Timestamp)
-                .ToListAsync();
-
-            if (userLikes == null || userLikes.Count == 0)
+            // Validate categorySwipe value
+            if (!allowedCategorySwipes.Contains(userLike.CategorySwipe.ToLower()))
             {
-                return NotFound(new { Message = "No likes found for this category." });
+                return BadRequest(new { Message = $"Invalid categorySwipe value. Allowed values are: {string.Join(", ", allowedCategorySwipes)}" });
             }
 
-            var places = userLikes.Select(ul => ul.Place).ToList();
-
-            return Ok(places);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Get()
-        {
-            if (!_context.Places.Any())
-            {
-                _context.Places.Add(new Place
-                {
-                    Google_Id = "default_google_id",
-                    Name = "Test Location",
-                    Lat = 0.0M, // The 'M' suffix specifies decimal literal 
-                    Lon = 0.0M,
-                    Type = "default_type"
-                });
-                await _context.SaveChangesAsync();
-            }
-
+            // Check if the PlaceId and PlaceType exist in the Places table
             var place = await _context.Places
-                .OrderBy(p => p.Id) // Ensure deterministic results by ordering by a column
+                .Where(p => p.Id == userLike.PlaceId && p.Type == userLike.Type)
                 .FirstOrDefaultAsync();
 
             if (place == null)
             {
-                return NotFound();
+                return NotFound(new { Message = "Place not found." });
             }
 
-            return Ok(place);
+            // If Timestamp is not provided in the request, set it to the current UTC time
+            if (userLike.Timestamp == default(DateTime))
+            {
+                userLike.Timestamp = DateTime.UtcNow;
+            }
+
+            // Add the UserLike to the database
+            _context.UserLikes.Add(userLike);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(PostUserLike), new { id = userLike.UserId }, userLike);
         }
 
-        [HttpGet("get-places")]
-        public IActionResult GetAllPlaces()
+        [HttpGet]
+        public async Task<IActionResult> GetAllUserLikes()
         {
             try
             {
-                // Query the Places table to get all records
-                var places = _context.Places.ToList(); // This retrieves all records from the Places table
-
-                // If the query succeeds, return the records
-                return Ok(places);
+                var userLikes = await _context.UserLikes.ToListAsync();
+                if (userLikes == null || userLikes.Count == 0)
+                {
+                    return NotFound("No user likes found.");
+                }
+                return Ok(userLikes);
             }
             catch (Exception ex)
             {
-                // If the query fails, catch the exception and return a failure response
-                return StatusCode(500, new { Message = "Failed to retrieve data from the database.", Error = ex.Message });
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
+        }
+
+        [HttpGet("places-with-categories/{userId}")]
+        public async Task<IActionResult> GetPlacesWithCategories(long userId)
+        {
+            try
+            {
+                var userLikes = await _context.UserLikes
+                    .Where(ul => ul.UserId == userId)
+                    .Include(ul => ul.Place)
+                    .ToListAsync();
+
+                if (userLikes == null || userLikes.Count == 0)
+                {
+                    return NotFound(new { Message = "No places found for the given user." });
+                }
+
+                var categorizedPlaces = userLikes.Select(ul => new
+                {
+                    Place = ul.Place,
+                    CategorySwipe = ul.CategorySwipe,
+                    Colour = GetColourForCategory(ul.CategorySwipe)
+                }).ToList();
+
+                return Ok(categorizedPlaces);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        private string GetColourForCategory(string categorySwipe)
+        {
+            return categorySwipe switch
+            {
+                "love_it" => "Red",
+                "hate_it" => "Yellow",
+                "don't_care" => "Green",
+                "wanna" => "Blue",
+                _ => "Black" // Default colour if no match found
+            };
         }
     }
 }

@@ -2,13 +2,13 @@ namespace backend.Models
 {
     public class User_Likes
     {
-        public required long UserId { get; set; } // Maps to 'user_id'
-        public required long PlaceId { get; set; } // Maps to 'place_id'
-        public required string Type { get; set; } // Maps to 'place_type'
-        public CategorySwipe CategorySwipe { get; set; } // Maps to 'category_swipe'
-        public DateTime Timestamp { get; set; } // Maps to 'timestamp'
+        public long Id { get; set; }
+        public required long UserId { get; set; } 
+        public required long PlaceId { get; set; }
+        public required string Type { get; set; }
+        public required string CategorySwipe { get; set; }
+        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 
-        // Navigation property
-        public required Place Place { get; set; }
+        public Place? Place { get; set; } // property has to be nullable
     }
 }

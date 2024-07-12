@@ -1,8 +1,9 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Models
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<AppUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -10,20 +11,26 @@ namespace backend.Models
         public DbSet<Place> Places { get; set; }
         public DbSet<Amenity> Amenities { get; set; }
         public DbSet<Friends> Friends { get; set; }
+        public DbSet<Prediction> Predictions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // Define composite key for Prediction entity
+            // Configure Pinbox_Id to be unique
+            modelBuilder.Entity<AppUser>()
+                .HasIndex(u => u.Pinbox_Id)
+                .IsUnique();
+
             modelBuilder.Entity<Prediction>()
                   .HasKey(p => new { p.location, p.datetime });
 
-            // Define Place entity
             modelBuilder.Entity<Place>(entity =>
             {
                 entity.ToTable("places");
+
                 entity.HasKey(e => e.Id);
+
                 entity.Property(e => e.Google_Id).IsRequired().HasMaxLength(255);
                 entity.Property(e => e.Name).IsRequired().HasMaxLength(255);
                 entity.Property(e => e.Lat).IsRequired().HasColumnType("decimal(9,6)");
@@ -49,22 +56,22 @@ namespace backend.Models
                 entity.Property(e => e.Photo_9).HasMaxLength(500);
                 entity.Property(e => e.Num_Likes).HasDefaultValue(0);
                 entity.Property(e => e.Num_Dislikes).HasDefaultValue(0);
-                
-                // Configure the relationships
+
                 entity.HasMany(e => e.UserLikes)
                       .WithOne(ul => ul.Place)
                       .HasForeignKey(ul => ul.PlaceId)
                       .OnDelete(DeleteBehavior.Cascade);
+
                 entity.HasMany(e => e.Amenities)
                       .WithOne(a => a.Place)
-                      .HasForeignKey(a => a.Id) // Foreign key on Id
+                      .HasForeignKey(a => a.Id)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // Define Amenity entity
             modelBuilder.Entity<Amenity>(entity =>
             {
                 entity.ToTable("amenities");
+
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Cuisine_Pizza).IsRequired();
                 entity.Property(e => e.Cuisine_Chinese).IsRequired();
@@ -76,6 +83,7 @@ namespace backend.Models
                 entity.Property(e => e.Cuisine_Sandwich).IsRequired();
                 entity.Property(e => e.Cuisine_Japanese).IsRequired();
                 entity.Property(e => e.Cuisine_American).IsRequired();
+
                 entity.Property(e => e.Diet_Vegan)
                       .HasConversion<string>();
                 entity.Property(e => e.Drink_Beer)
@@ -88,37 +96,37 @@ namespace backend.Models
                       .HasConversion<string>();
                 entity.Property(e => e.Wheelchair)
                       .HasConversion<string>();
+
                 entity.HasOne(d => d.Place)
                       .WithMany(p => p.Amenities)
                       .HasForeignKey(d => d.Id) // Foreign key on Id
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // Define User_Likes entity
             modelBuilder.Entity<User_Likes>(entity =>
             {
                 entity.ToTable("userlikes");
-                entity.HasKey(e => new { e.UserId, e.Type, e.PlaceId }); // Composite key
+
+                entity.HasKey(e => new { e.UserId, e.PlaceId, e.Type }); // Composite key
+
+                entity.Property(e => e.Id).HasColumnName("index");
                 entity.Property(e => e.UserId).HasColumnName("user_id");
                 entity.Property(e => e.Type).HasColumnName("place_type").IsRequired().HasMaxLength(50);
                 entity.Property(e => e.PlaceId).HasColumnName("place_id");
-                entity.Property(e => e.CategorySwipe)
-                  .HasConversion(
-                      v => v.ToString(),  // Convert enum to string for storage
-                      v => (CategorySwipe)Enum.Parse(typeof(CategorySwipe), v))  // Convert string back to enum
-                  .HasColumnName("category_swipe");
+                entity.Property(e => e.CategorySwipe).HasColumnName("category_swipe").HasConversion<string>();
                 entity.Property(e => e.Timestamp).HasColumnName("timestamp");
 
                 entity.HasOne(e => e.Place)
-                    .WithMany(p => p.UserLikes)
-                    .HasForeignKey(e => e.PlaceId); // Foreign key on PlaceId
+                      .WithMany(p => p.UserLikes)
+                      .HasForeignKey(e => e.PlaceId);
             });
 
-            // Define Friends entity
             modelBuilder.Entity<Friends>(entity =>
             {
                 entity.ToTable("friends");
+
                 entity.HasKey(f => new { f.UserId, f.UserFriendId });
+
                 entity.Property(f => f.UserId).HasColumnName("user_id");
                 entity.Property(f => f.UserFriendId).HasColumnName("user_friend_id");
                 entity.Property(f => f.Timestamp).HasColumnName("timestamp");

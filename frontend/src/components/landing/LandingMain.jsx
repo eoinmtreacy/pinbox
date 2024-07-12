@@ -1,26 +1,59 @@
 import React from 'react';
-import LandingHeader from './LandingHeader';
-import Section1 from './LandingSection1';
-import Section2 from './LandingSection2';
-import Section3 from './LandingSection3';
-import Section4 from './LandingSection4';
-
+import Header from './LandingHeader';
+import First from './LandingFirst';
+import Target from './LandingTarget';
+import Preview from './LandingPreview';
+import CoreFeatures from './LandingCoreFeatures';
+import FeatureRealTime from './LandingFeatureRealTime';
+import SocialFeature from './LandingSocialFeature';
+import UserInsights from './LandingUserInsights';
+import BusinessInsights from './BusinessInsights';
+import LandingMeetTeam from './LandingMeetTeam';
+import Vision from './LandingVision';
+import UserFeedback from './LandingFeedback';
+import Footer from './LandingFooter';
 const LandingMain = () => {
     return (
         <div className="bg-white h-screen overflow-hidden">
-            <LandingHeader />
-            <div className="h-screen overflow-y-scroll snap-y snap-mandatory pt-16">
-                <div className="snap-start h-screen">
-                    <Section1 />
+            <div className="h-screen overflow-y-scroll snap-y snap-mandatory pt-3 w-full overflow-x-hidden">
+                <div className="mb-5 w-full">
+                    <Header />
                 </div>
-                <div className="snap-start h-screen">
-                    <Section2 />
+                <div className="snap-start h-screen w-full flex justify-center items-center">
+                    <First />
                 </div>
-                <div className="snap-start h-screen">
-                    <Section3 />
+                <div className="snap-start h-screen w-full flex justify-center items-center">
+                    <Preview />
                 </div>
-                <div className="snap-start h-screen">
-                    <Section4 />
+                <div className="snap-start h-screen w-full flex justify-center items-center">
+                    <Target />
+                </div>
+                <div className="snap-start h-screen w-full flex justify-center items-center">
+                    <CoreFeatures />
+                </div>
+                <div className="snap-start h-screen w-full flex justify-center items-center">
+                    <FeatureRealTime />
+                </div>
+                <div className="snap-start h-screen w-full flex justify-center items-center">
+                    <SocialFeature />
+                </div>
+                <div className="snap-start h-screen w-full flex justify-center items-center">
+                    <UserInsights />
+                </div>
+                <div className="snap-start h-screen w-full flex justify-center items-center">
+                    <BusinessInsights />
+                </div>
+                <div className="snap-start h-screen w-full flex justify-center items-center">
+                    <Vision />
+                </div>
+                <div className="snap-start h-screen w-full flex justify-center items-center">
+                    <LandingMeetTeam />
+                </div>
+                <div className="snap-start h-screen w-full flex justify-center items-center">
+                    <UserFeedback />
+                </div>
+                <div className="mb-5 w-full">
+                    <Footer />
                 </div>
             </div>
         </div>
