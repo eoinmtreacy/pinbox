@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { getFriendDetails } from '../services/friendsService';
+
+import { getFriendDetails } from '../services/mockFriendsService';
+
 import FriendCard from './FriendCard';
 
 const FriendItem = ({ friend }) => {
@@ -23,7 +25,9 @@ const FriendItem = ({ friend }) => {
     };
 
     return (
-        <button
+
+        <div
+
             className="relative p-4 border rounded-lg flex flex-col items-center focus:outline-none"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -47,7 +51,9 @@ const FriendItem = ({ friend }) => {
             {hovered && details && (
                 <FriendCard friend={details} />
             )}
-        </button>
+
+        </div>
+
     );
 };
 

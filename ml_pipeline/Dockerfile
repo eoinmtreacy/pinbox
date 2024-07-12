@@ -25,6 +25,7 @@ COPY requirements-pytorch.txt ./
 RUN pip install --upgrade pip
 #RUN cargo --version
 RUN pip install --no-cache-dir -r requirements-pytorch.txt
+RUN ls
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .

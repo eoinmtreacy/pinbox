@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { getFriends } from '../services/friendsService';
+
+import { getFriends } from '../services/mockFriendsService';
+
 import FriendItem from './FriendItem';
 
 const FriendsList = ({ userId }) => {
@@ -35,4 +37,6 @@ FriendsList.propTypes = {
     userId: PropTypes.number.isRequired,
 };
 
+
 export default FriendsList;
+

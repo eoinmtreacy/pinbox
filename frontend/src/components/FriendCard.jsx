@@ -1,4 +1,3 @@
-// FriendCard.js
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -16,7 +15,15 @@ const FriendCard = ({ friend }) => {
 };
 
 FriendCard.propTypes = {
-    friend: PropTypes.object.isRequired
+    friend: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+        position: PropTypes.string.isRequired,
+        email: PropTypes.string.isRequired,
+        phone: PropTypes.string.isRequired,
+        address: PropTypes.string.isRequired,
+        city: PropTypes.string.isRequired,
+    }).isRequired,
 };
 
 export default FriendCard;

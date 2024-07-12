@@ -8,18 +8,27 @@ import useFetchPlaces from '../hooks/useFetchPlaces';
 import TopNav from './TopNav';
 import withHardLightBlend from './withHardLightBlend';
 
+import MobileIcons from './MobileIcons';
+import BottomNav from './BottomNav';
+import useScreenWidth from '../hooks/useScreenWidth';
+
+
 const MainPage = () => {
     const [showPreference, setShowPreference] = useState(false);
-    const [geoJsonData, setGeoJsonData] = useState(null); // Add state for GeoJSON data
+    const [geoJsonData, setGeoJsonData] = useState(null);
     const [timeStamp, setTimeStamp] = useState(12);
     const [distance, setDistance] = useState(50);
     const [showPins, setShowPins] = useState(true);
     const [showFriends, toggleFriends] = useToggle();
     const [mode, setMode] = useState('Day');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [userName, setUserName] = useState('User'); // Example username
+
+    const [userName, setUserName] = useState('User');
+
     const { places, loading, error } = useFetchPlaces();
     const [pins, setPins] = useState([]);
+    const isMobile = useScreenWidth();
+    const [showBusynessTable, setShowBusynessTable] = useState(true);
 
     const togglePreference = () => {
         setShowPreference(!showPreference);
@@ -28,6 +37,15 @@ const MainPage = () => {
     const handleLoginLogout = () => {
         setIsLoggedIn(!isLoggedIn);
     };
+
+
+    const handleFriendsToggle = () => {
+        toggleFriends();
+        if (isMobile) {
+            setShowBusynessTable(showFriends); // Toggle the busyness table visibility
+        }
+    };
+
 
     useEffect(() => {
         const fetchGeoJsonData = async () => {
@@ -49,12 +67,16 @@ const MainPage = () => {
     return (
         <div className="App">
             <div className="flex h-full w-full overflow-hidden">
-                <div className="SideNav flex-none w-1/24 h-full">
-                    <SideNav
-                        onPreferenceToggle={togglePreference}
-                        onFriendsToggle={toggleFriends}
-                    />
-                </div>
+
+                {!isMobile && (
+                    <div className="SideNav flex-none w-1/24 h-full">
+                        <SideNav
+                            onPreferenceToggle={togglePreference}
+                            onFriendsToggle={handleFriendsToggle}
+                        />
+                    </div>
+                )}
+
                 <div className="flex-grow h-full">
                     <TopNav
                         timeStamp={timeStamp}
@@ -69,11 +91,24 @@ const MainPage = () => {
                         onLoginLogout={handleLoginLogout}
                         userName={userName}
                     />
+
+                    <MobileIcons
+                        timeStamp={timeStamp}
+                        setTimeStamp={setTimeStamp}
+                        distance={distance}
+                        setDistance={setDistance}
+                        showPins={showPins}
+                        setShowPins={setShowPins}
+                        mode={mode}
+                        setMode={setMode}
+                        isLoggedIn={isLoggedIn}
+                        onLoginLogout={handleLoginLogout}
+                    />
                     <div className="flex h-full overflow-hidden">
                         {showPreference && places.length > 1 && (
                             <div className="flex-none w-4/24 h-full overflow-auto">
-                                <Preference places={places} pins={pins} setPins={setPins} />{' '}
-                                {/* Pass setGeoJsonData to Preference */}
+                                <Preference places={places} pins={pins} setPins={setPins} />
+
                             </div>
                         )}
                         {showFriends && (
@@ -82,11 +117,21 @@ const MainPage = () => {
                             </div>
                         )}
                         <div className={`${showPreference ? 'flex-grow w-17/24' : 'flex-grow w-22/24'} h-full overflow-auto`}>
-                            <Map geoJsonData={geoJsonData} pins={pins} /> {/* Pass geoJsonData to Map */}
+
+                            <Map geoJsonData={geoJsonData} pins={pins} showBusynessTable={showBusynessTable} />
+
                         </div>
                     </div>
                 </div>
             </div>
+
+            {isMobile && (
+                <BottomNav
+                    onPreferenceToggle={togglePreference}
+                    onFriendsToggle={handleFriendsToggle}
+                />
+            )}
+
         </div>
     );
 };
