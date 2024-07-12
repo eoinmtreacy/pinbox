@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import timeIcon from '../Images/time.png';
 import distanceIcon from '../Images/distance.png';
 import profileIcon from '../Images/profile.png';
@@ -17,6 +18,20 @@ const TopNav = ({
     onLoginLogout,
     userName
 }) => {
+    const navigate = useNavigate(); // Use useNavigate to navigate programmatically
+
+    const handleLoginLogoutClick = () => {
+        if (isLoggedIn) {
+            onLoginLogout();
+        } else {
+            navigate('/login'); // Navigate to the login page if not logged in
+        }
+    };
+
+    const handleProfileClick = () => {
+        navigate('/profile'); // Navigate to the profile page
+    };
+
     return (
         <div className="w-full bg-white flex justify-between items-center p-2 shadow-md top-nav">
             <div className="flex items-center space-x-4">
@@ -78,19 +93,33 @@ const TopNav = ({
                         ))}
                     </select>
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 cursor-pointer" onClick={handleProfileClick}>
                     <img src={profileIcon} alt="Profile Icon" className="w-6 h-6" />
                     <span className="text-gray-700 text-xs">{userName}</span>
-                    <button
-                        onClick={onLoginLogout}
-                        className="text-xs bg-blue-500 text-white rounded p-1"
-                    >
-                        {isLoggedIn ? 'Logout' : 'Login'}
-                    </button>
                 </div>
+                <button
+                    onClick={handleLoginLogoutClick}
+                    className="text-xs bg-blue-500 text-white rounded p-1"
+                >
+                    {isLoggedIn ? 'Logout' : 'Login'}
+                </button>
             </div>
         </div>
     );
+};
+
+TopNav.propTypes = {
+    timeStamp: PropTypes.number.isRequired,
+    setTimeStamp: PropTypes.func.isRequired,
+    distance: PropTypes.number.isRequired,
+    setDistance: PropTypes.func.isRequired,
+    showPins: PropTypes.bool.isRequired,
+    setShowPins: PropTypes.func.isRequired,
+    mode: PropTypes.string.isRequired,
+    setMode: PropTypes.func.isRequired,
+    isLoggedIn: PropTypes.bool.isRequired,
+    onLoginLogout: PropTypes.func.isRequired,
+    userName: PropTypes.string.isRequired,
 };
 
 export default TopNav;

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import timeIcon from '../Images/time.png';
 import distanceIcon from '../Images/distance.png';
 import profileIcon from '../Images/profile.png';
 import showPinsIcon from '../Images/pin.png';
 import hidePinsIcon from '../Images/pin-x.png';
 import searchIcon from '../Images/search.png'; // Import the search icon
-import PropTypes from 'prop-types';
 
 const MobileIcons = ({
     timeStamp, setTimeStamp,
@@ -14,6 +15,7 @@ const MobileIcons = ({
     mode, setMode,
     isLoggedIn, onLoginLogout
 }) => {
+    const navigate = useNavigate(); // Use useNavigate to navigate programmatically
     const [showTimeSlider, setShowTimeSlider] = useState(false);
     const [showDistanceSlider, setShowDistanceSlider] = useState(false);
     const [showSearchBar, setShowSearchBar] = useState(false); // State for search bar visibility
@@ -23,12 +25,16 @@ const MobileIcons = ({
     const togglePins = () => setShowPins(!showPins);
     const toggleSearchBar = () => setShowSearchBar(!showSearchBar); // Toggle search bar visibility
 
+    const handleProfileClick = () => {
+        navigate('/profile'); // Navigate to the profile page
+    };
+
     return (
         <div className="mobile-icons flex items-center justify-between">
             <div className="relative">
                 <img src={searchIcon} alt="Search Icon" className="w-8 h-8" onClick={toggleSearchBar} />
                 {showSearchBar && (
-                   <div className="absolute top-12 left-0 right-0 rounded shadow-md" style={{ width: '50vw' }}>
+                    <div className="absolute top-12 left-0 right-0 rounded shadow-md" style={{ width: '50vw' }}>
                         <input
                             type="text"
                             placeholder="Search"
@@ -85,7 +91,7 @@ const MobileIcons = ({
                     <option key={day} value={day}>{day}</option>
                 ))}
             </select>
-            <img src={profileIcon} alt="Profile Icon" className="w-8 h-8" onClick={onLoginLogout} />
+            <img src={profileIcon} alt="Profile Icon" className="w-8 h-8 cursor-pointer" onClick={handleProfileClick} />
         </div>
     );
 };
@@ -104,4 +110,3 @@ MobileIcons.propTypes = {
 };
 
 export default MobileIcons;
-
