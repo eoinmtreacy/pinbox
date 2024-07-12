@@ -9,15 +9,22 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+
     public class UserLikesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
         private readonly string[] allowedCategorySwipes = ["love_it", "hate_it", "wanna", "don't_care"];
 
-        public UserLikesController(ApplicationDbContext context)
+
+        [HttpPost]
+        public async Task<IActionResult> PostUserLike([FromBody] User_Likes userLike)
         {
-            _context = context;
-        }
+            // Validate the incoming data
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
 
         [HttpPost]
         public async Task<IActionResult> PostUserLike([FromBody] User_Likes userLike)
@@ -49,7 +56,6 @@ namespace backend.Controllers
             {
                 userLike.Timestamp = DateTime.UtcNow;
             }
-
             // Add the UserLike to the database
             _context.UserLikes.Add(userLike);
             await _context.SaveChangesAsync();
@@ -61,6 +67,7 @@ namespace backend.Controllers
         public async Task<IActionResult> GetAllUserLikes()
         {
             try
+
             {
                 var userLikes = await _context.UserLikes.ToListAsync();
                 if (userLikes == null || userLikes.Count == 0)
@@ -99,10 +106,12 @@ namespace backend.Controllers
 
                 return Ok(categorizedPlaces);
             }
+
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
+
         }
 
         private string GetColourForCategory(string categorySwipe)
