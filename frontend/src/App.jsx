@@ -10,6 +10,7 @@ import Settings from './components/Settings';
 import Main from './components/Main';
 import MainPage from './components/MainPage';
 import LandingMain from './components/landing/LandingMain';
+import BusynessTable from './components/Map/BusynessTable';
 import SideNav from './components/SideNav'; // Import the SideNav component
 
 function App() {
@@ -46,6 +47,7 @@ const AppContent = () => {
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/settings" element={<Settings />} />
                     <Route path="/landingpage/*" element={<LandingMain />} />
+                    <Route path="/busytable" element={<BusynessTable />} />
                 </Routes>
             </div>
         </div>

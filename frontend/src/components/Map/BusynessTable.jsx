@@ -1,6 +1,20 @@
 import React from 'react';
 
+const getColorAndDescription = (busyness) => {
+    if (busyness <= 0.5) {
+        return { color: 'green', description: 'Good' };
+    } else if (busyness <= 1) {
+        return { color: 'yellow', description: 'Moderate' };
+    } else if (busyness <= 1.5) {
+        return { color: 'orange', description: 'A liitle busy' };
+    } else {
+        return { color: 'red', description: 'Hectic' };
+    }
+};
+
 const BusynessModal = ({ isOpen, onRequestClose, busyness }) => {
+    const { color, description } = getColorAndDescription(busyness);
+
     return (
         <div className="preference-container flex flex-col bg-white rounded-2xl border border-solid border-stone-400 max-w-xs p-5 bg-opacity-80">
             <div className="text-3xl font-bold  text-center text-black mb-1">Busyness Level</div>
