@@ -60,7 +60,7 @@ body, html {
     .horizontal-buttons-wrapper {
         display: block;
         position: absolute;
-        top: 50px;  /* Adjust as needed */
+        top: 50px;
         right: 0;
         z-index: 1000;
     }
@@ -74,7 +74,7 @@ body, html {
     }
 
     .SideNav {
-        display: none;
+        display: none;    
     }
 
     .BottomNav {

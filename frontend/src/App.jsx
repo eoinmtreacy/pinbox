@@ -24,12 +24,12 @@ function App() {
 
 const AppContent = () => {
     const location = useLocation();
-    const hideSideNav = ['/login', '/signup', '/', '/main'].includes(location.pathname.toLowerCase());
+    const hideSideNav = ['/login', '/signup', '/', '/main', '/landingpage'].includes(location.pathname.toLowerCase());
 
     return (
         <div className="flex flex-1">
             {!hideSideNav && (
-                <div className="flex-none w-1/24 h-full">
+                <div className="SideNav flex-none w-1/24 h-full">
                     <SideNav
                         onPreferenceToggle={() => {}}
                         onFriendsToggle={() => {}}
