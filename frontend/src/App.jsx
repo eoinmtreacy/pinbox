@@ -1,4 +1,3 @@
-// src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
@@ -11,6 +10,7 @@ import Settings from './components/Settings';
 import Main from './components/Main';
 import MainPage from './components/MainPage';
 import LandingMain from './components/landing/LandingMain';
+import SideNav from './components/SideNav'; // Import SideNav
 
 function App() {
     return (
@@ -24,10 +24,15 @@ function App() {
 
 const AppContent = () => {
     const location = useLocation();
-    const hideSideNav = ['/Login', '/Signup','/Main'].includes(location.pathname);
+    const hideSideNav = ['/login', '/signup', '/main'].includes(location.pathname);
 
     return (
         <div className="flex flex-1">
+            {!hideSideNav && (
+                <div className="SideNav flex-none w-1/24 h-full">
+                    <SideNav />
+                </div>
+            )}
             <div className={!hideSideNav ? 'flex-1 ml-for-desktop' : 'flex-1'}>
                 <Routes>
                     <Route path="/" element={<Main />} />
