@@ -68,7 +68,6 @@ const MainPage = () => {
             <div className={`${showPreference ? 'flex-grow w-17/24' : 'flex-grow w-22/24'}`}>
                 <Map geoJsonData={geoJsonData} pins={pins} /> {/* Pass geoJsonData to Map */}
             </div>
-            
         </div>
     );
 };
