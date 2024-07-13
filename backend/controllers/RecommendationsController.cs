@@ -40,17 +40,41 @@ public class RecommendationsController : ControllerBase
                     ORDER BY num_users_likers DESC
                     LIMIT 1;";
 
-        var output = _context.Database.SqlQueryRaw<RecommendationResults>(
+        var sqlQueryResults = _context.Database.SqlQueryRaw<RecommendedPlace>(
             query.ToString(), new MySqlParameter("@place_id", placeid)
         ).ToList();
         
-        Console.WriteLine(output);
+        var recommendedPlaceId = sqlQueryResults.First().place_id;
+        var numUsersLikers = sqlQueryResults.First().num_users_likers;
         
-        return Ok(output.First());
+        // Fetch the full Place table data
+        var place = _context.Places.FirstOrDefault(p => p.Id == recommendedPlaceId);
+        
+        // dealing with not found
+
+        if (place == null)
+        {
+            return NotFound("Recommended place not found in the Places table.");
+        }
+        
+        var recommenderOutput = new RecommendedPlaceAllInfo
+        {
+            NumUsersLikers = numUsersLikers,
+            PlaceData = place
+        };
+
+        return Ok(recommenderOutput);
     }
 }
 
-public class RecommendationResults {
+
+public class RecommendedPlace {
     public Int64 place_id { get; set; }
     public Int64 num_users_likers { get; set; }
+}
+
+public class RecommendedPlaceAllInfo
+{
+    public Int64 NumUsersLikers { get; set; }
+    public Place PlaceData { get; set; }
 }
