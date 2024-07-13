@@ -76,5 +76,5 @@ public class RecommendedPlace {
 public class RecommendedPlaceAllInfo
 {
     public Int64 NumUsersLikers { get; set; }
-    public Place PlaceData { get; set; }
+    public Place? PlaceData { get; set; } // ? so that it's nullable
 }
