@@ -27,7 +27,6 @@ const PreferenceWithoutButtons = ({
 
     // Handle loading and error states
     if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error.message}</div>;
 
 
     // Get the place_id passed from Map.jsx
@@ -75,7 +74,9 @@ const PreferenceWithoutButtons = ({
                 <div className="flex-auto my-auto text-left">{hours}</div>
             </div>
 
-            <div>{recommendationData.numUsersLikers} other users also liked {recommendationData.placeData.name}  </div>
+            {recommendationData != null && //only shows this if we have recommendation data for this pin
+                        <div>{recommendationData?.numUsersLikers} other users also liked {recommendationData?.placeData.name}  </div>
+            }
 
             {preference && (
                 <div className="self-center mt-5 w-full max-w-md">
