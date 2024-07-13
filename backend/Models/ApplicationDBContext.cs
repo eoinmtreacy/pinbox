@@ -19,7 +19,7 @@ namespace backend.Models
 
             // Configure Pinbox_Id to be unique
             modelBuilder.Entity<AppUser>()
-                .HasIndex(u => u.Pinbox_Id)
+                .HasIndex(u => u.PinboxId)
                 .IsUnique();
 
             modelBuilder.Entity<Prediction>()

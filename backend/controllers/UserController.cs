@@ -25,7 +25,7 @@ namespace backend.controllers
             var user = new AppUser()
             {
                 Email = model.Email,
-                Pinbox_Id = model.Pinbox_Id,
+                PinboxId = model.PinboxId,
                 PasswordHash = model.Password,
                 UserName = model.Username
             };

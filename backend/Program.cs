@@ -64,7 +64,8 @@ builder.Services.AddCors(options =>
     {
         policy.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost") // Replace with the actual origin of your client app
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
@@ -109,6 +110,6 @@ app.MapGet("/auth", (ClaimsPrincipal user) =>
 {
     var pinbox_id = user.FindFirstValue("Pinbox_Id");
     return Results.Json(new { pinbox_id });
-}).RequireAuthorization();
+});
 
 app.Run();
