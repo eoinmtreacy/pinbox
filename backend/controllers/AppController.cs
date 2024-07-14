@@ -125,5 +125,21 @@ namespace backend.Controllers
 
             return Ok(seenPlaces);
         }
+        // get all users from the database and return their pinbox ids
+        [HttpGet("get-users")]
+        public IActionResult GetAllUsers()
+        {
+            try
+            {
+                var users = _context.Users.ToList();
+                var userPinboxIds = users.Select(u => u.PinboxId).ToList();
+                return Ok(userPinboxIds);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "Failed to retrieve data from the database.", Error = ex.Message });
+            }
+        }
+
     }
 }

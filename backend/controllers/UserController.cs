@@ -2,6 +2,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using backend.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Sprache;
 
 namespace backend.controllers
 {
@@ -11,11 +15,13 @@ namespace backend.controllers
     {
         private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManager;
+        private readonly ILogger<UserController> logger;
 
-        public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ILogger<UserController> logger)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.logger = logger;
         }
 
    
@@ -25,7 +31,7 @@ namespace backend.controllers
             var user = new AppUser()
             {
                 Email = model.Email,
-                Pinbox_Id = model.Pinbox_Id,
+                PinboxId = model.PinboxId,
                 PasswordHash = model.Password,
                 UserName = model.Username
             };
@@ -37,11 +43,11 @@ namespace backend.controllers
 
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(string email, string password)
+        public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
             var signInResult = await signInManager.PasswordSignInAsync(
-                  userName: email!,
-                  password: password!,
+                  userName: model.Email!,
+                  password: model.Password!,
                   isPersistent: false,
                   lockoutOnFailure: false
                   );
@@ -53,11 +59,26 @@ namespace backend.controllers
         }
 
         // log out endpoint
-        [HttpPost("logout")]
-        public async Task<IActionResult> Logout()
+[HttpGet("logout")]
+public async Task<IActionResult> Logout()
+{
+    await signInManager.SignOutAsync();
+
+    return Ok("You are successfully logged out");
+
+}
+        [HttpGet("auth")]
+        public async Task<IActionResult> GetUser()
         {
-            await signInManager.SignOutAsync();
-            return Ok("You are successfully logged out");
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+                return Unauthorized();
+            return Ok(new
+            {
+                user.Email,
+                user.UserName,
+                user.PinboxId
+            });
         }
     }
 }

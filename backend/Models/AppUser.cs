@@ -3,7 +3,7 @@ namespace backend.Models
 {
     public class AppUser : IdentityUser
     {
-        public string? Pinbox_Id { get; set; }
+        public string? PinboxId { get; set; }
 
     }
 }
