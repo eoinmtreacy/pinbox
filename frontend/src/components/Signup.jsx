@@ -6,7 +6,7 @@ import '../App.css';
 async function handleSubmit(e, setErrors) {
     e.preventDefault();
     try {
-        const response = await fetch('http://localhost:8000/User/add-user', {
+        const response = await fetch('http://localhost:5165/User/add-user', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

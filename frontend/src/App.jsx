@@ -10,6 +10,7 @@ import Settings from './components/Settings';
 import Main from './components/Main';
 import MainPage from './components/MainPage';
 import LandingMain from './components/landing/LandingMain';
+import { AuthProvider } from './auth/AuthContext';
 
 import SideNav from './components/SideNav'; // Import the SideNav component
 
@@ -19,9 +20,11 @@ import BusynessTable from './components/Map/BusynessTable';
 function App() {
     return (
         <div className="App flex flex-col min-h-screen">
-            <Router>
-                <AppContent />
-            </Router>
+            <AuthProvider>
+                <Router>
+                    <AppContent />
+                </Router>
+            </AuthProvider>
         </div>
     );
 }
@@ -35,8 +38,8 @@ const AppContent = () => {
             {!hideSideNav && (
                 <div className="SideNav flex-none w-1/24 h-full">
                     <SideNav
-                        onPreferenceToggle={() => {}}
-                        onFriendsToggle={() => {}}
+                        onPreferenceToggle={() => { }}
+                        onFriendsToggle={() => { }}
                     />
                 </div>
             )}
