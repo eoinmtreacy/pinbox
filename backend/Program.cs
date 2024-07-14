@@ -53,10 +53,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         new MySqlServerVersion(new Version(8, 0, 21))
     )
 );
-builder.Services.AddAuthentication();
 builder.Services.AddIdentityApiEndpoints<AppUser>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
-
 
 builder.Services.AddCors(options =>
 {
@@ -89,7 +87,6 @@ else
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
@@ -100,16 +97,12 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.UseCookiePolicy();
+
+app.UseAuthorization();
 app.MapControllers();
 app.MapIdentityApi<AppUser>();
 
 app.MapGet("/", () => "Hello World!");
-
-app.UseAuthorization();
-app.MapGet("/auth", (ClaimsPrincipal user) => 
-{
-    var pinbox_id = user.FindFirstValue("Pinbox_Id");
-    return Results.Json(new { pinbox_id });
-});
 
 app.Run();
