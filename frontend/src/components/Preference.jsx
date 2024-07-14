@@ -9,7 +9,6 @@ import Dropdown from './Dropdown';
 
 
 function Preference({ places, pins, setPins }) {
-    console.log(pins);
     const [card, setCard] = useState(places.pop());
     const [selectedSubtype, setSelectedSubtype] = useState('all');
 
@@ -18,7 +17,6 @@ function Preference({ places, pins, setPins }) {
     };
 
     const updatePreference = (dir) => {
-        console.log(dir);
         let attitude
         switch (dir) {
             case 'left':

@@ -27,17 +27,19 @@ const TopNav = ({
 
     const navigate = useNavigate(); // Use useNavigate to navigate programmatically
 
-    const handleLoginLogoutClick = () => {
+    const handleLoginLogoutClick = async () => {
         if (user == null) {
             navigate('/login'); 
         } else {
             try {
-                const response = axios.get('/user/logout', { withCredentials: true })
+                const response = await axios.get('/user/logout', { withCredentials: true })
                 if (response.status == 200) {
+                    console.log(response);
                     setAuth(false)
                     setUser(null)
                     navigate('/mainpage');
                 }
+                console.log(response);
             } catch (error) {
                 console.error(error);
             }
@@ -113,12 +115,14 @@ const TopNav = ({
                         ))}
                     </select>
                 </div>
-
-                <div className="flex items-center space-x-2 cursor-pointer" onClick={handleProfileClick}>
-                    <img src={profileIcon} alt="Profile Icon" className="w-6 h-6" />
-                    <span className="text-gray-700 text-xs">{userName}</span>
-                </div>
-                <button
+                
+                {user != null && (
+                    <div className="flex items-center space-x-2 cursor-pointer" onClick={handleProfileClick}>
+                        <img src={profileIcon} alt="Profile Icon" className="w-6 h-6" />
+                        <span className="text-gray-700 text-xs">{user}</span>
+                    </div>
+                )}
+               <button
                     onClick={handleLoginLogoutClick}
                     className="text-xs bg-blue-500 text-white rounded p-1"
                 >
@@ -141,7 +145,6 @@ TopNav.propTypes = {
     setMode: PropTypes.func.isRequired,
     isLoggedIn: PropTypes.bool.isRequired,
     onLoginLogout: PropTypes.func.isRequired,
-    userName: PropTypes.string.isRequired,
 };
 
 export default TopNav;

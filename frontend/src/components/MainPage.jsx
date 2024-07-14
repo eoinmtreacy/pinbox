@@ -23,8 +23,6 @@ const MainPage = () => {
     const [mode, setMode] = useState('Day');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const [userName, setUserName] = useState('User');
-
     const { places, loading, error } = useFetchPlaces();
     const [pins, setPins] = useState([]);
     const isMobile = useScreenWidth();
@@ -89,7 +87,6 @@ const MainPage = () => {
                         setMode={setMode}
                         isLoggedIn={isLoggedIn}
                         onLoginLogout={handleLoginLogout}
-                        userName={userName}
                     />
 
                     <MobileIcons
