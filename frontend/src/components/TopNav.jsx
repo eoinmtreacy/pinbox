@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../auth/AuthContext';
 
 import timeIcon from '../Images/time.png';
 import distanceIcon from '../Images/distance.png';
@@ -21,13 +22,15 @@ const TopNav = ({
     userName
 }) => {
 
+    const { isAuth, setAuth, user, setUser } = useAuthContext();
+
     const navigate = useNavigate(); // Use useNavigate to navigate programmatically
 
     const handleLoginLogoutClick = () => {
-        if (isLoggedIn) {
-            onLoginLogout();
+        if (user == null) {
+            navigate('/login'); 
         } else {
-            navigate('/login'); // Navigate to the login page if not logged in
+            // handle log out 
         }
     };
 
@@ -108,7 +111,7 @@ const TopNav = ({
                     onClick={handleLoginLogoutClick}
                     className="text-xs bg-blue-500 text-white rounded p-1"
                 >
-                    {isLoggedIn ? 'Logout' : 'Login'}
+                    {user != null ? 'Logout' : 'Login'}
                 </button>
 
             </div>
