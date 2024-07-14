@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../auth/AuthContext';
+import axios from '../api/axios';
 
 import timeIcon from '../Images/time.png';
 import distanceIcon from '../Images/distance.png';
@@ -30,9 +31,19 @@ const TopNav = ({
         if (user == null) {
             navigate('/login'); 
         } else {
-            // handle log out 
-        }
-    };
+            try {
+                const response = axios.get('/user/logout', { withCredentials: true })
+                if (response.status == 200) {
+                    setAuth(false)
+                    setUser(null)
+                    navigate('/mainpage');
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+    }
 
     const handleProfileClick = () => {
         navigate('/profile'); // Navigate to the profile page

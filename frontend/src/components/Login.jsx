@@ -8,7 +8,7 @@ import { useAuthContext } from '../auth/AuthContext';
 
 // Login component
 function Login() {
-    const { isAuth, setAuth, user } = useAuthContext(); 
+    const { isAuth, setAuth, user, setUser } = useAuthContext(); 
     // Hook to navigate programmatically
     const navigate = useNavigate();
 
@@ -35,8 +35,19 @@ function Login() {
                 alert('Login failed'); // placeholder, elegant error handling needed
                 return;
             }
-            setAuth(true);
-            navigate(`/mainpage/${user}`); // Navigate to the main page
+
+        } catch (error) {
+            console.error(error);
+        }
+
+        try {
+            const response = await axios.get('/user/auth', { withCredentials: true });
+            if (response.status === 200) {
+                setAuth(true);
+                setUser(response.data.pinboxId);
+                navigate(`/mainpage/${response.data.pinboxId}`);
+            }
+
         } catch (error) {
             console.error(error);
         }
