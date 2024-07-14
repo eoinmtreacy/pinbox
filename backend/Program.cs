@@ -99,7 +99,6 @@ app.MapControllerRoute(
 
 app.UseCookiePolicy();
 
-app.UseAuthorization();
 app.MapControllers();
 app.MapIdentityApi<AppUser>();
 
