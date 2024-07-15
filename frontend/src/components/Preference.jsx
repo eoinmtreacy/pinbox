@@ -14,7 +14,7 @@ import Dropdown from './Dropdown';
 function Preference({ feed, pins, setPins }) {
     const [card, setCard] = useState(feed.pop());
     const [selectedSubtype, setSelectedSubtype] = useState('all');
-    const { user } = useAuthContext();
+    const { isAuth, user } = useAuthContext();
 
     const handleSubtypeChange = (e) => {
         // setCurrentIndex(0); // Reset index to start from the beginning of the filtered list
@@ -42,8 +42,11 @@ function Preference({ feed, pins, setPins }) {
         card.attitude = attitude
 
         setPins([...pins, {place: card, attitude: attitude}])
-        console.log(pins);
 
+        if (!isAuth) {
+            setCard(feed.pop())
+            return
+        }
         // TODO: add preferences to DB
         try{
             const response = await axios.post('/api/userlikes', {

@@ -107,7 +107,7 @@ const MainPage = () => {
                         onLoginLogout={handleLoginLogout}
                     />
                     <div className="flex h-full overflow-hidden">
-                        {showPreference && feed.length > 1 && (
+                        {showPreference && feed.length > 1 && (user == pinbox_id || user === null && pinbox_id === undefined) && (
                             <div className="flex-none w-4/24 h-full overflow-auto">
                                 <Preference feed={feed} pins={pins} setPins={setPins}/>
 

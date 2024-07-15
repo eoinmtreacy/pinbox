@@ -4,20 +4,6 @@ import axios from '../api/axios';
 import { useAuthContext } from '../auth/AuthContext'
 import '../App.css';
 
-
-async function handleSubmit(e, setErrors) {
-    e.preventDefault();
-    // attempt sign up 
-    try {
-        const response = axios.post('/user/add-user', {
-            email: e.target.email.value,
-        })
-    } catch (error) {
-        console.error(error)
-    }
-
-}
-
 function Signup() {
     const navigate = useNavigate();
     const { isAuth, setAuth, user, setUser } = useAuthContext();
@@ -39,10 +25,10 @@ function Signup() {
         // attempt sign up
         try {
             const response = await axios.post('/user/add-user', {
-                pinboxId: e.target.pinboxId.value,
                 email: e.target.email.value,
-                username: e.target.email.value,
+                pinboxId: e.target.pinboxId.value,
                 password: e.target.password.value,
+                username: e.target.email.value,
             });
 
             if (response.status != 200) {
