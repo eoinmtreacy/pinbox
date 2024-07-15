@@ -128,13 +128,14 @@ namespace backend.Controllers
             return Ok(seenPlaces);
         }
 
-        [HttpGet("feed-and-pins/{userId}")]
-        public async Task<IActionResult> GetFeedAndPins(string userId)
+        [HttpGet("feed-and-pins/{userId}/{collection?}")]
+        public async Task<IActionResult> GetFeedAndPins(string userId, string collection)
         {
 
             try
             {
                 userId ??= "";
+                collection ??= "";
 
                 var places = await _context.Places.ToListAsync();
 
@@ -143,7 +144,7 @@ namespace backend.Controllers
                     .ToListAsync();
 
                 var pins = places
-                    .Where(place => userLikes.Any(like => like.PlaceId == place.Id))
+                    .Where(place => userLikes.Any(like => like.PlaceId == place.Id && like.Collection == collection))
                     .Select(place => new
                     {
                         Place = place,
