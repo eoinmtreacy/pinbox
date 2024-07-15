@@ -40,10 +40,6 @@ namespace backend.Controllers
                 .Where(p => p.Id == userLike.PlaceId && p.Type == userLike.Type)
                 .FirstOrDefaultAsync();
 
-            if (place == null)
-            {
-                return NotFound(new { Message = "Place not found." });
-            }
 
             // If Timestamp is not provided in the request, set it to the current UTC time
             if (userLike.Timestamp == default(DateTime))
