@@ -18,7 +18,6 @@ export const AuthProvider = ({ children }) => {
                 if (response.status === 200) {
                     setAuth(true)
                     setUser(response.data.pinboxId)
-                    console.log(user, isAuth);
                     return
                 }
                 setAuth(false)

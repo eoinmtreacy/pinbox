@@ -44,7 +44,6 @@ const TopNav = ({
                 console.error(error);
             }
         };
-
     }
 
     const handleProfileClick = () => {
@@ -116,12 +115,23 @@ const TopNav = ({
                     </select>
                 </div>
                 
-                {user != null && (
+                {/* either display profile or sign up link */}
+                {user != null ? (
                     <div className="flex items-center space-x-2 cursor-pointer" onClick={handleProfileClick}>
                         <img src={profileIcon} alt="Profile Icon" className="w-6 h-6" />
                         <span className="text-gray-700 text-xs">{user}</span>
                     </div>
-                )}
+                ) 
+            
+                :
+                
+                <button
+                    onClick={() => navigate('/signup')}
+                    className="text-xs bg-blue-500 text-white rounded p-1"
+                >
+                    Sign up
+                </button>}
+
                <button
                     onClick={handleLoginLogoutClick}
                     className="text-xs bg-blue-500 text-white rounded p-1"
