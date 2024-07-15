@@ -93,7 +93,7 @@ namespace backend.Controllers
 
         // Feed for users who are logged in: Returns places not in their UserLikes (places they haven't seen)
         [HttpGet("feed/{userId}")]
-        public async Task<ActionResult<IEnumerable<Place>>> GetPlacesNotSeenByUser(long userId)
+        public async Task<ActionResult<IEnumerable<Place>>> GetPlacesNotSeenByUser(string userId)
         {
             var userLikes = await _context.UserLikes
                 .Where(ul => ul.UserId == userId)
@@ -109,7 +109,7 @@ namespace backend.Controllers
 
         // Endpoint to get places seen by the user (UserLikes)
         [HttpGet("seen-places/{userId}")]
-        public async Task<ActionResult<IEnumerable<Place>>> GetUserSeenPlaces(long userId)
+        public async Task<ActionResult<IEnumerable<Place>>> GetUserSeenPlaces(string userId)
         {
             var userLikes = await _context.UserLikes
                 .Where(ul => ul.UserId == userId)

@@ -77,7 +77,7 @@ namespace backend.Controllers
         }
 
         [HttpGet("places-with-categories/{userId}")]
-        public async Task<IActionResult> GetPlacesWithCategories(long userId)
+        public async Task<IActionResult> GetPlacesWithCategories(string userId)
         {
             try
             {
