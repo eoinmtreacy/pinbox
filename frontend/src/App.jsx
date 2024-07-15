@@ -50,7 +50,7 @@ const AppContent = () => {
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/passwordfind" element={<PasswordFind />} />
-                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/profile/:pinbox_id" element={<Profile />} />
                     <Route path="/settings" element={<Settings />} />
                     <Route path="/landingpage/*" element={<LandingMain />} />
                     <Route path="/busytable" element={<BusynessTable />} />
