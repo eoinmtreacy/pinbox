@@ -23,6 +23,7 @@ const MainPage = () => {
     const [mode, setMode] = useState('Day');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+    // TODO: handle places and pins differently via endpoints
     const { places, loading, error } = useFetchPlaces();
     const [pins, setPins] = useState([]);
     const isMobile = useScreenWidth();
@@ -85,8 +86,6 @@ const MainPage = () => {
                         setShowPins={setShowPins}
                         mode={mode}
                         setMode={setMode}
-                        isLoggedIn={isLoggedIn}
-                        onLoginLogout={handleLoginLogout}
                     />
 
                     <MobileIcons

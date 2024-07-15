@@ -13,7 +13,7 @@ namespace backend.Controllers
     public class UserLikesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly string[] allowedCategorySwipes = { "love_it", "hate_it", "wanna", "don't_care" };
+        private readonly string[] allowedCategorySwipes = { "love_it", "hate_it", "wanna", "dont_care" };
 
         public UserLikesController(ApplicationDbContext context)
         {

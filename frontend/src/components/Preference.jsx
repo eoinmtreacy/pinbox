@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import TinderCard from 'react-tinder-card';
+import { useAuthContext } from '../auth/AuthContext';
+import axios from '../api/axios';
+
 import Clock from '../Images/clock.png';
 import Flag from '../Images/hateit.png';
 import Heart from '../Images/loveit.png';
@@ -11,47 +14,48 @@ import Dropdown from './Dropdown';
 function Preference({ places, pins, setPins }) {
     const [card, setCard] = useState(places.pop());
     const [selectedSubtype, setSelectedSubtype] = useState('all');
+    const { user } = useAuthContext();
 
     const handleSubtypeChange = (e) => {
         // setCurrentIndex(0); // Reset index to start from the beginning of the filtered list
     };
 
-    const updatePreference = (dir) => {
+    const updatePreference = async (dir) => {
         let attitude
         switch (dir) {
             case 'left':
-                attitude = 'hate it'
+                attitude = 'hate_it'
                 break
             case 'right':
-                attitude = 'love it'
+                attitude = 'love_it'
                 break
             case 'up':
                 attitude = 'wanna'
                 break
             case 'down':
-                attitude = "don't care"
+                attitude = 'dont_care'
                 break
             default:
-                attitude = "don't care"
+                attitude = 'dont_care'
         }
 
         card.attitude = attitude
 
         setPins([...pins, card])
 
-        // placeholder logic for database updating
-        // fetch (/update-preference, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         user_id: user_id,
-        //         place_id: card.place_id,
-        //         attitude: attitude
-        //     })
+        // TODO: add preferences to DB
+        try{
+            const response = await axios.post('/api/userlikes', {
+                UserId: user,
+                PlaceId: card.id,
+                CategorySwipe: attitude,
+                Type: card.subtype
+            })
 
-        setCard(places.pop())
+            setCard(places.pop())
+        } catch (error) {
+            console.error(error)
+        }
     };
 
     return (

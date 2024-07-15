@@ -17,10 +17,7 @@ const TopNav = ({
     showPins,
     setShowPins,
     mode,
-    setMode,
-    isLoggedIn,
-    onLoginLogout,
-    userName
+    setMode
 }) => {
 
     const { isAuth, setAuth, user, setUser } = useAuthContext();
@@ -152,9 +149,7 @@ TopNav.propTypes = {
     showPins: PropTypes.bool.isRequired,
     setShowPins: PropTypes.func.isRequired,
     mode: PropTypes.string.isRequired,
-    setMode: PropTypes.func.isRequired,
-    isLoggedIn: PropTypes.bool.isRequired,
-    onLoginLogout: PropTypes.func.isRequired,
+    setMode: PropTypes.func.isRequired
 };
 
 export default TopNav;
