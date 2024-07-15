@@ -11,6 +11,8 @@ import withHardLightBlend from './withHardLightBlend';
 import MobileIcons from './MobileIcons';
 import BottomNav from './BottomNav';
 import useScreenWidth from '../hooks/useScreenWidth';
+import { UNSAFE_NavigationContext, useNavigate, useParams } from 'react-router-dom';
+import { useAuthContext } from '../auth/AuthContext';
 
 
 const MainPage = () => {
@@ -22,12 +24,16 @@ const MainPage = () => {
     const [showFriends, toggleFriends] = useToggle();
     const [mode, setMode] = useState('Day');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { user } = useAuthContext();
+    const { pinbox_id } = useParams();
 
     // TODO: handle places and pins differently via endpoints
-    const { places, loading, error } = useFetchPlaces();
-    const [pins, setPins] = useState([]);
+    const {feed, pins, setPins, loading, error} = useFetchPlaces();
     const isMobile = useScreenWidth();
     const [showBusynessTable, setShowBusynessTable] = useState(true);
+
+    const navigate = useNavigate();
+
 
     const togglePreference = () => {
         setShowPreference(!showPreference);
@@ -101,9 +107,9 @@ const MainPage = () => {
                         onLoginLogout={handleLoginLogout}
                     />
                     <div className="flex h-full overflow-hidden">
-                        {showPreference && places.length > 1 && (
+                        {showPreference && feed.length > 1 && (
                             <div className="flex-none w-4/24 h-full overflow-auto">
-                                <Preference places={places} pins={pins} setPins={setPins} />
+                                <Preference feed={feed} pins={pins} setPins={setPins}/>
 
                             </div>
                         )}

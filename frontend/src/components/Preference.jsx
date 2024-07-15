@@ -11,8 +11,8 @@ import DonotCare from '../Images/dontcare.png';
 import Dropdown from './Dropdown';
 
 
-function Preference({ places, pins, setPins }) {
-    const [card, setCard] = useState(places.pop());
+function Preference({ feed, pins, setPins }) {
+    const [card, setCard] = useState(feed.pop());
     const [selectedSubtype, setSelectedSubtype] = useState('all');
     const { user } = useAuthContext();
 
@@ -41,7 +41,7 @@ function Preference({ places, pins, setPins }) {
 
         card.attitude = attitude
 
-        setPins([...pins, card])
+        setPins([...pins, {place: card, attitude: attitude}])
         console.log(pins);
 
         // TODO: add preferences to DB
@@ -54,7 +54,7 @@ function Preference({ places, pins, setPins }) {
             })
             console.log(response);
 
-            setCard(places.pop())
+            setCard(feed.pop())
         } catch (error) {
             console.error(error)
         }
@@ -68,7 +68,7 @@ function Preference({ places, pins, setPins }) {
             <div className="text-4xl font-bold tracking-tight text-center text-black mb-5">smart recommendation</div>
 
             <div className="flex flex-col items-center p-5 h-full overflow-auto">
-                {places.length > 0 && (
+                {feed.length > 0 && (
                     <TinderCard
                         key={card.id}
                         onCardLeftScreen={(dir) => updatePreference(dir)}

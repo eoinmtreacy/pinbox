@@ -13,10 +13,12 @@ namespace backend.Controllers
     public class AppController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<AppController> _logger;
 
-        public AppController(ApplicationDbContext context)
+        public AppController(ApplicationDbContext context, ILogger<AppController> logger)
         {
             _context = context;
+            _logger = logger;
         }
         // Test endpoint to return a default place if the database is empty
         [HttpGet]
@@ -124,6 +126,43 @@ namespace backend.Controllers
             }
 
             return Ok(seenPlaces);
+        }
+
+        [HttpGet("feed-and-pins/{userId}")]
+        public async Task<IActionResult> GetFeedAndPins(string userId)
+        {
+
+            try
+            {
+                userId ??= "";
+
+                var places = await _context.Places.ToListAsync();
+
+                var userLikes = await _context.UserLikes
+                    .Where(ul => ul.UserId == userId)
+                    .ToListAsync();
+
+                var pins = places
+                    .Where(place => userLikes.Any(like => like.PlaceId == place.Id))
+                    .Select(place => new
+                    {
+                        Place = place,
+                        attitude = userLikes.FirstOrDefault(like => like.PlaceId == place.Id)?.CategorySwipe
+                    })
+                    .ToList();
+
+                var feed = places
+                    .Where(place => !userLikes.Any(like => like.PlaceId == place.Id))
+                    .ToList();
+
+                return Ok(new { Pins = pins, Feed = feed });
+            }
+
+            catch
+            {
+                return StatusCode(500, new { Message = "Failed to retrieve data from the database." });
+            }
+
         }
         // get all users from the database and return their pinbox ids
         [HttpGet("get-users")]
