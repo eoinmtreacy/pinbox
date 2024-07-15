@@ -78,20 +78,23 @@ const CustomMap = ({ pins, showBusynessTable }) => {
                 )}
                 {pins &&
                     pins.map((pin) => (
-                        <Marker key={pin.id} position={[pin.lat, pin.lon]} icon={iconGen(pin.attitude)}>
-                            <Popup>
-                                <PreferenceWithoutButtons
-                                    name={pin.name}
-                                    image={pin.photo_0}
-                                    type={pin.subtype}
-                                    address={`${pin.addr_Housenumber || ''} ${pin.addr_Street || ''}`}
-                                    hours={pin.opening_Hours}
-                                    socialMedia={pin.website}
-                                    preference={pin.attitude}
-                                />
-                            </Popup>
-                        </Marker>
-                    ))}
+                        pin.attitude !== "dont_care" && (
+                            <Marker key={pin.id} position={[pin.lat, pin.lon]} icon={iconGen(pin.attitude)}>
+                                <Popup>
+                                    <PreferenceWithoutButtons
+                                        name={pin.name}
+                                        image={pin.photo_0}
+                                        type={pin.subtype}
+                                        address={`${pin.addr_Housenumber || ''} ${pin.addr_Street || ''}`}
+                                        hours={pin.opening_Hours}
+                                        socialMedia={pin.website}
+                                        preference={pin.attitude}
+                                    />
+                                </Popup>
+                            </Marker>
+                        )
+                    ))
+                }
                 <div className="absolute bottom-2 z-[1000]">
                     <CookieModal />
                 </div>

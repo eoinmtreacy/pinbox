@@ -42,6 +42,7 @@ function Preference({ places, pins, setPins }) {
         card.attitude = attitude
 
         setPins([...pins, card])
+        console.log(pins);
 
         // TODO: add preferences to DB
         try{
@@ -49,8 +50,9 @@ function Preference({ places, pins, setPins }) {
                 UserId: user,
                 PlaceId: card.id,
                 CategorySwipe: attitude,
-                Type: card.subtype
+                Type: card.subtype,
             })
+            console.log(response);
 
             setCard(places.pop())
         } catch (error) {
