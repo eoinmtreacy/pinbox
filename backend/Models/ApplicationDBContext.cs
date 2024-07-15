@@ -114,6 +114,8 @@ namespace backend.Models
                 entity.Property(e => e.Type).HasColumnName("place_type").IsRequired().HasMaxLength(50);
                 entity.Property(e => e.PlaceId).HasColumnName("place_id");
                 entity.Property(e => e.CategorySwipe).HasColumnName("category_swipe").HasConversion<string>();
+                  entity.Property(e => e.Collection).HasColumnName("collection").HasMaxLength(50);
+                  entity.Property(e => e.NormalizedCollection).HasColumnName("normalized_collection").HasMaxLength(50);
                 entity.Property(e => e.Timestamp).HasColumnName("timestamp");
 
                 entity.HasOne(e => e.Place)
