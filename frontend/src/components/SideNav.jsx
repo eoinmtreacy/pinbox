@@ -20,9 +20,11 @@ export const SideNav = ({
     const addCollection = () => {
         if (isAuth) {
             const collection = prompt('Enter collection name');
-            // normalise colection name to be url safe
-            const normalisedCollection = collection.replace(/ /g, '-').toLowerCase();
-            navigate(`/mainpage/${pinbox_id}/${normalisedCollection}`);
+            if (collection !== null) {
+                // normalise colection name to be url safe
+                const normalisedCollection = collection.replace(/ /g, '-').toLowerCase();
+                navigate(`/mainpage/${pinbox_id}/${normalisedCollection}`);
+            }
         }
    }
 
