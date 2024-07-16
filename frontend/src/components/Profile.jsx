@@ -3,12 +3,15 @@ import { useParams } from 'react-router-dom';
 import 'leaflet/dist/leaflet.css';
 import { getUserData } from '../services/tempProfileService';
 import useFetchPlaces from '../hooks/useFetchPlaces'
+import useGetCollections from '../hooks/useGetCollections';
 
 const Profile = () => {
     const [userData, setUserData] = useState(null);
     const { pinbox_id } = useParams();
     const { pins } = useFetchPlaces();
     const [searchTerm, setSearchTerm] = useState('');
+    const { collections, collectionsUrls } = useGetCollections();
+    
 
     const filteredPins = pins.filter(pin => {
         // Trim and lowercase the search term once
@@ -64,10 +67,10 @@ const Profile = () => {
                     </div>
                 </div>
                 <div className="mb-4">
-                    <input 
-                        type="text" 
-                        className="p-2 border border-gray-300 rounded w-full" 
-                        placeholder="Search for a specific place, or restaurants or coffee shops..." 
+                    <input
+                        type="text"
+                        className="p-2 border border-gray-300 rounded w-full"
+                        placeholder="Search for a specific place, or restaurants or coffee shops..."
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
@@ -82,10 +85,12 @@ const Profile = () => {
                     ))}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {userData.maps.map((map, index) => (
+                    {collections.length > 0 && collectionsUrls.length > 0 && collections.map((collection, index) => (
                         <div key={index} className="bg-white rounded-lg shadow-md p-4">
-                            <h3 className="font-bold text-lg mb-2">{map.name}</h3>
-                            <img src={map.image} alt={map.name} className="w-full h-48 object-cover rounded" />
+                            <h3 className="font-bold text-lg mb-2">{collection}</h3>
+                            <a href={`/mainpage/${pinbox_id}/${collectionsUrls[index]}`} className="text-blue-500 hover:text-blue-700">
+                                {collection}
+                            </a>
                         </div>
                     ))}
                 </div>

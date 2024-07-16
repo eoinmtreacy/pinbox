@@ -32,12 +32,12 @@ const TopNav = ({
             try {
                 const response = await axios.get('/user/logout', { withCredentials: true })
                 if (response.status == 200) {
-                    console.log(response);
+                    
                     setAuth(false)
                     setUser(null)
                     navigate('/mainpage');
                 }
-                console.log(response);
+                
             } catch (error) {
                 console.error(error);
             }

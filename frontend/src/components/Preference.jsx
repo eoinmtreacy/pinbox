@@ -20,9 +20,9 @@ function Preference({ feed, pins, setPins }) {
     const { collection } = useParams();
 
     useEffect(() => {
-        console.log(card);
+        
         setCard(filteredFeed[filteredFeed.length - 1]);
-        console.log(filteredFeed);
+        
     }, [filteredFeed]);
 
     const removeLastItem = () => {
@@ -31,7 +31,7 @@ function Preference({ feed, pins, setPins }) {
     }
 
     const handleSubtypeChange = (e) => {
-        console.log(e.target.value);
+        
         setSelectedSubtype(e.target.value);
         const pinIds = pins.map((pin) => pin.place.id)
 
@@ -40,9 +40,9 @@ function Preference({ feed, pins, setPins }) {
         }
 
         else {
-            console.log(pinIds);
-            console.log(feed);
-            console.log(feed.filter((place) => place.subtype === e.target.value && !pinIds.includes(place.id)));
+            
+            
+            
             setFilteredFeed(feed.filter((place) => place.subtype === e.target.value && !pinIds.includes(place.id)))
         }
     }
@@ -85,7 +85,7 @@ function Preference({ feed, pins, setPins }) {
                 NormalizedCollection: collection.replace(/-/g, ' ').toUpperCase()
 
             })
-            console.log(response);
+            
             if (response.status !== 201) {
                 throw new Error('Failed to update preferences')
             }

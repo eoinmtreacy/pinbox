@@ -164,6 +164,25 @@ namespace backend.Controllers
             }
 
         }
+
+        [HttpGet("get-collections/{userId}")]
+        public async Task<IActionResult> GetCollections(string userId)
+        {
+            try
+            {
+                var collections = await _context.UserLikes
+                    .Where(ul => ul.UserId == userId)
+                    .Select(ul => new { ul.Collection, ul.NormalizedCollection })
+                    .Distinct()
+                    .ToListAsync();
+
+                return Ok(collections);
+            }
+            catch
+            {
+                return StatusCode(500, new { Message = "Failed to retrieve data from the database." });
+            }
+        }
         // get all users from the database and return their pinbox ids
         [HttpGet("get-users")]
         public IActionResult GetAllUsers()
