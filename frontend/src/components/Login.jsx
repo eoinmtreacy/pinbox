@@ -1,18 +1,57 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loginimg from '../Images/logo.png';
 import '../App.css';
 import 'leaflet/dist/leaflet.css';
+import axios from '../api/axios';
+import { useAuthContext } from '../auth/AuthContext';
 
 // Login component
 function Login() {
+    const { isAuth, setAuth, user, setUser } = useAuthContext(); 
     // Hook to navigate programmatically
     const navigate = useNavigate();
 
+    useEffect(() => {
+        if (isAuth) {
+            navigate(`/mainpage/${user}`); // Navigate to the main page if already logged in
+        }
+    }, [isAuth, user, navigate]);
+
     // Function to handle login button click
-    const handleLoginClick = (event) => {
-        event.preventDefault(); // Prevent the default form submission
-        navigate('/mainpage'); // Navigate to the map page on login
+    const handleLoginClick = async (e) => {
+        e.preventDefault();
+        const email = e.target[0].value;
+        const password = e.target[1].value;
+
+        try {
+            const response = await axios.post('/user/login', {
+                email: email,
+                password: password
+            }, {
+                withCredentials: true 
+            });
+            if (response.status !== 200) {
+                alert('Login failed'); // placeholder, elegant error handling needed
+                return;
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
+
+        try {
+            const response = await axios.get('/user/auth', { withCredentials: true });
+            if (response.status === 200) {
+                setAuth(true);
+                setUser(response.data.pinboxId);
+                navigate(`/mainpage/${response.data.pinboxId}`);
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
+
     };
 
     // Function to handle forgot password button click
@@ -28,7 +67,7 @@ function Login() {
                 {/* Login image */}
                 <img src={Loginimg} alt="Loginimg" className="mx-auto mb-4" />
                 {/* Login form */}
-                <form>
+                <form onSubmit={(e) => handleLoginClick(e)}>
                     {/* Email field */}
                     <div className="mb-4">
                         <label className="block text-sm font-semibold mb-2" htmlFor="email">
@@ -66,7 +105,6 @@ function Login() {
                     {/* Login button */}
                     <div className="flex justify-center">
                         <button
-                            onClick={handleLoginClick}
                             className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                             type="submit"
                         >

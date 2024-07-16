@@ -35,7 +35,7 @@ const PreferenceWithoutButtons = ({
 
             <div className="text-3xl font-bold  text-center text-black mb-1">Pin detail</div>
 
-            <img src={image + ".png"} alt={name} className="max-w-full w-60 h-80 object-cover rounded-lg" />
+            <img src={"/" + image + ".png"} alt={name} className="max-w-full w-60 h-80 object-cover rounded-lg" />
 
             <div className="text-center bg-black bg-opacity-50 p-2 rounded-lg mt-[-110px] w-60 h-30 text-white">
                 <div className="text-xl font-bold">{name}</div>

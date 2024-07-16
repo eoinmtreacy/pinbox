@@ -290,12 +290,12 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Friends", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int")
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("user_id");
 
-                    b.Property<int>("UserFriendId")
-                        .HasColumnType("int")
+                    b.Property<string>("UserFriendId")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("user_friend_id");
 
                     b.Property<DateTime>("Timestamp")
@@ -441,8 +441,8 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.User_Likes", b =>
                 {
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("user_id");
 
                     b.Property<long>("PlaceId")
