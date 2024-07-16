@@ -46,7 +46,7 @@ const AppContent = () => {
             <div className={!hideSideNav ? 'flex-1 ml-for-desktop' : 'flex-1'}>
                 <Routes>
                     <Route path="/" element={<Main />} />
-                    <Route path="/mainpage/:pinbox_id?" element={<MainPage />} />
+                    <Route path="/mainpage/:pinbox_id?/:collection?" element={<MainPage />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/passwordfind" element={<PasswordFind />} />

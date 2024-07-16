@@ -135,16 +135,15 @@ namespace backend.Controllers
             try
             {
                 userId ??= "";
-                collection ??= "";
 
                 var places = await _context.Places.ToListAsync();
 
                 var userLikes = await _context.UserLikes
-                    .Where(ul => ul.UserId == userId)
+                    .Where(ul => ul.UserId == userId )
                     .ToListAsync();
 
                 var pins = places
-                    .Where(place => userLikes.Any(like => like.PlaceId == place.Id && like.Collection == collection))
+                    .Where(place => userLikes.Any(like => like.PlaceId == place.Id && (collection == "undefined" || like.Collection == collection)))
                     .Select(place => new
                     {
                         Place = place,

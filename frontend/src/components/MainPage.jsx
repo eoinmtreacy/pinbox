@@ -25,7 +25,7 @@ const MainPage = () => {
     const [mode, setMode] = useState('Day');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const { user } = useAuthContext();
-    const { pinbox_id } = useParams();
+    const { pinbox_id, collection } = useParams();
 
     // TODO: handle places and pins differently via endpoints
     const {feed, pins, setPins, loading, error} = useFetchPlaces();
