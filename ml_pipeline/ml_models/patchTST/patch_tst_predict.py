@@ -28,7 +28,7 @@ def make_weather_df():
 
 def make_open_hours_df():
     df_open = pd.read_csv(
-        "../../data_preparation/taxi_location_num_businesses_open/taxi_location_num_businesses_open.csv")
+        "./taxi_location_num_businesses_open.csv")
     df_open = df_open.rename({'location': 'item_id'}, axis=1)
     return df_open.set_index(['day', 'hour', 'item_id'])
 
