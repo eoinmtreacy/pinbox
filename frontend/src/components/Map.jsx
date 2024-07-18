@@ -1,78 +1,110 @@
-import { React, useState } from 'react';
-import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
+import React, { useState, useRef } from 'react';
+import { MapContainer, TileLayer, GeoJSON, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
+import '../App.css';
+import PreferenceWithoutButtons from './PreferenceWithoutButtons';
 import SearchBar from './SearchBar';
 import CookieModal from './CookieModal';
-import SideNav from './SideNav';
-import Preference from './Preference';
-import Friends from './Friends';
 import useFetchGeoJson from '../hooks/useFetchGeoJson';
-import useToggle from '../hooks/useToggle';
+import useFetchBusyness from '../hooks/useFetchBusyness';
+import useFetchPlaces from '../hooks/useFetchPlaces';
 import HorizontalButtons from './HorizontalButtons';
-import '../App.css';
+import colorGen from '../utils/colorGen';
+import iconGen from '../utils/iconGen';
+import BusynessTable from './Map/BusynessTable';
 
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-    iconUrl: require('leaflet/dist/images/marker-icon.png'),
-    shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
-});
+import LoadingSpinner from './LoadingSpinner';
 
-const CustomMap = () => {
-    const { data: taxiZones, error } = useFetchGeoJson('taxi_zones.geojson');
-    const [showPreference, togglePreference] = useToggle();
-    const [showFriends, toggleFriends] = useToggle();
+const CustomMap = ({ pins, showBusynessTable }) => {
+    const { data: taxiZones, error: geoJsonError, loading: loadingGeoJson } = useFetchGeoJson('/taxi_zones.geojson');
+    const { data: busynessData, error: busynessError, loading: loadingBusyness } = useFetchBusyness();
 
-    // State for former TopNav components
-    const [timeStamp, setTimeStamp] = useState(12);
-    const [distance, setDistance] = useState(50);
-    const [showPins, setShowPins] = useState(true);
-    const [mode, setMode] = useState('Day');
+    const mapRef = useRef(null);
+    const [initialLoad, setInitialLoad] = useState(true);
 
-    if (error) return <div>Error fetching Taxi Zones data: {error.message}</div>;
+    if (geoJsonError || busynessError ) {
+        return (
+            <div>Error fetching data: {geoJsonError?.message || busynessError?.message }</div>
+        );
+    }
+
+    if (loadingGeoJson || loadingBusyness ) {
+        return <LoadingSpinner />;
+    }
 
     return (
-        <div className="relative flex flex-col h-screen">
-            <div className="flex flex-grow">
-                <SideNav
-                    onPreferenceToggle={togglePreference}
-                    onFriendsToggle={toggleFriends}
-                    timeStamp={timeStamp}
-                    setTimeStamp={setTimeStamp}
-                    distance={distance}
-                    setDistance={setDistance}
-                    showPins={showPins}
-                    setShowPins={setShowPins}
-                    mode={mode}
-                    setMode={setMode}
-                />
-                {showPreference && (
-                    <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full">
-                        <Preference />
-                    </div>
-                )}
-                {showFriends && (
-                    <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full">
-                        <Friends userId={1} />
-                    </div>
-                )}
-                <div className={`relative h-full flex-grow ${showPreference || showFriends ? 'w-3/4' : 'w-full'}`}>
-                    <div className="absolute top-1 left-16 right-0 z-[1000] flex space-y-4">
-                        <SearchBar />
-                        <HorizontalButtons />
-                    </div>
-                    <MapContainer center={[40.7478017, -73.9914126]} zoom={13} className="h-full w-full">
-                        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                        {taxiZones && <GeoJSON data={taxiZones} style={() => ({ 
-                            // placeholder styles
-                            color: `#${Math.floor(Math.random() * 16777215).toString(16)}` })} />}
-                        <div className="absolute bottom-2 z-50">
-                            <CookieModal />
-                        </div>
-                    </MapContainer>
+        <div className="map-container relative flex flex-col h-screen">
+            <div className="flex flex-col md:flex-row md:items-start absolute top-1 left-0.5 right-0 z-[1000] space-y-4 md:space-y-0 md:space-x-4">
+                <div className="desktop-searchbar w-full md:w-auto flex justify-end md:justify-start">
+                    <SearchBar />
+                </div>
+                <div className="desktop-horizontal-buttons w-full md:w-auto flex justify-end md:justify-start">
+                    <HorizontalButtons />
                 </div>
             </div>
+            <div className="horizontal-buttons-wrapper">
+                <HorizontalButtons />
+            </div>
+            <MapContainer
+                center={[40.7478017, -73.9914126]}
+                zoom={13}
+                className="h-full w-full"
+                zoomControl={false} // Disable zoom control buttons
+                whenCreated={(mapInstance) => {
+                    mapRef.current = mapInstance;
+                    if (initialLoad) {
+                        mapInstance.setView([40.7478017, -73.9914126], 13);
+                        setInitialLoad(false);
+                    }
+                }}
+            >
+                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                {taxiZones && busynessData && (
+                    <GeoJSON
+                        data={taxiZones}
+                        style={(feature) => {
+                            const locationId = feature.properties.location_id;
+                            const busyness = busynessData[locationId] || 0;
+                            const color = colorGen(busyness);
+
+                            return {
+                                color: color,
+                                weight: 0.5,
+                                fillOpacity: 0.5,
+                            };
+                        }}
+                    />
+                )}
+                {pins &&
+                    pins.map((pin) => (
+                        pin.attitude !== "dont_care" && (
+                            <Marker key={pin.place.id} position={[pin.place.lat, pin.place.lon]} icon={iconGen(pin.attitude)}>
+                                <Popup>
+                                    <PreferenceWithoutButtons
+                                        name={pin.place.name}
+                                        image={pin.place.photo_0}
+                                        type={pin.place.subtype}
+                                        address={`${pin.place.addr_Housenumber || ''} ${pin.place.addr_Street || ''}`}
+                                        hours={pin.place.opening_Hours}
+                                        socialMedia={pin.place.website}
+                                        preference={pin.place.attitude}
+                                    />
+                                </Popup>
+                            </Marker>
+                        )
+                    ))
+                }
+                <div className="absolute bottom-2 z-[1000]">
+                    <CookieModal />
+                </div>
+
+                {showBusynessTable && (
+                    <div className="busyness-table z-[1000]">
+                        <BusynessTable />
+                    </div>
+                )}
+
+            </MapContainer>
         </div>
     );
 };

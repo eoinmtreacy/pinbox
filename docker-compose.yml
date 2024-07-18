@@ -5,7 +5,7 @@ services:
     ports:
       - "8080:80"
     networks:
-      - mappo
+      - pinbox
 
   backend:
     build:
@@ -15,8 +15,9 @@ services:
     environment:
       - DefaultConnection=${DefaultConnection}
     networks:
-      - mappo 
+      - pinbox 
 
 networks:
-  mappo:
+  pinbox:
     driver: bridge
+    

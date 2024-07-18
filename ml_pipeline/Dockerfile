@@ -1,5 +1,4 @@
-# ml_pipeline/Dockerfile
-FROM python:3.12-slim
+FROM python:3.11-slim
 
 WORKDIR /
 
@@ -15,19 +14,22 @@ RUN apt-get install -y \
 RUN apt-get update
 
 # Get Rust, needed for pip
-RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
+#dRUN curl https://sh.rustup.rs -sSf | bash -s -- -y
 
 # Add cargo to path
-ENV PATH="/root/.cargo/bin:${PATH}"
+#ENV PATH="/root/.cargo/bin:${PATH}"
 
 # install python requirements
 COPY requirements.txt ./
+COPY requirements-pytorch.txt ./
 RUN pip install --upgrade pip
-RUN cargo --version
+#RUN cargo --version
+RUN pip install --no-cache-dir -r requirements-pytorch.txt
+RUN ls
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-EXPOSE 5000
-CMD ["python", "test.py"]
+EXPOSE 5001
 
+CMD ["flask", "run", "--host=0.0.0.0", "--port=5001"]

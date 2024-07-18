@@ -1,3 +1,13 @@
+
+/* Set global font family to monospace */
+body, html {
+
+    font-family: monospace;
+    font-weight: bold;
+    height: 100%;
+    margin: 0;
+}
+
 .App {
     display: flex;
     flex-direction: column;
@@ -13,4 +23,142 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
+    height: 100%;
 }
+
+.snap-y {
+    scroll-snap-type: y mandatory;
+}
+
+.snap-start {
+    overflow: hidden;
+}
+
+
+.hard-light-blend {
+    mix-blend-mode: hard-light;
+}
+
+@media (max-width: 768px) {
+    .top-nav {
+        display: none;
+    }
+    .mobile-icons {
+        display: flex;
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        background: white;
+        justify-content: space-around;
+        z-index: 1000;
+        padding: 10px;
+    }
+    .button-text {
+        display: none;
+    }
+    .button-icon {
+        display: inline-block;
+    }
+
+    .horizontal-buttons-wrapper {
+        display: block;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        z-index: 1000;
+    }
+
+    .desktop-searchbar {
+        display: none;
+    }
+
+    .desktop-horizontal-buttons {
+        display: none;
+    }
+
+    .SideNav {
+        display: none;
+    }
+
+    .BottomNav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #2563eb;
+        justify-content: space-around;
+        z-index: 1000;
+        padding: 10px 0;
+        border-top: 1px solid #ccc;
+    }
+
+    .ml-for-desktop {
+        margin-left: 0;
+    }
+
+    .busyness-table {
+        position: fixed;
+        bottom: 50px; /* Adjust this value to place the table above the BottomNav */
+        right: 0px;
+        background-color: white;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+}
+
+@media (min-width: 769px) {
+    .mobile-icons {
+        display: none;
+    }
+    .button-text {
+        display: inline-block;
+    }
+    .button-icon {
+        display: none;
+    }
+
+    .horizontal-buttons-wrapper {
+        display: none;
+    }
+
+    .desktop-searchbar {
+        display: block;
+    }
+
+    .BottomNav {
+        display: none;
+    }
+
+    .ml-for-desktop {
+        margin-left: 70px;
+    }
+
+    .busyness-table {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 500;
+    }
+}
+
+/* Loading Spinner */
+@keyframes spin-horizontal {
+    0% {
+        transform: rotateY(0deg);
+    }
+    100% {
+        transform: rotateY(360deg);
+    }
+}
+
+.animate-spin-horizontal {
+    animation: spin-horizontal 2s linear infinite;
+}
+
+/* Add hard light blend mode */
+.hard-light-blend {
+    mix-blend-mode: hard-light;
+}
+
