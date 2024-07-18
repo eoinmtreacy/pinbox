@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from '../api/axios';
 
 function useFetchBusyness() {
     const [data, setData] = useState(null);
@@ -9,7 +10,7 @@ function useFetchBusyness() {
         setLoading(true);
         let busynessTable = {}; // Define outside to be accessible in all then blocks
 
-        fetch("http://localhost:8000/api/app/get-predictions")
+        fetch("/backend/api/app/get-predictions")
             .then((response) => response.json())
             .then((data) => {
                 // Initialize busynessTable with the first fetch results
