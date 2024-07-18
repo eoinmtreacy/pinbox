@@ -12,8 +12,8 @@ using backend.Models;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240717151820_UpdateOpeningHourNullable")]
-    partial class UpdateOpeningHourNullable
+    [Migration("20240718145835_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
