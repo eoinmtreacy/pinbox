@@ -18,18 +18,17 @@ import LoadingSpinner from './LoadingSpinner';
 const CustomMap = ({ pins, showBusynessTable }) => {
     const { data: taxiZones, error: geoJsonError, loading: loadingGeoJson } = useFetchGeoJson('/taxi_zones.geojson');
     const { data: busynessData, error: busynessError, loading: loadingBusyness } = useFetchBusyness();
-    const { places, error: placesError, loading: loadingPlaces } = useFetchPlaces();
 
     const mapRef = useRef(null);
     const [initialLoad, setInitialLoad] = useState(true);
 
-    if (geoJsonError || busynessError || placesError) {
+    if (geoJsonError || busynessError ) {
         return (
-            <div>Error fetching data: {geoJsonError?.message || busynessError?.message || placesError?.message}</div>
+            <div>Error fetching data: {geoJsonError?.message || busynessError?.message }</div>
         );
     }
 
-    if (loadingGeoJson || loadingBusyness || loadingPlaces) {
+    if (loadingGeoJson || loadingBusyness ) {
         return <LoadingSpinner />;
     }
 
@@ -78,20 +77,23 @@ const CustomMap = ({ pins, showBusynessTable }) => {
                 )}
                 {pins &&
                     pins.map((pin) => (
-                        <Marker key={pin.id} position={[pin.lat, pin.lon]} icon={iconGen(pin.attitude)}>
-                            <Popup>
-                                <PreferenceWithoutButtons
-                                    name={pin.name}
-                                    image={pin.photo_0}
-                                    type={pin.subtype}
-                                    address={`${pin.addr_Housenumber || ''} ${pin.addr_Street || ''}`}
-                                    hours={pin.opening_Hours}
-                                    socialMedia={pin.website}
-                                    preference={pin.attitude}
-                                />
-                            </Popup>
-                        </Marker>
-                    ))}
+                        pin.attitude !== "dont_care" && (
+                            <Marker key={pin.place.id} position={[pin.place.lat, pin.place.lon]} icon={iconGen(pin.attitude)}>
+                                <Popup>
+                                    <PreferenceWithoutButtons
+                                        name={pin.place.name}
+                                        image={pin.place.photo_0}
+                                        type={pin.place.subtype}
+                                        address={`${pin.place.addr_Housenumber || ''} ${pin.place.addr_Street || ''}`}
+                                        hours={pin.place.opening_Hours}
+                                        socialMedia={pin.place.website}
+                                        preference={pin.place.attitude}
+                                    />
+                                </Popup>
+                            </Marker>
+                        )
+                    ))
+                }
                 <div className="absolute bottom-2 z-[1000]">
                     <CookieModal />
                 </div>

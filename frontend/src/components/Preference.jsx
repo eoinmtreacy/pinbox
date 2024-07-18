@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import TinderCard from 'react-tinder-card';
+import { useAuthContext } from '../auth/AuthContext';
+import axios from '../api/axios';
+
 import Clock from '../Images/clock.png';
 import Flag from '../Images/hateit.png';
 import Heart from '../Images/loveit.png';
@@ -8,52 +11,56 @@ import DonotCare from '../Images/dontcare.png';
 import Dropdown from './Dropdown';
 
 
-function Preference({ places, pins, setPins }) {
-    console.log(pins);
-    const [card, setCard] = useState(places.pop());
+function Preference({ feed, pins, setPins }) {
+    const [card, setCard] = useState(feed.pop());
     const [selectedSubtype, setSelectedSubtype] = useState('all');
+    const { isAuth, user } = useAuthContext();
 
     const handleSubtypeChange = (e) => {
         // setCurrentIndex(0); // Reset index to start from the beginning of the filtered list
     };
 
-    const updatePreference = (dir) => {
-        console.log(dir);
+    const updatePreference = async (dir) => {
         let attitude
         switch (dir) {
             case 'left':
-                attitude = 'hate it'
+                attitude = 'hate_it'
                 break
             case 'right':
-                attitude = 'love it'
+                attitude = 'love_it'
                 break
             case 'up':
                 attitude = 'wanna'
                 break
             case 'down':
-                attitude = "don't care"
+                attitude = 'dont_care'
                 break
             default:
-                attitude = "don't care"
+                attitude = 'dont_care'
         }
 
         card.attitude = attitude
 
-        setPins([...pins, card])
+        setPins([...pins, {place: card, attitude: attitude}])
 
-        // placeholder logic for database updating
-        // fetch (/update-preference, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         user_id: user_id,
-        //         place_id: card.place_id,
-        //         attitude: attitude
-        //     })
+        if (!isAuth) {
+            setCard(feed.pop())
+            return
+        }
+        // TODO: add preferences to DB
+        try{
+            const response = await axios.post('/api/userlikes', {
+                UserId: user,
+                PlaceId: card.id,
+                CategorySwipe: attitude,
+                Type: card.subtype,
+            })
+            console.log(response);
 
-        setCard(places.pop())
+            setCard(feed.pop())
+        } catch (error) {
+            console.error(error)
+        }
     };
 
     return (
@@ -64,7 +71,7 @@ function Preference({ places, pins, setPins }) {
             <div className="text-4xl font-bold tracking-tight text-center text-black mb-5">smart recommendation</div>
 
             <div className="flex flex-col items-center p-5 h-full overflow-auto">
-                {places.length > 0 && (
+                {feed.length > 0 && (
                     <TinderCard
                         key={card.id}
                         onCardLeftScreen={(dir) => updatePreference(dir)}

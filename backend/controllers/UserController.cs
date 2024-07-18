@@ -26,7 +26,7 @@ namespace backend.controllers
 
    
         [HttpPost("add-user")]
-        public async Task<IActionResult> Register(RegisterModel model)
+        public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             var user = new AppUser()
             {
