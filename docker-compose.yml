@@ -3,10 +3,7 @@ services:
     build:
       context: ./frontend
     ports:
-      - "8080:3000"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      - "8080:80"
     networks:
       - pinbox
 
