@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import TinderCard from 'react-tinder-card';
 import { useAuthContext } from '../auth/AuthContext';
 import axios from '../api/axios';
@@ -12,13 +13,39 @@ import Dropdown from './Dropdown';
 
 
 function Preference({ feed, pins, setPins }) {
-    const [card, setCard] = useState(feed.pop());
+    const [ filteredFeed, setFilteredFeed ] = useState(feed);
+    const [card, setCard] = useState(filteredFeed[filteredFeed.length - 1]);
     const [selectedSubtype, setSelectedSubtype] = useState('all');
     const { isAuth, user } = useAuthContext();
+    const { collection } = useParams();
+
+    useEffect(() => {
+        
+        setCard(filteredFeed[filteredFeed.length - 1]);
+        
+    }, [filteredFeed]);
+
+    const removeLastItem = () => {
+        const newFilteredFeed = filteredFeed.slice(0, -1);
+        setFilteredFeed(newFilteredFeed);
+    }
 
     const handleSubtypeChange = (e) => {
-        // setCurrentIndex(0); // Reset index to start from the beginning of the filtered list
-    };
+        
+        setSelectedSubtype(e.target.value);
+        const pinIds = pins.map((pin) => pin.place.id)
+
+        if (e.target.value === 'all') {
+            setFilteredFeed(feed.filter((place) => !pinIds.includes(place.id)))
+        }
+
+        else {
+            
+            
+            
+            setFilteredFeed(feed.filter((place) => place.subtype === e.target.value && !pinIds.includes(place.id)))
+        }
+    }
 
     const updatePreference = async (dir) => {
         let attitude
@@ -44,7 +71,7 @@ function Preference({ feed, pins, setPins }) {
         setPins([...pins, {place: card, attitude: attitude}])
 
         if (!isAuth) {
-            setCard(feed.pop())
+            removeLastItem()
             return
         }
         // TODO: add preferences to DB
@@ -54,10 +81,16 @@ function Preference({ feed, pins, setPins }) {
                 PlaceId: card.id,
                 CategorySwipe: attitude,
                 Type: card.subtype,
-            })
-            console.log(response);
+                Collection: collection,
+                NormalizedCollection: collection.replace(/-/g, ' ').toUpperCase()
 
-            setCard(feed.pop())
+            })
+            
+            if (response.status !== 201) {
+                throw new Error('Failed to update preferences')
+            }
+
+            removeLastItem()
         } catch (error) {
             console.error(error)
         }

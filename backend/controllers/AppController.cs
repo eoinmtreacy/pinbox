@@ -128,8 +128,8 @@ namespace backend.Controllers
             return Ok(seenPlaces);
         }
 
-        [HttpGet("feed-and-pins/{userId}")]
-        public async Task<IActionResult> GetFeedAndPins(string userId)
+        [HttpGet("feed-and-pins/{userId}/{collection?}")]
+        public async Task<IActionResult> GetFeedAndPins(string userId, string collection)
         {
 
             try
@@ -139,11 +139,11 @@ namespace backend.Controllers
                 var places = await _context.Places.ToListAsync();
 
                 var userLikes = await _context.UserLikes
-                    .Where(ul => ul.UserId == userId)
+                    .Where(ul => ul.UserId == userId )
                     .ToListAsync();
 
                 var pins = places
-                    .Where(place => userLikes.Any(like => like.PlaceId == place.Id))
+                    .Where(place => userLikes.Any(like => like.PlaceId == place.Id && (collection == "undefined" || like.Collection == collection)))
                     .Select(place => new
                     {
                         Place = place,
@@ -163,6 +163,25 @@ namespace backend.Controllers
                 return StatusCode(500, new { Message = "Failed to retrieve data from the database." });
             }
 
+        }
+
+        [HttpGet("get-collections/{userId}")]
+        public async Task<IActionResult> GetCollections(string userId)
+        {
+            try
+            {
+                var collections = await _context.UserLikes
+                    .Where(ul => ul.UserId == userId)
+                    .Select(ul => new { ul.Collection, ul.NormalizedCollection })
+                    .Distinct()
+                    .ToListAsync();
+
+                return Ok(collections);
+            }
+            catch
+            {
+                return StatusCode(500, new { Message = "Failed to retrieve data from the database." });
+            }
         }
         // get all users from the database and return their pinbox ids
         [HttpGet("get-users")]

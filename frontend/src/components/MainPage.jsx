@@ -25,7 +25,7 @@ const MainPage = () => {
     const [mode, setMode] = useState('Day');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const { user } = useAuthContext();
-    const { pinbox_id } = useParams();
+    const { pinbox_id, collection } = useParams();
 
     // TODO: handle places and pins differently via endpoints
     const {feed, pins, setPins, loading, error} = useFetchPlaces();
@@ -53,6 +53,8 @@ const MainPage = () => {
 
 
     useEffect(() => {
+
+        if (pinbox_id === undefined && user !== null) return navigate(`/mainpage/${user}`);
         const fetchGeoJsonData = async () => {
             try {
                 const response = await fetch('/preference_sample_data.geojson');
@@ -68,6 +70,7 @@ const MainPage = () => {
 
         fetchGeoJsonData();
     }, []);
+
 
     return (
         <div className="App">

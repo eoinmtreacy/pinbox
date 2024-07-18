@@ -20,7 +20,7 @@ const UserPreferenceSelector = () => {
     // Send preference to the backend
     axios.post('/api/preference', { preference: newPreference })
       .then(response => {
-        console.log('Preference updated successfully');
+        
       })
       .catch(error => {
         console.error('There was an error updating the preference!', error);

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthContext } from '../auth/AuthContext';
 import axios from '../api/axios';
 
@@ -21,6 +21,7 @@ const TopNav = ({
 }) => {
 
     const { isAuth, setAuth, user, setUser } = useAuthContext();
+    const { pinbox_id } = useParams();
 
     const navigate = useNavigate(); // Use useNavigate to navigate programmatically
 
@@ -31,12 +32,12 @@ const TopNav = ({
             try {
                 const response = await axios.get('/user/logout', { withCredentials: true })
                 if (response.status == 200) {
-                    console.log(response);
+                    
                     setAuth(false)
                     setUser(null)
                     navigate('/mainpage');
                 }
-                console.log(response);
+                
             } catch (error) {
                 console.error(error);
             }
@@ -44,7 +45,7 @@ const TopNav = ({
     }
 
     const handleProfileClick = () => {
-        navigate('/profile'); // Navigate to the profile page
+        navigate(`/profile/${pinbox_id}`); // Navigate to the profile page
     };
 
     return (

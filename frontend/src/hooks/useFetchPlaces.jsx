@@ -4,7 +4,7 @@ import axios from '../api/axios';
 import { filterForPhotos } from '../utils/filter';
 
 export default function useFetchPlaces() {
-    const { pinbox_id } = useParams();
+    const { pinbox_id, collection } = useParams();
     const [feed, setFeed] = useState([]);
     const [pins, setPins] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -13,7 +13,7 @@ export default function useFetchPlaces() {
     useEffect(() => {
         const getFeedAndPins = async () => {
             try {
-                const response = await axios.get(`/api/app/feed-and-pins/${pinbox_id}`);
+                const response = await axios.get(`/api/app/feed-and-pins/${pinbox_id}/${collection}`);
                 if (response.status !== 200) {
                     throw new Error('Failed to fetch feed and pins');
                 }
@@ -26,7 +26,7 @@ export default function useFetchPlaces() {
             setLoading(false);
         }
         getFeedAndPins();
-    }, []);
+    }, [pinbox_id, collection]);
 
     return { feed, pins, setPins, loading, error }
 }
