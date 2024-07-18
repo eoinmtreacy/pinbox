@@ -32,7 +32,7 @@ const CustomMap = ({ pins, showBusynessTable }) => {
     if (loadingGeoJson || loadingBusyness || loadingPlaces) {
         return <LoadingSpinner />;
     }
-
+    console.log('Pins data:', pins); // checking what pins has - anita
     return (
         <div className="map-container relative flex flex-col h-screen">
             <div className="flex flex-col md:flex-row md:items-start absolute top-1 left-0.5 right-0 z-[1000] space-y-4 md:space-y-0 md:space-x-4">
@@ -77,6 +77,7 @@ const CustomMap = ({ pins, showBusynessTable }) => {
                     />
                 )}
                 {pins &&
+
                     pins.map((pin) => (
                         <Marker key={pin.id} position={[pin.lat, pin.lon]} icon={iconGen(pin.attitude)}>
                             <Popup>
@@ -88,6 +89,7 @@ const CustomMap = ({ pins, showBusynessTable }) => {
                                     hours={pin.opening_Hours}
                                     socialMedia={pin.website}
                                     preference={pin.attitude}
+                                    placeId ={pin.id}// Anita passing place id
                                 />
                             </Popup>
                         </Marker>

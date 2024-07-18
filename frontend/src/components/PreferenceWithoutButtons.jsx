@@ -4,6 +4,7 @@ import Flag from '../Images/hateit.png';
 import Heart from '../Images/loveit.png';
 import OkSign from '../Images/wanna.png';
 import DonotCare from '../Images/dontcare.png';
+import useGetRecommendation from '../hooks/useGetRecommendation'; //anita recommendation 
 
 const PreferenceWithoutButtons = ({
     name,
@@ -13,7 +14,32 @@ const PreferenceWithoutButtons = ({
     hours,
     socialMedia,
     preference,
+    placeId //need this from parent component anita
 }) => {
+    //printing the recommendation in console to check
+
+   // const { data: recommendationsData, loading: recommendationsLoading, error: recommendationsError } = useGetRecommendation();
+
+    //console.log(recommendationsData);
+
+    const { recommendationData, loading, error } = useGetRecommendation(placeId); //passing placeId from parent Map to the hook
+    console.log(recommendationData); //this is what is returned from the hook
+
+    // Handle loading and error states
+    if (loading) return <div>Loading...</div>;
+
+
+    // Get the place_id passed from Map.jsx
+    // Make sure you're getting it by console.log
+
+    // Copy useFetchPlaces and paste it as useGetRecommendation
+    // Adjust it so it calls /api/Recommendations instead
+    // In the then, remove the filtering
+
+    // Search for where useFetchPlaces is used. Copy that into here but instead make it call useGetRecommendation
+    // console.log the variable you get after calling useGetRecommendation
+
+    // Once you've done that, take a break
 
     const getPreferenceButton = (preference) => {
         switch (preference) {
@@ -47,6 +73,10 @@ const PreferenceWithoutButtons = ({
                 <img src={Clock} className="w-12" alt="Clock" />
                 <div className="flex-auto my-auto text-left">{hours}</div>
             </div>
+
+            {recommendationData != null && //only shows this if we have recommendation data for this pin
+                        <div>{recommendationData?.numUsersLikers} other users also liked {recommendationData?.placeData.name}  </div>
+            }
 
             {preference && (
                 <div className="self-center mt-5 w-full max-w-md">
