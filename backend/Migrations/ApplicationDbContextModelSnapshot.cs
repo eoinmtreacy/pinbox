@@ -17,7 +17,7 @@ namespace backend.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
@@ -307,6 +307,36 @@ namespace backend.Migrations
                     b.ToTable("friends", (string)null);
                 });
 
+            modelBuilder.Entity("backend.Models.OpeningHour", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<TimeSpan>("CloseTime")
+                        .HasColumnType("time(6)");
+
+                    b.Property<string>("Day")
+                        .HasColumnType("longtext");
+
+                    b.Property<TimeSpan>("OpenTime")
+                        .HasColumnType("time(6)");
+
+                    b.Property<long>("PlaceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlaceId");
+
+                    b.ToTable("OpeningHours");
+                });
+
             modelBuilder.Entity("backend.Models.Place", b =>
                 {
                     b.Property<long>("Id")
@@ -536,6 +566,17 @@ namespace backend.Migrations
                     b.Navigation("Place");
                 });
 
+            modelBuilder.Entity("backend.Models.OpeningHour", b =>
+                {
+                    b.HasOne("backend.Models.Place", "Place")
+                        .WithMany("OpeningHours")
+                        .HasForeignKey("PlaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Place");
+                });
+
             modelBuilder.Entity("backend.Models.User_Likes", b =>
                 {
                     b.HasOne("backend.Models.Place", "Place")
@@ -550,6 +591,8 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Models.Place", b =>
                 {
                     b.Navigation("Amenities");
+
+                    b.Navigation("OpeningHours");
 
                     b.Navigation("UserLikes");
                 });
