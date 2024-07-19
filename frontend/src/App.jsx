@@ -15,8 +15,7 @@ import { AuthProvider } from './auth/AuthContext';
 import SideNav from './components/SideNav'; // Import the SideNav component
 
 import BusynessTable from './components/Map/BusynessTable';
-
-
+import LoginSignupCombine from './components/LoginSignup/LoginSignupCombine';
 function App() {
     return (
         <div className="App flex flex-col min-h-screen">
@@ -37,10 +36,7 @@ const AppContent = () => {
         <div className="flex flex-1">
             {!hideSideNav && (
                 <div className="SideNav flex-none w-1/24 h-full">
-                    <SideNav
-                        onPreferenceToggle={() => { }}
-                        onFriendsToggle={() => { }}
-                    />
+                    <SideNav onPreferenceToggle={() => {}} onFriendsToggle={() => {}} />
                 </div>
             )}
             <div className={!hideSideNav ? 'flex-1 ml-for-desktop' : 'flex-1'}>
@@ -54,6 +50,7 @@ const AppContent = () => {
                     <Route path="/settings" element={<Settings />} />
                     <Route path="/landingpage/*" element={<LandingMain />} />
                     <Route path="/busytable" element={<BusynessTable />} />
+                    <Route path="/loginsignup" element={<LoginSignupCombine />} />
                 </Routes>
             </div>
         </div>

@@ -1,6 +1,5 @@
 // src/services/tempProfileService.js
-
-import profilePicture from '../friends/men/m1.jpg'; 
+import profilePicture from '../Images/Friends/men/m1.jpg';
 import map1 from '../tempmaps/map1.png';
 import map2 from '../tempmaps/map2.png';
 import map3 from '../tempmaps/map3.png';
@@ -17,10 +16,10 @@ export const getUserData = () => {
                 { name: 'Map 1', image: map1 },
                 { name: 'Map 2', image: map2 },
                 { name: 'Map 3', image: map3 },
-                { name: 'Map 4', image: map4 }
+                { name: 'Map 4', image: map4 },
             ],
             followers: 123,
-            following: 456
+            following: 456,
         };
 
         setTimeout(() => resolve(mockUserData), 1000); // Simulate an API call with a timeout

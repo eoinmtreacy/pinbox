@@ -1,29 +1,29 @@
 // Import images
-import m1 from '../friends/men/m1.jpg';
-import m2 from '../friends/men/m2.jpg';
-import m3 from '../friends/men/m3.jpg';
-import m4 from '../friends/men/m4.jpg';
-import m5 from '../friends/men/m5.jpg';
-import m6 from '../friends/men/m6.jpg';
-import m7 from '../friends/men/m7.jpg';
-import m8 from '../friends/men/m8.jpg';
-import m9 from '../friends/men/m9.jpg';
-import m10 from '../friends/men/m10.jpg';
-import m11 from '../friends/men/m11.jpg';
-import m12 from '../friends/men/m12.jpg';
-import f1 from '../friends/women/f1.jpg';
-import f2 from '../friends/women/f2.jpg';
-import f3 from '../friends/women/f3.jpg';
-import f4 from '../friends/women/f4.jpg';
-import f5 from '../friends/women/f5.jpg';
-import f6 from '../friends/women/f6.jpg';
-import f7 from '../friends/women/f7.jpg';
-import f8 from '../friends/women/f8.jpg';
-import f9 from '../friends/women/f9.jpg';
-import f10 from '../friends/women/f10.jpg';
-import f11 from '../friends/women/f11.jpg';
-import f12 from '../friends/women/f12.jpg';
-import f13 from '../friends/women/f13.jpg';
+import m1 from '../Images/Friends/men/m1.jpg';
+import m2 from '../Images/Friends/men/m2.jpg';
+import m3 from '../Images/Friends/men/m3.jpg';
+import m4 from '../Images/Friends/men/m4.jpg';
+import m5 from '../Images/Friends/men/m5.jpg';
+import m6 from '../Images/Friends/men/m6.jpg';
+import m7 from '../Images/Friends/men/m7.jpg';
+import m8 from '../Images/Friends/men/m8.jpg';
+import m9 from '../Images/Friends/men/m9.jpg';
+import m10 from '../Images/Friends/men/m10.jpg';
+import m11 from '../Images/Friends/men/m11.jpg';
+import m12 from '../Images/Friends/men/m12.jpg';
+import f1 from '../Images/Friends/women/f1.jpg';
+import f2 from '../Images/Friends/women/f2.jpg';
+import f3 from '../Images/Friends/women/f3.jpg';
+import f4 from '../Images/Friends/women/f4.jpg';
+import f5 from '../Images/Friends/women/f5.jpg';
+import f6 from '../Images/Friends/women/f6.jpg';
+import f7 from '../Images/Friends/women/f7.jpg';
+import f8 from '../Images/Friends/women/f8.jpg';
+import f9 from '../Images/Friends/women/f9.jpg';
+import f10 from '../Images/Friends/women/f10.jpg';
+import f11 from '../Images/Friends/women/f11.jpg';
+import f12 from '../Images/Friends/women/f12.jpg';
+import f13 from '../Images/Friends/women/f13.jpg';
 
 export const getFriends = async (userId) => {
     // Mock data for friends list with imported images
@@ -292,12 +292,26 @@ export const getFriendDetails = async (friendId) => {
     // Mock data for a friend's details
     const mockFriendDetails = {
         id: friendId,
-        name: friendId === 1 ? 'John Doe' : friendId === 2 ? 'Jane Smith' : friendId === 3 ? 'Alice Johnson' : `Friend ${friendId}`,
+        name:
+            friendId === 1
+                ? 'John Doe'
+                : friendId === 2
+                ? 'Jane Smith'
+                : friendId === 3
+                ? 'Alice Johnson'
+                : `Friend ${friendId}`,
         position: 'Software Engineer',
         email: `friend${friendId}@example.com`,
         phone: '123-456-7890',
         address: '123 Main St, Anytown, USA',
-        city: friendId === 1 ? 'New York, NY' : friendId === 2 ? 'Los Angeles, CA' : friendId === 3 ? 'Chicago, IL' : 'City, State',
+        city:
+            friendId === 1
+                ? 'New York, NY'
+                : friendId === 2
+                ? 'Los Angeles, CA'
+                : friendId === 3
+                ? 'Chicago, IL'
+                : 'City, State',
     };
 
     // Simulate an async operation using a Promise
