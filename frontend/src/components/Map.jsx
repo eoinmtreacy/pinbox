@@ -7,15 +7,15 @@ import SearchBar from './SearchBar';
 import CookieModal from './CookieModal';
 import useFetchGeoJson from '../hooks/useFetchGeoJson';
 import useFetchBusyness from '../hooks/useFetchBusyness';
-import useFetchPlaces from '../hooks/useFetchPlaces';
 import HorizontalButtons from './HorizontalButtons';
 import colorGen from '../utils/colorGen';
 import iconGen from '../utils/iconGen';
 import BusynessTable from './Map/BusynessTable';
+import UserMarker from './Map/UserMarker';
 
 import LoadingSpinner from './LoadingSpinner';
 
-const CustomMap = ({ pins, showBusynessTable }) => {
+const CustomMap = ({ pins, showBusynessTable, distance, position, setPosition }) => {
     const { data: taxiZones, error: geoJsonError, loading: loadingGeoJson } = useFetchGeoJson('/taxi_zones.geojson');
     const { data: busynessData, error: busynessError, loading: loadingBusyness } = useFetchBusyness();
 
@@ -103,7 +103,11 @@ const CustomMap = ({ pins, showBusynessTable }) => {
                         <BusynessTable />
                     </div>
                 )}
-
+                <UserMarker 
+                    distance={distance} 
+                    position={position}
+                    setPosition={setPosition}
+                />
             </MapContainer>
         </div>
     );

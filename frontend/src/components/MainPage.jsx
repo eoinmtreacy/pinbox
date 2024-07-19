@@ -19,7 +19,8 @@ const MainPage = () => {
     const [showPreference, setShowPreference] = useState(false);
     const [geoJsonData, setGeoJsonData] = useState(null);
     const [timeStamp, setTimeStamp] = useState(12);
-    const [distance, setDistance] = useState(50);
+    const [distance, setDistance] = useState(500);
+    const [position, setPosition] = useState([40.7428, -73.9900])
     const [showPins, setShowPins] = useState(true);
     const [showFriends, toggleFriends] = useToggle();
     const [mode, setMode] = useState('Day');
@@ -112,7 +113,13 @@ const MainPage = () => {
                     <div className="flex h-full overflow-hidden">
                         {showPreference && feed.length > 1 && (user == pinbox_id || user === null && pinbox_id === undefined) && (
                             <div className="flex-none w-4/24 h-full overflow-auto">
-                                <Preference feed={feed} pins={pins} setPins={setPins}/>
+                                <Preference 
+                                    feed={feed} 
+                                    pins={pins} 
+                                    setPins={setPins} 
+                                    position={position} 
+                                    distance={distance}
+                                />
 
                             </div>
                         )}
@@ -123,7 +130,14 @@ const MainPage = () => {
                         )}
                         <div className={`${showPreference ? 'flex-grow w-17/24' : 'flex-grow w-22/24'} h-full overflow-auto`}>
 
-                            <Map geoJsonData={geoJsonData} pins={pins} showBusynessTable={showBusynessTable} />
+                            <Map 
+                                geoJsonData={geoJsonData} 
+                                pins={pins} 
+                                showBusynessTable={showBusynessTable} 
+                                distance={distance}
+                                position={position}
+                                setPosition={setPosition}
+                            />
 
                         </div>
                     </div>
