@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Sprache;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace backend.controllers
 {
@@ -24,7 +26,6 @@ namespace backend.controllers
             this.logger = logger;
         }
 
-   
         [HttpPost("add-user")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
@@ -40,7 +41,6 @@ namespace backend.controllers
                 return Ok("Registration made successfully");
             return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
         }
-
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
@@ -58,15 +58,13 @@ namespace backend.controllers
             return BadRequest("Error occured");
         }
 
-        // log out endpoint
-[HttpGet("logout")]
-public async Task<IActionResult> Logout()
-{
-    await signInManager.SignOutAsync();
+        [HttpGet("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+            return Ok("You are successfully logged out");
+        }
 
-    return Ok("You are successfully logged out");
-
-}
         [HttpGet("auth")]
         public async Task<IActionResult> GetUser()
         {
@@ -80,5 +78,34 @@ public async Task<IActionResult> Logout()
                 user.PinboxId
             });
         }
+        [HttpPost("check-email")]
+        public async Task<IActionResult> CheckEmail([FromBody] CheckEmailModel model)
+        {
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user != null)
+            {
+                return Ok(new { exists = true });
+            }
+            return Ok(new { exists = false });
+        }
+    }
+
+    public class CheckEmailModel
+    {
+        public string Email { get; set; }
+    }
+
+    public class RegisterModel
+    {
+        public string Email { get; set; }
+        public string PinboxId { get; set; }
+        public string Password { get; set; }
+        public string Username { get; set; }
+    }
+
+    public class LoginModel
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }
