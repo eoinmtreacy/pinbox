@@ -2,9 +2,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using backend.Models;
-using Microsoft.Extensions.Logging;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace backend.Controllers
 {
@@ -14,18 +11,21 @@ namespace backend.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        private readonly ILogger<UserController> _logger;
 
-        public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ILogger<UserController> logger)
+        public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _logger = logger;
         }
 
         [HttpPost("add-user")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
+            if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Password) || string.IsNullOrEmpty(model.Username))
+            {
+                return BadRequest(new { message = "Email, Username, and Password are required" });
+            }
+
             var user = new AppUser()
             {
                 Email = model.Email,
@@ -44,8 +44,8 @@ namespace backend.Controllers
             if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Password))
             {
                 return BadRequest(new { message = "Email and Password are required" });
-                }
-                
+            }
+
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
