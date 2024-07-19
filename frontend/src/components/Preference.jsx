@@ -11,97 +11,89 @@ import OkSign from '../Images/wanna.png';
 import DonotCare from '../Images/dontcare.png';
 import Dropdown from './Dropdown';
 
-
 function Preference({ feed, pins, setPins }) {
-    const [ filteredFeed, setFilteredFeed ] = useState(feed);
+    const [filteredFeed, setFilteredFeed] = useState(feed);
     const [card, setCard] = useState(filteredFeed[filteredFeed.length - 1]);
     const [selectedSubtype, setSelectedSubtype] = useState('all');
     const { isAuth, user } = useAuthContext();
     const { collection } = useParams();
 
     useEffect(() => {
-        
         setCard(filteredFeed[filteredFeed.length - 1]);
-        
     }, [filteredFeed]);
 
     const removeLastItem = () => {
         const newFilteredFeed = filteredFeed.slice(0, -1);
         setFilteredFeed(newFilteredFeed);
-    }
+    };
 
     const handleSubtypeChange = (e) => {
-        
         setSelectedSubtype(e.target.value);
-        const pinIds = pins.map((pin) => pin.place.id)
+        const pinIds = pins.map((pin) => pin.place.id);
 
         if (e.target.value === 'all') {
-            setFilteredFeed(feed.filter((place) => !pinIds.includes(place.id)))
+            setFilteredFeed(feed.filter((place) => !pinIds.includes(place.id)));
+        } else {
+            setFilteredFeed(feed.filter((place) => place.subtype === e.target.value && !pinIds.includes(place.id)));
         }
-
-        else {
-            
-            
-            
-            setFilteredFeed(feed.filter((place) => place.subtype === e.target.value && !pinIds.includes(place.id)))
-        }
-    }
+    };
 
     const updatePreference = async (dir) => {
-        let attitude
+        let attitude;
         switch (dir) {
             case 'left':
-                attitude = 'hate_it'
-                break
+                attitude = 'hate_it';
+                break;
             case 'right':
-                attitude = 'love_it'
-                break
+                attitude = 'love_it';
+                break;
             case 'up':
-                attitude = 'wanna'
-                break
+                attitude = 'wanna';
+                break;
             case 'down':
-                attitude = 'dont_care'
-                break
+                attitude = 'dont_care';
+                break;
             default:
-                attitude = 'dont_care'
+                attitude = 'dont_care';
         }
 
-        card.attitude = attitude
+        card.attitude = attitude;
 
-        setPins([...pins, {place: card, attitude: attitude}])
+        setPins([...pins, { place: card, attitude: attitude }]);
 
         if (!isAuth) {
-            removeLastItem()
-            return
+            removeLastItem();
+            return;
         }
         // TODO: add preferences to DB
-        try{
+        try {
             const response = await axios.post('/api/userlikes', {
                 UserId: user,
                 PlaceId: card.id,
                 CategorySwipe: attitude,
                 Type: card.subtype,
                 Collection: collection,
-                NormalizedCollection: collection ? collection.replace(/-/g, ' ').toUpperCase() : collection
+                NormalizedCollection: collection ? collection.replace(/-/g, ' ').toUpperCase() : collection,
+            });
 
-            })
-            
             if (response.status !== 201) {
-                throw new Error('Failed to update preferences')
+                throw new Error('Failed to update preferences');
             }
 
-            removeLastItem()
+            removeLastItem();
         } catch (error) {
-            console.error(error)
+            console.error(error);
         }
     };
 
     return (
         <div className="preference-container flex flex-col items-center h-full bg-gray-100 p-4">
             <div className="relative w-full mb-5">
-                <Dropdown selectedSubtype={selectedSubtype} handleSubtypeChange={handleSubtypeChange}/>
+                <Dropdown selectedSubtype={selectedSubtype} handleSubtypeChange={handleSubtypeChange} />
             </div>
-            <div className="text-4xl font-bold tracking-tight text-center text-black mb-5">smart recommendation</div>
+            <div className="text-4xl mt-10 font-bold tracking-tight text-center text-black mb-5">
+                smart recommendation
+            </div>
 
             <div className="flex flex-col items-center p-5 h-full overflow-auto">
                 {feed.length > 0 && (
@@ -109,41 +101,46 @@ function Preference({ feed, pins, setPins }) {
                         key={card.id}
                         onCardLeftScreen={(dir) => updatePreference(dir)}
                         preventswipe={['none']}
-                        swipeRequirementType='position'
+                        swipeRequirementType="position"
                         sqwipeThreshold={100}
                     >
                         <div className="flex flex-col bg-white rounded-xl border border-solid border-stone-400 max-w-sm p-5">
                             <img
-                                src={"/" + card.photo_0 + '.png'}
+                                src={'/' + card.photo_0 + '.png'}
                                 alt={card.name}
                                 className=" h-60 object-cover rounded-lg"
                             />
                             <div className="text-center bg-black bg-opacity-50 p-2 rounded-lg mt-[-40px] w-full text-white">
                                 <div className="text-2xl font-bold">{card.name}</div>
                                 <div className="text-lg">{card.subtype}</div>
-                                <div className="text-base">{
-                                    "" ? card.addr_Housenumber : card.addr_Housenumber + 
-                                    "" ? card.addr_Street : card.addr_Street
-                                }</div>
+                                <div className="text-base">
+                                    {''
+                                        ? card.addr_Housenumber
+                                        : card.addr_Housenumber + ''
+                                        ? card.addr_Street
+                                        : card.addr_Street}
+                                </div>
                             </div>
 
                             {card.opening_Hours && (
-                            <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap">
-                                <img src={Clock} className="w-12" alt="clock" />
-                                <div className="flex-auto my-auto">{card.opening_Hours}</div>
-                            </div> 
+                                <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap">
+                                    <img src={Clock} className="w-12" alt="clock" />
+                                    <div className="flex-auto my-auto">{card.opening_Hours}</div>
+                                </div>
                             )}
 
                             {card.website && (
-                            <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap">
-                                <img
-                                    loading="lazy"
-                                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/2cd84b25e3fffef0b5991cd70a6ef4fe5555c08a1a67a9cf3dac60311c18b4af?"
-                                    className="w-14"
-                                    alt="social media"
-                                />
-                                <div className="flex-auto my-auto"><a href="{card.website}">{card.website}</a></div>
-                            </div>
+                                <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap">
+                                    <img
+                                        loading="lazy"
+                                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/2cd84b25e3fffef0b5991cd70a6ef4fe5555c08a1a67a9cf3dac60311c18b4af?"
+                                        className="w-14"
+                                        alt="social media"
+                                    />
+                                    <div className="flex-auto my-auto">
+                                        <a href="{card.website}">{card.website}</a>
+                                    </div>
+                                </div>
                             )}
 
                             <div className="self-center mt-5 w-full max-w-md">
@@ -158,8 +155,7 @@ function Preference({ feed, pins, setPins }) {
                                         src={DonotCare}
                                         className="mx-auto rounded-full h-20 w-20 cursor-pointer"
                                         alt="don't care"
-                                        onClick={() => updatePreference("down")
-                                        }
+                                        onClick={() => updatePreference('down')}
                                     />
                                     <img
                                         src={OkSign}
