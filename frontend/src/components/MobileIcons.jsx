@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import timeIcon from '../Images/time.png';
 import distanceIcon from '../Images/distance.png';
@@ -19,6 +19,7 @@ const MobileIcons = ({
     const [showTimeSlider, setShowTimeSlider] = useState(false);
     const [showDistanceSlider, setShowDistanceSlider] = useState(false);
     const [showSearchBar, setShowSearchBar] = useState(false); // State for search bar visibility
+    const { pinbox_id } = useParams()
 
     const toggleShowTimeSlider = () => setShowTimeSlider(!showTimeSlider);
     const toggleShowDistanceSlider = () => setShowDistanceSlider(!showDistanceSlider);
@@ -26,7 +27,7 @@ const MobileIcons = ({
     const toggleSearchBar = () => setShowSearchBar(!showSearchBar); // Toggle search bar visibility
 
     const handleProfileClick = () => {
-        navigate('/profile'); // Navigate to the profile page
+        navigate(`/profile/${pinbox_id}`); // Navigate to the profile page
     };
 
     return (

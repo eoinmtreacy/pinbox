@@ -13,7 +13,7 @@ namespace backend.Controllers
     public class UserLikesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly string[] allowedCategorySwipes = { "love_it", "hate_it", "wanna", "don't_care" };
+        private readonly string[] allowedCategorySwipes = { "love_it", "hate_it", "wanna", "dont_care" };
 
         public UserLikesController(ApplicationDbContext context)
         {
@@ -40,10 +40,6 @@ namespace backend.Controllers
                 .Where(p => p.Id == userLike.PlaceId && p.Type == userLike.Type)
                 .FirstOrDefaultAsync();
 
-            if (place == null)
-            {
-                return NotFound(new { Message = "Place not found." });
-            }
 
             // If Timestamp is not provided in the request, set it to the current UTC time
             if (userLike.Timestamp == default(DateTime))
@@ -77,7 +73,7 @@ namespace backend.Controllers
         }
 
         [HttpGet("places-with-categories/{userId}")]
-        public async Task<IActionResult> GetPlacesWithCategories(long userId)
+        public async Task<IActionResult> GetPlacesWithCategories(string userId)
         {
             try
             {

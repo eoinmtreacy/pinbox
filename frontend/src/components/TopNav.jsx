@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useAuthContext } from '../auth/AuthContext';
+import axios from '../api/axios';
 
 import timeIcon from '../Images/time.png';
 import distanceIcon from '../Images/distance.png';
@@ -15,24 +17,35 @@ const TopNav = ({
     showPins,
     setShowPins,
     mode,
-    setMode,
-    isLoggedIn,
-    onLoginLogout,
-    userName
+    setMode
 }) => {
+
+    const { isAuth, setAuth, user, setUser } = useAuthContext();
+    const { pinbox_id } = useParams();
 
     const navigate = useNavigate(); // Use useNavigate to navigate programmatically
 
-    const handleLoginLogoutClick = () => {
-        if (isLoggedIn) {
-            onLoginLogout();
+    const handleLoginLogoutClick = async () => {
+        if (user == null) {
+            navigate('/login'); 
         } else {
-            navigate('/login'); // Navigate to the login page if not logged in
-        }
-    };
+            try {
+                const response = await axios.get('/user/logout', { withCredentials: true })
+                if (response.status == 200) {
+                    
+                    setAuth(false)
+                    setUser(null)
+                    navigate('/mainpage');
+                }
+                
+            } catch (error) {
+                console.error(error);
+            }
+        };
+    }
 
     const handleProfileClick = () => {
-        navigate('/profile'); // Navigate to the profile page
+        navigate(`/profile/${pinbox_id}`); // Navigate to the profile page
     };
 
     return (
@@ -99,16 +112,29 @@ const TopNav = ({
                         ))}
                     </select>
                 </div>
-
-                <div className="flex items-center space-x-2 cursor-pointer" onClick={handleProfileClick}>
-                    <img src={profileIcon} alt="Profile Icon" className="w-6 h-6" />
-                    <span className="text-gray-700 text-xs">{userName}</span>
-                </div>
+                
+                {/* either display profile or sign up link */}
+                {user != null ? (
+                    <div className="flex items-center space-x-2 cursor-pointer" onClick={handleProfileClick}>
+                        <img src={profileIcon} alt="Profile Icon" className="w-6 h-6" />
+                        <span className="text-gray-700 text-xs">{user}</span>
+                    </div>
+                ) 
+            
+                :
+                
                 <button
+                    onClick={() => navigate('/signup')}
+                    className="text-xs bg-blue-500 text-white rounded p-1"
+                >
+                    Sign up
+                </button>}
+
+               <button
                     onClick={handleLoginLogoutClick}
                     className="text-xs bg-blue-500 text-white rounded p-1"
                 >
-                    {isLoggedIn ? 'Logout' : 'Login'}
+                    {user != null ? 'Logout' : 'Login'}
                 </button>
 
             </div>
@@ -124,10 +150,7 @@ TopNav.propTypes = {
     showPins: PropTypes.bool.isRequired,
     setShowPins: PropTypes.func.isRequired,
     mode: PropTypes.string.isRequired,
-    setMode: PropTypes.func.isRequired,
-    isLoggedIn: PropTypes.bool.isRequired,
-    onLoginLogout: PropTypes.func.isRequired,
-    userName: PropTypes.string.isRequired,
+    setMode: PropTypes.func.isRequired
 };
 
 export default TopNav;

@@ -29,7 +29,8 @@ namespace backend.Models
         public int Num_Likes { get; set; }
         public int Num_Dislikes { get; set; }
 
-        public ICollection<User_Likes> UserLikes { get; set; } = [];
-        public ICollection<Amenity> Amenities { get; set; } = [];
+        public ICollection<User_Likes> UserLikes { get; set; } = new List<User_Likes>();
+        public ICollection<Amenity> Amenities { get; set; } = new List<Amenity>();
+        public ICollection<OpeningHour> OpeningHours { get; set; } = new List<OpeningHour>(); // add relationship with openinghours
     }
 }

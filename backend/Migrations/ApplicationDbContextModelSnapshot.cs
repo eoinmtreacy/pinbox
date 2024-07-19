@@ -17,7 +17,7 @@ namespace backend.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
@@ -154,6 +154,70 @@ namespace backend.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("backend.Models.Amenity", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("Cuisine_American")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("Cuisine_Burger")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("Cuisine_Chinese")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("Cuisine_Coffee_Shop")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("Cuisine_Donut")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("Cuisine_Italian")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("Cuisine_Japanese")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("Cuisine_Mexican")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("Cuisine_Pizza")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("Cuisine_Sandwich")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Diet_Vegan")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Drink_Beer")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Drink_Tea")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Drink_Wine")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Outdoor_Seating")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Wheelchair")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("amenities", (string)null);
+                });
+
             modelBuilder.Entity("backend.Models.AppUser", b =>
                 {
                     b.Property<string>("Id")
@@ -196,7 +260,7 @@ namespace backend.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("Pinbox_Id")
+                    b.Property<string>("PinboxId")
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("SecurityStamp")
@@ -218,10 +282,59 @@ namespace backend.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.HasIndex("Pinbox_Id")
+                    b.HasIndex("PinboxId")
                         .IsUnique();
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("backend.Models.Friends", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("user_id");
+
+                    b.Property<string>("UserFriendId")
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("user_friend_id");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("timestamp");
+
+                    b.HasKey("UserId", "UserFriendId");
+
+                    b.ToTable("friends", (string)null);
+                });
+
+            modelBuilder.Entity("backend.Models.OpeningHour", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<TimeSpan>("CloseTime")
+                        .HasColumnType("time(6)");
+
+                    b.Property<string>("Day")
+                        .HasColumnType("longtext");
+
+                    b.Property<TimeSpan>("OpenTime")
+                        .HasColumnType("time(6)");
+
+                    b.Property<long>("PlaceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlaceId");
+
+                    b.ToTable("OpeningHours");
                 });
 
             modelBuilder.Entity("backend.Models.Place", b =>
@@ -268,15 +381,15 @@ namespace backend.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<long>("Num_Dislikes")
+                    b.Property<int>("Num_Dislikes")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasDefaultValue(0L);
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
-                    b.Property<long>("Num_Likes")
+                    b.Property<int>("Num_Likes")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasDefaultValue(0L);
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<string>("Opening_Hours")
                         .HasMaxLength(255)
@@ -351,9 +464,57 @@ namespace backend.Migrations
                     b.Property<int>("passenger_count")
                         .HasColumnType("int");
 
+                    b.Property<double>("percentile")
+                        .HasColumnType("double");
+
                     b.HasKey("location", "datetime");
 
                     b.ToTable("predictions");
+                });
+
+            modelBuilder.Entity("backend.Models.User_Likes", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("user_id");
+
+                    b.Property<long>("PlaceId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("place_id");
+
+                    b.Property<string>("Type")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("place_type");
+
+                    b.Property<string>("CategorySwipe")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("category_swipe");
+
+                    b.Property<string>("Collection")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("collection");
+
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint")
+                        .HasColumnName("index");
+
+                    b.Property<string>("NormalizedCollection")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("normalized_collection");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("timestamp");
+
+                    b.HasKey("UserId", "PlaceId", "Type");
+
+                    b.HasIndex("PlaceId");
+
+                    b.ToTable("userlikes", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -405,6 +566,48 @@ namespace backend.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("backend.Models.Amenity", b =>
+                {
+                    b.HasOne("backend.Models.Place", "Place")
+                        .WithMany("Amenities")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Place");
+                });
+
+            modelBuilder.Entity("backend.Models.OpeningHour", b =>
+                {
+                    b.HasOne("backend.Models.Place", "Place")
+                        .WithMany("OpeningHours")
+                        .HasForeignKey("PlaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Place");
+                });
+
+            modelBuilder.Entity("backend.Models.User_Likes", b =>
+                {
+                    b.HasOne("backend.Models.Place", "Place")
+                        .WithMany("UserLikes")
+                        .HasForeignKey("PlaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Place");
+                });
+
+            modelBuilder.Entity("backend.Models.Place", b =>
+                {
+                    b.Navigation("Amenities");
+
+                    b.Navigation("OpeningHours");
+
+                    b.Navigation("UserLikes");
                 });
 #pragma warning restore 612, 618
         }

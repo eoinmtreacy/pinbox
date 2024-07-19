@@ -13,10 +13,12 @@ namespace backend.Controllers
     public class AppController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<AppController> _logger;
 
-        public AppController(ApplicationDbContext context)
+        public AppController(ApplicationDbContext context, ILogger<AppController> logger)
         {
             _context = context;
+            _logger = logger;
         }
         // Test endpoint to return a default place if the database is empty
         [HttpGet]
@@ -93,7 +95,7 @@ namespace backend.Controllers
 
         // Feed for users who are logged in: Returns places not in their UserLikes (places they haven't seen)
         [HttpGet("feed/{userId}")]
-        public async Task<ActionResult<IEnumerable<Place>>> GetPlacesNotSeenByUser(long userId)
+        public async Task<ActionResult<IEnumerable<Place>>> GetPlacesNotSeenByUser(string userId)
         {
             var userLikes = await _context.UserLikes
                 .Where(ul => ul.UserId == userId)
@@ -109,7 +111,7 @@ namespace backend.Controllers
 
         // Endpoint to get places seen by the user (UserLikes)
         [HttpGet("seen-places/{userId}")]
-        public async Task<ActionResult<IEnumerable<Place>>> GetUserSeenPlaces(long userId)
+        public async Task<ActionResult<IEnumerable<Place>>> GetUserSeenPlaces(string userId)
         {
             var userLikes = await _context.UserLikes
                 .Where(ul => ul.UserId == userId)
@@ -125,5 +127,77 @@ namespace backend.Controllers
 
             return Ok(seenPlaces);
         }
+
+        [HttpGet("feed-and-pins/{userId}/{collection?}")]
+        public async Task<IActionResult> GetFeedAndPins(string userId, string collection)
+        {
+
+            try
+            {
+                userId ??= "";
+
+                var places = await _context.Places.ToListAsync();
+
+                var userLikes = await _context.UserLikes
+                    .Where(ul => ul.UserId == userId )
+                    .ToListAsync();
+
+                var pins = places
+                    .Where(place => userLikes.Any(like => like.PlaceId == place.Id && (collection == "undefined" || like.Collection == collection)))
+                    .Select(place => new
+                    {
+                        Place = place,
+                        attitude = userLikes.FirstOrDefault(like => like.PlaceId == place.Id)?.CategorySwipe
+                    })
+                    .ToList();
+
+                var feed = places
+                    .Where(place => !userLikes.Any(like => like.PlaceId == place.Id))
+                    .ToList();
+
+                return Ok(new { Pins = pins, Feed = feed });
+            }
+
+            catch
+            {
+                return StatusCode(500, new { Message = "Failed to retrieve data from the database." });
+            }
+
+        }
+
+        [HttpGet("get-collections/{userId}")]
+        public async Task<IActionResult> GetCollections(string userId)
+        {
+            try
+            {
+                var collections = await _context.UserLikes
+                    .Where(ul => ul.UserId == userId)
+                    .Select(ul => new { ul.Collection, ul.NormalizedCollection })
+                    .Distinct()
+                    .ToListAsync();
+
+                return Ok(collections);
+            }
+            catch
+            {
+                return StatusCode(500, new { Message = "Failed to retrieve data from the database." });
+            }
+        }
+        // get all users from the database and return their pinbox ids
+        [HttpGet("get-users")]
+        public IActionResult GetAllUsers()
+        {
+            try
+            {
+                var users = _context.Users.ToList();
+                var userPinboxIds = users.Select(u => u.PinboxId).ToList();
+                return Ok(userPinboxIds);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "Failed to retrieve data from the database.", Error = ex.Message });
+            }
+        }
+
     }
 }

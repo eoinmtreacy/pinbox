@@ -18,18 +18,17 @@ import LoadingSpinner from './LoadingSpinner';
 const CustomMap = ({ pins, showBusynessTable }) => {
     const { data: taxiZones, error: geoJsonError, loading: loadingGeoJson } = useFetchGeoJson('/taxi_zones.geojson');
     const { data: busynessData, error: busynessError, loading: loadingBusyness } = useFetchBusyness();
-    const { places, error: placesError, loading: loadingPlaces } = useFetchPlaces();
 
     const mapRef = useRef(null);
     const [initialLoad, setInitialLoad] = useState(true);
 
-    if (geoJsonError || busynessError || placesError) {
+    if (geoJsonError || busynessError ) {
         return (
-            <div>Error fetching data: {geoJsonError?.message || busynessError?.message || placesError?.message}</div>
+            <div>Error fetching data: {geoJsonError?.message || busynessError?.message }</div>
         );
     }
 
-    if (loadingGeoJson || loadingBusyness || loadingPlaces) {
+    if (loadingGeoJson || loadingBusyness ) {
         return <LoadingSpinner />;
     }
     console.log('Pins data:', pins); // checking what pins has - anita
@@ -94,6 +93,7 @@ const CustomMap = ({ pins, showBusynessTable }) => {
                             </Popup>
                         </Marker>
                     ))}
+
                 <div className="absolute bottom-2 z-[1000]">
                     <CookieModal />
                 </div>

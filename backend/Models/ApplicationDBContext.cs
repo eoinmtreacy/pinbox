@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace backend.Models
 {
@@ -12,14 +13,36 @@ namespace backend.Models
         public DbSet<Amenity> Amenities { get; set; }
         public DbSet<Friends> Friends { get; set; }
         public DbSet<Prediction> Predictions { get; set; }
+        public DbSet<OpeningHour> OpeningHours { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                var configuration = new ConfigurationBuilder()
+                    .SetBasePath(AppContext.BaseDirectory)
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+
+                var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+                optionsBuilder.UseMySql(connectionString, 
+                    new MySqlServerVersion(new Version(8, 0, 21)),
+                    options => options.EnableRetryOnFailure());
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            // Composite key 
+            modelBuilder.Entity<OpeningHour>()
+                .HasKey(o => o.Id); // setting Id as a primary key
+
             // Configure Pinbox_Id to be unique
             modelBuilder.Entity<AppUser>()
-                .HasIndex(u => u.Pinbox_Id)
+                .HasIndex(u => u.PinboxId)
                 .IsUnique();
 
             modelBuilder.Entity<Prediction>()
@@ -66,6 +89,11 @@ namespace backend.Models
                       .WithOne(a => a.Place)
                       .HasForeignKey(a => a.Id)
                       .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasMany(e => e.OpeningHours)
+                      .WithOne(oh => oh.Place)
+                      .HasForeignKey(oh => oh.PlaceId)
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Amenity>(entity =>
@@ -99,7 +127,7 @@ namespace backend.Models
 
                 entity.HasOne(d => d.Place)
                       .WithMany(p => p.Amenities)
-                      .HasForeignKey(d => d.Id) // Foreign key on Id
+                      .HasForeignKey(d => d.Id)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
@@ -114,6 +142,8 @@ namespace backend.Models
                 entity.Property(e => e.Type).HasColumnName("place_type").IsRequired().HasMaxLength(50);
                 entity.Property(e => e.PlaceId).HasColumnName("place_id");
                 entity.Property(e => e.CategorySwipe).HasColumnName("category_swipe").HasConversion<string>();
+                  entity.Property(e => e.Collection).HasColumnName("collection").HasMaxLength(50);
+                  entity.Property(e => e.NormalizedCollection).HasColumnName("normalized_collection").HasMaxLength(50);
                 entity.Property(e => e.Timestamp).HasColumnName("timestamp");
 
                 entity.HasOne(e => e.Place)
