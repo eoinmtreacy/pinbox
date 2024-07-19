@@ -6,14 +6,11 @@ import Map from './Map';
 import useToggle from '../hooks/useToggle';
 import useFetchPlaces from '../hooks/useFetchPlaces';
 import TopNav from './TopNav';
-import withHardLightBlend from './withHardLightBlend';
-
 import MobileIcons from './MobileIcons';
 import BottomNav from './BottomNav';
 import useScreenWidth from '../hooks/useScreenWidth';
-import { UNSAFE_NavigationContext, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthContext } from '../auth/AuthContext';
-
 
 const MainPage = () => {
     const [showPreference, setShowPreference] = useState(false);
@@ -29,12 +26,11 @@ const MainPage = () => {
     const { pinbox_id, collection } = useParams();
 
     // TODO: handle places and pins differently via endpoints
-    const {feed, pins, setPins, loading, error} = useFetchPlaces();
+    const { feed, pins, setPins, loading, error } = useFetchPlaces();
     const isMobile = useScreenWidth();
     const [showBusynessTable, setShowBusynessTable] = useState(true);
 
     const navigate = useNavigate();
-
 
     const togglePreference = () => {
         setShowPreference(!showPreference);
@@ -44,7 +40,6 @@ const MainPage = () => {
         setIsLoggedIn(!isLoggedIn);
     };
 
-
     const handleFriendsToggle = () => {
         toggleFriends();
         if (isMobile) {
@@ -52,9 +47,7 @@ const MainPage = () => {
         }
     };
 
-
     useEffect(() => {
-
         if (pinbox_id === undefined && user !== null) return navigate(`/mainpage/${user}`);
         const fetchGeoJsonData = async () => {
             try {
@@ -70,13 +63,11 @@ const MainPage = () => {
         };
 
         fetchGeoJsonData();
-    }, []);
-
+    }, [pinbox_id, user, navigate]);
 
     return (
         <div className="App">
             <div className="flex h-full w-full overflow-hidden">
-
                 {!isMobile && (
                     <div className="SideNav flex-none w-1/24 h-full">
                         <SideNav
@@ -85,7 +76,6 @@ const MainPage = () => {
                         />
                     </div>
                 )}
-
                 <div className="flex-grow h-full">
                     <TopNav
                         timeStamp={timeStamp}
@@ -97,7 +87,6 @@ const MainPage = () => {
                         mode={mode}
                         setMode={setMode}
                     />
-
                     <MobileIcons
                         timeStamp={timeStamp}
                         setTimeStamp={setTimeStamp}
@@ -111,7 +100,7 @@ const MainPage = () => {
                         onLoginLogout={handleLoginLogout}
                     />
                     <div className="flex h-full overflow-hidden">
-                        {showPreference && feed.length > 1 && (user == pinbox_id || user === null && pinbox_id === undefined) && (
+                        {showPreference && feed.length > 1 && (user === pinbox_id || (user === null && pinbox_id === undefined)) && (
                             <div className="flex-none w-4/24 h-full overflow-auto">
                                 <Preference 
                                     feed={feed} 
@@ -120,7 +109,6 @@ const MainPage = () => {
                                     position={position} 
                                     distance={distance}
                                 />
-
                             </div>
                         )}
                         {showFriends && (
@@ -129,7 +117,6 @@ const MainPage = () => {
                             </div>
                         )}
                         <div className={`${showPreference ? 'flex-grow w-17/24' : 'flex-grow w-22/24'} h-full overflow-auto`}>
-
                             <Map 
                                 geoJsonData={geoJsonData} 
                                 pins={pins} 
@@ -138,21 +125,18 @@ const MainPage = () => {
                                 position={position}
                                 setPosition={setPosition}
                             />
-
                         </div>
                     </div>
                 </div>
             </div>
-
             {isMobile && (
                 <BottomNav
                     onPreferenceToggle={togglePreference}
                     onFriendsToggle={handleFriendsToggle}
                 />
             )}
-
         </div>
     );
 };
 
-export default withHardLightBlend(MainPage);
+export default MainPage;
