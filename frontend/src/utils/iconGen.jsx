@@ -15,13 +15,13 @@ const iconGen = ((attitude) => {
 
     let color;
     switch (attitude) {
-        case 'hate it':
+        case 'hate_it':
             color = 'red';
             break;
         case 'wanna':
             color = 'blue';
             break;
-        case 'love it':
+        case 'love_it':
             color = 'green';
             break;
         default:

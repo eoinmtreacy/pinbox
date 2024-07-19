@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import TinderCard from 'react-tinder-card';
+import { useAuthContext } from '../auth/AuthContext';
+import axios from '../api/axios';
+
 import Clock from '../Images/clock.png';
 import Flag from '../Images/hateit.png';
 import Heart from '../Images/loveit.png';
@@ -8,52 +12,88 @@ import DonotCare from '../Images/dontcare.png';
 import Dropdown from './Dropdown';
 
 
-function Preference({ places, pins, setPins }) {
-    console.log(pins);
-    const [card, setCard] = useState(places.pop());
+function Preference({ feed, pins, setPins }) {
+    const [ filteredFeed, setFilteredFeed ] = useState(feed);
+    const [card, setCard] = useState(filteredFeed[filteredFeed.length - 1]);
     const [selectedSubtype, setSelectedSubtype] = useState('all');
+    const { isAuth, user } = useAuthContext();
+    const { collection } = useParams();
+
+    useEffect(() => {
+        
+        setCard(filteredFeed[filteredFeed.length - 1]);
+        
+    }, [filteredFeed]);
+
+    const removeLastItem = () => {
+        const newFilteredFeed = filteredFeed.slice(0, -1);
+        setFilteredFeed(newFilteredFeed);
+    }
 
     const handleSubtypeChange = (e) => {
-        // setCurrentIndex(0); // Reset index to start from the beginning of the filtered list
-    };
+        
+        setSelectedSubtype(e.target.value);
+        const pinIds = pins.map((pin) => pin.place.id)
 
-    const updatePreference = (dir) => {
-        console.log(dir);
+        if (e.target.value === 'all') {
+            setFilteredFeed(feed.filter((place) => !pinIds.includes(place.id)))
+        }
+
+        else {
+            
+            
+            
+            setFilteredFeed(feed.filter((place) => place.subtype === e.target.value && !pinIds.includes(place.id)))
+        }
+    }
+
+    const updatePreference = async (dir) => {
         let attitude
         switch (dir) {
             case 'left':
-                attitude = 'hate it'
+                attitude = 'hate_it'
                 break
             case 'right':
-                attitude = 'love it'
+                attitude = 'love_it'
                 break
             case 'up':
                 attitude = 'wanna'
                 break
             case 'down':
-                attitude = "don't care"
+                attitude = 'dont_care'
                 break
             default:
-                attitude = "don't care"
+                attitude = 'dont_care'
         }
 
         card.attitude = attitude
 
-        setPins([...pins, card])
+        setPins([...pins, {place: card, attitude: attitude}])
 
-        // placeholder logic for database updating
-        // fetch (/update-preference, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         user_id: user_id,
-        //         place_id: card.place_id,
-        //         attitude: attitude
-        //     })
+        if (!isAuth) {
+            removeLastItem()
+            return
+        }
+        // TODO: add preferences to DB
+        try{
+            const response = await axios.post('/api/userlikes', {
+                UserId: user,
+                PlaceId: card.id,
+                CategorySwipe: attitude,
+                Type: card.subtype,
+                Collection: collection,
+                NormalizedCollection: collection ? collection.replace(/-/g, ' ').toUpperCase() : collection
 
-        setCard(places.pop())
+            })
+            
+            if (response.status !== 201) {
+                throw new Error('Failed to update preferences')
+            }
+
+            removeLastItem()
+        } catch (error) {
+            console.error(error)
+        }
     };
 
     return (
@@ -64,7 +104,7 @@ function Preference({ places, pins, setPins }) {
             <div className="text-4xl font-bold tracking-tight text-center text-black mb-5">smart recommendation</div>
 
             <div className="flex flex-col items-center p-5 h-full overflow-auto">
-                {places.length > 0 && (
+                {feed.length > 0 && (
                     <TinderCard
                         key={card.id}
                         onCardLeftScreen={(dir) => updatePreference(dir)}
@@ -74,7 +114,7 @@ function Preference({ places, pins, setPins }) {
                     >
                         <div className="flex flex-col bg-white rounded-xl border border-solid border-stone-400 max-w-sm p-5">
                             <img
-                                src={card.photo_0 + '.png'}
+                                src={"/" + card.photo_0 + '.png'}
                                 alt={card.name}
                                 className=" h-60 object-cover rounded-lg"
                             />

@@ -1,27 +1,32 @@
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from '../api/axios';
 import { filterForPhotos } from '../utils/filter';
 
-export default function useFetchPlaces(url) {
-    const [places, setPlaces] = useState([]);
+export default function useFetchPlaces() {
+    const { pinbox_id, collection } = useParams();
+    const [feed, setFeed] = useState([]);
+    const [pins, setPins] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        setLoading(true);
-        fetch(url)
-            .then((response) => response.json())
-            .then(async (data) => {
-                const filteredPlaces = await filterForPhotos(data);
-                console.log(filteredPlaces);
-                setPlaces(filteredPlaces);
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.log(error)
+        const getFeedAndPins = async () => {
+            try {
+                const response = await axios.get(`/api/app/feed-and-pins/${pinbox_id}/${collection}`);
+                if (response.status !== 200) {
+                    throw new Error('Failed to fetch feed and pins');
+                }
+                setFeed(await filterForPhotos(response.data.feed.$values))
+                setPins(response.data.pins.$values)
+            } catch (error) {
+                console.error('Error fetching feed and pins:', error);
                 setError(error);
-                setLoading(false);
-            });
-    }, [url]);
+            }
+            setLoading(false);
+        }
+        getFeedAndPins();
+    }, [pinbox_id, collection]);
 
-    return { places, loading, error } 
+    return { feed, pins, setPins, loading, error }
 }

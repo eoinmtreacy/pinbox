@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Tooltip = ({ name, role }) => {
     return (
@@ -7,6 +8,11 @@ const Tooltip = ({ name, role }) => {
             <div className="text-sm text-gray-500">{role}</div>
         </div>
     );
+};
+
+Tooltip.propTypes = {
+    name: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired,
 };
 
 export default Tooltip;

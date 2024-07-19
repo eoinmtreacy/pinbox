@@ -1,0 +1,11 @@
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+Cell In[1], line 2
+      1 import pandas as pd
+----> 2 from autogluon.timeseries import TimeSeriesDataFrame, TimeSeriesPredictor
+
+ModuleNotFoundError: No module named 'autogluon'
+
+
+# Plot 4 randomly chosen time series and the respective forecasts
+plot1 = predictor.plot(train_data, predictions, quantile_levels=[0.1, 0.9], max_history_length=200, max_num_item_ids=4)

@@ -8,8 +8,8 @@ const Dropdown = ({ selectedSubtype, handleSubtypeChange }) => {
             <option value="restaurant">Restaurant</option>
             <option value="fast_food">Fast Food</option>
             <option value="cafe">Cafe</option>
-            <option value="bakery">Bakery</option>
-            <option value="park">Park</option>
+            {/* <option value="bakery">Bakery</option> */}
+            {/* <option value="park">Park</option> */}
         </select>
     );
 };

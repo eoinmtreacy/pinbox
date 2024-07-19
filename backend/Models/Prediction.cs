@@ -10,5 +10,6 @@ namespace backend.Models
         public long location { get; set; }
         public DateTime datetime { get; set; }
         public int passenger_count { get; set; }
+        public double percentile { get; set; }
     }   
 }

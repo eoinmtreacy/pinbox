@@ -2,6 +2,7 @@ import React from 'react';
 import reviewPic1 from '../../Images/Review/reveiw1.png';
 import reviewPic2 from '../../Images/Review/review2.png';
 import reviewPic3 from '../../Images/Review/review3.png';
+
 const LandingFeedback = () => {
     return (
         <section className="bg-[#FCF8F1] bg-opacity-30 h-full flex items-center justify-center px-4 lg:px-0 w-full overflow-x-hidden">
@@ -14,18 +15,20 @@ const LandingFeedback = () => {
                         <div className="mt-2 text-lg sm:text-2xl tracking-tighter text-gray-700">
                             Creating Better Services Together
                         </div>
-                        <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 sm:text-4xl xl:text-5xl font-pj"></h2>
+                        <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900  xl:text-5xl font-pj">
+                            See What Our Users Say
+                        </h2>
                     </div>
 
                     <div className="mt-8 text-center md:mt-16">
-                        <a
-                            href="#"
-                            title=""
+                        <button
+                            type="button"
+                            title="Check all reviews"
                             className="pb-2 text-base font-bold leading-7 text-gray-900 transition-all duration-200 border-b-2 border-gray-900 hover:border-gray-600 font-pj focus:outline-none focus:ring-1 focus:ring-gray-900 focus:ring-offset-2 hover:text-gray-600"
+                            onClick={() => alert('Navigate to reviews page')}
                         >
-                            {' '}
-                            Check all 2,157 reviews{' '}
-                        </a>
+                            Check all 2,157 reviews
+                        </button>
                     </div>
 
                     <div className="relative mt-10 md:mt-24">
@@ -60,12 +63,10 @@ const LandingFeedback = () => {
                                             alt="Leslie Alexander"
                                         />
                                         <div className="ml-4">
-                                            <div className="ml-4">
-                                                <div className="text-lg font-medium text-gray-900">
-                                                    Leslie Alexander
-                                                </div>
-                                                <div className="text-base text-gray-500">Tourist,Ireland</div>
+                                            <div className="text-lg font-medium text-gray-900">
+                                                Leslie Alexander
                                             </div>
+                                            <div className="text-base text-gray-500">Tourist, Ireland</div>
                                         </div>
                                     </div>
                                 </div>
@@ -87,7 +88,7 @@ const LandingFeedback = () => {
                                         <img className="w-12 h-12 rounded-full" src={reviewPic2} alt="Jacob Jones" />
                                         <div className="ml-4">
                                             <p className="text-base font-bold text-gray-900 font-pj">Jacob Jones</p>
-                                            <p className="mt-0.5 text-sm font-pj text-gray-600">Local , New York</p>
+                                            <p className="mt-0.5 text-sm font-pj text-gray-600">Local, New York</p>
                                         </div>
                                     </div>
                                 </div>

@@ -21,7 +21,7 @@ const LandingHeader = () => {
             <div className="px-4 mx-auto sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16 lg:h-20">
                     <div className="flex-shrink-0">
-                        <a href="/" title="" className="flex">
+                        <a href="/" title="Home" className="flex">
                             <img className="w-auto h-12 lg:h-20" src={Logo} alt="Logo" />
                         </a>
                     </div>
@@ -31,6 +31,7 @@ const LandingHeader = () => {
                             type="button"
                             className="inline-flex p-2 text-black transition-all duration-200 rounded-md focus:bg-gray-100 hover:bg-gray-100"
                             onClick={toggleMenu}
+                            aria-label="Toggle menu"
                         >
                             <svg
                                 className="w-6 h-6"
@@ -72,7 +73,6 @@ const LandingHeader = () => {
                         >
                             Vision
                         </button>
-
                         <button
                             onClick={(e) => handleScrollToSection(e, 'landing-section-8')}
                             className="text-2xl font-semibold text-black transition-all duration-200 hover:text-opacity-80"
@@ -81,14 +81,13 @@ const LandingHeader = () => {
                         </button>
                     </div>
 
-                    <a
-                        href="/join"
+                    <button
+                        onClick={() => window.location.href = '/join'}
                         title="Join Now"
                         className="hidden lg:inline-flex items-center justify-center px-5 py-2.5 text-base transition-all duration-200 hover:bg-yellow-300 hover:text-black focus:text-black focus:bg-yellow-300 font-semibold text-white bg-black rounded-full"
-                        role="button"
                     >
                         Join Now
-                    </a>
+                    </button>
                 </div>
             </div>
             {menuOpen && (
@@ -130,14 +129,16 @@ const LandingHeader = () => {
                         Our Team
                     </button>
 
-                    <a
-                        href="/join"
+                    <button
+                        onClick={() => {
+                            window.location.href = '/join';
+                            toggleMenu();
+                        }}
                         title="Join Now"
                         className="block w-full text-base text-center transition-all duration-200 hover:bg-yellow-300 hover:text-black focus:text-black focus:bg-yellow-300 font-semibold text-white bg-black rounded-full py-2.5 mx-4"
-                        onClick={toggleMenu}
                     >
                         Join Now
-                    </a>
+                    </button>
                 </div>
             )}
         </header>

@@ -1,27 +1,60 @@
 import React, { useState, useEffect } from 'react';
 import SideNav from './SideNav';
 import Preference from './Preference';
-import Friends from './Friends';
+import Friends from './FriendsList';
 import Map from './Map';
 import useToggle from '../hooks/useToggle';
 import useFetchPlaces from '../hooks/useFetchPlaces';
+import TopNav from './TopNav';
+import withHardLightBlend from './withHardLightBlend';
+
+import MobileIcons from './MobileIcons';
+import BottomNav from './BottomNav';
+import useScreenWidth from '../hooks/useScreenWidth';
+import { UNSAFE_NavigationContext, useNavigate, useParams } from 'react-router-dom';
+import { useAuthContext } from '../auth/AuthContext';
+
 
 const MainPage = () => {
     const [showPreference, setShowPreference] = useState(false);
-    const [geoJsonData, setGeoJsonData] = useState(null); // Add state for GeoJSON data
+    const [geoJsonData, setGeoJsonData] = useState(null);
     const [timeStamp, setTimeStamp] = useState(12);
     const [distance, setDistance] = useState(50);
     const [showPins, setShowPins] = useState(true);
     const [showFriends, toggleFriends] = useToggle();
     const [mode, setMode] = useState('Day');
-    const { places, loading, error } = useFetchPlaces('http://localhost:8000/app/get-places');
-    const [pins, setPins] = useState([]);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { user } = useAuthContext();
+    const { pinbox_id, collection } = useParams();
+
+    // TODO: handle places and pins differently via endpoints
+    const {feed, pins, setPins, loading, error} = useFetchPlaces();
+    const isMobile = useScreenWidth();
+    const [showBusynessTable, setShowBusynessTable] = useState(true);
+
+    const navigate = useNavigate();
+
 
     const togglePreference = () => {
         setShowPreference(!showPreference);
     };
 
+    const handleLoginLogout = () => {
+        setIsLoggedIn(!isLoggedIn);
+    };
+
+
+    const handleFriendsToggle = () => {
+        toggleFriends();
+        if (isMobile) {
+            setShowBusynessTable(showFriends); // Toggle the busyness table visibility
+        }
+    };
+
+
     useEffect(() => {
+
+        if (pinbox_id === undefined && user !== null) return navigate(`/mainpage/${user}`);
         const fetchGeoJsonData = async () => {
             try {
                 const response = await fetch('/preference_sample_data.geojson');
@@ -38,38 +71,74 @@ const MainPage = () => {
         fetchGeoJsonData();
     }, []);
 
+
     return (
-        <div className="flex h-screen">
-            <div className="SideNav flex-none w-1/24 ">
-                <SideNav
+        <div className="App">
+            <div className="flex h-full w-full overflow-hidden">
+
+                {!isMobile && (
+                    <div className="SideNav flex-none w-1/24 h-full">
+                        <SideNav
+                            onPreferenceToggle={togglePreference}
+                            onFriendsToggle={handleFriendsToggle}
+                        />
+                    </div>
+                )}
+
+                <div className="flex-grow h-full">
+                    <TopNav
+                        timeStamp={timeStamp}
+                        setTimeStamp={setTimeStamp}
+                        distance={distance}
+                        setDistance={setDistance}
+                        showPins={showPins}
+                        setShowPins={setShowPins}
+                        mode={mode}
+                        setMode={setMode}
+                    />
+
+                    <MobileIcons
+                        timeStamp={timeStamp}
+                        setTimeStamp={setTimeStamp}
+                        distance={distance}
+                        setDistance={setDistance}
+                        showPins={showPins}
+                        setShowPins={setShowPins}
+                        mode={mode}
+                        setMode={setMode}
+                        isLoggedIn={isLoggedIn}
+                        onLoginLogout={handleLoginLogout}
+                    />
+                    <div className="flex h-full overflow-hidden">
+                        {showPreference && feed.length > 1 && (user == pinbox_id || user === null && pinbox_id === undefined) && (
+                            <div className="flex-none w-4/24 h-full overflow-auto">
+                                <Preference feed={feed} pins={pins} setPins={setPins}/>
+
+                            </div>
+                        )}
+                        {showFriends && (
+                            <div className="w-full md:w-1/4 p-4 bg-white border-r border-gray-300 h-full overflow-auto">
+                                <Friends userId={1} />
+                            </div>
+                        )}
+                        <div className={`${showPreference ? 'flex-grow w-17/24' : 'flex-grow w-22/24'} h-full overflow-auto`}>
+
+                            <Map geoJsonData={geoJsonData} pins={pins} showBusynessTable={showBusynessTable} />
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {isMobile && (
+                <BottomNav
                     onPreferenceToggle={togglePreference}
-                    onFriendsToggle={toggleFriends}
-                    timeStamp={timeStamp}
-                    setTimeStamp={setTimeStamp}
-                    distance={distance}
-                    setDistance={setDistance}
-                    showPins={showPins}
-                    setShowPins={setShowPins}
-                    mode={mode}
-                    setMode={setMode}
+                    onFriendsToggle={handleFriendsToggle}
                 />
-            </div>
-            {showPreference && places.length > 1 && (
-                <div className="flex-none w-4/24">
-                    <Preference places={places} pins={pins} setPins={setPins} />{' '}
-                    {/* Pass setGeoJsonData to Preference */}
-                </div>
             )}
-            {showFriends && (
-                <div className="w-1/4 p-4 bg-white border-r border-gray-300 h-full">
-                    <Friends userId={1} />
-                </div>
-            )}
-            <div className={`${showPreference ? 'flex-grow w-17/24' : 'flex-grow w-22/24'}`}>
-                <Map geoJsonData={geoJsonData} pins={pins} /> {/* Pass geoJsonData to Map */}
-            </div>
+
         </div>
     );
 };
 
-export default MainPage;
+export default withHardLightBlend(MainPage);
