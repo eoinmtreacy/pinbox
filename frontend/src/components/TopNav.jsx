@@ -73,16 +73,12 @@ const TopNav = ({
                     <img src={distanceIcon} alt="Distance Icon" className="w-6 h-6 mb-1" />
                     <input
                         type="range"
-                        min="0"
-                        max="100"
+                        min="100"
+                        max="1000"
                         value={distance}
-                        onChange={(e) => setDistance(e.target.value)}
+                        onChange={(e) => setDistance(parseInt(e.target.value))}
                         className="w-16"
                     />
-                    <div className="flex justify-between w-16 text-xs text-gray-700">
-                        <span>0</span>
-                        <span>100</span>
-                    </div>
                 </div>
             </div>
             <div className="flex items-center space-x-4">
