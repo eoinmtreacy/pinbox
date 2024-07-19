@@ -128,21 +128,27 @@ function Preference({ feed, pins, setPins }) {
                             </div>
 
                             {card.opening_Hours && (
-                            <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap">
+                            <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black">
                                 <img src={Clock} className="w-12" alt="clock" />
-                                <div className="flex-auto my-auto">{card.opening_Hours}</div>
+                                <div className="flex-auto my-auto">
+                                    <ul>
+                                        {card.opening_Hours.split(';').map((day) => (
+                                            <li key={day}>{day}</li>
+                                        ))}
+                                    </ul>
+                                </div>
                             </div> 
                             )}
 
                             {card.website && (
-                            <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap">
+                            <div className="flex gap-5 mt-1.5 text-m leading-7 text-black ">
                                 <img
                                     loading="lazy"
                                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/2cd84b25e3fffef0b5991cd70a6ef4fe5555c08a1a67a9cf3dac60311c18b4af?"
                                     className="w-14"
                                     alt="social media"
                                 />
-                                <div className="flex-auto my-auto"><a href="{card.website}">{card.website}</a></div>
+                                <div className="flex-auto my-auto truncate"><a href={card.website}>{card.website}</a></div>
                             </div>
                             )}
 
