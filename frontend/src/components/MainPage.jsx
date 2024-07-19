@@ -15,7 +15,7 @@ import { useAuthContext } from '../auth/AuthContext';
 const MainPage = () => {
     const [showPreference, setShowPreference] = useState(false);
     const [geoJsonData, setGeoJsonData] = useState(null);
-    const [timeStamp, setTimeStamp] = useState(12);
+    const [timeStamp, setTimeStamp] = useState(0);
     const [distance, setDistance] = useState(500);
     const [position, setPosition] = useState({ lat: 40.7478017, lng: -73.9914126 });
     const [showPins, setShowPins] = useState(true);
@@ -124,6 +124,7 @@ const MainPage = () => {
                                 distance={distance}
                                 position={position}
                                 setPosition={setPosition}
+                                timeStamp={timeStamp}
                             />
                         </div>
                     </div>
