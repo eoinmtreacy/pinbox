@@ -14,7 +14,7 @@ import LandingMain from './components/landing/LandingMain';
 import SideNav from './components/SideNav'; // Import the SideNav component
 
 import BusynessTable from './components/Map/BusynessTable';
-
+import LoginSignupCombine from './components/LoginSignup/LoginSignupCombine';
 
 function App() {
     return (
@@ -34,15 +34,12 @@ const AppContent = () => {
         <div className="flex flex-1">
             {!hideSideNav && (
                 <div className="SideNav flex-none w-1/24 h-full">
-                    <SideNav
-                        onPreferenceToggle={() => {}}
-                        onFriendsToggle={() => {}}
-                    />
+                    <SideNav onPreferenceToggle={() => {}} onFriendsToggle={() => {}} />
                 </div>
             )}
             <div className={!hideSideNav ? 'flex-1 ml-for-desktop' : 'flex-1'}>
                 <Routes>
-                    <Route path="/" element={<Main />} />
+                    <Route path="/" element={<LoginSignupCombine />} />
                     <Route path="/mainpage/:pinbox_id?" element={<MainPage />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
