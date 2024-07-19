@@ -1,8 +1,8 @@
-import { useState, useRef, useMemo, useCallback } from 'react';
+import { useState, useRef, useMemo, useCallback, useEffect } from 'react';
 import { Circle, Marker, Popup } from "react-leaflet";
 import iconGen from '../../utils/iconGen';  
 
-const UserMarker = ({ position, setPosition, distance }) => {
+const UserMarker = ({ distance, position, setPosition }) => {
     const [draggable, setDraggable] = useState(true)
     const markerRef = useRef(null)
     const eventHandlers = useMemo(
@@ -11,12 +11,12 @@ const UserMarker = ({ position, setPosition, distance }) => {
           const marker = markerRef.current
           if (marker != null) {
             setPosition(marker.getLatLng())
-            console.log(marker.getLatLng());
           }
         },
       }),
       [],
     )
+
     const toggleDraggable = useCallback(() => {
       setDraggable((d) => !d)
     }, [])

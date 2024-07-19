@@ -20,7 +20,7 @@ const MainPage = () => {
     const [geoJsonData, setGeoJsonData] = useState(null);
     const [timeStamp, setTimeStamp] = useState(12);
     const [distance, setDistance] = useState(500);
-    const [position, setPosition] = useState([40.7428, -73.9900])
+    const [position, setPosition] = useState({ lat: 40.7478017, lng: -73.9914126 });
     const [showPins, setShowPins] = useState(true);
     const [showFriends, toggleFriends] = useToggle();
     const [mode, setMode] = useState('Day');
