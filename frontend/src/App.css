@@ -1,7 +1,6 @@
-
 /* Set global font family to monospace */
-body, html {
-
+body,
+html {
     font-family: monospace;
     font-weight: bold;
     height: 100%;
@@ -33,7 +32,6 @@ body, html {
 .snap-start {
     overflow: hidden;
 }
-
 
 .hard-light-blend {
     mix-blend-mode: hard-light;
@@ -162,3 +160,41 @@ body, html {
     mix-blend-mode: hard-light;
 }
 
+/* Signup Signin composition */
+.auth-container {
+    position: relative;
+    transition: transform 0.6s ease-in-out;
+    height: 900px;
+}
+
+.form-container,
+.panel-container {
+    position: relative;
+    transition: transform 0.6s ease-in-out;
+}
+
+.sign-up-mode .form-container {
+    transform: translateX(100%);
+}
+
+.sign-up-mode .panel-container {
+    transform: translateX(-100%);
+}
+
+.sign-up-mode .sign-up-form {
+    transform: translateX(0);
+}
+
+.sign-up-mode .sign-in-form {
+    transform: translateX(-100%);
+}
+
+@media (max-width: 768px) {
+    .auth-container {
+        flex-direction: column;
+    }
+
+    .panel-container {
+        display: none;
+    }
+}

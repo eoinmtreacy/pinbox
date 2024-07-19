@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Logo from '../../Images/logo.png';
-
+import { useNavigate } from 'react-router-dom';
 const LandingHeader = () => {
     const [menuOpen, setMenuOpen] = useState(false);
-
+    const navigate = useNavigate();
     const handleScrollToSection = (event, sectionId) => {
         event.preventDefault();
         const section = document.getElementById(sectionId);
@@ -74,6 +74,14 @@ const LandingHeader = () => {
                             Vision
                         </button>
                         <button
+                            onClick={(e) => {
+                                navigate(`/loginsignup`);
+                            }}
+                            className="text-2xl font-semibold text-black transition-all duration-200 hover:text-opacity-80"
+                        >
+                            Try PinBox!
+                        </button>
+                        <button
                             onClick={(e) => handleScrollToSection(e, 'landing-section-8')}
                             className="text-2xl font-semibold text-black transition-all duration-200 hover:text-opacity-80"
                         >
@@ -82,7 +90,7 @@ const LandingHeader = () => {
                     </div>
 
                     <button
-                        onClick={() => window.location.href = '/join'}
+                        onClick={() => (window.location.href = '/join')}
                         title="Join Now"
                         className="hidden lg:inline-flex items-center justify-center px-5 py-2.5 text-base transition-all duration-200 hover:bg-yellow-300 hover:text-black focus:text-black focus:bg-yellow-300 font-semibold text-white bg-black rounded-full"
                     >
@@ -128,7 +136,14 @@ const LandingHeader = () => {
                     >
                         Our Team
                     </button>
-
+                    <button
+                        onClick={(e) => {
+                            navigate(`/loginsignup`);
+                        }}
+                        className="block w-full text-base text-black transition-all duration-200 hover:text-opacity-80 px-4 text-left"
+                    >
+                        Try Pinbox!
+                    </button>
                     <button
                         onClick={() => {
                             window.location.href = '/join';

@@ -1,11 +1,11 @@
 import React from 'react';
-import Signup from '../Signup';
+import { useNavigate } from 'react-router-dom';
 import Landing2 from '../../Images/Landing2.png';
 
 const LandingSocialFeature = () => {
-    const handleSignup = (event) => {
-        event.preventDefault();
-        Signup();
+    const navigate = useNavigate();
+    const handleSignup = () => {
+        navigate('/loginsignup'); // Navigate to the login page
     };
 
     return (

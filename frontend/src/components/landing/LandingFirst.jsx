@@ -4,8 +4,8 @@ import Landing1 from '../../Images/Landing1.png';
 
 const LandingFirst = () => {
     const navigate = useNavigate();
-    const signup = () => {
-        navigate('/signup'); // Navigate to the login page
+    const handleSignup = () => {
+        navigate('/loginsignup'); // Navigate to the login page
     };
 
     return (
@@ -27,7 +27,7 @@ const LandingFirst = () => {
                         <a
                             href="#"
                             title=""
-                            onClick={signup}
+                            onClick={handleSignup}
                             className="inline-flex items-center px-4 py-3 sm:px-6 sm:py-4 mt-6 sm:mt-8 font-semibold text-black transition-all duration-200 bg-yellow-300 rounded-full lg:mt-16 hover:bg-yellow-400 focus:bg-yellow-400"
                             role="button"
                         >

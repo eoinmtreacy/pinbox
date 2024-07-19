@@ -1,11 +1,12 @@
 import React from 'react';
-import Signup from '../Signup';
+
+import { useNavigate } from 'react-router-dom';
 import Landing3 from '../../Images/Landing2-1.jpg';
 
 const LandingPreview = () => {
-    const handleSignup = (event) => {
-        event.preventDefault();
-        Signup();
+    const navigate = useNavigate();
+    const handleSignup = () => {
+        navigate('/loginsignup'); // Navigate to the login page
     };
 
     return (
@@ -18,8 +19,8 @@ const LandingPreview = () => {
                     Meet PinBox!
                 </div>
                 <div className="text-center text-base sm:text-lg mt-4 sm:mt-6 lg:mt-8 font-semibold text-gray-700">
-                    Crowded or Chill? Let PinBox Guide You! Big Dilemma! Emergency!<br /> Ever wondered where to hit up
-                    when you’re on a trip? Crowded spots? Maybe
+                    Crowded or Chill? Let PinBox Guide You! Big Dilemma! Emergency!
+                    <br /> Ever wondered where to hit up when you’re on a trip? Crowded spots? Maybe
                     <br />
                     somewhere chill today? PinBox has got you covered. This is the ultimate solution for all your travel
                     dilemmas!
@@ -33,7 +34,11 @@ const LandingPreview = () => {
                     </button>
                 </div>
                 <div className="flex items-center justify-center mt-8 sm:mt-10 lg:mt-12">
-                    <img src={Landing3} className="w-full max-w-md sm:max-w-lg lg:max-w-2xl rounded-lg shadow-md" alt="Landing Preview" />
+                    <img
+                        src={Landing3}
+                        className="w-full max-w-md sm:max-w-lg lg:max-w-2xl rounded-lg shadow-md"
+                        alt="Landing Preview"
+                    />
                 </div>
             </div>
         </section>
