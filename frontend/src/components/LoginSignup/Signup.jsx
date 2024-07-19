@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
+//added
 const Signup = ({ setIsSignUp }) => {
     const navigate = useNavigate();
 
