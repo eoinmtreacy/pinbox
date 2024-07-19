@@ -82,7 +82,7 @@ function Preference({ feed, pins, setPins }) {
                 CategorySwipe: attitude,
                 Type: card.subtype,
                 Collection: collection,
-                NormalizedCollection: collection.replace(/-/g, ' ').toUpperCase()
+                NormalizedCollection: collection ? collection.replace(/-/g, ' ').toUpperCase() : collection
 
             })
             
