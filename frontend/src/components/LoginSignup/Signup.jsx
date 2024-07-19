@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from '../api/axios';
-import { useAuthContext } from '../auth/AuthContext';
+import axios from '../../api/axios';
+import { useAuthContext } from '../../auth/AuthContext';
 
 const Signup = ({ setIsSignUp }) => {
     const navigate = useNavigate();
