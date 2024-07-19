@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from '../../api/axios';
-import { useAuthContext } from '../../auth/AuthContext';
+import axios from 'axios';
 import SignupPopup from './SignupPopup';
 
-const Signup = ({ setIsSignUp }) => {
+const Signup = () => {
     const navigate = useNavigate();
-    const { setAuth, setUser } = useAuthContext();
 
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -23,17 +21,14 @@ const Signup = ({ setIsSignUp }) => {
     };
 
     const validatePassword = (password) => {
-        /*At least one upper case English letter, (?=.*?[A-Z])
-        At least one lower case English letter, (?=.*?[a-z])
-        At least one digit, (?=.*?[0-9])
-        At least one special character, (?=.*?[#?!@$%^&*-])
-        Minimum eight in length .{8,} (with the anchors) */
-        const regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+        const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^\w\s\\]).{8,}$/;
         return regex.test(password);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const email = e.target.email.value;
+
         if (password !== confirmPassword) {
             setErrors(['Passwords do not match']);
             return;
@@ -48,50 +43,33 @@ const Signup = ({ setIsSignUp }) => {
         }
 
         try {
-            const response = await axios.post('/user/add-user', {
-                email: e.target.email.value,
+            const emailCheckResponse = await axios.post('http://localhost:8000/user/check-email', { email });
+            console.log('Email Check Response:', emailCheckResponse.data);
+
+            if (emailCheckResponse.data.exists === true) {
+                setPopupMessage('This email is already occupied');
+                setShowPopup(true);
+                return;
+            }
+
+            const signupResponse = await axios.post('http://localhost:8000/user/add-user', {
+                email,
                 pinboxId: e.target.pinboxId.value,
-                password: e.target.password.value,
-                username: e.target.email.value,
+                password,
+                username: email,
             });
 
-            if (response.status !== 200) {
-                alert('Sign up failed');
+            if (signupResponse.status !== 200) {
+                setPopupMessage('Sign up failed');
+                setShowPopup(true);
                 return;
             }
-        } catch (error) {
-            console.error(error);
-        }
 
-        try {
-            const response = await axios.post(
-                '/user/login',
-                {
-                    email: e.target.email.value,
-                    password: e.target.password.value,
-                },
-                {
-                    withCredentials: true,
-                }
-            );
-
-            if (response.status !== 200) {
-                alert('Login failed');
-                return;
-            }
+            navigate('/login');
         } catch (error) {
-            console.error(error);
-        }
-
-        try {
-            const response = await axios.get('/user/auth', { withCredentials: true });
-            if (response.status === 200) {
-                setAuth(true);
-                setUser(response.data.pinboxId);
-                navigate(`/mainpage/${response.data.pinboxId}`);
-            }
-        } catch (error) {
-            console.error(error);
+            console.error('Error during sign up:', error);
+            setPopupMessage('Sign up failed');
+            setShowPopup(true);
         }
     };
 
@@ -105,12 +83,6 @@ const Signup = ({ setIsSignUp }) => {
                             {error}
                         </div>
                     ))}
-                <div className="mb-4">
-                    <label className="block text-sm font-semibold mb-2" htmlFor="pinbox_id">
-                        Username
-                    </label>
-                    <input name="pinboxId" id="pinbox_id" className="border rounded w-full py-2 px-3" required />
-                </div>
                 <div className="mb-4">
                     <label className="block text-sm font-semibold mb-2" htmlFor="email">
                         Email
