@@ -4,17 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerUI;
-
 using backend.Models;
 using System.Security.Claims;
 using Sprache;
 using Microsoft.AspNetCore.Http.HttpResults;
-
 using System;
 using System.Text.Json.Serialization;
-
 
 try
 {
@@ -38,13 +36,10 @@ else
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
 builder.Services.AddControllers();
-
 builder.Services.AddEndpointsApiExplorer();
-
 builder.Services.AddSwaggerGen();  
-
-var configuration = builder.Configuration;
 
 // Register the DbContext with the MySQL provider using the connection string from .env
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -72,6 +67,10 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
     options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 });
+
+// Add logging
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 var app = builder.Build();
 
