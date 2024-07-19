@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from '../api/axios';
-import { useAuthContext } from '../auth/AuthContext';
+import axios from '../../api/axios';
+import { useAuthContext } from '../../auth/AuthContext';
 import Google from '../../Images/google.png';
 import Linkedin from '../../Images/linkedin.png';
 import Facebook from '../../Images/facebook.png';
