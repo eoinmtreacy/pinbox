@@ -8,7 +8,7 @@ import { useAuthContext } from '../auth/AuthContext';
 
 // Login component
 function Login() {
-    const { isAuth, setAuth, user, setUser } = useAuthContext(); 
+    const { isAuth, setAuth, user, setUser } = useAuthContext();
     // Hook to navigate programmatically
     const navigate = useNavigate();
 
@@ -25,17 +25,20 @@ function Login() {
         const password = e.target[1].value;
 
         try {
-            const response = await axios.post('/user/login', {
-                email: email,
-                password: password
-            }, {
-                withCredentials: true 
-            });
+            const response = await axios.post(
+                '/user/login',
+                {
+                    email: email,
+                    password: password,
+                },
+                {
+                    withCredentials: true,
+                }
+            );
             if (response.status !== 200) {
-                alert('Login failed'); // placeholder, elegant error handling needed
+                alert('Login failed');
                 return;
             }
-
         } catch (error) {
             console.error(error);
         }
@@ -47,11 +50,9 @@ function Login() {
                 setUser(response.data.pinboxId);
                 navigate(`/mainpage/${response.data.pinboxId}`);
             }
-
         } catch (error) {
             console.error(error);
         }
-
     };
 
     // Function to handle forgot password button click

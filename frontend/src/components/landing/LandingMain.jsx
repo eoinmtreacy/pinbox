@@ -12,7 +12,10 @@ import LandingMeetTeam from './LandingMeetTeam';
 import Vision from './LandingVision';
 import UserFeedback from './LandingFeedback';
 import Footer from './LandingFooter';
+import { useAuthContext } from '../../auth/AuthContext';
+
 const LandingMain = () => {
+    const { isAuth, setAuth, user, setUser } = useAuthContext();
     return (
         <div className="bg-white h-screen overflow-hidden">
             <div className="h-screen overflow-y-scroll snap-y snap-mandatory pt-3 w-full overflow-x-hidden">

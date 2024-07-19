@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../../api/axios';
 import { useAuthContext } from '../../auth/AuthContext';
-import Google from '../../Images/google.png';
-import Linkedin from '../../Images/linkedin.png';
-import Facebook from '../../Images/facebook.png';
+import SignupPopup from './SignupPopup';
 
 const Login = ({ setIsSignUp }) => {
     const { isAuth, setAuth, user, setUser } = useAuthContext();
     const navigate = useNavigate();
+    const [showPopup, setShowPopup] = useState(false);
+    const [popupMessage, setPopupMessage] = useState('');
 
     useEffect(() => {
         if (isAuth) {
@@ -37,7 +37,13 @@ const Login = ({ setIsSignUp }) => {
                 return;
             }
         } catch (error) {
-            console.error(error);
+            if (error.response && error.response.status === 400) {
+                setShowPopup(true);
+                setPopupMessage('The password is incorrect');
+            } else {
+                console.error('Error during login:', error);
+            }
+            return;
         }
 
         try {
@@ -48,7 +54,7 @@ const Login = ({ setIsSignUp }) => {
                 navigate(`/mainpage/${response.data.pinboxId}`);
             }
         } catch (error) {
-            console.error(error);
+            console.error('Error during authentication:', error);
         }
     };
 
@@ -84,11 +90,13 @@ const Login = ({ setIsSignUp }) => {
             <div className="flex justify-center">
                 <button
                     className="w-full mt-4 bg-blue-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
-                    type="submit"
+                    type="button"
+                    onClick={handleForgotPasswordClick}
                 >
                     Log in as Guest
                 </button>
             </div>
+            {showPopup && <SignupPopup message={popupMessage} onClose={() => setShowPopup(false)} />}
         </div>
     );
 };

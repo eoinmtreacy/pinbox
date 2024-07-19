@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../api/axios';
+import { useAuthContext } from '../../auth/AuthContext';
 import SignupPopup from './SignupPopup';
 
 const Signup = () => {
     const navigate = useNavigate();
+    const { isAuth, setAuth, user, setUser } = useAuthContext();
 
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -47,7 +49,7 @@ const Signup = () => {
             console.log('Email Check Response:', emailCheckResponse.data);
 
             if (emailCheckResponse.data.exists === true) {
-                setPopupMessage('This email is already occupied');
+                setPopupMessage('This email is already in use');
                 setShowPopup(true);
                 return;
             }
@@ -75,7 +77,7 @@ const Signup = () => {
 
     return (
         <div>
-            <form onSubmit={handleSubmit} className="sign-up-form">
+            <form onSubmit={handleSubmit} className="sign-up-form ">
                 <h2 className="text-2xl font-bold mb-4 text-center text-blue-600">Sign up</h2>
                 {errors.length > 0 &&
                     errors.map((error, index) => (
