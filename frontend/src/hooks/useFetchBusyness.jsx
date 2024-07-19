@@ -10,7 +10,7 @@ function useFetchBusyness() {
         setLoading(true);
         let busynessTable = {}; // Define outside to be accessible in all then blocks
 
-        fetch("http://localhost:5165/api/app/get-predictions")
+        fetch("/backend/api/app/get-predictions")
             .then((response) => response.json())
             .then((data) => {
                 // Initialize busynessTable with the first fetch results

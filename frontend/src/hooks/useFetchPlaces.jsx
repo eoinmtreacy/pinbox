@@ -17,8 +17,12 @@ export default function useFetchPlaces() {
                 if (response.status !== 200) {
                     throw new Error('Failed to fetch feed and pins');
                 }
-                setFeed(await filterForPhotos(response.data.feed.$values))
-                setPins(response.data.pins.$values)
+                const filteredFeed = await filterForPhotos(response.data.feed.$values);
+                const pinsData = response.data.pins.$values;
+                setFeed(filteredFeed);
+                setPins(pinsData);
+                //console.log('Filtered Feed:', filteredFeed); checking whats in the feed
+                //console.log('Pins:', pinsData);
             } catch (error) {
                 console.error('Error fetching feed and pins:', error);
                 setError(error);

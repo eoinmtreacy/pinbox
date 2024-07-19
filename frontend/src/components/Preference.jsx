@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import TinderCard from 'react-tinder-card';
 import { useAuthContext } from '../auth/AuthContext';
@@ -11,6 +11,7 @@ import Heart from '../Images/loveit.png';
 import OkSign from '../Images/wanna.png';
 import DonotCare from '../Images/dontcare.png';
 import Dropdown from './Dropdown';
+import { AppContext } from '../Context';
 
 
 function Preference({ feed, pins, setPins, position, distance }) {
@@ -19,6 +20,9 @@ function Preference({ feed, pins, setPins, position, distance }) {
     const [selectedSubtype, setSelectedSubtype] = useState('all');
     const { isAuth, user } = useAuthContext();
     const { collection } = useParams();
+
+    const [priorityPin, setPriorityPin] = useContext(AppContext) //search bar
+
 
     useEffect(() => {
         // sorted feed based on closest based on position and place.lat, place.lon
@@ -30,6 +34,12 @@ function Preference({ feed, pins, setPins, position, distance }) {
         setCard(sortedFeed[sortedFeed.length - 1]);
 
     }, [filteredFeed, position]);
+
+    useEffect(() => { //sets card to the priority pin (clicked on place) passed down from the serach bar by the context
+        if (priorityPin != null)
+            setCard(priorityPin)
+    }, [priorityPin])
+    //TODO Might not work with removeLastItem, may need changing?
 
     const removeLastItem = () => {
         const newFilteredFeed = filteredFeed.slice(0, -1);
@@ -46,9 +56,6 @@ function Preference({ feed, pins, setPins, position, distance }) {
         }
 
         else {
-            
-            
-            
             setFilteredFeed(feed.filter((place) => place.subtype === e.target.value && !pinIds.includes(place.id)))
         }
     }
