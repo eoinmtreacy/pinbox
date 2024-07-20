@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import busyIcon from '../Images/busy.png';
 import infernoImage from '../Images/inferno.jpg';
 import iceImage from '../Images/ice.png';
-
 import parksIcon from '../Images/park.png';
 import restaurantsIcon from '../Images/restaurant.png';
 import cafeIcon from '../Images/cafe.png';
@@ -41,15 +40,7 @@ const HorizontalButtons = () => {
                     <span className="button-text">Busyness Layer</span>
                 </button>
             </div>
-            <div className="relative flex flex-wrap w-full md:w-auto">
-                <button
-                    className="flex items-center bg-white border border-gray-300 rounded-full px-4 py-2 shadow w-full md:w-auto"
-                    onClick={toggleIcon}
-                >
-                    <img src={isInferno ? infernoImage : iceImage} alt="Toggle Icon" className="w-5 h-5 button-icon" />
-                    <span className="button-text">{isInferno ? 'Busy' : 'Quiet'}</span>
-                </button>
-            </div>
+
             <div className="relative flex flex-wrap w-full md:w-auto">
                 <button
                     className="flex items-center bg-white border border-gray-300 rounded-full px-4 py-2 shadow w-full md:w-auto"
