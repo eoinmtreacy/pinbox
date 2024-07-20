@@ -58,7 +58,7 @@ const TopNav = ({
                     <input
                         type="range"
                         min="0"
-                        max="24"
+                        max="23"
                         value={timeStamp}
                         onChange={(e) => setTimeStamp(e.target.value)}
                         className="w-16"

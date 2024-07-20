@@ -23,12 +23,10 @@ function useFetchBusyness() {
                 const zoneHourPrediction = {}
                 const zones = hour.predictionsByLocation.$values
                 zones.map((zone) => {
-                    zoneHourPrediction[zone.location] = zone.predictions.$values[0].percentile;
+                    zoneHourPrediction[zone.location] = zone.prediction.percentile;
                 })
                 busynessTable.push(zoneHourPrediction)
             })
-
-            console.log(busynessTable);
 
             setData(busynessTable);
 
