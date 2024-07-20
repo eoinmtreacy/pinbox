@@ -47,18 +47,18 @@ const MobileIcons = ({
             <div className="relative">
                 <img src={timeIcon} alt="Time Icon" className="w-8 h-8" onClick={toggleShowTimeSlider} />
                 {showTimeSlider && (
-                    <div className="absolute top-12 left-0 bg-white p-2 rounded shadow-md w-screen max-w-full">
+                    <div className="absolute top-12 left-0 bg-white p-2 rounded shadow-md" style={{ width: '50vw' }}>
                         <input
                             type="range"
                             min="0"
-                            max="24"
+                            max="23"
                             value={timeStamp}
                             onChange={(e) => setTimeStamp(Number(e.target.value))}
                             className="w-full"
                         />
                         <div className="flex justify-between text-xs text-gray-700">
                             <span>0</span>
-                            <span>24</span>
+                            <span>23</span>
                         </div>
                     </div>
                 )}
@@ -66,18 +66,18 @@ const MobileIcons = ({
             <div className="relative">
                 <img src={distanceIcon} alt="Distance Icon" className="w-8 h-8" onClick={toggleShowDistanceSlider} />
                 {showDistanceSlider && (
-                    <div className="absolute top-12 left-0 bg-white p-2 rounded shadow-md w-screen max-w-full">
+                    <div className="absolute top-12 left-0 bg-white p-2 rounded shadow-md w-screen" style={{ width: '50vw' }}>
                         <input
                             type="range"
-                            min="0"
-                            max="100"
+                            min="100"
+                            max="1000"
                             value={distance}
                             onChange={(e) => setDistance(Number(e.target.value))}
                             className="w-full"
                         />
                         <div className="flex justify-between text-xs text-gray-700">
-                            <span>0</span>
                             <span>100</span>
+                            <span>1000</span>
                         </div>
                     </div>
                 )}

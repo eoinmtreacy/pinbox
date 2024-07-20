@@ -15,7 +15,7 @@ import UserMarker from './Map/UserMarker';
 
 import LoadingSpinner from './LoadingSpinner';
 
-const CustomMap = ({ pins, showBusynessTable, distance, position, setPosition }) => {
+const CustomMap = ({ pins, showBusynessTable, distance, position, setPosition, timeStamp }) => {
     const { data: taxiZones, error: geoJsonError, loading: loadingGeoJson } = useFetchGeoJson('/taxi_zones.geojson');
     const { data: busynessData, error: busynessError, loading: loadingBusyness } = useFetchBusyness();
 
@@ -64,7 +64,7 @@ const CustomMap = ({ pins, showBusynessTable, distance, position, setPosition })
                         data={taxiZones}
                         style={(feature) => {
                             const locationId = feature.properties.location_id;
-                            const busyness = busynessData[locationId] || 0;
+                            const busyness = busynessData[timeStamp][locationId] || 0;
                             const color = colorGen(busyness);
 
                             return {

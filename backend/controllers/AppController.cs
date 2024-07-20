@@ -65,25 +65,45 @@ namespace backend.Controllers
         }
 
         // Endpoint to get predictions grouped by location
+
         [HttpGet("get-predictions")]
         public IActionResult GetPredictions()
         {
             try
             {
                 var now = DateTime.Now;
-                var groupedPredictions = _context.Predictions
-                    .AsEnumerable()
-                    .GroupBy(p => p.location)
-                    .Select(g => g.OrderBy(p => Math.Abs((p.datetime - now).Ticks)).First())
+                var tomorrow = now.AddHours(24);
+                var hourlyPredictions = new Dictionary<int, List<object>>();
+
+                for (int i = 0; i < 24; i++)
+                {
+                    hourlyPredictions[i] = new List<object>();
+                }
+
+                var predictions = _context.Predictions
+                    .Where(p => p.datetime >= now && p.datetime <= tomorrow)
                     .ToList();
 
-                return Ok(groupedPredictions);
+                foreach (var prediction in predictions)
+                {
+                    var hourDifference = (int)(prediction.datetime - now).TotalHours;
+                    if (hourDifference >= 0 && hourDifference < 24)
+                    {
+                        var groupedPrediction = new { Location = prediction.location, Prediction = prediction };
+                        hourlyPredictions[hourDifference].Add(groupedPrediction);
+                    }
+                }
+
+                var predictionsForNext24Hours = hourlyPredictions.Select(kvp => new { Hour = now.AddHours(kvp.Key), PredictionsByLocation = kvp.Value }).ToList();
+
+                return Ok(predictionsForNext24Hours);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, new { Message = "Failed to retrieve data from the database.", Error = ex.Message });
             }
         }
+
 
         // Feed for users who are not logged in (ghost mode): Returns all places
         [HttpGet("feed/ghost")]
