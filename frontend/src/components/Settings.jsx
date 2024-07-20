@@ -18,20 +18,6 @@ const Settings = () => {
                     </div>
                 </div>
                 <div className="mb-4">
-                    <h2 className="text-xl font-semibold mb-2"> Notifications</h2>
-                    <div className="flex flex-col">
-                        <label className="flex items-center mb-2">
-                            <input type="checkbox" className="mr-2"/> Email Notifications
-                        </label>
-                        <label className="flex items-center mb-2">
-                            <input type="checkbox" className="mr-2"/> SMS Notifications
-                        </label>
-                        <label className="flex items-center mb-2">
-                            <input type="checkbox" className="mr-2"/> Push Notifications
-                        </label>
-                    </div>
-                </div>
-                <div className="mb-4">
                     <h2 className="text-xl font-semibold mb-2">Account</h2>
                     <button className="bg-red-500 text-white px-4 py-2 rounded">Delete Account</button>
                 </div>

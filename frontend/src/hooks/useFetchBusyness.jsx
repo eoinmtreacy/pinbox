@@ -8,37 +8,38 @@ function useFetchBusyness() {
 
     useEffect(() => {
         setLoading(true);
-        let busynessTable = {}; // Define outside to be accessible in all then blocks
+        let busynessTable = []; // Define outside to be accessible in all then blocks
 
-        fetch("/backend/api/app/get-predictions")
-            .then((response) => response.json())
-            .then((data) => {
-                // Initialize busynessTable with the first fetch results
-                Object.values(data)[1].forEach((prediction) => {
-                    busynessTable[prediction.location] = prediction.passenger_count;
-                });
-                // Return a promise for the next fetch operation
-                return fetch("/average_passenger_count.json");
+        const getPredictions = async () => {
+            try {
+                const response = await axios.get('api/app/get-predictions')
+                if (response.status !== 200) {
+                    throw new Error('Failed to fetch busyness predictions');
+                }
+
+            const hours = response.data.$values
+
+            hours.map((hour) => {
+                const zoneHourPrediction = {}
+                const zones = hour.predictionsByLocation.$values
+                zones.map((zone) => {
+                    zoneHourPrediction[zone.location] = zone.prediction.percentile;
+                })
+                busynessTable.push(zoneHourPrediction)
             })
-            .then((response) => response.json())
-            .then((avgData) => {
-                // Update busynessTable with data from the second fetch
-                Object.keys(busynessTable).forEach((key) => {
-                    if (avgData[key] && avgData[key] !== 0) { // Check to avoid division by zero
-                        busynessTable[key] = busynessTable[key] / avgData[key];
-                    } else {
-                        busynessTable[key] = null; // Handle division by zero or undefined avgData[key]
-                    }
-                });
-                setData(busynessTable);
-            })
-            .catch((error) => {
+
+            setData(busynessTable);
+
+            } catch (error) {
                 setError(error);
-            })
-            .finally(() => {
-                setLoading(false); // Ensure loading is set to false in both success and error cases
-            });
-    }, []); // Use correct dependency variables
+            }
+
+            setLoading(false);
+        }
+
+       getPredictions();
+
+    }, []);
 
     return { data, error, loading };
 }

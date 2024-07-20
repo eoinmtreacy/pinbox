@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import TinderCard from 'react-tinder-card';
 import { useAuthContext } from '../auth/AuthContext';
 import axios from '../api/axios';
+import calculateDistance from '../utils/calculateDistance';
 
 import Clock from '../Images/clock.png';
 import Flag from '../Images/hateit.png';
@@ -12,7 +13,7 @@ import DonotCare from '../Images/dontcare.png';
 import Dropdown from './Dropdown';
 
 
-function Preference({ feed, pins, setPins }) {
+function Preference({ feed, pins, setPins, position, distance }) {
     const [ filteredFeed, setFilteredFeed ] = useState(feed);
     const [card, setCard] = useState(filteredFeed[filteredFeed.length - 1]);
     const [selectedSubtype, setSelectedSubtype] = useState('all');
@@ -20,10 +21,15 @@ function Preference({ feed, pins, setPins }) {
     const { collection } = useParams();
 
     useEffect(() => {
-        
-        setCard(filteredFeed[filteredFeed.length - 1]);
-        
-    }, [filteredFeed]);
+        // sorted feed based on closest based on position and place.lat, place.lon
+        const sortedFeed = filteredFeed.sort((a, b) => {
+            const distanceA = calculateDistance(position.lat, position.lng, a.lat, a.lon);
+            const distanceB = calculateDistance(position.lat, position.lng, b.lat, b.lon);
+            return distanceB - distanceA;
+        });
+        setCard(sortedFeed[sortedFeed.length - 1]);
+
+    }, [filteredFeed, position]);
 
     const removeLastItem = () => {
         const newFilteredFeed = filteredFeed.slice(0, -1);
@@ -128,21 +134,27 @@ function Preference({ feed, pins, setPins }) {
                             </div>
 
                             {card.opening_Hours && (
-                            <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap">
+                            <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black">
                                 <img src={Clock} className="w-12" alt="clock" />
-                                <div className="flex-auto my-auto">{card.opening_Hours}</div>
+                                <div className="flex-auto my-auto">
+                                    <ul>
+                                        {card.opening_Hours.split(';').map((day) => (
+                                            <li key={day}>{day}</li>
+                                        ))}
+                                    </ul>
+                                </div>
                             </div> 
                             )}
 
                             {card.website && (
-                            <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap">
+                            <div className="flex gap-5 mt-1.5 text-m leading-7 text-black ">
                                 <img
                                     loading="lazy"
                                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/2cd84b25e3fffef0b5991cd70a6ef4fe5555c08a1a67a9cf3dac60311c18b4af?"
                                     className="w-14"
                                     alt="social media"
                                 />
-                                <div className="flex-auto my-auto"><a href="{card.website}">{card.website}</a></div>
+                                <div className="flex-auto my-auto truncate"><a href={card.website}>{card.website}</a></div>
                             </div>
                             )}
 
