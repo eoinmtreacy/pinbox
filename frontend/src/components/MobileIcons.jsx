@@ -88,7 +88,7 @@ const MobileIcons = ({
                 onChange={(e) => setMode(e.target.value)}
                 className="bg-white border border-gray-300 rounded p-1 text-xs"
             >
-                {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map(day => (
+                {['Today','Tommorow', 'Day After Tommorow'].map(day => (
                     <option key={day} value={day}>{day}</option>
                 ))}
             </select>
