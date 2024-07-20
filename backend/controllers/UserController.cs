@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Sprache;
+using Microsoft.EntityFrameworkCore; // needed for AnyAsync in existingUserByPinboxId 
 using backend.Models;
 
 namespace backend.Controllers
@@ -33,6 +34,20 @@ namespace backend.Controllers
             {
                 _logger.LogWarning("Registration attempt failed: Email, Username, or Password is missing.");
                 return BadRequest(new { message = "Email, Username, and Password are required" });
+            }
+
+            var existingUserByEmail = await _userManager.FindByEmailAsync(model.Email);
+            if (existingUserByEmail != null)
+            {
+                _logger.LogWarning("Registration attempt failed: Email {Email} is already in use.", model.Email);
+                return BadRequest(new { message = "Email is already in use" });
+            }
+
+            var existingUserByPinboxId = await _userManager.Users.AnyAsync(u => u.PinboxId == model.PinboxId);
+            if (existingUserByPinboxId)
+            {
+                _logger.LogWarning("Registration attempt failed: PinboxId {PinboxId} is already in use.", model.PinboxId);
+                return BadRequest(new { message = "PinboxId is already in use" });
             }
 
             var user = new AppUser()
