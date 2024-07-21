@@ -6,6 +6,7 @@ import logo from '../Images/logo.png';
 import home from '../Images/home.png';
 import like from '../Images/like.png';
 import friends from '../Images/friends.png';
+import box from '../Images/box.png';
 
 export const SideNav = ({
     onPreferenceToggle,
@@ -35,7 +36,8 @@ export const SideNav = ({
                     <span className="absolute bottom-[-1.5rem] bg-blue-600 text-white text-xs p-1 rounded opacity-0 group-hover:opacity-100">Home</span>
                 </button>
                 <button className="relative group flex flex-col items-center mb-4" onClick={() => addCollection()}>
-                    <span className="absolute bottom-[-1.5rem] bg-blue-600 text-black text-xl p-1 rounded group-hover:opacity-100">+</span>
+                    <img className="w-6 h-6 mb-1" alt="Add Collection Icon" src={box} />
+                    <span className="absolute bottom-[-1.5rem] bg-blue-600 text-white text-xs p-1 rounded opacity-0 group-hover:opacity-100">Add Collection</span>
                 </button>
                 <button className="relative group flex flex-col items-center mb-4" onClick={() => onPreferenceToggle()}>
                     <img className="w-6 h-6 mb-1" alt="Like Icon" src={like} />
