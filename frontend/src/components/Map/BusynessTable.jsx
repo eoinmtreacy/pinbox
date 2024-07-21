@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 const BusynessModal = ({ isOpen, onRequestClose, busyness }) => {
     return (
         <div className="buynessta flex flex-col bg-white rounded-2xl border border-solid border-stone-400 max-w-xs p-5 bg-opacity-80">
@@ -14,12 +13,11 @@ const BusynessModal = ({ isOpen, onRequestClose, busyness }) => {
                     </tr>
                 </thead>
                 <tbody>
-
                     <tr style={{ backgroundColor: '#1f77b4' }}>
                         <td className="border px-4 py-2">0.0 ~ 0.5</td>
                         <td className="border px-4 py-2">Good</td>
                     </tr>
-                    <tr style={{ backgroundColor: '#2ca02c' }}>
+                    <tr style={{ backgroundColor: '#ffbf00' }}>
                         <td className="border px-4 py-2">0.5 ~ 1.0</td>
                         <td className="border px-4 py-2">Moderate</td>
                     </tr>
@@ -27,8 +25,7 @@ const BusynessModal = ({ isOpen, onRequestClose, busyness }) => {
                         <td className="border px-4 py-2">1.0 to 1.5</td>
                         <td className="border px-4 py-2">A little busy</td>
                     </tr>
-                    <tr style={{ backgroundColor: '#d62728' }}>
-
+                    <tr style={{ backgroundColor: '#9467bd' }}>
                         <td className="border px-4 py-2">1.5 to 2.0</td>
                         <td className="border px-4 py-2">Hectic</td>
                     </tr>
