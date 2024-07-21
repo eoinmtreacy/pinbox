@@ -77,7 +77,7 @@ public async Task<IActionResult> Register([FromBody] RegisterModel model)
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                return Unauthorized(new { message = "Username not recognized" });
+                return Unauthorized(new { message = "Email not recognized" });
             }
 
             var signInResult = await _signInManager.PasswordSignInAsync(
