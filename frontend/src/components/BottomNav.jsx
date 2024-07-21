@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import homeIcon from '../Images/home.png';
 import preferencesIcon from '../Images/like.png';
 import friendsIcon from '../Images/friends.png';
-import settingsIcon from '../Images/settings.png';
+import aboutUsIcon from '../Images/about-us-icon.png';
 
 const BottomNav = ({ onPreferenceToggle, onFriendsToggle }) => {
     return (
@@ -17,8 +17,8 @@ const BottomNav = ({ onPreferenceToggle, onFriendsToggle }) => {
             <button onClick={onFriendsToggle}>
                 <img src={friendsIcon} alt="Friends" className="w-6 h-6" />
             </button>
-            <button onClick={() => window.location.href = '/settings'}>
-                <img src={settingsIcon} alt="Settings" className="w-6 h-6" />
+            <button onClick={() => window.location.href = '/landingpage'}>
+                <img src={aboutUsIcon} alt="About Us" className="w-6 h-6" />
             </button>
         </div>
     );

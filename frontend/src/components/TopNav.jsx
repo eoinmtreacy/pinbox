@@ -58,7 +58,7 @@ const TopNav = ({
                     <input
                         type="range"
                         min="0"
-                        max="24"
+                        max="23"
                         value={timeStamp}
                         onChange={(e) => setTimeStamp(e.target.value)}
                         className="w-16"
@@ -102,7 +102,7 @@ const TopNav = ({
                         className="bg-white border border-gray-300 rounded p-1 text-xs"
                     >
 
-                        {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map(day => (
+                        {['Today','Tommorow', 'Day After Tommorow'].map(day => ( 
 
                             <option key={day} value={day}>{day}</option>
                         ))}
