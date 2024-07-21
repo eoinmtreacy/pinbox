@@ -21,42 +21,50 @@ namespace backend.Controllers
             _signInManager = signInManager;
         }
 
-        [HttpPost("add-user")]
-        public async Task<IActionResult> Register([FromBody] RegisterModel model)
-        {
-            if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Password) || string.IsNullOrEmpty(model.Username))
-            {
-                return BadRequest(new { message = "Email, Username, and Password are required" });
-            }
 
-            var existingUserByEmail = await _userManager.FindByEmailAsync(model.Email);
-            if (existingUserByEmail != null)
-            {
-                return BadRequest(new { message = "Email is already in use" });
-            }
+[HttpPost("add-user")]
+public async Task<IActionResult> Register([FromBody] RegisterModel model)
+{
+    List<string> errorMessages = new List<string>();
 
-            var existingUserByPinboxId = await _userManager.Users.AnyAsync(u => u.PinboxId == model.PinboxId);
-            if (existingUserByPinboxId)
-            {
-                return BadRequest(new { message = "PinboxId is already in use" });
-            }
+    if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Password) || string.IsNullOrEmpty(model.Username))
+    {
+        errorMessages.Add("Email, Username, and Password are required");
+        return BadRequest(new { errors = errorMessages });
+    }
 
-            var user = new AppUser()
-            {
-                Email = model.Email,
-                PinboxId = model.PinboxId,
-                UserName = model.Username
-            };
+    var existingUserByEmail = await _userManager.FindByEmailAsync(model.Email);
+    if (existingUserByEmail != null)
+    {
+        errorMessages.Add("Email is already in use");
+        return BadRequest(new { errors = errorMessages });
+    }
 
-            var result = await _userManager.CreateAsync(user, model.Password);
+    var existingUserByPinboxId = await _userManager.Users.AnyAsync(u => u.PinboxId == model.PinboxId);
+    if (existingUserByPinboxId)
+    {
+        errorMessages.Add("PinboxId is already in use");
+        return BadRequest(new { errors = errorMessages });
+    }
 
-            if (result.Succeeded)
-            {
-                return Ok("Registration made successfully");
-            }
+    var user = new AppUser()
+    {
+        Email = model.Email,
+        PinboxId = model.PinboxId,
+        UserName = model.Username
+    };
 
-            return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
-        }
+    var result = await _userManager.CreateAsync(user, model.Password);
+
+    if (result.Succeeded)
+    {
+        return Ok("Registration made successfully");
+    }
+
+    // Convert Identity errors to a list of strings
+    errorMessages.AddRange(result.Errors.Select(e => e.Description));
+    return BadRequest(new { errors = errorMessages });
+}
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
