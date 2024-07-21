@@ -1,13 +1,10 @@
 import React, { useState, useContext } from 'react';
 import useFetchPlaces from '../hooks/useFetchPlaces'
-import { AppContext } from '../Context';
 
-const SearchBar = () => {
+const SearchBar = ({ priorityPin, setPriorityPin }) => {
     const { feed } = useFetchPlaces();
     const [searchTerm, setSearchTerm] = useState('');
-    const [priorityPin, setPriorityPin] = useContext(AppContext)
 
-    
     // Filter pins based on search term
     const filteredPins = feed.filter(pin => {
         const trimmedSearchTerm = searchTerm.trim().toLowerCase();
@@ -21,6 +18,7 @@ const SearchBar = () => {
 
     const onClick = (card) => { 
         setPriorityPin(card)
+        console.log(card);
     }
 
     return (
