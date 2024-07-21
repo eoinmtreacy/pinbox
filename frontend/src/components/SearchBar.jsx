@@ -18,7 +18,6 @@ const SearchBar = ({ priorityPin, setPriorityPin }) => {
 
     const onClick = (card) => { 
         setPriorityPin(card)
-        console.log(card);
     }
 
     return (
