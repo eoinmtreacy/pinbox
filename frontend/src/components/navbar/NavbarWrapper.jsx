@@ -1,14 +1,14 @@
 import React from 'react'
-import TopNav from './TopNav'
-import MobileIcons from './MobileIcons'
+import NavbarDesktop from './NavbarDesktop'
+import NavbarMobile from './NavbarMobile'
 
 const NavbarWrapper = ({ isMobile, ...props}) => {
     return (
         <>
             {isMobile ? (
-                <MobileIcons {...props} />
+                <NavbarMobile {...props} />
             ) : (
-                <TopNav {...props} />
+                <NavbarDesktop {...props} />
             )}
         </>
     );

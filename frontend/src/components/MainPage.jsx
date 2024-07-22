@@ -5,8 +5,6 @@ import Friends from './FriendsList';
 import Map from './Map';
 import useToggle from '../hooks/useToggle';
 import useFetchPlaces from '../hooks/useFetchPlaces';
-import TopNav from './navbar/TopNav';
-import MobileIcons from './navbar/MobileIcons';
 import BottomNav from './BottomNav';
 import useScreenWidth from '../hooks/useScreenWidth';
 import { useNavigate, useParams } from 'react-router-dom';

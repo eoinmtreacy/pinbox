@@ -14,7 +14,7 @@ import hidePinsIcon from '../../Images/pin-x.png';
 import ProfileRegister from './navbar_components/ProfileRegister';
 import DaySelect from './navbar_components/DaySelect';
 
-const TopNav = ({
+const NavbarDesktop = ({
     priorityPin,
     setPriorityPin,
     timeStamp,
@@ -77,7 +77,7 @@ const TopNav = ({
     );
 };
 
-TopNav.propTypes = {
+NavbarDesktop.propTypes = {
     timeStamp: PropTypes.number.isRequired,
     setTimeStamp: PropTypes.func.isRequired,
     distance: PropTypes.number.isRequired,
@@ -88,4 +88,4 @@ TopNav.propTypes = {
     setDay: PropTypes.func.isRequired
 };
 
-export default TopNav;
+export default NavbarDesktop;

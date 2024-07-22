@@ -17,7 +17,7 @@ import DaySelect from './navbar_components/DaySelect';
 import LoginLogout from './navbar_components/LoginLogout';
 
 
-const MobileIcons = ({
+const NavbarMobile = ({
     priorityPin,
     setPriorityPin,
     timeStamp,
@@ -63,7 +63,7 @@ const MobileIcons = ({
     );
 };
 
-MobileIcons.propTypes = {
+NavbarMobile.propTypes = {
     timeStamp: PropTypes.number.isRequired,
     setTimeStamp: PropTypes.func.isRequired,
     distance: PropTypes.number.isRequired,
@@ -74,4 +74,4 @@ MobileIcons.propTypes = {
     setDay: PropTypes.func.isRequired
 };
 
-export default MobileIcons;
+export default NavbarMobile;
