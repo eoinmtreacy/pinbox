@@ -1,78 +1,123 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using backend.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Sprache;
+using Microsoft.EntityFrameworkCore; // needed for AnyAsync in existingUserByPinboxId 
+using backend.Models;
 
-namespace backend.controllers
+namespace backend.Controllers
 {
     [Route("[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly UserManager<AppUser> userManager;
-        private readonly SignInManager<AppUser> signInManager;
-        private readonly ILogger<UserController> logger;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
-        public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ILogger<UserController> logger)
+        // Constructor
+        public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
-            this.logger = logger;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
-   
-        [HttpPost("add-user")]
-        public async Task<IActionResult> Register([FromBody] RegisterModel model)
-        {
-            var user = new AppUser()
-            {
-                Email = model.Email,
-                PinboxId = model.PinboxId,
-                PasswordHash = model.Password,
-                UserName = model.Username
-            };
-            var result = await userManager.CreateAsync(user, user.PasswordHash!);
-            if (result.Succeeded)
-                return Ok("Registration made successfully");
-            return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
-        }
 
+[HttpPost("add-user")]
+public async Task<IActionResult> Register([FromBody] RegisterModel model)
+{
+    List<string> errorMessages = new List<string>();
+
+    if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Password) || string.IsNullOrEmpty(model.Username))
+    {
+        errorMessages.Add("Email, Username, and Password are required");
+        return BadRequest(new { errors = errorMessages });
+    }
+
+    var existingUserByEmail = await _userManager.FindByEmailAsync(model.Email);
+    if (existingUserByEmail != null)
+    {
+        errorMessages.Add("Email is already in use");
+        return BadRequest(new { errors = errorMessages });
+    }
+
+    var existingUserByPinboxId = await _userManager.Users.AnyAsync(u => u.PinboxId == model.PinboxId);
+    if (existingUserByPinboxId)
+    {
+        errorMessages.Add("PinboxId is already in use");
+        return BadRequest(new { errors = errorMessages });
+    }
+
+    var user = new AppUser()
+    {
+        Email = model.Email,
+        PinboxId = model.PinboxId,
+        UserName = model.Username
+    };
+
+    var result = await _userManager.CreateAsync(user, model.Password);
+
+    if (result.Succeeded)
+    {
+        return Ok("Registration made successfully");
+    }
+
+    // Convert Identity errors to a list of strings
+    errorMessages.AddRange(result.Errors.Select(e => e.Description));
+    return BadRequest(new { errors = errorMessages });
+}
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var signInResult = await signInManager.PasswordSignInAsync(
-                  userName: model.Email!,
-                  password: model.Password!,
-                  isPersistent: false,
-                  lockoutOnFailure: false
-                  );
+            if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Password))
+            {
+                return BadRequest(new { message = "Email and Password are required" });
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return Unauthorized(new { message = "Email not recognized" });
+            }
+
+            var signInResult = await _signInManager.PasswordSignInAsync(
+                userName: user.UserName!,
+                password: model.Password!,
+                isPersistent: false,
+                lockoutOnFailure: false
+            );
+
             if (signInResult.Succeeded)
             {
-                return Ok("You are successfully logged in");
+                return Ok(new { message = "You are successfully logged in" });
             }
-            return BadRequest("Error occured");
+
+            return Unauthorized(new { message = "Incorrect password" });
         }
 
-        // log out endpoint
-[HttpGet("logout")]
-public async Task<IActionResult> Logout()
-{
-    await signInManager.SignOutAsync();
+        [HttpGet("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            try
+            {
+                await _signInManager.SignOutAsync();
+                return Ok("You are successfully logged out");
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while logging out.");
+            }
+        }
 
-    return Ok("You are successfully logged out");
-
-}
         [HttpGet("auth")]
         public async Task<IActionResult> GetUser()
         {
-            var user = await userManager.GetUserAsync(User);
+            var user = await _userManager.GetUserAsync(User);
             if (user == null)
+            {
                 return Unauthorized();
+            }
+
             return Ok(new
             {
                 user.Email,

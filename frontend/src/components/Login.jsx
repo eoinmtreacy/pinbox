@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loginimg from '../Images/logo.png';
 import '../App.css';
@@ -8,6 +8,7 @@ import { useAuthContext } from '../auth/AuthContext';
 
 // Login component
 function Login() {
+    const [ error, setError ] = useState(null);
     const { isAuth, setAuth, user, setUser } = useAuthContext(); 
     // Hook to navigate programmatically
     const navigate = useNavigate();
@@ -31,13 +32,10 @@ function Login() {
             }, {
                 withCredentials: true 
             });
-            if (response.status !== 200) {
-                alert('Login failed'); // placeholder, elegant error handling needed
-                return;
-            }
 
         } catch (error) {
-            console.error(error);
+            setError(error.response.data.message);
+            return
         }
 
         try {
@@ -66,6 +64,7 @@ function Login() {
             <div className="max-w-sm w-full p-8 bg-white rounded-lg shadow-md">
                 {/* Login image */}
                 <img src={Loginimg} alt="Loginimg" className="mx-auto mb-4" />
+                {error && <div className="text-red-500 text-center mb-4">{error}</div>}
                 {/* Login form */}
                 <form onSubmit={(e) => handleLoginClick(e)}>
                     {/* Email field */}
