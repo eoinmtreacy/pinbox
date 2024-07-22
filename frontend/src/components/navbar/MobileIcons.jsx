@@ -14,6 +14,7 @@ import showPinsIcon from '../../Images/pin.png';
 import hidePinsIcon from '../../Images/pin-x.png';
 import searchIcon from '../../Images/search.png'; // Import the search icon
 import ProfileRegister from './navbar_components/ProfileRegister';
+import DaySelect from './navbar_components/DaySelect';
 
 
 const MobileIcons = ({
@@ -25,8 +26,8 @@ const MobileIcons = ({
     setDistance,
     showPins,
     setShowPins,
-    mode,
-    setMode,
+    day,
+    setDay,
     handleLoginLogoutClick
 }) => {
     const navigate = useNavigate(); // Use useNavigate to navigate programmatically
@@ -35,10 +36,6 @@ const MobileIcons = ({
     const [showTimeSlider, setShowTimeSlider] = useState(false);
     const [showDistanceSlider, setShowDistanceSlider] = useState(false);
     const [showSearchBar, setShowSearchBar] = useState(false); // State for search bar visibility
-
-    const handleProfileClick = () => {
-        navigate(`/profile/${pinbox_id}`); // Navigate to the profile page
-    };
 
     return (
         <div className="mobile-icons flex items-center justify-between">
@@ -61,15 +58,7 @@ const MobileIcons = ({
                 )}
             </div>
             <img src={showPins ? hidePinsIcon : showPinsIcon} alt="Pins Icon" className="w-8 h-8" onClick={() => setShowPins(!showPins)} />
-            <select
-                value={mode}
-                onChange={(e) => setMode(e.target.value)}
-                className="bg-white border border-gray-300 rounded p-1 text-xs"
-            >
-                {['Today','Tommorow', 'Day After Tommorow'].map(day => (
-                    <option key={day} value={day}>{day}</option>
-                ))}
-            </select>
+                <DaySelect day={day} setDay={setDay} />
                 <ProfileRegister /> 
 
                <button
@@ -89,8 +78,8 @@ MobileIcons.propTypes = {
     setDistance: PropTypes.func.isRequired,
     showPins: PropTypes.bool.isRequired,
     setShowPins: PropTypes.func.isRequired,
-    mode: PropTypes.string.isRequired,
-    setMode: PropTypes.func.isRequired,
+    day: PropTypes.number.isRequired,
+    setDay: PropTypes.func.isRequired,
     isLoggedIn: PropTypes.bool.isRequired,
     onLoginLogout: PropTypes.func.isRequired,
 };

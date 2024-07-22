@@ -14,6 +14,7 @@ import SearchBar from './navbar_components/SearchBar';
 import showPinsIcon from '../../Images/pin.png';
 import hidePinsIcon from '../../Images/pin-x.png';
 import ProfileRegister from './navbar_components/ProfileRegister';
+import DaySelect from './navbar_components/DaySelect';
 
 const TopNav = ({
     priorityPin,
@@ -24,8 +25,8 @@ const TopNav = ({
     setDistance,
     showPins,
     setShowPins,
-    mode,
-    setMode,
+    day,
+    setDay,
     handleLoginLogoutClick
 }) => {
 
@@ -60,18 +61,7 @@ const TopNav = ({
 
 
                 <div className="flex items-center space-x-2">
-                    <select
-                        id="daySelect"
-                        value={mode}
-                        onChange={(e) => setMode(e.target.value)}
-                        className="bg-white border border-gray-300 rounded p-1 text-xs"
-                    >
-
-                        {['Today','Tommorow', 'Day After Tommorow'].map((day, index) => ( 
-
-                            <option key={index} value={index}>{day}</option>
-                        ))}
-                    </select>
+                    <DaySelect day={day} setDay={setDay} />
                 </div>
                 
                 {/* either display profile or sign up link */}
@@ -96,8 +86,8 @@ TopNav.propTypes = {
     setDistance: PropTypes.func.isRequired,
     showPins: PropTypes.bool.isRequired,
     setShowPins: PropTypes.func.isRequired,
-    mode: PropTypes.string.isRequired,
-    setMode: PropTypes.func.isRequired
+    day: PropTypes.number.isRequired,
+    setDay: PropTypes.func.isRequired
 };
 
 export default TopNav;

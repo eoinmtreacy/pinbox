@@ -21,7 +21,7 @@ const MainPage = () => {
     const [position, setPosition] = useState({ lat: 40.7478017, lng: -73.9914126 });
     const [showPins, setShowPins] = useState(true);
     const [showFriends, toggleFriends] = useToggle();
-    const [mode, setMode] = useState('Day');
+    const [day, setDay] = useState(0);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const { user } = useAuthContext();
     const { pinbox_id, collection } = useParams();
@@ -93,8 +93,8 @@ const MainPage = () => {
                         setDistance={setDistance}
                         showPins={showPins}
                         setShowPins={setShowPins}
-                        mode={mode}
-                        setMode={setMode}
+                        day={day}
+                        setDay={setDay}
                     />
                     <div className="flex h-full overflow-hidden">
                         {showPreference && feed.length > 1 && (user === pinbox_id || (user === null && pinbox_id === undefined)) && (
