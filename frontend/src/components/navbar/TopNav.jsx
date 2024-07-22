@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthContext } from '../../auth/AuthContext';
-import axios from '../../api/axios';
 
 import timeIcon from '../../Images/time.png';
 import distanceIcon from '../../Images/distance.png';
-import profileIcon from '../../Images/profile.png';
 import TimeSlider from './navbar_components/TimeSlider';
 import DistanceSlider from './navbar_components/DistanceSlider';
 import SearchBar from './navbar_components/SearchBar';
@@ -30,7 +28,7 @@ const TopNav = ({
     handleLoginLogoutClick
 }) => {
 
-    const { isAuth, setAuth, user, setUser } = useAuthContext();
+    const { user } = useAuthContext();
     const { pinbox_id } = useParams();
 
     const navigate = useNavigate(); // Use useNavigate to navigate programmatically

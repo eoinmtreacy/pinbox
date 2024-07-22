@@ -9,12 +9,12 @@ import { useAuthContext } from '../../auth/AuthContext';
 
 import timeIcon from '../../Images/time.png';
 import distanceIcon from '../../Images/distance.png';
-import profileIcon from '../../Images/profile.png';
 import showPinsIcon from '../../Images/pin.png';
 import hidePinsIcon from '../../Images/pin-x.png';
 import searchIcon from '../../Images/search.png'; // Import the search icon
 import ProfileRegister from './navbar_components/ProfileRegister';
 import DaySelect from './navbar_components/DaySelect';
+import LoginLogout from './navbar_components/LoginLogout';
 
 
 const MobileIcons = ({
@@ -27,12 +27,8 @@ const MobileIcons = ({
     showPins,
     setShowPins,
     day,
-    setDay,
-    handleLoginLogoutClick
+    setDay
 }) => {
-    const navigate = useNavigate(); // Use useNavigate to navigate programmatically
-    const { pinbox_id } = useParams()
-    const { user, setAuth, setUser } = useAuthContext();
     const [showTimeSlider, setShowTimeSlider] = useState(false);
     const [showDistanceSlider, setShowDistanceSlider] = useState(false);
     const [showSearchBar, setShowSearchBar] = useState(false); // State for search bar visibility
@@ -60,13 +56,9 @@ const MobileIcons = ({
             <img src={showPins ? hidePinsIcon : showPinsIcon} alt="Pins Icon" className="w-8 h-8" onClick={() => setShowPins(!showPins)} />
                 <DaySelect day={day} setDay={setDay} />
                 <ProfileRegister /> 
+                <LoginLogout />
 
-               <button
-                    onClick={handleLoginLogoutClick}
-                    className="text-xs bg-blue-500 text-white rounded p-1"
-                >
-                    {user != null ? 'Logout' : 'Login'}
-                </button>
+
         </div>
     );
 };
@@ -79,9 +71,7 @@ MobileIcons.propTypes = {
     showPins: PropTypes.bool.isRequired,
     setShowPins: PropTypes.func.isRequired,
     day: PropTypes.number.isRequired,
-    setDay: PropTypes.func.isRequired,
-    isLoggedIn: PropTypes.bool.isRequired,
-    onLoginLogout: PropTypes.func.isRequired,
+    setDay: PropTypes.func.isRequired
 };
 
 export default MobileIcons;

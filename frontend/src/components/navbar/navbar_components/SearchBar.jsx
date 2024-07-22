@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import useFetchPlaces from '../../../hooks/useFetchPlaces'
 
 const SearchBar = ({ priorityPin, setPriorityPin }) => {
