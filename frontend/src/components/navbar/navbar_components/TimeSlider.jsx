@@ -8,7 +8,7 @@ const TimeSlider = ({ timeStamp, setTimeStamp }) => {
                 min="0"
                 max="23"
                 value={timeStamp}
-                onChange={(e) => setTimeStamp(e.target.value)}
+                onChange={(e) => setTimeStamp(parseInt(e.target.value))}
                 className="w-full p-2"
             />
             <div className="flex justify-between w-full text-xs text-gray-700">

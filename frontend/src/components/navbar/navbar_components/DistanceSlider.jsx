@@ -8,7 +8,7 @@ const DistanceSlider = ({ distance, setDistance }) => {
                 min="0"
                 max="1000"
                 value={distance}
-                onChange={(e) => setDistance(e.target.value)}
+                onChange={(e) => setDistance(parseInt(e.target.value))}
                 className="w-full p-2"
             />
             <div className="flex justify-between w-full text-xs text-gray-700">
