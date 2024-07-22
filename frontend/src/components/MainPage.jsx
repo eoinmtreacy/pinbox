@@ -25,7 +25,6 @@ const MainPage = () => {
     const { user } = useAuthContext();
     const { pinbox_id, collection } = useParams();
 
-    // TODO: handle places and pins differently via endpoints
     const { feed, pins, setPins, loading, error } = useFetchPlaces();
     const isMobile = useScreenWidth();
     const [showBusynessTable, setShowBusynessTable] = useState(true);
@@ -43,7 +42,7 @@ const MainPage = () => {
     const handleFriendsToggle = () => {
         toggleFriends();
         if (isMobile) {
-            setShowBusynessTable(showFriends); // Toggle the busyness table visibility
+            setShowBusynessTable(showFriends);
         }
     };
 
@@ -67,7 +66,7 @@ const MainPage = () => {
 
     return (
         <div className="App">
-            <div className="flex h-full w-full overflow-hidden">
+            <div className="flex h-full w-full overflow-clip">
                 {!isMobile && (
                     <div className="SideNav flex-none w-1/24 h-full">
                         <SideNav
@@ -101,7 +100,7 @@ const MainPage = () => {
                     />
                     <div className="flex h-full overflow-hidden">
                         {showPreference && feed.length > 1 && (user === pinbox_id || (user === null && pinbox_id === undefined)) && (
-                            <div className="flex-none w-4/24 h-full overflow-auto">
+                            <div className="flex-none w-4/24 h-full overflow-">
                                 <Preference 
                                     feed={feed} 
                                     pins={pins} 
