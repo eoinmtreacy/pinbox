@@ -17,35 +17,39 @@ const PreferenceWithoutButtons = ({
 
     const getPreferenceButton = (preference) => {
         switch (preference) {
-            case 'hate it':
-                return <img src={Flag} className="mx-auto rounded-full h-24 w-24" alt="Hate it" />;
-            case "don't care":
-                return <img src={DonotCare} className="mx-auto rounded-full h-24 w-24" alt="Don't care" />;
-            case 'interested':
-                return <img src={OkSign} className="mx-auto rounded-full h-24 w-24" alt="Wanna" />;
-            case 'love it':
-                return <img src={Heart} className="mx-auto rounded-full h-24 w-24" alt="Love it" />;
+            case 'hate_it':
+                return <img src={Flag} className="mx-auto rounded-full h-24 w-24 cursor-pointer" alt="Hate it" />;
+            case "dont_care":
+                return <img src={DonotCare} className="mx-auto rounded-full h-24 w-24 cursor-pointer" alt="Don't care" />;
+            case 'wanna':
+                return <img src={OkSign} className="mx-auto rounded-full h-24 w-24 cursor-pointer" alt="Wanna" />;
+            case 'love_it':
+                return <img src={Heart} className="mx-auto rounded-full h-24 w-24 cursor-pointer" alt="Love it" />;
             default:
                 return null;
         }
     };
 
-    return (
-        <div className="preference-container flex flex-col bg-white rounded-2xl border border-solid border-stone-400 max-w-xs p-5">
+    const formatType = (type) => {
+        return type.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    };
 
-            <div className="text-3xl font-bold  text-center text-black mb-1">Pin detail</div>
+    return (
+        <div className="preference-container flex flex-col bg-white rounded-2xl max-w-xs p-5">
+
+            <div className="text-3xl font-bold text-center text-black mb-1"></div>
 
             <img src={"/" + image + ".png"} alt={name} className="max-w-full w-60 h-80 object-cover rounded-lg" />
 
             <div className="text-center bg-black bg-opacity-50 p-2 rounded-lg mt-[-110px] w-60 h-30 text-white">
                 <div className="text-xl font-bold">{name}</div>
-                <div className="text-base">{type}</div>
+                <div className="text-base">{formatType(type)}</div>
                 <div className="text-base">{address}</div>
             </div>
 
             <div className="flex gap-5 mt-1.5 text-xl leading-7 text-black whitespace-nowrap items-center">
                 <img src={Clock} className="w-12" alt="Clock" />
-                <div className="flex-auto my-auto text-left">{hours}</div>
+                <div className="flex-auto my-auto text-center">{hours}</div>
             </div>
 
             {preference && (
