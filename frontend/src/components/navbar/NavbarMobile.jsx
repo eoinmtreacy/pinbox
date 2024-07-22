@@ -12,7 +12,7 @@ import timeIcon from '../../Images/time.png';
 import distanceIcon from '../../Images/distance.png';
 import showPinsIcon from '../../Images/pin.png';
 import hidePinsIcon from '../../Images/pin-x.png';
-import searchIcon from '../../Images/search.png'; // Import the search icon
+import searchIcon from '../../Images/search.png';
 
 const NavbarMobile = ({
     priorityPin,
@@ -28,39 +28,53 @@ const NavbarMobile = ({
 }) => {
     const [showTimeSlider, setShowTimeSlider] = useState(false);
     const [showDistanceSlider, setShowDistanceSlider] = useState(false);
-    const [showSearchBar, setShowSearchBar] = useState(false); // State for search bar visibility
-
+    const [showSearchBar, setShowSearchBar] = useState(false);
 
     return (
         <>
             <div className="mobile-icons flex items-center justify-between">
                 <div className="relative">
-                    <img src={searchIcon} alt="Search Icon" className="w-8 h-8" onClick={() => {
-                        setShowSearchBar(!showSearchBar)
-                        setShowTimeSlider(false);
-                        setShowDistanceSlider(false);
-                    }}
-                    />
-
+                    <button
+                        onClick={() => {
+                            setShowSearchBar(!showSearchBar);
+                            setShowTimeSlider(false);
+                            setShowDistanceSlider(false);
+                        }}
+                        aria-label="Toggle Search Bar"
+                    >
+                        <img src={searchIcon} alt="Search Icon" className="w-8 h-8" />
+                    </button>
                 </div>
                 <div className="relative">
-                    <img src={timeIcon} alt="Time Icon" className="w-8 h-8" onClick={() => {
-                        setShowTimeSlider(!showTimeSlider)
-                        setShowDistanceSlider(false)
-                        setShowSearchBar(false)
-                    }}
-                    />
-
+                    <button
+                        onClick={() => {
+                            setShowTimeSlider(!showTimeSlider);
+                            setShowDistanceSlider(false);
+                            setShowSearchBar(false);
+                        }}
+                        aria-label="Toggle Time Slider"
+                    >
+                        <img src={timeIcon} alt="Time Icon" className="w-8 h-8" />
+                    </button>
                 </div>
                 <div className="relative">
-                    <img src={distanceIcon} alt="Distance Icon" className="w-8 h-8" onClick={() => {
-                        setShowDistanceSlider(!showDistanceSlider)
-                        setShowTimeSlider(false)
-                        setShowSearchBar(false)
-                    }} />
-
+                    <button
+                        onClick={() => {
+                            setShowDistanceSlider(!showDistanceSlider);
+                            setShowTimeSlider(false);
+                            setShowSearchBar(false);
+                        }}
+                        aria-label="Toggle Distance Slider"
+                    >
+                        <img src={distanceIcon} alt="Distance Icon" className="w-8 h-8" />
+                    </button>
                 </div>
-                <img src={showPins ? hidePinsIcon : showPinsIcon} alt="Pins Icon" className="w-8 h-8" onClick={() => setShowPins(!showPins)} />
+                <button
+                    onClick={() => setShowPins(!showPins)}
+                    aria-label={showPins ? "Hide Pins" : "Show Pins"}
+                >
+                    <img src={showPins ? hidePinsIcon : showPinsIcon} alt="Pins Icon" className="w-8 h-8" />
+                </button>
                 <DaySelect day={day} setDay={setDay} />
                 <ProfileRegister />
                 <LoginLogout />
@@ -81,6 +95,8 @@ const NavbarMobile = ({
 };
 
 NavbarMobile.propTypes = {
+    priorityPin: PropTypes.string.isRequired,
+    setPriorityPin: PropTypes.func.isRequired,
     timeStamp: PropTypes.number.isRequired,
     setTimeStamp: PropTypes.func.isRequired,
     distance: PropTypes.number.isRequired,
