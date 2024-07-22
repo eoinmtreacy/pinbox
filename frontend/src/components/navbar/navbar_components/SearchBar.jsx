@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import useFetchPlaces from '../hooks/useFetchPlaces'
+import useFetchPlaces from '../../../hooks/useFetchPlaces'
 
 const SearchBar = ({ priorityPin, setPriorityPin }) => {
     const { feed } = useFetchPlaces();

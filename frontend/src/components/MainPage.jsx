@@ -5,12 +5,13 @@ import Friends from './FriendsList';
 import Map from './Map';
 import useToggle from '../hooks/useToggle';
 import useFetchPlaces from '../hooks/useFetchPlaces';
-import TopNav from './TopNav';
-import MobileIcons from './MobileIcons';
+import TopNav from './navbar/TopNav';
+import MobileIcons from './navbar/MobileIcons';
 import BottomNav from './BottomNav';
 import useScreenWidth from '../hooks/useScreenWidth';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthContext } from '../auth/AuthContext';
+import NavbarWrapper from './navbar/NavbarWrapper';
 
 const MainPage = () => {
     const [showPreference, setShowPreference] = useState(false);
@@ -82,7 +83,10 @@ const MainPage = () => {
                     </div>
                 )}
                 <div className="flex-grow h-full">
-                    <TopNav
+                    <NavbarWrapper
+                        isMobile={isMobile}
+                        priorityPin={priorityPin}
+                        setPriorityPin={setPriorityPin}
                         timeStamp={timeStamp}
                         setTimeStamp={setTimeStamp}
                         distance={distance}
@@ -91,18 +95,6 @@ const MainPage = () => {
                         setShowPins={setShowPins}
                         mode={mode}
                         setMode={setMode}
-                    />
-                    <MobileIcons
-                        timeStamp={timeStamp}
-                        setTimeStamp={setTimeStamp}
-                        distance={distance}
-                        setDistance={setDistance}
-                        showPins={showPins}
-                        setShowPins={setShowPins}
-                        mode={mode}
-                        setMode={setMode}
-                        isLoggedIn={isLoggedIn}
-                        onLoginLogout={handleLoginLogout}
                     />
                     <div className="flex h-full overflow-hidden">
                         {showPreference && feed.length > 1 && (user === pinbox_id || (user === null && pinbox_id === undefined)) && (
