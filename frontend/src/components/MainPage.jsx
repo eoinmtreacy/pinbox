@@ -119,6 +119,9 @@ const MainPage = () => {
                                 timeStamp={timeStamp}
                                 priorityPin={priorityPin}
                                 setPriorityPin={setPriorityPin}
+                                showPreference={showPreference}
+                                showFriends={showFriends}
+                                isMobile={isMobile}
                             />
                         </div>
                     </div>

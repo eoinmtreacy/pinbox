@@ -3,7 +3,6 @@ import { MapContainer, TileLayer, GeoJSON, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../App.css';
 import PreferenceWithoutButtons from './PreferenceWithoutButtons';
-import SearchBar from './navbar/navbar_components/SearchBar';
 import CookieModal from './CookieModal';
 import useFetchGeoJson from '../hooks/useFetchGeoJson';
 import useFetchBusyness from '../hooks/useFetchBusyness';
@@ -12,12 +11,14 @@ import colorGen from '../utils/colorGen';
 import iconGen from '../utils/iconGen';
 import BusynessTable from './Map/BusynessTable';
 import UserMarker from './Map/UserMarker';
+import useScreenWidth from '../hooks/useScreenWidth';
 
 import LoadingSpinner from './LoadingSpinner';
 
-const CustomMap = ({ pins, showBusynessTable, distance, position, setPosition, timeStamp, priorityPin, setPriorityPin }) => {
+const CustomMap = ({ pins, showBusynessTable, distance, position, setPosition, timeStamp, priorityPin, setPriorityPin, showPreference, showFriends}) => {
     const { data: taxiZones, error: geoJsonError, loading: loadingGeoJson } = useFetchGeoJson('/taxi_zones.geojson');
     const { data: busynessData, error: busynessError, loading: loadingBusyness } = useFetchBusyness();
+    const isMobile = useScreenWidth();
 
     const mapRef = useRef(null);
     const [initialLoad, setInitialLoad] = useState(true);
@@ -96,7 +97,7 @@ const CustomMap = ({ pins, showBusynessTable, distance, position, setPosition, t
                     <CookieModal />
                 </div>
 
-                {showBusynessTable && (
+                {!(isMobile && (showPreference || showFriends)) && (
                     <div className="busyness-table z-[1000]">
                         <BusynessTable />
                     </div>
