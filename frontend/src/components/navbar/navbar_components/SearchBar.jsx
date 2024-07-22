@@ -18,6 +18,7 @@ const SearchBar = ({ priorityPin, setPriorityPin }) => {
 
     const onClick = (card) => { 
         setPriorityPin(card)
+        setSearchTerm('')
     }
 
     return (
@@ -30,7 +31,7 @@ const SearchBar = ({ priorityPin, setPriorityPin }) => {
                 onChange={(e) => setSearchTerm(e.target.value)}
             />
             {searchTerm && (
-                <div className="absolute top-12 left-0 right-0 bg-white border border-solid border-[#020202] rounded-lg z-10">
+                <div className="search-results absolute top-12 left-0 right-0 bg-white border border-solid border-[#020202] rounded-lg">
                     {filteredPins.map(pin => (
                         <div key={pin.id} className="p-2 border-b border-solid border-[#020202]" onClick={x => onClick(pin)}>
                             <div className="font-bold">{pin.name}</div>

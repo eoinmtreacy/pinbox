@@ -9,15 +9,13 @@ const TimeSlider = ({ timeStamp, setTimeStamp }) => {
                 max="23"
                 value={timeStamp}
                 onChange={(e) => setTimeStamp(e.target.value)}
-                className="w-16"
+                className="w-full p-2"
             />
-            <div className="flex justify-between w-16 text-xs text-gray-700">
-                <span>0</span>
-                <span>24</span>
+            <div className="flex justify-between w-full text-xs text-gray-700">
+                <span>0h</span>
+                <span>24h</span>
             </div>
         </div>
-
-
     )
 }
 

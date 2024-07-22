@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useNavigate, useParams } from 'react-router-dom';
-import { useAuthContext } from '../../auth/AuthContext';
+import ProfileRegister from './navbar_components/ProfileRegister';
+import DaySelect from './navbar_components/DaySelect';
+import LoginLogout from './navbar_components/LoginLogout';
 
 import timeIcon from '../../Images/time.png';
 import distanceIcon from '../../Images/distance.png';
@@ -11,8 +12,6 @@ import DistanceSlider from './navbar_components/DistanceSlider';
 import SearchBar from './navbar_components/SearchBar';
 import showPinsIcon from '../../Images/pin.png';
 import hidePinsIcon from '../../Images/pin-x.png';
-import ProfileRegister from './navbar_components/ProfileRegister';
-import DaySelect from './navbar_components/DaySelect';
 
 const NavbarDesktop = ({
     priorityPin,
@@ -24,18 +23,12 @@ const NavbarDesktop = ({
     showPins,
     setShowPins,
     day,
-    setDay,
-    handleLoginLogoutClick
+    setDay
 }) => {
-
-    const { user } = useAuthContext();
-    const { pinbox_id } = useParams();
-
-    const navigate = useNavigate(); // Use useNavigate to navigate programmatically
 
     return (
         <div className="w-full bg-white flex justify-between items-center p-2 shadow-md top-nav">
-            <div className="flex items-center space-x-4">
+            <div >
                 <SearchBar priorityPin={priorityPin} setPriorityPin={setPriorityPin} />
             </div>
 
@@ -64,13 +57,7 @@ const NavbarDesktop = ({
                 
                 {/* either display profile or sign up link */}
                 <ProfileRegister />
-
-               <button
-                    onClick={handleLoginLogoutClick}
-                    className="text-xs bg-blue-500 text-white rounded p-1"
-                >
-                    {user != null ? 'Logout' : 'Login'}
-                </button>
+                <LoginLogout />
 
             </div>
         </div>

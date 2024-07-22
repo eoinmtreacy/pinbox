@@ -20,7 +20,6 @@ const MainPage = () => {
     const [showPins, setShowPins] = useState(true);
     const [showFriends, toggleFriends] = useToggle();
     const [day, setDay] = useState(0);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const { user } = useAuthContext();
     const { pinbox_id, collection } = useParams();
     const [priorityPin, setPriorityPin] = useState(null);
@@ -33,10 +32,6 @@ const MainPage = () => {
 
     const togglePreference = () => {
         setShowPreference(!showPreference);
-    };
-
-    const handleLoginLogout = () => {
-        setIsLoggedIn(!isLoggedIn);
     };
 
     const handleFriendsToggle = () => {
