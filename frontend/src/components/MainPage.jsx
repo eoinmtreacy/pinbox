@@ -5,12 +5,11 @@ import Friends from './FriendsList';
 import Map from './Map';
 import useToggle from '../hooks/useToggle';
 import useFetchPlaces from '../hooks/useFetchPlaces';
-import TopNav from './TopNav';
-import MobileIcons from './MobileIcons';
 import BottomNav from './BottomNav';
 import useScreenWidth from '../hooks/useScreenWidth';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthContext } from '../auth/AuthContext';
+import NavbarWrapper from './navbar/NavbarWrapper';
 
 const MainPage = () => {
     const [showPreference, setShowPreference] = useState(false);
@@ -20,8 +19,7 @@ const MainPage = () => {
     const [position, setPosition] = useState({ lat: 40.7478017, lng: -73.9914126 });
     const [showPins, setShowPins] = useState(true);
     const [showFriends, toggleFriends] = useToggle();
-    const [mode, setMode] = useState('Day');
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [day, setDay] = useState(0);
     const { user } = useAuthContext();
     const { pinbox_id, collection } = useParams();
     const [priorityPin, setPriorityPin] = useState(null);
@@ -34,10 +32,6 @@ const MainPage = () => {
 
     const togglePreference = () => {
         setShowPreference(!showPreference);
-    };
-
-    const handleLoginLogout = () => {
-        setIsLoggedIn(!isLoggedIn);
     };
 
     const handleFriendsToggle = () => {
@@ -82,27 +76,18 @@ const MainPage = () => {
                     </div>
                 )}
                 <div className="flex-grow h-full">
-                    <TopNav
+                    <NavbarWrapper
+                        isMobile={isMobile}
+                        priorityPin={priorityPin}
+                        setPriorityPin={setPriorityPin}
                         timeStamp={timeStamp}
                         setTimeStamp={setTimeStamp}
                         distance={distance}
                         setDistance={setDistance}
                         showPins={showPins}
                         setShowPins={setShowPins}
-                        mode={mode}
-                        setMode={setMode}
-                    />
-                    <MobileIcons
-                        timeStamp={timeStamp}
-                        setTimeStamp={setTimeStamp}
-                        distance={distance}
-                        setDistance={setDistance}
-                        showPins={showPins}
-                        setShowPins={setShowPins}
-                        mode={mode}
-                        setMode={setMode}
-                        isLoggedIn={isLoggedIn}
-                        onLoginLogout={handleLoginLogout}
+                        day={day}
+                        setDay={setDay}
                     />
                     <div className="flex h-full overflow-hidden">
                         {showPreference && feed.length > 1 && (user === pinbox_id || (user === null && pinbox_id === undefined)) && (
@@ -134,6 +119,9 @@ const MainPage = () => {
                                 timeStamp={timeStamp}
                                 priorityPin={priorityPin}
                                 setPriorityPin={setPriorityPin}
+                                showPreference={showPreference}
+                                showFriends={showFriends}
+                                isMobile={isMobile}
                             />
                         </div>
                     </div>
