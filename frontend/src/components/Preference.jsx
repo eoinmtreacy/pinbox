@@ -11,6 +11,7 @@ import Heart from '../Images/loveit.png';
 import OkSign from '../Images/wanna.png';
 import DonotCare from '../Images/dontcare.png';
 import Dropdown from './Dropdown';
+import Website from '../Images/website.png';
 
 function Preference({ feed, pins, setPins, position, distance, priorityPin, setPriorityPin }) {
     const [ filteredFeed, setFilteredFeed ] = useState(feed);
