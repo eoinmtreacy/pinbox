@@ -69,10 +69,8 @@ const TopNav = ({
 
     const getTimeLabel = (time) => {
         const now = new Date();
-        const selectedTime = new Date(now);
-        selectedTime.setHours((currentHour + time) % 24);
-
-        const isTomorrow = selectedTime.getDate() !== now.getDate();
+        const sliderTime = (currentHour + time) % 24;
+        const isTomorrow = sliderTime < currentHour || (sliderTime === 0 && currentHour >= 22); // Edge case check
         return `${isTomorrow ? 'Tomorrow ' : ''}${getCurrentTimeLabel(time)}`;
     };
 
@@ -88,14 +86,13 @@ const TopNav = ({
                         max="23"
                         value={(timeStamp - currentHour + 24) % 24}
                         onChange={(e) => setTimeStamp((currentHour + parseInt(e.target.value)) % 24)}
-                        className="w-64 h-4 accent-blue-500" // Adjust width
+                        className="w-full h-4 accent-blue-800" // Adjust width
                         style={{ cursor: 'pointer' }}
                     />
-                    <div className="flex justify-between w-64 text-xs text-gray-700">
-                        <div className="relative w-full flex justify-between">
+                        <div className="absolute inset-x-0 flex justify-between text-xs text-gray-700 top-full mt-1">
+
                             <span className="absolute left-0 transform -translate-x-1">{getTimeLabel(0)}</span>
                             <span className="absolute right-0 transform translate-x-1">{getTimeLabel(23)}</span>
-                        </div>
                     </div>
                     <div className="text-gray-700 text-xs mt-1">
                         {getTimeLabel((timeStamp - currentHour + 24) % 24)}
