@@ -64,15 +64,6 @@ export const SideNav = ({ onPreferenceToggle, onFriendsToggle }) => {
                             Friends
                         </span>
                     </button>
-                    <button
-                        className="relative group flex flex-col items-center mb-4"
-                        onClick={() => navigate('/settings')}
-                    >
-                        <img className="w-6 h-6 mb-1" alt="Settings Icon" src={SettingsIcon} />
-                        <span className="absolute bottom-[-1.5rem] bg-blue-600 text-white text-xs p-1 rounded opacity-0 group-hover:opacity-100">
-                            Settings
-                        </span>
-                    </button>
                 </div>
             </div>
         </>
