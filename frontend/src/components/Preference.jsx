@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import TinderCard from 'react-tinder-card';
 import { useAuthContext } from '../auth/AuthContext';
@@ -12,8 +12,7 @@ import OkSign from '../Images/wanna.png';
 import DonotCare from '../Images/dontcare.png';
 import Dropdown from './Dropdown';
 
-
-function Preference({ feed, pins, setPins, position, distance }) {
+function Preference({ feed, pins, setPins, position, distance, priorityPin, setPriorityPin }) {
     const [ filteredFeed, setFilteredFeed ] = useState(feed);
     const [card, setCard] = useState(filteredFeed[filteredFeed.length - 1]);
     const [selectedSubtype, setSelectedSubtype] = useState('all');
@@ -27,9 +26,11 @@ function Preference({ feed, pins, setPins, position, distance }) {
             const distanceB = calculateDistance(position.lat, position.lng, b.lat, b.lon);
             return distanceB - distanceA;
         });
+        const pinIds = pins.map((pin) => pin.place.id)	
+        if (priorityPin !== null && !pinIds.includes(priorityPin.id)) sortedFeed.push(priorityPin)
         setCard(sortedFeed[sortedFeed.length - 1]);
 
-    }, [filteredFeed, position]);
+    }, [filteredFeed, position, priorityPin]);
 
     const removeLastItem = () => {
         const newFilteredFeed = filteredFeed.slice(0, -1);
@@ -42,14 +43,11 @@ function Preference({ feed, pins, setPins, position, distance }) {
         const pinIds = pins.map((pin) => pin.place.id)
 
         if (e.target.value === 'all') {
-            setFilteredFeed(feed.filter((place) => !pinIds.includes(place.id)))
+            setFilteredFeed(feed.filter((place) => !pinIds.includes(place.id) && place.id))
         }
 
         else {
-            
-            
-            
-            setFilteredFeed(feed.filter((place) => place.subtype === e.target.value && !pinIds.includes(place.id)))
+            setFilteredFeed(feed.filter((place) => place.subtype === e.target.value && !pinIds.includes(place.id) && place.id))
         }
     }
 
