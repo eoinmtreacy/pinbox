@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import TinderCard from 'react-tinder-card';
 import { useAuthContext } from '../auth/AuthContext';
@@ -11,10 +11,9 @@ import Heart from '../Images/loveit.png';
 import OkSign from '../Images/wanna.png';
 import DonotCare from '../Images/dontcare.png';
 import Dropdown from './Dropdown';
-import Website from '../Images/website.png'; // Import website.png image
 
-function Preference({ feed, pins, setPins, position, distance }) {
-    const [filteredFeed, setFilteredFeed] = useState(feed);
+function Preference({ feed, pins, setPins, position, distance, priorityPin, setPriorityPin }) {
+    const [ filteredFeed, setFilteredFeed ] = useState(feed);
     const [card, setCard] = useState(filteredFeed[filteredFeed.length - 1]);
     const [selectedSubtype, setSelectedSubtype] = useState('all');
     const { isAuth, user } = useAuthContext();
@@ -26,13 +25,16 @@ function Preference({ feed, pins, setPins, position, distance }) {
             const distanceB = calculateDistance(position.lat, position.lng, b.lat, b.lon);
             return distanceB - distanceA;
         });
+        const pinIds = pins.map((pin) => pin.place.id)	
+        if (priorityPin !== null && !pinIds.includes(priorityPin.id)) sortedFeed.push(priorityPin)
         setCard(sortedFeed[sortedFeed.length - 1]);
-    }, [filteredFeed, position]);
+
+    }, [filteredFeed, position, priorityPin]);
 
     const removeLastItem = () => {
         const newFilteredFeed = filteredFeed.slice(0, -1);
         setFilteredFeed(newFilteredFeed);
-    }
+    };
 
     const handleSubtypeChange = (e) => {
         setSelectedSubtype(e.target.value);
@@ -89,10 +91,13 @@ function Preference({ feed, pins, setPins, position, distance }) {
 
             if (response.status !== 201) {
                 throw new Error('Failed to update preferences');
+                throw new Error('Failed to update preferences');
             }
 
             removeLastItem();
+            removeLastItem();
         } catch (error) {
+            console.error(error);
             console.error(error);
         }
     };
@@ -115,7 +120,7 @@ function Preference({ feed, pins, setPins, position, distance }) {
                     >
                         <div className="flex flex-col bg-white rounded-xl max-w-sm p-5">
                             <img
-                                src={"/" + card.photo_0 + '.png'}
+                                src={'/' + card.photo_0 + '.png'}
                                 alt={card.name}
                                 className="h-60 object-cover rounded-lg"
                             />

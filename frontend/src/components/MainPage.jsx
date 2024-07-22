@@ -24,6 +24,7 @@ const MainPage = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const { user } = useAuthContext();
     const { pinbox_id, collection } = useParams();
+    const [priorityPin, setPriorityPin] = useState(null);
 
     const { feed, pins, setPins, loading, error } = useFetchPlaces();
     const isMobile = useScreenWidth();
@@ -63,6 +64,11 @@ const MainPage = () => {
 
         fetchGeoJsonData();
     }, [pinbox_id, user, navigate]);
+
+    useEffect(() => {
+        if (priorityPin != null)
+            setShowPreference(true)
+    }, [priorityPin])
 
     return (
         <div className="App">
@@ -107,6 +113,8 @@ const MainPage = () => {
                                     setPins={setPins} 
                                     position={position} 
                                     distance={distance}
+                                    priorityPin={priorityPin}
+                                    setPriorityPin={setPriorityPin}
                                 />
                             </div>
                         )}
@@ -124,6 +132,8 @@ const MainPage = () => {
                                 position={position}
                                 setPosition={setPosition}
                                 timeStamp={timeStamp}
+                                priorityPin={priorityPin}
+                                setPriorityPin={setPriorityPin}
                             />
                         </div>
                     </div>

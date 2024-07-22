@@ -12,34 +12,35 @@ function Signup() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
+
     const handleSetPassword = (e) => {
         setPassword(e.target.value);
+        setErrors([])
     };
 
     const handleSetConfirmPassword = (e) => {
         setConfirmPassword(e.target.value);
+        setErrors([])
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // attempt sign up
+
+    setErrors(['test error'])
+
         try {
-            const response = await axios.post('/user/add-user', {
+            await axios.post('/user/add-user',  {
                 email: e.target.email.value,
                 pinboxId: e.target.pinboxId.value,
                 password: e.target.password.value,
                 username: e.target.email.value,
             });
 
-            if (response.status != 200) {
-                alert('Sign up failed');
-                return
-            }
         } catch (error) {
-            console.error(error);
+            setErrors(error.response.data.errors.$values)
+            return
         }
         
-        // attempt login
         try {
             const response = await axios.post('/user/login', {
                 email: e.target.email.value,
@@ -48,12 +49,12 @@ function Signup() {
                 withCredentials: true 
             });
             if (response.status !== 200) {
-                alert('Login failed'); // placeholder, elegant error handling needed
-                return;
+                throw new Error(response.data.errors.$values);
             }
 
         } catch (error) {
-            console.error(error);
+            setErrors(error)
+            return
         }
 
         try {
@@ -83,7 +84,7 @@ function Signup() {
 
                     <div className="mb-4">
                         <label className="block text-sm font-semibold mb-2" htmlFor="pinbox_id">
-                            Username
+                            Pinbox ID
                         </label>
                         <input
                             name="pinboxId"
