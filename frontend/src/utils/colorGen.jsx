@@ -4,7 +4,7 @@ export default function colorGen(busyness) {
     } else if (busyness < 0.5) {
         return '#ffbf00';
     } else if (busyness < 0.75) {
-        return '#ff7f0e';
+        return '#fc6a03';
     } else {
         return 'red';
     }
