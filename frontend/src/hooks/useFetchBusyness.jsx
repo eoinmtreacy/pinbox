@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from '../api/axios';
 
-function useFetchBusyness() {
+function useFetchBusyness(day) {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -12,7 +12,7 @@ function useFetchBusyness() {
 
         const getPredictions = async () => {
             try {
-                const response = await axios.get('/api/app/get-predictions')
+                const response = await axios.get(`/api/app/get-predictions/${day}`)
                 if (response.status !== 200) {
                     throw new Error('Failed to fetch busyness predictions');
                 }
@@ -39,7 +39,7 @@ function useFetchBusyness() {
 
        getPredictions();
 
-    }, []);
+    }, [day]);
 
     return { data, error, loading };
 }

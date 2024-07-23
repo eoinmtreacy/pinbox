@@ -10,8 +10,7 @@ import distanceIcon from '../../Images/distance.png';
 import TimeSlider from './navbar_components/TimeSlider';
 import DistanceSlider from './navbar_components/DistanceSlider';
 import SearchBar from './navbar_components/SearchBar';
-import showPinsIcon from '../../Images/pin.png';
-import hidePinsIcon from '../../Images/pin-x.png';
+import ShowHidePins from './navbar_components/ShowHidePins';
 
 const NavbarDesktop = ({
     priorityPin,
@@ -45,7 +44,7 @@ const NavbarDesktop = ({
                     <DistanceSlider distance={distance} setDistance={setDistance} />
                 </div>
 
-                <img src={showPins ? hidePinsIcon : showPinsIcon} alt="Pins Icon" className="w-8 h-8" onClick={() => setShowPins(!showPins)} />
+                <ShowHidePins showPins={showPins} setShowPins={setShowPins}/>
             </div>
 
             <div className="flex items-center space-x-4">

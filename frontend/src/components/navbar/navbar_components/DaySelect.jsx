@@ -4,7 +4,7 @@ const DaySelect = ({ day, setDay }) => {
     return (
         <select
             value={day}
-            onChange={(e) => setDay(e.target.value)}
+            onChange={(e) => setDay(parseInt(e.target.value))}
             className="bg-white border border-gray-300 rounded p-1 text-xs"
         >
             {['Today', 'Tommorow', 'Day After Tommorow'].map((day, index) => (
