@@ -5,7 +5,20 @@ import axios from 'axios';
 import { getUserData } from '../services/tempProfileService';
 import useFetchPlaces from '../hooks/useFetchPlaces';
 import useGetCollections from '../hooks/useGetCollections';
-import profilePicture from '../friends/userProfilePictures/userProfileImage.png';
+//import profilePicture from '../friends/userProfilePictures/userProfileImage.png';
+
+// List of avatars
+const predefinedProfileImages = [
+    'content.jpeg',
+    'cool.jpeg',
+    'csharpdeveloper.jpeg',
+    'retiredcsharpdeveloper.jpeg',
+    'marvel.jpeg',
+    'surprised.jpeg',
+    'sad.jpeg',
+    'userProfilePhoto.png',
+    'lostit.jpeg'
+];
 
 const Profile = () => {
     const [userData, setUserData] = useState(null);
@@ -62,6 +75,11 @@ const Profile = () => {
             console.error('Error updating profile:', error);
         }
     };
+    //handling image selection
+    const handleImageSelect = (image) => {
+        console.log(image)
+        setProfileImageUrl(image);
+    };
 
     if (!userData) {
         return <div>Loading...</div>;
@@ -71,8 +89,8 @@ const Profile = () => {
         <div className="flex flex-col items-center bg-gray-100 min-h-screen p-4 flex-grow">
             <div className="bg-white rounded-lg shadow-md p-4 w-full max-w-4xl flex-grow">
                 <div className="flex items-center mb-4">
-                    <img src={profilePicture} alt="Profile" className="w-32 h-32 rounded-full mr-4" />
-                    <div>
+                <img src={`/${profileImageUrl || 'userProfilePhoto.png'}`} alt="Profile" className="w-32 h-32 rounded-full mr-4" />
+                <div>
                         <h1 className="text-3xl font-bold">{pinbox_id}</h1>
                         <p className="text-gray-600">@{pinbox_id}</p>
                     </div>
@@ -91,13 +109,20 @@ const Profile = () => {
                             onChange={(e) => setBio(e.target.value)}
                             placeholder="Update your bio"
                         />
-                        <input
-                            type="text"
-                            className="p-2 border border-gray-300 rounded w-full mb-2"
-                            value={profileImageUrl}
-                            onChange={(e) => setProfileImageUrl(e.target.value)}
-                            placeholder="Update your profile image URL"
-                        />
+                        <div className="mb-2">
+                            <p>Select a profile image:</p>
+                            <div className="flex space-x-2">
+                                {predefinedProfileImages.map((image, index) => (
+                                    <img
+                                        key={index}
+                                        src={`/${image}`}
+                                        alt={`Profile option ${index + 1}`}
+                                        className={`w-16 h-16 rounded-full cursor-pointer ${profileImageUrl === image ? 'border-4 border-blue-500' : 'border-2 border-gray-300'}`}
+                                        onClick={() => handleImageSelect(image)}
+                                    />
+                                ))}
+                            </div>
+                        </div>
                         <button
                             className="bg-green-500 text-white px-4 py-2 rounded"
                             onClick={handleEditProfile}
