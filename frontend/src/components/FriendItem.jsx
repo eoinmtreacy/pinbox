@@ -25,35 +25,28 @@ const FriendItem = ({ friend }) => {
     };
 
     return (
-
         <div
-
-            className="relative p-4 border rounded-lg flex flex-col items-center focus:outline-none"
+            className="relativeborder rounded-lg flex flex-col items-center focus:outline-none"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
-            <img 
-                src={friend.photoUrl} 
-                alt={friend.name} 
-                className="w-24 h-24 rounded-full mb-4" 
-            />
-            <h3 className="text-xl font-semibold">{friend.name}</h3>
-            <p className="text-gray-600">{friend.location}</p>
-            <p className="text-gray-500">{friend.distance} miles away</p>
-            <p className="text-gray-600">{friend.followerCount} Followers</p>
-            <p className="text-gray-600">{friend.pinboxCount} Pins</p>
-            <button 
-                className={`mt-4 px-4 py-2 rounded ${friend.isFollowing ? 'bg-red-500 text-white' : 'bg-green-500 text-white'}`}
-                onClick={() => {/* handle follow/unfollow action */}}
+            <img src={friend.photoUrl} alt={friend.name} className="w-24 h-24 rounded-full mb-4" />
+            <h3 className=" font-semibold text-base">{friend.name}</h3>
+            <p className="text-gray-600 text-xs">{friend.location}</p>
+            <p className="text-gray-600 text-sm">{friend.followerCount} Followers</p>
+            <p className="text-gray-600 text-sm">{friend.pinboxCount} Pins</p>
+            <button
+                className={`mt-4 px-4 py-2 rounded ${
+                    friend.isFollowing ? 'bg-red-500 text-white' : 'bg-green-500 text-white'
+                }`}
+                onClick={() => {
+                    /* handle follow/unfollow action */
+                }}
             >
                 {friend.isFollowing ? 'Following' : 'Follow'}
             </button>
-            {hovered && details && (
-                <FriendCard friend={details} />
-            )}
-
+            {hovered && details && <FriendCard friend={details} />}
         </div>
-
     );
 };
 
