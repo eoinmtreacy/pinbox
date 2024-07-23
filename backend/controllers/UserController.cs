@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore; // needed for AnyAsync in existingUserByPinboxId 
 using backend.Models;
+using System.Data.SqlClient;
+using MySqlConnector;
 
 namespace backend.Controllers
 {
@@ -13,12 +15,15 @@ namespace backend.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly ApplicationDbContext _context; // Anita accessing the database connection
+
 
         // Constructor
-        public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ApplicationDbContext context) //passing the db context to constructor
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context; // anita getting the context for userprofile
         }
 
 
@@ -58,6 +63,14 @@ public async Task<IActionResult> Register([FromBody] RegisterModel model)
 
     if (result.Succeeded)
     {
+        // Create a new user profile for the user
+                var userProfile = new UserProfile()
+                {
+                    userId = model.PinboxId
+                };
+
+                _context.UserProfiles.Add(userProfile); //I've set it in the appdbcontext script
+                await _context.SaveChangesAsync();
         return Ok("Registration made successfully");
     }
 
