@@ -26,7 +26,6 @@ const CustomMap = ({
     showFriends, 
     showPins
 }) => {
-    console.log(day);
     const { data: taxiZones, error: geoJsonError, loading: loadingGeoJson } = useFetchGeoJson('/taxi_zones.geojson');
     const { data: busynessData, error: busynessError, loading: loadingBusyness } = useFetchBusyness(day);
     const isMobile = useScreenWidth();
