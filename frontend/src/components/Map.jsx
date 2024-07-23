@@ -15,7 +15,16 @@ import useScreenWidth from '../hooks/useScreenWidth';
 
 import LoadingSpinner from './LoadingSpinner';
 
-const CustomMap = ({ pins, showBusynessTable, distance, position, setPosition, timeStamp, priorityPin, setPriorityPin, showPreference, showFriends}) => {
+const CustomMap = ({ 
+    pins,
+    distance, 
+    position, 
+    setPosition, 
+    timeStamp, 
+    showPreference, 
+    showFriends, 
+    showPins
+}) => {
     const { data: taxiZones, error: geoJsonError, loading: loadingGeoJson } = useFetchGeoJson('/taxi_zones.geojson');
     const { data: busynessData, error: busynessError, loading: loadingBusyness } = useFetchBusyness();
     const isMobile = useScreenWidth();
@@ -74,7 +83,7 @@ const CustomMap = ({ pins, showBusynessTable, distance, position, setPosition, t
                         }}
                     />
                 )}
-                {pins &&
+                {pins && showPins &&
                     pins.map((pin) => (
                         pin.attitude !== "dont_care" && (
                             <Marker key={pin.place.id} position={[pin.place.lat, pin.place.lon]} icon={iconGen(pin.attitude)}>

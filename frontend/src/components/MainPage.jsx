@@ -112,6 +112,7 @@ const MainPage = () => {
                             <Map 
                                 geoJsonData={geoJsonData} 
                                 pins={pins} 
+                                showPins={showPins}
                                 showBusynessTable={showBusynessTable} 
                                 distance={distance}
                                 position={position}
