@@ -66,12 +66,12 @@ namespace backend.Controllers
 
         // Endpoint to get predictions grouped by location
 
-        [HttpGet("get-predictions")]
-        public IActionResult GetPredictions()
+        [HttpGet("get-predictions/{day}")]
+        public IActionResult GetPredictions(string day)
         {
             try
             {
-                var now = DateTime.Now;
+                var now = DateTime.Now.AddHours(int.Parse(day) * 24);
                 var tomorrow = now.AddHours(24);
                 var hourlyPredictions = new Dictionary<int, List<object>>();
 

@@ -118,6 +118,7 @@ const MainPage = () => {
                                 position={position}
                                 setPosition={setPosition}
                                 timeStamp={timeStamp}
+                                day={day}
                                 priorityPin={priorityPin}
                                 setPriorityPin={setPriorityPin}
                                 showPreference={showPreference}
