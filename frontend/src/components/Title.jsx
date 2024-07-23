@@ -25,20 +25,25 @@ const Title = () => {
     return (
         <div className="flex-grow text-3xl h-12 text-center">
             {pinbox_id ? `${pinbox_id}'s Pinbox / ` : 'Pinbox'}
-            <select
-                name="collections"
-                id="collections"
-                value={collection}
-                onChange={handleChange}
-            >
-                {collections.map((c, i) => (
-                    c !== undefined ? (
-                        <option key={i} value={collectionsUrls[i]}>{c}</option>
-                    ) : (
-                        <option key={i} value={""}>ALL PINS</option>
-                    )
-                ))}
-            </select>
+
+            {pinbox_id && (
+                <select
+                    name="collections"
+                    id="collections"
+                    value={collection}
+                    onChange={handleChange}
+                >
+                    {collections.map((c, i) => (
+                        c !== undefined ? (
+                            <option key={i} value={collectionsUrls[i]}>{c}</option>
+                        ) : (
+                            <option key={i} value={""}>ALL PINS</option>
+                        )
+                    ))}
+                </select>
+
+            )}
+
         </div>
     );
 }
