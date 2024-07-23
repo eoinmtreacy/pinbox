@@ -42,29 +42,29 @@ const PreferenceWithoutButtons = ({ name, image, type, address, hours, socialMed
     };
 
     return (
-        <div className="preference-container flex flex-col bg-white rounded-2xl max-w-sm p-6 items-center">
-            <div className="flex flex-col justify-center items-center bg-white rounded-xl max-w-xs p-5">
+        <div className="preference-container flex flex-col bg-white rounded-2xl p-4 items-center min-w-[160px] max-w-[213px] sm:min-w-[180px] sm:max-w-[240px] md:min-w-[200px] md:max-w-[266px] lg:min-w-[240px] lg:max-w-[300px] xl:min-w-[320px] xl:max-w-[320px]">
+            <div className="flex flex-col justify-center items-center bg-white rounded-xl w-full p-5">
                 <img
                     src={image ? '/' + image + '.png' : '/placeholder.png'}
                     alt={name}
-                    className="w-64 h-84 object-cover rounded-lg"
-                    style={{ minWidth: '256px', minHeight: '336px' }}
+                    className="w-48 h-64 object-cover rounded-lg"
+                    style={{ minWidth: '192px', minHeight: '256px' }}
                 />
             </div>
 
-            <div className="text-center bg-black bg-opacity-50 p-3 rounded-lg mt-[-90px] min-w-[256px] text-white flex flex-col justify-center items-center">
+            <div className="text-center bg-black bg-opacity-50 p-3 rounded-lg mt-[-90px] w-full text-white flex flex-col justify-center items-center">
                 <div className="text-xl font-bold">{name}</div>
                 <div className="text-base">{formatType(type)}</div>
                 <div className="text-base">{address}</div>
             </div>
 
-            <div className="flex gap-5 mt-4 text-xl leading-7 text-black items-center">
+            <div className="flex gap-5 mt-4 text-xl leading-7 text-black items-center w-full">
                 <img src={Clock} className="w-12" alt="Clock" />
                 <div className="flex-auto my-auto text-center whitespace-normal break-words">{formatHours(hours)}</div>
             </div>
 
             {recommendationData != null && ( //only shows this if we have recommendation data for this pin
-                <div className="mt-3 text-center">
+                <div className="mt-3 text-center w-full">
                     {recommendationData?.numUsersLikers} other users also liked {recommendationData?.placeData.name}
                 </div>
             )}

@@ -15,7 +15,18 @@ import useScreenWidth from '../hooks/useScreenWidth';
 
 import LoadingSpinner from './LoadingSpinner';
 
-const CustomMap = ({ pins, showBusynessTable, distance, position, setPosition, timeStamp, priorityPin, setPriorityPin, showPreference, showFriends}) => {
+const CustomMap = ({
+    pins,
+    showBusynessTable,
+    distance,
+    position,
+    setPosition,
+    timeStamp,
+    priorityPin,
+    setPriorityPin,
+    showPreference,
+    showFriends,
+}) => {
     const { data: taxiZones, error: geoJsonError, loading: loadingGeoJson } = useFetchGeoJson('/taxi_zones.geojson');
     const { data: busynessData, error: busynessError, loading: loadingBusyness } = useFetchBusyness();
     const isMobile = useScreenWidth();
@@ -23,20 +34,17 @@ const CustomMap = ({ pins, showBusynessTable, distance, position, setPosition, t
     const mapRef = useRef(null);
     const [initialLoad, setInitialLoad] = useState(true);
 
-    if (geoJsonError || busynessError ) {
-        return (
-            <div>Error fetching data: {geoJsonError?.message || busynessError?.message }</div>
-        );
+    if (geoJsonError || busynessError) {
+        return <div>Error fetching data: {geoJsonError?.message || busynessError?.message}</div>;
     }
 
-    if (loadingGeoJson || loadingBusyness ) {
+    if (loadingGeoJson || loadingBusyness) {
         return <LoadingSpinner />;
     }
 
     return (
         <div className="map-container relative flex flex-col h-screen">
             <div className="flex flex-col md:flex-row md:items-start absolute top-1 left-0.5 right-0 z-[1000] space-y-4 md:space-y-0 md:space-x-4">
-
                 <div className="desktop-horizontal-buttons w-full md:w-auto flex justify-end md:justify-start">
                     <HorizontalButtons />
                 </div>
@@ -75,25 +83,31 @@ const CustomMap = ({ pins, showBusynessTable, distance, position, setPosition, t
                     />
                 )}
                 {pins &&
-                    pins.map((pin) => (
-                        pin.attitude !== "dont_care" && (
-                            <Marker key={pin.place.id} position={[pin.place.lat, pin.place.lon]} icon={iconGen(pin.attitude)}>
-                                <Popup>
-                                    <PreferenceWithoutButtons
-                                        name={pin.place.name}
-                                        image={pin.place.photo_0}
-                                        type={pin.place.subtype}
-                                        address={`${pin.place.addr_Housenumber || ''} ${pin.place.addr_Street || ''}`}
-                                        hours={pin.place.opening_Hours}
-                                        socialMedia={pin.place.website}
-                                        preference={pin.place.attitude}
-                                        placeId={pin.place.id}
-                                    />
-                                </Popup>
-                            </Marker>
-                        )
-                    ))
-                }
+                    pins.map(
+                        (pin) =>
+                            pin.attitude !== 'dont_care' && (
+                                <Marker
+                                    key={pin.place.id}
+                                    position={[pin.place.lat, pin.place.lon]}
+                                    icon={iconGen(pin.attitude)}
+                                >
+                                    <Popup maxWidth="auto" minWidth="auto" className="popup-responsive">
+                                        <PreferenceWithoutButtons
+                                            name={pin.place.name}
+                                            image={pin.place.photo_0}
+                                            type={pin.place.subtype}
+                                            address={`${pin.place.addr_Housenumber || ''} ${
+                                                pin.place.addr_Street || ''
+                                            }`}
+                                            hours={pin.place.opening_Hours}
+                                            socialMedia={pin.place.website}
+                                            preference={pin.place.attitude}
+                                            placeId={pin.place.id}
+                                        />
+                                    </Popup>
+                                </Marker>
+                            )
+                    )}
                 <div className="absolute bottom-2 z-[1000]">
                     <CookieModal />
                 </div>
@@ -103,11 +117,7 @@ const CustomMap = ({ pins, showBusynessTable, distance, position, setPosition, t
                         <BusynessTable />
                     </div>
                 )}
-                <UserMarker 
-                    distance={distance} 
-                    position={position}
-                    setPosition={setPosition}
-                />
+                <UserMarker distance={distance} position={position} setPosition={setPosition} />
             </MapContainer>
         </div>
     );
