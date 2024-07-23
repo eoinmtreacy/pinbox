@@ -52,7 +52,6 @@ body, html {
     .mobile-icons {
         display: flex;
         position: fixed;
-        top: 0;
         right: 0;
         left: 0;
         background: white;

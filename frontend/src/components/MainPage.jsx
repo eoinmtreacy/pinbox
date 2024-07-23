@@ -10,6 +10,7 @@ import useScreenWidth from '../hooks/useScreenWidth';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthContext } from '../auth/AuthContext';
 import NavbarWrapper from './navbar/NavbarWrapper';
+import Title from './Title';
 
 const MainPage = () => {
     const [showPreference, setShowPreference] = useState(false);
@@ -75,7 +76,9 @@ const MainPage = () => {
                         />
                     </div>
                 )}
+
                 <div className="flex-grow h-full">
+                    <Title />
                     <NavbarWrapper
                         isMobile={isMobile}
                         priorityPin={priorityPin}
@@ -91,12 +94,12 @@ const MainPage = () => {
                     />
                     <div className="flex h-full overflow-hidden">
                         {showPreference && feed.length > 1 && (user === pinbox_id || (user === null && pinbox_id === undefined)) && (
-                             <div className={`flex-none ${isMobile ? 'w-3/4 max-h-1/4' : 'w-4/24'}`}>
-                                <Preference 
-                                    feed={feed} 
-                                    pins={pins} 
-                                    setPins={setPins} 
-                                    position={position} 
+                            <div className={`flex-none ${isMobile ? 'w-3/4 max-h-1/4' : 'w-4/24'}`}>
+                                <Preference
+                                    feed={feed}
+                                    pins={pins}
+                                    setPins={setPins}
+                                    position={position}
                                     distance={distance}
                                     priorityPin={priorityPin}
                                     setPriorityPin={setPriorityPin}
@@ -109,10 +112,10 @@ const MainPage = () => {
                             </div>
                         )}
                         <div className={`${showPreference ? (isMobile ? 'flex-grow w-3/4' : 'flex-grow w-17/24') : 'flex-grow w-22/24'} h-full overflow-auto`}>
-                            <Map 
-                                geoJsonData={geoJsonData} 
-                                pins={pins} 
-                                showBusynessTable={showBusynessTable} 
+                            <Map
+                                geoJsonData={geoJsonData}
+                                pins={pins}
+                                showBusynessTable={showBusynessTable}
                                 distance={distance}
                                 position={position}
                                 setPosition={setPosition}

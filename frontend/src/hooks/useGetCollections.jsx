@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from '../api/axios';
 
-const useGetCollections = () => {
-    const { pinbox_id } = useParams();
+const useGetCollections = (pinbox_id) => {
     const [ collections, setCollections ] = useState([]);
     const [ collectionsUrls, setCollectionsUrls ] = useState([]);
 
@@ -14,6 +13,7 @@ const useGetCollections = () => {
                 if (response.status !== 200) {
                     throw new Error('Failed to fetch collections');
                 }
+                console.log(response.data);
                 
                 setCollections(response.data.$values.map(c => c.normalizedCollection));
                 setCollectionsUrls(response.data.$values.map(c => c.collection));
