@@ -33,20 +33,17 @@ const CustomMap = ({
     const mapRef = useRef(null);
     const [initialLoad, setInitialLoad] = useState(true);
 
-    if (geoJsonError || busynessError ) {
-        return (
-            <div>Error fetching data: {geoJsonError?.message || busynessError?.message }</div>
-        );
+    if (geoJsonError || busynessError) {
+        return <div>Error fetching data: {geoJsonError?.message || busynessError?.message}</div>;
     }
 
-    if (loadingGeoJson || loadingBusyness ) {
+    if (loadingGeoJson || loadingBusyness) {
         return <LoadingSpinner />;
     }
 
     return (
         <div className="map-container relative flex flex-col h-screen">
             <div className="flex flex-col md:flex-row md:items-start absolute top-1 left-0.5 right-0 z-[1000] space-y-4 md:space-y-0 md:space-x-4">
-
                 <div className="desktop-horizontal-buttons w-full md:w-auto flex justify-end md:justify-start">
                     <HorizontalButtons />
                 </div>
@@ -113,11 +110,7 @@ const CustomMap = ({
                         <BusynessTable />
                     </div>
                 )}
-                <UserMarker 
-                    distance={distance} 
-                    position={position}
-                    setPosition={setPosition}
-                />
+                <UserMarker distance={distance} position={position} setPosition={setPosition} />
             </MapContainer>
         </div>
     );
