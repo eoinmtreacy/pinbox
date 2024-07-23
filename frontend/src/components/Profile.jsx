@@ -53,7 +53,13 @@ const Profile = () => {
                 setBio(data.data.bio);
                 setProfileImageUrl(data.data.profileImageUrl);
             })
-            .catch(error => console.error('Error fetching user data:', error));
+            .catch(error => {
+                setBio("Nothing to see here...");
+                setUserData({
+                    bio: "Nothing to see here..."
+                })
+                console.error('Error fetching user data:', error)
+            });
     }, [pinbox_id]);
 
     const handleEditProfile = async () => {
