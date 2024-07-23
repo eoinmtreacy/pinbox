@@ -12,7 +12,7 @@ function useFetchBusyness() {
 
         const getPredictions = async () => {
             try {
-                const response = await axios.get('http://localhost:80/backend/api/app/get-predictions')
+                const response = await axios.get('/api/app/get-predictions')
                 if (response.status !== 200) {
                     throw new Error('Failed to fetch busyness predictions');
                 }

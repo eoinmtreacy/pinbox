@@ -95,8 +95,6 @@ const NavbarMobile = ({
 };
 
 NavbarMobile.propTypes = {
-    priorityPin: PropTypes.string.isRequired,
-    setPriorityPin: PropTypes.func.isRequired,
     timeStamp: PropTypes.number.isRequired,
     setTimeStamp: PropTypes.func.isRequired,
     distance: PropTypes.number.isRequired,

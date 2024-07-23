@@ -61,8 +61,8 @@ const MainPage = () => {
 
     useEffect(() => {
         if (priorityPin != null)
-            setShowPreference(true)
-    }, [priorityPin])
+            setShowPreference(true);
+    }, [priorityPin]);
 
     return (
         <div className="App">
@@ -91,7 +91,7 @@ const MainPage = () => {
                     />
                     <div className="flex h-full overflow-hidden">
                         {showPreference && feed.length > 1 && (user === pinbox_id || (user === null && pinbox_id === undefined)) && (
-                            <div className="flex-none w-4/24 h-full overflow-">
+                             <div className={`flex-none ${isMobile ? 'w-3/4 max-h-1/4' : 'w-4/24'}`}>
                                 <Preference 
                                     feed={feed} 
                                     pins={pins} 
@@ -108,7 +108,7 @@ const MainPage = () => {
                                 <Friends userId={1} />
                             </div>
                         )}
-                        <div className={`${showPreference ? 'flex-grow w-17/24' : 'flex-grow w-22/24'} h-full overflow-auto`}>
+                        <div className={`${showPreference ? (isMobile ? 'flex-grow w-3/4' : 'flex-grow w-17/24') : 'flex-grow w-22/24'} h-full overflow-auto`}>
                             <Map 
                                 geoJsonData={geoJsonData} 
                                 pins={pins} 

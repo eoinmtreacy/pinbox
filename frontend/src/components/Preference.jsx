@@ -104,7 +104,7 @@ function Preference({ feed, pins, setPins, position, distance, priorityPin, setP
     };
 
     return (
-        <div className="preference-container flex flex-col items-center h-full bg-blue-400 p-4">
+        <div className="preference-container flex flex-col items-center h-full bg-blue-400 p-20">
             <div className="relative w-full mb-10">
                 <Dropdown selectedSubtype={selectedSubtype} handleSubtypeChange={handleSubtypeChange} />
             </div>
