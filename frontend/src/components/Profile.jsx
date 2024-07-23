@@ -36,8 +36,6 @@ const Profile = () => {
             .catch(error => console.error('Error fetching user data:', error));
     }, []);
 
-    console.log("User data is", userData);
-
     if (!userData) {
         return <div>Loading...</div>;
     }

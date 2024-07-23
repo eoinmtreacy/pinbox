@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore; // needed for AnyAsync in existingUserByPinboxId 
+using Microsoft.EntityFrameworkCore; 
 using backend.Models;
 using System.Data.SqlClient;
 using MySqlConnector;
@@ -15,15 +15,15 @@ namespace backend.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        private readonly ApplicationDbContext _context; // Anita accessing the database connection
+        private readonly ApplicationDbContext _context; 
 
 
         // Constructor
-        public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ApplicationDbContext context) //passing the db context to constructor
+        public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ApplicationDbContext context) 
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _context = context; // anita getting the context for userprofile
+            _context = context; 
         }
 
 
@@ -63,18 +63,16 @@ public async Task<IActionResult> Register([FromBody] RegisterModel model)
 
     if (result.Succeeded)
     {
-        // Create a new user profile for the user
                 var userProfile = new UserProfile()
                 {
                     userId = model.PinboxId
                 };
 
-                _context.UserProfiles.Add(userProfile); //I've set it in the appdbcontext script
+                _context.UserProfiles.Add(userProfile); 
                 await _context.SaveChangesAsync();
         return Ok("Registration made successfully");
     }
 
-    // Convert Identity errors to a list of strings
     errorMessages.AddRange(result.Errors.Select(e => e.Description));
     return BadRequest(new { errors = errorMessages });
 }
@@ -139,35 +137,33 @@ public async Task<IActionResult> Register([FromBody] RegisterModel model)
             });
         }
 
-        //anita
         [HttpGet("user-profile/{userId}")]
         public async Task<IActionResult> GetUserProfileData(string userId)
         {
             try
             {
-                // Fetch user profile data from the database
+                
                 var userProfile = await _context.UserProfiles
                     .FirstOrDefaultAsync(up => up.userId == userId);
 
-                // Check if the user profile exists
                 if (userProfile == null)
                 {
                     return NotFound(new { Message = "User profile not found for the given userId." });
                 }
 
-                // Return the user profile data
                 return Ok(new
                 {
                     UserId = userProfile.userId,
                     Bio = userProfile.bio,
                     ProfileImageUrl = userProfile.profileImageUrl
                 });
-                    }
-                    catch (Exception ex)
-                    {
-                        // Log the exception (optional) and return an internal server error response
-                        return StatusCode(500, $"Internal server error: {ex.Message}");
-                    }
+            }
+
+            catch (Exception ex)
+            {
+                // Log the exception (optional) and return an internal server error response
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
     }
