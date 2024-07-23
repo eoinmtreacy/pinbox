@@ -8,9 +8,8 @@ import { useAuthContext } from '../auth/AuthContext';
 
 // Login component
 function Login() {
-    const [ error, setError ] = useState(null);
-    const { isAuth, setAuth, user, setUser } = useAuthContext(); 
-    // Hook to navigate programmatically
+    const [error, setError] = useState(null);
+    const { isAuth, setAuth, user, setUser } = useAuthContext();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -19,7 +18,6 @@ function Login() {
         }
     }, [isAuth, user, navigate]);
 
-    // Function to handle login button click
     const handleLoginClick = async (e) => {
         e.preventDefault();
         const email = e.target[0].value;
@@ -30,12 +28,12 @@ function Login() {
                 email: email,
                 password: password
             }, {
-                withCredentials: true 
+                withCredentials: true
             });
 
         } catch (error) {
             setError(error.response.data.message);
-            return
+            return;
         }
 
         try {
@@ -52,34 +50,41 @@ function Login() {
 
     };
 
-    // Function to handle forgot password button click
     const handleForgotPasswordClick = () => {
         navigate('/passwordfind'); // Navigate to the password find page
     };
 
+    const handleSignUpClick = () => {
+        navigate('/signup'); // Navigate to the signup page
+    };
+
+    const handleGuestLoginClick = (event) => {
+        event.preventDefault();
+        navigate('/mainpage'); // Navigate to the mainpage
+    };
+
     return (
-        // Container for the entire login component
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            {/* Form container */}
+        <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
             <div className="max-w-sm w-full p-8 bg-white rounded-lg shadow-md">
-                {/* Login image */}
-                <img src={Loginimg} alt="Loginimg" className="mx-auto mb-4" />
+                <button
+                    className="flex flex-col mx-auto mb-4 cursor-pointer"
+                    onClick={() => navigate('/LandingPage')}
+                >
+                    <img src={Loginimg} alt="Pinbox Logo" className="w-40 h-40" />
+                </button>
                 {error && <div className="text-red-500 text-center mb-4">{error}</div>}
-                {/* Login form */}
                 <form onSubmit={(e) => handleLoginClick(e)}>
-                    {/* Email field */}
-                    <div className="mb-4">
+                    <div className="mb-8">
                         <label className="block text-sm font-semibold mb-2" htmlFor="email">
                             Email
                         </label>
                         <input
                             type="email"
                             id="email"
-                            className="border rounded w-full py-2 px-3 text-grey-darker"
+                            className="border rounded w-full py-3 px-3 text-grey-darker"
                             required
                         />
                     </div>
-                    {/* Password field */}
                     <div className="mb-6">
                         <label className="block text-sm font-semibold mb-2" htmlFor="password">
                             Password
@@ -87,11 +92,10 @@ function Login() {
                         <input
                             type="password"
                             id="password"
-                            className="border rounded w-full py-2 px-3 text-grey-darker mb-3"
+                            className="border rounded w-full py-3 px-3 text-grey-darker mb-3"
                             required
                         />
                     </div>
-                    {/* Forgot Password button styled as link */}
                     <div className="mb-4 text-center">
                         <button
                             className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
@@ -101,16 +105,27 @@ function Login() {
                             Forgot Password?
                         </button>
                     </div>
-                    {/* Login button */}
                     <div className="flex justify-center">
                         <button
-                            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            className="w-full bg-blue-500 hover:bg-blue-700 text-white text-2xl font-bold py-2 px-4 rounded-[30px]"
                             type="submit"
                         >
                             Login
                         </button>
                     </div>
                 </form>
+                <button
+                    onClick={handleSignUpClick}
+                    className="justify-center px-6 py-3 mt-10 max-w-full text-2xl font-bold text-center bg-white border border-solid border-slate-500 rounded-[30px] text-slate-500 w-full cursor-pointer"
+                >
+                    Sign Up
+                </button>
+                <button
+                    onClick={handleGuestLoginClick}
+                    className="justify-center px-6 py-3 mt-4 max-w-full text-2xl font-bold text-center bg-gray-200 border border-solid border-gray-400 rounded-[30px] text-gray-700 w-full cursor-pointer"
+                >
+                    Log in as Guest
+                </button>
             </div>
         </div>
     );
