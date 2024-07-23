@@ -12,7 +12,7 @@ const Profile = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const { collections, collectionsUrls } = useGetCollections();
     const [showAll, setShowAll] = useState(false); // Define showAll state
-    
+
 
     const filteredPins = pins.filter(pin => {
         // Trim and lowercase the search term once
@@ -90,12 +90,16 @@ const Profile = () => {
                         return null; // Skip rendering if index >= 9 and 'showAll' is false
                     })}
                 </div>
-                <button
-                    className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-                    onClick={() => setShowAll(!showAll)}
-                >
-                    {showAll ? "Show Less" : "Show All"}
-                </button>
+
+                {filteredPins.length > 9 && (
+                    <button
+                        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+                        onClick={() => setShowAll(!showAll)}
+                    >
+                        {showAll ? "Show Less" : "Show All"}
+                    </button>
+                )}
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {collections.length > 0 && collectionsUrls.length > 0 && collections.map((collection, index) => (
                         <div key={index} className="bg-white rounded-lg shadow-md p-4">
