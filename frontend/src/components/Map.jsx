@@ -87,6 +87,7 @@ const CustomMap = ({ pins, showBusynessTable, distance, position, setPosition, t
                                         hours={pin.place.opening_Hours}
                                         socialMedia={pin.place.website}
                                         preference={pin.place.attitude}
+                                        placeId={pin.place.id}
                                     />
                                 </Popup>
                             </Marker>
