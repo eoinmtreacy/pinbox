@@ -112,14 +112,16 @@ const MainPage = () => {
                             </div>
                         )}
                         <div className={`${showPreference ? (isMobile ? 'flex-grow w-3/4' : 'flex-grow w-17/24') : 'flex-grow w-22/24'} h-full overflow-auto`}>
-                            <Map
-                                geoJsonData={geoJsonData}
-                                pins={pins}
-                                showBusynessTable={showBusynessTable}
+                            <Map 
+                                geoJsonData={geoJsonData} 
+                                pins={pins} 
+                                showPins={showPins}
+                                showBusynessTable={showBusynessTable} 
                                 distance={distance}
                                 position={position}
                                 setPosition={setPosition}
                                 timeStamp={timeStamp}
+                                day={day}
                                 priorityPin={priorityPin}
                                 setPriorityPin={setPriorityPin}
                                 showPreference={showPreference}

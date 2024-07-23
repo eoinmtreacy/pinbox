@@ -7,11 +7,10 @@ import SearchBar from './navbar_components/SearchBar';
 import ProfileRegister from './navbar_components/ProfileRegister';
 import DaySelect from './navbar_components/DaySelect';
 import LoginLogout from './navbar_components/LoginLogout';
+import ShowHidePins from './navbar_components/ShowHidePins';
 
 import timeIcon from '../../Images/time.png';
 import distanceIcon from '../../Images/distance.png';
-import showPinsIcon from '../../Images/pin.png';
-import hidePinsIcon from '../../Images/pin-x.png';
 import searchIcon from '../../Images/search.png';
 
 const NavbarMobile = ({
@@ -69,12 +68,8 @@ const NavbarMobile = ({
                         <img src={distanceIcon} alt="Distance Icon" className="w-8 h-8" />
                     </button>
                 </div>
-                <button
-                    onClick={() => setShowPins(!showPins)}
-                    aria-label={showPins ? "Hide Pins" : "Show Pins"}
-                >
-                    <img src={showPins ? hidePinsIcon : showPinsIcon} alt="Pins Icon" className="w-8 h-8" />
-                </button>
+
+                <ShowHidePins showPins={showPins} setShowPins={setShowPins}/>
                 <DaySelect day={day} setDay={setDay} />
                 <ProfileRegister />
                 <LoginLogout />

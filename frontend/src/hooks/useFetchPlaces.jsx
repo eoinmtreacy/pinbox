@@ -21,8 +21,6 @@ export default function useFetchPlaces() {
                 const pinsData = response.data.pins.$values;
                 setFeed(filteredFeed);
                 setPins(pinsData);
-                //console.log('Filtered Feed:', filteredFeed); checking whats in the feed
-                //console.log('Pins:', pinsData);
             } catch (error) {
                 console.error('Error fetching feed and pins:', error);
                 setError(error);
