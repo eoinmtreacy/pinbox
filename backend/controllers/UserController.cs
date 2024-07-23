@@ -166,5 +166,47 @@ public async Task<IActionResult> Register([FromBody] RegisterModel model)
             }
         }
 
-    }
+        // change profile button post api here
+        [HttpPost("user-profile/{userId}")]
+        public async Task<IActionResult> UpdateUserProfile(string userId, [FromBody] UserProfile updatedProfile)
+        {
+            try
+            {
+                var user = await _userManager.GetUserAsync(User); //theoretically makes sure you cant change other peoples profile data
+                if (user == null)
+                {
+                    return Unauthorized();
+                }
+                // Fetch user profile data from the database
+                var userProfile = await _context.UserProfiles.FirstOrDefaultAsync(up => up.userId == user.PinboxId);
+
+                // Check if the user profile exists
+                if (userProfile == null)
+                {
+                    return NotFound(new { Message = "User profile not found for the given userId." });
+                }
+
+                // Update the user profile data
+                userProfile.bio = updatedProfile.bio;
+                userProfile.profileImageUrl = updatedProfile.profileImageUrl;
+
+                // Save the changes to the database
+                await _context.SaveChangesAsync();
+
+                // Return the updated user profile data
+                return Ok(new
+                {
+                    UserId = userProfile.userId,
+                    Bio = userProfile.bio,
+                    ProfileImageUrl = userProfile.profileImageUrl
+                });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (optional) and return an internal server error response
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        }
 }
