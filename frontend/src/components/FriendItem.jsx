@@ -40,7 +40,7 @@ const FriendItem = ({ friend }) => {
                     friend.isFollowing ? 'bg-red-500 text-white' : 'bg-green-500 text-white'
                 }`}
                 onClick={() => {
-                    /* handle follow/unfollow action */
+                    alert('This feature is under development.');
                 }}
             >
                 {friend.isFollowing ? 'Following' : 'Follow'}
