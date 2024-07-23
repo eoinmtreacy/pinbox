@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../api/axios';
 
 const useGetRecommendation = (placeId) => {
     const [recommendationData, setRecommendationData] = useState(null);
@@ -9,7 +9,7 @@ const useGetRecommendation = (placeId) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/api/Recommendations?placeid=${placeId}`); //passing the placeId to PreferenceWithoutButtons from Map.jsx
+                const response = await axios.get(`/api/Recommendations?placeid=${placeId}`); //passing the placeId to PreferenceWithoutButtons from Map.jsx
                 setRecommendationData(response.data);
             } catch (error) {
                 setError(error);
