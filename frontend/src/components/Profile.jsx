@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import { getUserData } from '../services/tempProfileService';
 import useFetchPlaces from '../hooks/useFetchPlaces'
 import useGetCollections from '../hooks/useGetCollections';
+import profilePicture from '../friends/userProfilePictures/userProfileImage.png'; 
 
 const Profile = () => {
     const [userData, setUserData] = useState(null);
@@ -30,10 +31,12 @@ const Profile = () => {
     });
 
     useEffect(() => {
-        getUserData()
-            .then(data => setUserData(data))
+        getUserData(pinbox_id)//passing the userid to get userprofile table data
+            .then(data => setUserData(data.data))
             .catch(error => console.error('Error fetching user data:', error));
     }, []);
+
+    console.log("User data is", userData);
 
     if (!userData) {
         return <div>Loading...</div>;
@@ -43,7 +46,7 @@ const Profile = () => {
         <div className="flex flex-col items-center bg-gray-100 min-h-screen p-4 flex-grow"> {/* Add left margin for sidebar */}
             <div className="bg-white rounded-lg shadow-md p-4 w-full max-w-4xl flex-grow">
                 <div className="flex items-center mb-4">
-                    <img src={userData.profilePicture} alt="Profile" className="w-32 h-32 rounded-full mr-4" />
+                    <img src={profilePicture} alt="Profile" className="w-32 h-32 rounded-full mr-4" />
                     <div>
                         <h1 className="text-3xl font-bold">{pinbox_id}</h1>
                         <p className="text-gray-600">@{pinbox_id}</p>
@@ -52,20 +55,6 @@ const Profile = () => {
                 </div>
                 <div className="mb-4">
                     <p>{userData.bio}</p>
-                </div>
-                <div className="flex mb-4">
-                    <div className="mr-8">
-                        <h2 className="text-xl font-bold">{userData.maps.length}</h2>
-                        <p className="text-gray-600">Maps</p>
-                    </div>
-                    <div className="mr-8">
-                        <h2 className="text-xl font-bold">{userData.followers}</h2>
-                        <p className="text-gray-600">Followers</p>
-                    </div>
-                    <div>
-                        <h2 className="text-xl font-bold">{userData.following}</h2>
-                        <p className="text-gray-600">Following</p>
-                    </div>
                 </div>
                 <div className="mb-4">
                     <input

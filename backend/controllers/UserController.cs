@@ -138,5 +138,37 @@ public async Task<IActionResult> Register([FromBody] RegisterModel model)
                 user.PinboxId
             });
         }
+
+        //anita
+        [HttpGet("user-profile/{userId}")]
+        public async Task<IActionResult> GetUserProfileData(string userId)
+        {
+            try
+            {
+                // Fetch user profile data from the database
+                var userProfile = await _context.UserProfiles
+                    .FirstOrDefaultAsync(up => up.userId == userId);
+
+                // Check if the user profile exists
+                if (userProfile == null)
+                {
+                    return NotFound(new { Message = "User profile not found for the given userId." });
+                }
+
+                // Return the user profile data
+                return Ok(new
+                {
+                    UserId = userProfile.userId,
+                    Bio = userProfile.bio,
+                    ProfileImageUrl = userProfile.profileImageUrl
+                });
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log the exception (optional) and return an internal server error response
+                        return StatusCode(500, $"Internal server error: {ex.Message}");
+                    }
+        }
+
     }
 }
