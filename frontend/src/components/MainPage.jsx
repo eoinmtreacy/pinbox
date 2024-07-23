@@ -91,7 +91,7 @@ const MainPage = () => {
                     />
                     <div className="flex h-full overflow-hidden">
                         {showPreference && feed.length > 1 && (user === pinbox_id || (user === null && pinbox_id === undefined)) && (
-                            <div className={`flex-none h-full ${isMobile ? 'w-3/5 max-h' : 'w-4/24'}`}>
+                             <div className={`flex-none ${isMobile ? 'w-3/4 max-h-1/4' : 'w-4/24'}`}>
                                 <Preference 
                                     feed={feed} 
                                     pins={pins} 
