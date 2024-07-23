@@ -10,8 +10,9 @@ const Profile = () => {
     const { pinbox_id } = useParams();
     const { pins } = useFetchPlaces();
     const [searchTerm, setSearchTerm] = useState('');
-    const { collections, collectionsUrls } = useGetCollections();
-    
+    const { collections, collectionsUrls } = useGetCollections(pinbox_id);
+    const [showAll, setShowAll] = useState(false); // Define showAll state
+
 
     const filteredPins = pins.filter(pin => {
         // Trim and lowercase the search term once
@@ -77,13 +78,28 @@ const Profile = () => {
                 {/* pinned places grid */}
                 <h2 className="text-2xl font-bold mb-4">Places I Love! &#10084; </h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {filteredPins.map((pin, index) => (pin.attitude === "love_it" &&
-                        <div key={index} className="bg-white rounded-lg shadow-md p-4">
-                            <h3 className="font-bold text-lg mb-2">{pin.place.name}</h3>
-                            <img src={"/" + pin.place.photo_0 + ".png"} alt={pin.place.name} className="w-full h-48 object-cover rounded" />
-                        </div>
-                    ))}
+                    {filteredPins.map((pin, index) => {
+                        if (showAll || index < 9) { // Show all if 'showAll' is true, otherwise limit to first 9
+                            return (
+                                <div key={index} className="bg-white rounded-lg shadow-md p-4">
+                                    <h3 className="font-bold text-lg mb-2">{pin.place.name}</h3>
+                                    <img src={"/" + pin.place.photo_0 + ".png"} alt={pin.place.name} className="w-full h-48 object-cover rounded" />
+                                </div>
+                            );
+                        }
+                        return null; // Skip rendering if index >= 9 and 'showAll' is false
+                    })}
                 </div>
+
+                {filteredPins.length > 9 && (
+                    <button
+                        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+                        onClick={() => setShowAll(!showAll)}
+                    >
+                        {showAll ? "Show Less" : "Show All"}
+                    </button>
+                )}
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {collections.length > 0 && collectionsUrls.length > 0 && collections.map((collection, index) => (
                         <div key={index} className="bg-white rounded-lg shadow-md p-4">
