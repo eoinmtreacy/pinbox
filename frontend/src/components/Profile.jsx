@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import 'leaflet/dist/leaflet.css';
-import axios from 'axios';
+import axios from '../api/axios';
 import { getUserData } from '../services/tempProfileService';
 import useFetchPlaces from '../hooks/useFetchPlaces';
 import useGetCollections from '../hooks/useGetCollections';
@@ -63,13 +63,14 @@ const Profile = () => {
     }, [pinbox_id]);
 
     const handleEditProfile = async () => {
-        console.log("Saving profile with bio:", bio, "and profileImageUrl:", profileImageUrl); // Debugging statement
         try {
-            const response = await axios.post(`/backend/User/user-profile/${pinbox_id}`, {
+            const response = await axios.post(`/user/user-profile/${pinbox_id}`,  {
                 userId: pinbox_id,
-                bio,
-                profileImageUrl
-            });
+                bio: bio,
+                profileImageUrl: profileImageUrl
+            },
+            { withCredentials: true }
+        );
 
             if (response.status !== 200) {
                 throw new Error('Failed to update profile');
@@ -83,7 +84,6 @@ const Profile = () => {
     };
     //handling image selection
     const handleImageSelect = (image) => {
-        console.log(image)
         setProfileImageUrl(image);
     };
 
