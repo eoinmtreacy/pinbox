@@ -26,8 +26,6 @@ function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        setErrors(['test error']);
-
         try {
             await axios.post('/user/add-user', {
                 email: e.target.email.value,
