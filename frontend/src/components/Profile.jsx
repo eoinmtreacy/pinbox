@@ -26,7 +26,7 @@ const Profile = () => {
     const { pinbox_id } = useParams();
     const { pins } = useFetchPlaces();
     const [searchTerm, setSearchTerm] = useState('');
-    const { collections, collectionsUrls } = useGetCollections();
+    const { collections, collectionsUrls } = useGetCollections(pinbox_id);
     const [showAll, setShowAll] = useState(false); // Define showAll state
     const [isEditing, setIsEditing] = useState(false); // Define isEditing state
     const [bio, setBio] = useState(''); // Define bio state
