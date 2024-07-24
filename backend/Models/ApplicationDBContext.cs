@@ -14,6 +14,7 @@ namespace backend.Models
         public DbSet<Friends> Friends { get; set; }
         public DbSet<Prediction> Predictions { get; set; }
         public DbSet<OpeningHour> OpeningHours { get; set; }
+        public DbSet<UserProfile> UserProfiles { get; set; } // anita adding DbSet for userProfile
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -149,6 +150,29 @@ namespace backend.Models
                 entity.HasOne(e => e.Place)
                       .WithMany(p => p.UserLikes)
                       .HasForeignKey(e => e.PlaceId);
+            });
+
+            // anita Configuration for userProfile table
+            modelBuilder.Entity<UserProfile>(entity =>
+            {
+                entity.ToTable("userProfile");
+
+                // Define the primary key
+                entity.HasKey(e => e.userId);
+
+                // Map properties to columns
+                entity.Property(e => e.userId)
+                    .HasColumnName("userId")
+                    .HasMaxLength(50)
+                    .IsRequired();
+
+                entity.Property(e => e.bio)
+                    .HasColumnName("bio")
+                    .HasMaxLength(1000); // Adjust the max length as needed
+
+                entity.Property(e => e.profileImageUrl)
+                    .HasColumnName("profileImageUrl")
+                    .HasMaxLength(1000); // Adjust the max length as needed
             });
 
             modelBuilder.Entity<Friends>(entity =>
