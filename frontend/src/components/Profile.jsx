@@ -5,8 +5,7 @@ import axios from '../api/axios';
 import { getUserData } from '../services/tempProfileService';
 import useFetchPlaces from '../hooks/useFetchPlaces';
 import useGetCollections from '../hooks/useGetCollections';
-//import profilePicture from '../friends/userProfilePictures/userProfileImage.png';
-
+import { useAuthContext } from '../auth/AuthContext';
 // List of avatars
 const predefinedProfileImages = [
     'content.jpeg',
@@ -21,6 +20,8 @@ const predefinedProfileImages = [
 ];
 
 const Profile = () => {
+
+    const { user } = useAuthContext();
     const [userData, setUserData] = useState(null);
     const { pinbox_id } = useParams();
     const { pins } = useFetchPlaces();
@@ -100,13 +101,15 @@ const Profile = () => {
                         <h1 className="text-3xl font-bold">{pinbox_id}</h1>
                         <p className="text-gray-600">@{pinbox_id}</p>
                     </div>
-                    <button
-                        className="ml-auto bg-blue-500 text-white px-4 py-2 rounded"
-                        onClick={() => setIsEditing(!isEditing)}
-                    >
-                        {isEditing ? 'Cancel' : 'Edit Profile'}
-                    </button>
-                </div>
+                    {user === pinbox_id && (
+                        <button
+                            className="ml-auto bg-blue-500 text-white px-4 py-2 rounded"
+                            onClick={() => setIsEditing(!isEditing)}
+                        >
+                            {isEditing ? 'Cancel' : 'Edit Profile'}
+                        </button>
+                    )}
+               </div>
                 {isEditing ? (
                     <div className="mb-4">
                         <textarea
