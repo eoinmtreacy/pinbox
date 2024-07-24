@@ -112,11 +112,13 @@ const MainPage = () => {
                             <Map 
                                 geoJsonData={geoJsonData} 
                                 pins={pins} 
+                                showPins={showPins}
                                 showBusynessTable={showBusynessTable} 
                                 distance={distance}
                                 position={position}
                                 setPosition={setPosition}
                                 timeStamp={timeStamp}
+                                day={day}
                                 priorityPin={priorityPin}
                                 setPriorityPin={setPriorityPin}
                                 showPreference={showPreference}
