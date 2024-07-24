@@ -6,6 +6,8 @@ import { getUserData } from '../services/tempProfileService';
 import useFetchPlaces from '../hooks/useFetchPlaces';
 import useGetCollections from '../hooks/useGetCollections';
 import { useAuthContext } from '../auth/AuthContext';
+import CurrentUsers from './CurrentUsers'; // Adjust the import path as necessary
+
 // List of avatars
 const predefinedProfileImages = [
     'content.jpeg',
@@ -46,6 +48,9 @@ const Profile = () => {
 
         return matchesName || matchesSubtype;
     });
+
+    //showing users
+    
 
     useEffect(() => {
         getUserData(pinbox_id) // Passing the userId to get user profile data
@@ -187,6 +192,13 @@ const Profile = () => {
                         </div>
                     ))}
                 </div>
+                <h1> </h1>
+                
+                <h2 className="text-2xl font-bold mb-4" style={{ marginTop: '20px' }}> Others on the app :</h2>
+                <div>
+                <CurrentUsers /> 
+                </div>
+                
             </div>
         </div>
     );
