@@ -1,18 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import 'leaflet/dist/leaflet.css';
+import axios from '../api/axios';
 import { getUserData } from '../services/tempProfileService';
-import useFetchPlaces from '../hooks/useFetchPlaces'
+import useFetchPlaces from '../hooks/useFetchPlaces';
 import useGetCollections from '../hooks/useGetCollections';
+import { useAuthContext } from '../auth/AuthContext';
+// List of avatars
+const predefinedProfileImages = [
+    'content.jpeg',
+    'cool.jpeg',
+    'csharpdeveloper.jpeg',
+    'retiredcsharpdeveloper.jpeg',
+    'marvel.jpeg',
+    'surprised.jpeg',
+    'sad.jpeg',
+    'userProfilePhoto.png',
+    'lostit.jpeg'
+];
 
 const Profile = () => {
+
+    const { user } = useAuthContext();
     const [userData, setUserData] = useState(null);
     const { pinbox_id } = useParams();
     const { pins } = useFetchPlaces();
     const [searchTerm, setSearchTerm] = useState('');
     const { collections, collectionsUrls } = useGetCollections(pinbox_id);
     const [showAll, setShowAll] = useState(false); // Define showAll state
-
+    const [isEditing, setIsEditing] = useState(false); // Define isEditing state
+    const [bio, setBio] = useState(''); // Define bio state
+    const [profileImageUrl, setProfileImageUrl] = useState(''); // Define profileImageUrl state
 
     const filteredPins = pins.filter(pin => {
         // Trim and lowercase the search term once
@@ -30,43 +48,102 @@ const Profile = () => {
     });
 
     useEffect(() => {
-        getUserData()
-            .then(data => setUserData(data))
-            .catch(error => console.error('Error fetching user data:', error));
-    }, []);
+        getUserData(pinbox_id) // Passing the userId to get user profile data
+            .then(data => {
+                setUserData(data.data);
+                setBio(data.data.bio);
+                setProfileImageUrl(data.data.profileImageUrl);
+            })
+            .catch(error => {
+                setBio("Nothing to see here...");
+                setUserData({
+                    bio: "Nothing to see here..."
+                })
+                console.error('Error fetching user data:', error)
+            });
+    }, [pinbox_id]);
+
+    const handleEditProfile = async () => {
+        try {
+            const response = await axios.post(`/user/user-profile/${pinbox_id}`,  {
+                userId: pinbox_id,
+                bio: bio,
+                profileImageUrl: profileImageUrl
+            },
+            { withCredentials: true }
+        );
+
+            if (response.status !== 200) {
+                throw new Error('Failed to update profile');
+            }
+
+            setUserData({ ...userData, bio, profileImageUrl });
+            setIsEditing(false);
+        } catch (error) {
+            console.error('Error updating profile:', error);
+        }
+    };
+    //handling image selection
+    const handleImageSelect = (image) => {
+        setProfileImageUrl(image);
+    };
 
     if (!userData) {
         return <div>Loading...</div>;
     }
 
     return (
-        <div className="flex flex-col items-center bg-gray-100 min-h-screen p-4 flex-grow"> {/* Add left margin for sidebar */}
+        <div className="flex flex-col items-center bg-gray-100 min-h-screen p-4 flex-grow">
             <div className="bg-white rounded-lg shadow-md p-4 w-full max-w-4xl flex-grow">
                 <div className="flex items-center mb-4">
-                    <img src={userData.profilePicture} alt="Profile" className="w-32 h-32 rounded-full mr-4" />
-                    <div>
+                <img src={`/${profileImageUrl || 'userProfilePhoto.png'}`} alt="Profile" className="w-32 h-32 rounded-full mr-4" />
+                <div>
                         <h1 className="text-3xl font-bold">{pinbox_id}</h1>
                         <p className="text-gray-600">@{pinbox_id}</p>
                     </div>
-                    <button className="ml-auto bg-blue-500 text-white px-4 py-2 rounded">Edit Profile</button>
-                </div>
-                <div className="mb-4">
-                    <p>{userData.bio}</p>
-                </div>
-                <div className="flex mb-4">
-                    <div className="mr-8">
-                        <h2 className="text-xl font-bold">{userData.maps.length}</h2>
-                        <p className="text-gray-600">Maps</p>
+                    {user === pinbox_id && (
+                        <button
+                            className="ml-auto bg-blue-500 text-white px-4 py-2 rounded"
+                            onClick={() => setIsEditing(!isEditing)}
+                        >
+                            {isEditing ? 'Cancel' : 'Edit Profile'}
+                        </button>
+                    )}
+               </div>
+                {isEditing ? (
+                    <div className="mb-4">
+                        <textarea
+                            className="p-2 border border-gray-300 rounded w-full mb-2"
+                            value={bio}
+                            onChange={(e) => setBio(e.target.value)}
+                            placeholder="Update your bio"
+                        />
+                        <div className="mb-2">
+                            <p>Select a profile image:</p>
+                            <div className="flex space-x-2">
+                                {predefinedProfileImages.map((image, index) => (
+                                    <img
+                                        key={index}
+                                        src={`/${image}`}
+                                        alt={`Profile option ${index + 1}`}
+                                        className={`w-16 h-16 rounded-full cursor-pointer ${profileImageUrl === image ? 'border-4 border-blue-500' : 'border-2 border-gray-300'}`}
+                                        onClick={() => handleImageSelect(image)}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                        <button
+                            className="bg-green-500 text-white px-4 py-2 rounded"
+                            onClick={handleEditProfile}
+                        >
+                            Save
+                        </button>
                     </div>
-                    <div className="mr-8">
-                        <h2 className="text-xl font-bold">{userData.followers}</h2>
-                        <p className="text-gray-600">Followers</p>
+                ) : (
+                    <div className="mb-4">
+                        <p>{userData.bio}</p>
                     </div>
-                    <div>
-                        <h2 className="text-xl font-bold">{userData.following}</h2>
-                        <p className="text-gray-600">Following</p>
-                    </div>
-                </div>
+                )}
                 <div className="mb-4">
                     <input
                         type="text"
@@ -116,3 +193,4 @@ const Profile = () => {
 };
 
 export default Profile;
+
