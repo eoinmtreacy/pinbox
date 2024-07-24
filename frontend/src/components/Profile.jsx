@@ -194,7 +194,7 @@ const Profile = () => {
                 </div>
                 <h1> </h1>
                 
-                <h2 className="text-2xl font-bold mb-4" style={{ marginTop: '20px' }}> Others on the app :</h2>
+                <h2 className="text-2xl font-bold mb-4" style={{ marginTop: '20px' }}> All current users:</h2>
                 <div>
                 <CurrentUsers /> 
                 </div>
