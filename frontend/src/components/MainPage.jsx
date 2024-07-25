@@ -62,7 +62,6 @@ const MainPage = () => {
         } else {
             setShowBusynessTable(true)
         }
-        console.log(showBusynessTable);
     }, 
         [showFeed, showFriends, isMobile])
 
