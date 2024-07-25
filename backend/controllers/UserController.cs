@@ -2,8 +2,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore; // needed for AnyAsync in existingUserByPinboxId 
+using Microsoft.EntityFrameworkCore; 
 using backend.Models;
+using System.Data.SqlClient;
+using MySqlConnector;
 
 namespace backend.Controllers
 {
@@ -13,12 +15,15 @@ namespace backend.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly ApplicationDbContext _context; 
+
 
         // Constructor
-        public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ApplicationDbContext context) 
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context; 
         }
 
 
@@ -58,10 +63,16 @@ public async Task<IActionResult> Register([FromBody] RegisterModel model)
 
     if (result.Succeeded)
     {
+                var userProfile = new UserProfile()
+                {
+                    userId = model.PinboxId
+                };
+
+                _context.UserProfiles.Add(userProfile); 
+                await _context.SaveChangesAsync();
         return Ok("Registration made successfully");
     }
 
-    // Convert Identity errors to a list of strings
     errorMessages.AddRange(result.Errors.Select(e => e.Description));
     return BadRequest(new { errors = errorMessages });
 }
@@ -125,5 +136,110 @@ public async Task<IActionResult> Register([FromBody] RegisterModel model)
                 user.PinboxId
             });
         }
-    }
+
+        [HttpGet("user-profile/{userId}")]
+        public async Task<IActionResult> GetUserProfileData(string userId)
+        {
+            try
+            {
+                
+                var userProfile = await _context.UserProfiles
+                    .FirstOrDefaultAsync(up => up.userId == userId);
+
+                if (userProfile == null)
+                {
+                    return NotFound(new { Message = "User profile not found for the given userId." });
+                }
+
+                return Ok(new
+                {
+                    UserId = userProfile.userId,
+                    Bio = userProfile.bio,
+                    ProfileImageUrl = userProfile.profileImageUrl
+                });
+            }
+
+            catch (Exception ex)
+            {
+                // Log the exception (optional) and return an internal server error response
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        // change profile button post api here
+        [HttpPost("user-profile/{userId}")]
+        public async Task<IActionResult> UpdateUserProfile(string userId, [FromBody] UserProfile updatedProfile)
+        {
+            try
+            {
+                var user = await _userManager.GetUserAsync(User); //theoretically makes sure you cant change other peoples profile data
+                if (user == null)
+                {
+                    return Unauthorized();
+                }
+                // Fetch user profile data from the database
+                var userProfile = await _context.UserProfiles.FirstOrDefaultAsync(up => up.userId == user.PinboxId);
+
+                // Check if the user profile exists
+                if (userProfile == null)
+                {
+                    return NotFound(new { Message = "User profile not found for the given userId." });
+                }
+
+                // Update the user profile data
+                userProfile.bio = updatedProfile.bio;
+                userProfile.profileImageUrl = updatedProfile.profileImageUrl;
+
+                // Save the changes to the database
+                await _context.SaveChangesAsync();
+
+                // Return the updated user profile data
+                return Ok(new
+                {
+                    UserId = userProfile.userId,
+                    Bio = userProfile.bio,
+                    ProfileImageUrl = userProfile.profileImageUrl
+                });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (optional) and return an internal server error response
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        //get all users for Friends
+        [HttpGet("all-user-profiles")]
+        public async Task<IActionResult> GetAllUserProfiles()
+        {
+            try
+            {
+                // Fetch all user profiles from the database
+                var userProfiles = await _context.UserProfiles.ToListAsync();
+
+                // Check if any user profiles were found
+                if (userProfiles == null || !userProfiles.Any())
+                {
+                    return NotFound(new { Message = "No user profiles found." });
+                }
+
+                // Return the list of user profiles
+                var result = userProfiles.Select(up => new
+                {
+                    UserId = up.userId,
+                    Bio = up.bio,
+                    ProfileImageUrl = up.profileImageUrl
+                });
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (optional) and return an internal server error response
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
+        }
 }

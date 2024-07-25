@@ -23,7 +23,7 @@ const Title = () => {
     };
 
     return (
-        <div className="flex-grow text-3xl h-12 text-center">
+        <div className="text-3xl text-center ap-2">
             {pinbox_id ? `${pinbox_id}'s Pinbox / ` : 'Pinbox'}
 
             {pinbox_id && (
@@ -33,6 +33,7 @@ const Title = () => {
                     value={collection}
                     onChange={handleChange}
                 >
+                    <option value={collection}>{collection}</option>
                     {collections.map((c, i) => (
                         c !== undefined ? (
                             <option key={i} value={collectionsUrls[i]}>{c}</option>

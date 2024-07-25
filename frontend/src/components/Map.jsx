@@ -15,16 +15,15 @@ import useScreenWidth from '../hooks/useScreenWidth';
 
 import LoadingSpinner from './LoadingSpinner';
 
-const CustomMap = ({ 
+const CustomMap = ({
     pins,
-    distance, 
-    position, 
-    setPosition, 
-    timeStamp, 
+    distance,
+    position,
+    setPosition,
+    timeStamp,
     day,
-    showPreference, 
-    showFriends, 
-    showPins
+    showPins,
+    showBusynessTable
 }) => {
     const { data: taxiZones, error: geoJsonError, loading: loadingGeoJson } = useFetchGeoJson('/taxi_zones.geojson');
     const { data: busynessData, error: busynessError, loading: loadingBusyness } = useFetchBusyness(day);
@@ -104,13 +103,13 @@ const CustomMap = ({
                 <div className="absolute bottom-2 z-[1000]">
                     <CookieModal />
                 </div>
-
-                {!(isMobile && (showPreference || showFriends)) && (
-                    <div className="busyness-table z-[1000]">
-                        <BusynessTable />
-                    </div>
+                {showBusynessTable && (
+                <div className="busyness-table z-[1000]">
+                    <BusynessTable />
+                </div>
+ 
                 )}
-                <UserMarker distance={distance} position={position} setPosition={setPosition} />
+               <UserMarker distance={distance} position={position} setPosition={setPosition} />
             </MapContainer>
         </div>
     );

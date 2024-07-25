@@ -1,6 +1,6 @@
 import { useState, useRef, useMemo, useCallback, useEffect } from 'react';
+import L from 'leaflet';
 import { Circle, Marker, Popup } from "react-leaflet";
-import iconGen from '../../utils/iconGen';  
 
 const UserMarker = ({ distance, position, setPosition }) => {
     const [draggable, setDraggable] = useState(true)
@@ -21,11 +21,30 @@ const UserMarker = ({ distance, position, setPosition }) => {
       setDraggable((d) => !d)
     }, [])
 
+    const style = `
+                  background-color: grey;
+                  width: 2rem;
+                  height: 2rem;
+                  display: block;
+                  left: -1rem;
+                  top: -1rem;
+                  position: relative;
+                  border-radius: 1rem 1rem 0;
+                  transform: rotate(45deg);
+                  border: 1px solid #FFFFFF`
+                 
+
 
     return (
         <>
             <Marker
-            icon={iconGen('me')}
+            icon={
+              L.divIcon({
+                html: `<span style="${style}" />`, 
+                iconSize: [30, 30],
+                className: 'user-icon'
+              })
+            }
             draggable={draggable}
             eventHandlers={eventHandlers}
             position={position}
