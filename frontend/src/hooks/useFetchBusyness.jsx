@@ -7,9 +7,8 @@ function useFetchBusyness(day) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        console.log("use effect triggered with", day);
         setLoading(true);
-        let busynessTable = []; // Define outside to be accessible in all then blocks
-
         const getPredictions = async () => {
             try {
                 const response = await axios.get(`/api/app/get-predictions/${day}`)
@@ -17,27 +16,41 @@ function useFetchBusyness(day) {
                     throw new Error('Failed to fetch busyness predictions');
                 }
 
-            const hours = response.data.$values
+                const hours = response.data.$values
+                const busynessTable = [];
+                console.log(hours);
 
-            hours.map((hour) => {
-                const zoneHourPrediction = {}
-                const zones = hour.predictionsByLocation.$values
-                zones.map((zone) => {
-                    zoneHourPrediction[zone.location] = zone.prediction.percentile;
-                })
-                busynessTable.push(zoneHourPrediction)
-            })
+                hours.forEach((hour) => {
+                    const zoneHourPrediction = {};
+                    const uniqueLocations = new Set();
+                    const zones = hour.predictionsByLocation.$values;
+                    // map zones to an object with key zone.location and value zone.prediction.percentile
+                    zones.forEach((zone) => {
+                        if (zone.prediction.percentile !== undefined && !uniqueLocations.has(zone.location)) {
+                            zoneHourPrediction[zone.location] = zone.prediction.percentile;
+                            uniqueLocations.add(zone.location);
+                        }
+                    }
+                    );
 
-            setData(busynessTable);
+                    busynessTable.push(zoneHourPrediction);
+                });
+
+
+                setData(busynessTable);
 
             } catch (error) {
                 setError(error);
             }
 
-            setLoading(false);
+            finally {
+
+                setLoading(false);
+            }
         }
 
-       getPredictions();
+        getPredictions();
+
 
     }, [day]);
 
