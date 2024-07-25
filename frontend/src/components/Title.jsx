@@ -32,6 +32,7 @@ const Title = () => {
                     id="collections"
                     value={collection}
                     onChange={handleChange}
+                    className="truncate max-w-xs"
                 >
                     <option value={collection}>{collection}</option>
                     {collections.map((c, i) => (
