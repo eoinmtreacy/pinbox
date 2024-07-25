@@ -31,7 +31,7 @@ const NavbarMobile = ({
 
     return (
         <>
-            <div className="mobile-icons flex items-center justify-between">
+            <div className="w-full bg-white flex justify-between items-center p-2 shadow-md ">
                 <div className="relative">
                     <button
                         onClick={() => {
