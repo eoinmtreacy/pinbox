@@ -1,17 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useAuthContext } from '../../auth/AuthContext';
 
 import HomeButton from './side-bottom_navbar_components/HomeButton';
-
-import Logo from '../../Images/logo.png';
 import ToggleFeedButton from './side-bottom_navbar_components/ToggleFeedButton';
 import ToggleFriendsButton from './side-bottom_navbar_components/ToggleFriendsButton';
 import NewCollectionButton from './side-bottom_navbar_components/NewCollectionButton';
 import LandingPageButton from './side-bottom_navbar_components/LandingPageButton';
 
-export const SideNav = ({ showFeed, setShowFeed, showFriends, setShowFriends, isMobile }) => {
+export const SideNav = ({ showFeed, setShowFeed, showFriends, setShowFriends, isMobile, showCollection, setShowCollection }) => {
     return (
 
         <div className="SideNav flex-none w-1/24 h-full">
@@ -19,7 +15,7 @@ export const SideNav = ({ showFeed, setShowFeed, showFriends, setShowFriends, is
                 <LandingPageButton isMobile={isMobile}/>
                 <div className="flex flex-col items-center flex-grow justify-around">
                     <HomeButton />
-                    <NewCollectionButton />
+                    <NewCollectionButton showCollection={showCollection} setShowCollection={setShowCollection}/>
                     <ToggleFeedButton showFeed={showFeed} setShowFeed={setShowFeed} />
                     <ToggleFriendsButton showFriends={showFriends} setShowFriends={setShowFriends} />
                 </div>

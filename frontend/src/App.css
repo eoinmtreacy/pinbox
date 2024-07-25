@@ -45,6 +45,10 @@ body, html {
 
 }
 
+.collection-modal {
+    z-index: 3000;
+}
+
 @media (max-width: 768px) {
     .top-nav {
         display: none;

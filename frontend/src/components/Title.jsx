@@ -33,6 +33,7 @@ const Title = () => {
                     value={collection}
                     onChange={handleChange}
                 >
+                    <option value={collection}>{collection}</option>
                     {collections.map((c, i) => (
                         c !== undefined ? (
                             <option key={i} value={collectionsUrls[i]}>{c}</option>
