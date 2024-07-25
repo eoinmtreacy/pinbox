@@ -9,6 +9,7 @@ import { useAuthContext } from '../auth/AuthContext';
 import NavbarWrapper from './navbar/NavbarWrapper';
 import Title from './Title';
 import SideBottomNavbarWrapper from './side-bottom_navbar/SideBottomNavbarWrapper';
+import CollectionModal from './CollectionModal';
 
 const MainPage = () => {
     const [geoJsonData, setGeoJsonData] = useState(null);
@@ -28,6 +29,8 @@ const MainPage = () => {
     const { feed, pins, setPins, loading, error } = useFetchPlaces();
     const isMobile = useScreenWidth();
     const [showBusynessTable, setShowBusynessTable] = useState(true);
+
+    const [showCollection, setShowCollection] = useState(false);
 
     const navigate = useNavigate();
 
@@ -62,12 +65,14 @@ const MainPage = () => {
         } else {
             setShowBusynessTable(true)
         }
-        console.log(showBusynessTable);
     }, 
         [showFeed, showFriends, isMobile])
 
     return (
         <div className="App">
+            {showCollection && (
+                <CollectionModal showCollection={showCollection} setShowCollection={setShowCollection} />
+            )}
             <div className="flex h-full w-full overflow-clip">
                 <SideBottomNavbarWrapper
                     showFeed={showFeed}
@@ -75,6 +80,8 @@ const MainPage = () => {
                     showFriends={showFriends}
                     setShowFriends={setShowFriends}
                     isMobile={isMobile}
+                    showCollection={showCollection}
+                    setShowCollection={setShowCollection}
                 />
                 <div className="flex-grow h-full">
                     <Title />

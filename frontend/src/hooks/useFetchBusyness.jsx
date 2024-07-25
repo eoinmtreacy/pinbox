@@ -7,7 +7,6 @@ function useFetchBusyness(day) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        console.log("use effect triggered with", day);
         setLoading(true);
         const getPredictions = async () => {
             try {
@@ -18,7 +17,6 @@ function useFetchBusyness(day) {
 
                 const hours = response.data.$values
                 const busynessTable = [];
-                console.log(hours);
 
                 hours.forEach((hour) => {
                     const zoneHourPrediction = {};
