@@ -21,6 +21,13 @@ function Preference({ feed, pins, setPins, position, distance, priorityPin, setP
     const { collection } = useParams();
 
     useEffect(() => {
+        const pinIds = pins.map((pin) => pin.place.id);
+        const feedWithoutPins = feed.filter((place) => !pinIds.includes(place.id));
+        setFilteredFeed(feedWithoutPins);
+        setCard(feedWithoutPins[feedWithoutPins.length - 1]);
+    }, []);
+
+    useEffect(() => {
         const sortedFeed = filteredFeed.sort((a, b) => {
             const distanceA = calculateDistance(position.lat, position.lng, a.lat, a.lon);
             const distanceB = calculateDistance(position.lat, position.lng, b.lat, b.lon);
@@ -97,9 +104,7 @@ function Preference({ feed, pins, setPins, position, distance, priorityPin, setP
             }
 
             removeLastItem();
-            removeLastItem();
         } catch (error) {
-            console.error(error);
             console.error(error);
         }
     };
