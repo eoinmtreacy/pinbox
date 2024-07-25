@@ -58,11 +58,11 @@ const MainPage = () => {
         <div className="App">
             <div className="flex h-full w-full overflow-clip">
                 <SideBottomNavbarWrapper 
-                    isMobile={isMobile}
                     showFeed={showFeed}
                     setShowFeed={setShowFeed}
                     showFriends={showFriends}
                     setShowFriends={setShowFriends}
+                    isMobile={isMobile}
                     />
                 <div className="flex-grow h-full">
                     <Title />

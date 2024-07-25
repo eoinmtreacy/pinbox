@@ -6,29 +6,22 @@ import { useAuthContext } from '../../auth/AuthContext';
 import HomeButton from './side-bottom_navbar_components/HomeButton';
 
 import Logo from '../../Images/logo.png';
-import Like from '../../Images/like.png';
-import Friends from '../../Images/friends.png';
-import Plus from '../../Images/plus.png';
 import ToggleFeedButton from './side-bottom_navbar_components/ToggleFeedButton';
 import ToggleFriendsButton from './side-bottom_navbar_components/ToggleFriendsButton';
 import NewCollectionButton from './side-bottom_navbar_components/NewCollectionButton';
+import LandingPageButton from './side-bottom_navbar_components/LandingPageButton';
 
-export const SideNav = ({ showFeed, setShowFeed, showFriends, setShowFriends }) => {
-    const navigate = useNavigate();
-
+export const SideNav = ({ showFeed, setShowFeed, showFriends, setShowFriends, isMobile }) => {
     return (
 
         <div className="SideNav flex-none w-1/24 h-full">
             <div className="w-[70px] h-full bg-blue-600 fixed left-0 top-0 flex flex-col items-center pt-4 pb-4">
-                <button className="mb-4" onClick={() => navigate('/LandingPage')}>
-                    <img className="w-20 h-20" alt="Logo" src={Logo} />
-                </button>
+                <LandingPageButton isMobile={isMobile}/>
                 <div className="flex flex-col items-center flex-grow justify-around">
                     <HomeButton />
                     <NewCollectionButton />
                     <ToggleFeedButton showFeed={showFeed} setShowFeed={setShowFeed} />
                     <ToggleFriendsButton showFriends={showFriends} setShowFriends={setShowFriends} />
-
                 </div>
             </div>
         </div>

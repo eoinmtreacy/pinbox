@@ -6,9 +6,9 @@ const SideBottomNavbarWrapper = ({ isMobile, ...props}) => {
     return (
         <>
             {isMobile ? (
-                <BottomNav {...props} />
+                <BottomNav isMobile={isMobile} {...props} />
             ) : (
-                <SideNav {...props} />
+                <SideNav isMobile={isMobile} {...props} />
             )}
         </>
     );
