@@ -12,8 +12,6 @@ import MainPage from './components/MainPage';
 import LandingMain from './components/landing/LandingMain';
 import { AuthProvider } from './auth/AuthContext';
 
-import SideNav from './components/SideNav'; // Import the SideNav component
-
 import BusynessTable from './components/Map/BusynessTable';
 
 
@@ -35,14 +33,7 @@ const AppContent = () => {
 
     return (
         <div className="flex flex-1">
-            {!hideSideNav && (
-                <div className="SideNav flex-none w-1/24 h-full">
-                    <SideNav
-                        onPreferenceToggle={() => { }}
-                        onFriendsToggle={() => { }}
-                    />
-                </div>
-            )}
+
             <div className={!hideSideNav ? 'flex-1 ml-for-desktop' : 'flex-1'}>
                 <Routes>
                     <Route path="/" element={<Main />} />
