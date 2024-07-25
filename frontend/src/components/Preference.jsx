@@ -105,22 +105,22 @@ function Preference({ feed, pins, setPins, position, distance, priorityPin, setP
     };
 
     return (
-        <div className="preference-container flex flex-col items-center h-full bg-blue-400 p-20">
+        <>
             <div className="relative w-full mb-10">
                 <Dropdown selectedSubtype={selectedSubtype} handleSubtypeChange={handleSubtypeChange} />
             </div>
             <div className="text-4xl font-bold tracking-tight text-center text-black mb-5">
-                Suggested Recommendations
+                Recommendations
             </div>
 
-            <div className="flex flex-col items-center p-5 h-full overflow-auto">
+            <div className="flex flex-col items-center h-full ">
                 {feed.length > 0 && (
                     <TinderCard
                         key={card.id}
                         onCardLeftScreen={(dir) => updatePreference(dir)}
                         preventSwipe={['none']}
                         swipeRequirementType="position"
-                        swipeThreshold={100}
+                        swipeThreshold={50}
                     >
                         <div className="flex flex-col bg-white rounded-xl max-w-sm p-5">
                             <img
@@ -131,9 +131,8 @@ function Preference({ feed, pins, setPins, position, distance, priorityPin, setP
                             <div className="text-center bg-black bg-opacity-50 p-2 rounded-lg mt-[-40px] w-full text-white">
                                 <div className="text-2xl font-bold">{card.name}</div>
                                 <div className="text-lg">{capitalizeSubtype(card.subtype)}</div>
-                                <div className="text-base">{`${card.addr_Housenumber || ''} ${
-                                    card.addr_Street || ''
-                                }`}</div>
+                                <div className="text-base">{`${card.addr_Housenumber || ''} ${card.addr_Street || ''
+                                    }`}</div>
                             </div>
 
                             {card.opening_Hours && (
@@ -211,7 +210,7 @@ function Preference({ feed, pins, setPins, position, distance, priorityPin, setP
                     </TinderCard>
                 )}
             </div>
-        </div>
+        </>
     );
 }
 

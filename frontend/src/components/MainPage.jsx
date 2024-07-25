@@ -54,16 +54,28 @@ const MainPage = () => {
             setShowFeed(true);
     }, [priorityPin]);
 
+    useEffect(() => {
+        if (showFeed) setShowFriends(false);
+        if (showFriends) setShowFeed(false);
+        if (isMobile && (showFeed || showFriends)) {
+            setShowBusynessTable(false)
+        } else {
+            setShowBusynessTable(true)
+        }
+        console.log(showBusynessTable);
+    }, 
+        [showFeed, showFriends, isMobile])
+
     return (
         <div className="App">
             <div className="flex h-full w-full overflow-clip">
-                <SideBottomNavbarWrapper 
+                <SideBottomNavbarWrapper
                     showFeed={showFeed}
                     setShowFeed={setShowFeed}
                     showFriends={showFriends}
                     setShowFriends={setShowFriends}
                     isMobile={isMobile}
-                    />
+                />
                 <div className="flex-grow h-full">
                     <Title />
                     <NavbarWrapper
@@ -79,9 +91,11 @@ const MainPage = () => {
                         day={day}
                         setDay={setDay}
                     />
+
                     <div className="flex h-full overflow-hidden">
                         {showFeed && feed.length > 1 && (user === pinbox_id || (user === null && pinbox_id === undefined)) && (
-                            <div className={`flex-none ${isMobile ? 'w-3/4 max-h-1/4' : 'w-4/24'}`}>
+
+                            <div className={`${isMobile ? 'flex-none' : 'flex'} ${isMobile ? 'w-full' : 'w-1/2'} flex-col items-center h-full bg-blue-400 p-1`}>
                                 <Preference
                                     feed={feed}
                                     pins={pins}
@@ -93,17 +107,18 @@ const MainPage = () => {
                                 />
                             </div>
                         )}
+
                         {showFriends && (
                             <div className="w-full md:w-1/4 p-4 bg-white border-r border-gray-300 h-full overflow-auto">
                                 <Friends userId={1} />
                             </div>
                         )}
-                        <div className={`${showFeed ? (isMobile ? 'flex-grow w-3/4' : 'flex-grow w-17/24') : 'flex-grow w-22/24'} h-full overflow-auto`}>
-                            <Map 
-                                geoJsonData={geoJsonData} 
-                                pins={pins} 
+                        <div className="w-full h-full overflow-auto">
+                            <Map
+                                geoJsonData={geoJsonData}
+                                pins={pins}
                                 showPins={showPins}
-                                showBusynessTable={showBusynessTable} 
+                                showBusynessTable={showBusynessTable}
                                 distance={distance}
                                 position={position}
                                 setPosition={setPosition}
