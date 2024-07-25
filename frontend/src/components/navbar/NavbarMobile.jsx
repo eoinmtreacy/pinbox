@@ -69,20 +69,26 @@ const NavbarMobile = ({
                     </button>
                 </div>
 
-                <ShowHidePins showPins={showPins} setShowPins={setShowPins}/>
+                <ShowHidePins showPins={showPins} setShowPins={setShowPins} />
                 <DaySelect day={day} setDay={setDay} />
                 <ProfileRegister />
                 <LoginLogout />
             </div>
-            <div className="mobile-interactives absolute top-14">
+            <div>
                 {showSearchBar && (
-                    <SearchBar priorityPin={priorityPin} setPriorityPin={setPriorityPin} />
+                    <div className="p-1">
+                        <SearchBar priorityPin={priorityPin} setPriorityPin={setPriorityPin} />
+                    </div>
                 )}
                 {showTimeSlider && (
-                    <TimeSlider timeStamp={timeStamp} setTimeStamp={setTimeStamp} />
+                    <div className="p-1">
+                        <TimeSlider timeStamp={timeStamp} setTimeStamp={setTimeStamp} />
+                    </div>
                 )}
                 {showDistanceSlider && (
-                    <DistanceSlider distance={distance} setDistance={setDistance} />
+                    <div className="p-1">
+                        <DistanceSlider distance={distance} setDistance={setDistance} />
+                    </div>
                 )}
             </div>
         </>
