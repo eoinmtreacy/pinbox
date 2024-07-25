@@ -208,5 +208,38 @@ public async Task<IActionResult> Register([FromBody] RegisterModel model)
             }
         }
 
+        //get all users for Friends
+        [HttpGet("all-user-profiles")]
+        public async Task<IActionResult> GetAllUserProfiles()
+        {
+            try
+            {
+                // Fetch all user profiles from the database
+                var userProfiles = await _context.UserProfiles.ToListAsync();
+
+                // Check if any user profiles were found
+                if (userProfiles == null || !userProfiles.Any())
+                {
+                    return NotFound(new { Message = "No user profiles found." });
+                }
+
+                // Return the list of user profiles
+                var result = userProfiles.Select(up => new
+                {
+                    UserId = up.userId,
+                    Bio = up.bio,
+                    ProfileImageUrl = up.profileImageUrl
+                });
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (optional) and return an internal server error response
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
         }
 }

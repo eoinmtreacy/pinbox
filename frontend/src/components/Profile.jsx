@@ -6,6 +6,8 @@ import { getUserData } from '../services/tempProfileService';
 import useFetchPlaces from '../hooks/useFetchPlaces';
 import useGetCollections from '../hooks/useGetCollections';
 import { useAuthContext } from '../auth/AuthContext';
+import CurrentUsers from './CurrentUsers'; // Adjust the import path as necessary
+
 // List of avatars
 const predefinedProfileImages = [
     'content.jpeg',
@@ -31,6 +33,8 @@ const Profile = () => {
     const [isEditing, setIsEditing] = useState(false); // Define isEditing state
     const [bio, setBio] = useState(''); // Define bio state
     const [profileImageUrl, setProfileImageUrl] = useState(''); // Define profileImageUrl state
+    const [showAllCollections, setShowAllCollections] = useState(false);
+
 
     const filteredPins = pins.filter(pin => {
         // Trim and lowercase the search term once
@@ -46,6 +50,9 @@ const Profile = () => {
 
         return matchesName || matchesSubtype;
     });
+
+    //showing users
+    
 
     useEffect(() => {
         getUserData(pinbox_id) // Passing the userId to get user profile data
@@ -177,16 +184,39 @@ const Profile = () => {
                     </button>
                 )}
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {collections.length > 0 && collectionsUrls.length > 0 && collections.map((collection, index) => (
-                        <div key={index} className="bg-white rounded-lg shadow-md p-4">
-                            <h3 className="font-bold text-lg mb-2">{collection}</h3>
-                            <a href={`/mainpage/${pinbox_id}/${collectionsUrls[index]}`} className="text-blue-500 hover:text-blue-700">
-                                {collection}
-                            </a>
-                        </div>
-                    ))}
+                <h2 className="text-2xl font-bold mb-4 mt-8">Collections</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {collections.length > 0 && collectionsUrls.length > 0 && collections.map((collection, index) => {
+                        if (showAllCollections || index < 6) { // Show all if 'showAllCollections' is true, otherwise limit to first 9
+                            return (
+                                <div key={index} className="bg-white rounded-lg shadow-md p-4">
+                                    <h3 className="font-bold text-lg mb-2">{collection}</h3>
+                                    <a href={`/mainpage/${pinbox_id}/${collectionsUrls[index]}`} className="text-blue-500 hover:text-blue-700">
+                                        {collection}
+                                    </a>
+                                </div>
+                            );
+                        }
+                        return null; // Skip rendering if index >= 9 and 'showAllCollections' is false
+                    })}
                 </div>
+
+                {collections.length > 6 && (
+                    <button
+                        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+                        onClick={() => setShowAllCollections(!showAllCollections)}
+                    >
+                        {showAllCollections ? "Show Less" : "Show All"}
+                    </button>
+                )}
+
+
+                
+                <h2 className="text-2xl font-bold mb-4" style={{ marginTop: '20px' }}> All current users:</h2>
+                <div>
+                <CurrentUsers /> 
+                </div>
+                
             </div>
         </div>
     );
