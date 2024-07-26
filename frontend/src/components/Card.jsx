@@ -23,7 +23,7 @@ const Card = ({ place, attitude, setPriorityPin }) => {
             <img
                 src={'/' + place.photo_0 + '.png'}
                 alt={place.name}
-                className="cursor-pointer"
+                className="h-60 object-cover rounded-lg cursor-pointer"
                 onClick={() => setAltPhoto(!altPhoto)}
             />
             <div className="text-center bg-black bg-opacity-50 p-2 rounded-lg mt-[-40px] w-full text-white">
