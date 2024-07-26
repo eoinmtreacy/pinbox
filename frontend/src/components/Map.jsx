@@ -12,7 +12,6 @@ import iconGen from '../utils/iconGen';
 import BusynessTable from './Map/BusynessTable';
 import UserMarker from './Map/UserMarker';
 import useScreenWidth from '../hooks/useScreenWidth';
-
 import LoadingSpinner from './LoadingSpinner';
 
 const CustomMap = ({
@@ -31,6 +30,20 @@ const CustomMap = ({
 
     const mapRef = useRef(null);
     const [initialLoad, setInitialLoad] = useState(true);
+    const [filteredPins, setFilteredPins] = useState(pins);
+    const [heatmapVisible, setHeatmapVisible] = useState(true);
+
+    const filterPins = (subtype) => {
+        if (!subtype || subtype === 'all') {
+            setFilteredPins(pins);
+        } else {
+            setFilteredPins(pins.filter(pin => pin.place.subtype === subtype));
+        }
+    };
+
+    const toggleHeatmap = () => {
+        setHeatmapVisible(!heatmapVisible);
+    };
 
     if (geoJsonError || busynessError) {
         return <div>Error fetching data: {geoJsonError?.message || busynessError?.message}</div>;
@@ -44,11 +57,11 @@ const CustomMap = ({
         <div className="map-container relative flex flex-col h-screen">
             <div className="flex flex-col md:flex-row md:items-start absolute top-1 left-0.5 right-0 z-[1000] space-y-4 md:space-y-0 md:space-x-4">
                 <div className="desktop-horizontal-buttons w-full md:w-auto flex justify-end md:justify-start">
-                    <HorizontalButtons />
+                    <HorizontalButtons filterPins={filterPins} toggleHeatmap={toggleHeatmap} />
                 </div>
             </div>
             <div className="horizontal-buttons-wrapper">
-                <HorizontalButtons />
+                <HorizontalButtons filterPins={filterPins} toggleHeatmap={toggleHeatmap} />
             </div>
             <MapContainer
                 center={[40.7478017, -73.9914126]}
@@ -64,7 +77,7 @@ const CustomMap = ({
                 }}
             >
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                {taxiZones && busynessData && (
+                {taxiZones && busynessData && heatmapVisible && (
                     <GeoJSON
                         data={taxiZones}
                         style={(feature) => {
@@ -80,8 +93,8 @@ const CustomMap = ({
                         }}
                     />
                 )}
-                {pins && showPins &&
-                    pins.map((pin) => (
+                {filteredPins && showPins &&
+                    filteredPins.map((pin) => (
                         pin.attitude !== "dont_care" && (
                             <Marker key={pin.place.id} position={[pin.place.lat, pin.place.lon]} icon={iconGen(pin.attitude)}>
                                 <Popup>
@@ -104,12 +117,11 @@ const CustomMap = ({
                     <CookieModal />
                 </div>
                 {showBusynessTable && (
-                <div className="busyness-table z-[1000]">
-                    <BusynessTable />
-                </div>
- 
+                    <div className="busyness-table z-[1000]">
+                        <BusynessTable />
+                    </div>
                 )}
-               <UserMarker distance={distance} position={position} setPosition={setPosition} />
+                <UserMarker distance={distance} position={position} setPosition={setPosition} />
             </MapContainer>
         </div>
     );
