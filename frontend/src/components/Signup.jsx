@@ -156,7 +156,7 @@ function Signup() {
                     onClick={() => navigate('/mainpage')}
                     className="justify-center px-6 py-3 mt-4 max-w-full text-xl font-bold text-center bg-gray-200 border border-solid border-gray-400 rounded-[30px] text-gray-700 w-full cursor-pointer"
                 >
-                    Log in as Guest
+                    Continue as Guest
                 </button>
             </div>
         </div>

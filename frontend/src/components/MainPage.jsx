@@ -14,6 +14,7 @@ import CollectionModal from './CollectionModal';
 const MainPage = () => {
     const [geoJsonData, setGeoJsonData] = useState(null);
     const [timeStamp, setTimeStamp] = useState(0);
+    const [timeStampVerbose, setTimeStampVerbose] = useState('');
     const [distance, setDistance] = useState(500);
     const [position, setPosition] = useState({ lat: 40.7478017, lng: -73.9914126 });
     const [showPins, setShowPins] = useState(true);
@@ -53,8 +54,13 @@ const MainPage = () => {
     }, [pinbox_id, user, navigate]);
 
     useEffect(() => {
-        if (priorityPin != null)
+        if (priorityPin != null) {
+            if (!pins.map((pin) => pin.id).includes(priorityPin.id)) {
             setShowFeed(true);
+            } else {
+
+            }
+        }
     }, [priorityPin]);
 
     useEffect(() => {
@@ -67,6 +73,15 @@ const MainPage = () => {
         }
     }, 
         [showFeed, showFriends, isMobile])
+
+useEffect(() => {
+    const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const now = new Date();
+    const dayOfWeek = weekday[(now.getDay() + day + (now.getHours() + timeStamp > 23 ? 1 : 0)) % 7];
+    const hourOfDay = (now.getHours() + timeStamp) % 24;
+
+    setTimeStampVerbose(`${dayOfWeek} ${hourOfDay}:${now.getMinutes()}`);
+}, [timeStamp, day]);
 
     return (
         <div className="App">
@@ -97,6 +112,7 @@ const MainPage = () => {
                         setShowPins={setShowPins}
                         day={day}
                         setDay={setDay}
+                        timeStampVerbose={timeStampVerbose}
                     />
 
                     <div className="flex h-full overflow-hidden">
