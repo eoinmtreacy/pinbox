@@ -1,13 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Clock from "../Images/clock.png";
-import Flag from "../Images/hateit.png";
-import Heart from "../Images/loveit.png";
-import OkSign from "../Images/wanna.png";
-import DonotCare from "../Images/dontcare.png";
 import Website from "../Images/website.png";
 import useGetRecommendation from "../hooks/useGetRecommendation"; //anita recommendation
 
-const Card = ({ place, attitude }) => {
+const Card = ({ place, attitude, setPriorityPin }) => {
     const { recommendationData, loading, error } = useGetRecommendation(place.id);
 
     const capitalizeSubtype = (subtype) => {
@@ -16,6 +12,10 @@ const Card = ({ place, attitude }) => {
             .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ');
     };
+
+    useEffect(() => {
+        console.log(recommendationData);
+    }, [recommendationData]);
 
     return (
         <div className="flex flex-col bg-white rounded-xl max-w p-1">
@@ -58,6 +58,16 @@ const Card = ({ place, attitude }) => {
                             Click here to visit
                         </a>
                     </div>
+                </div>
+            )}
+
+            {recommendationData != null && ( 
+                <div className="mt-3 text-center w-full">
+                    {recommendationData?.numUsersLikers} other users also liked  
+                    <a 
+                        onClick={() => setPriorityPin(recommendationData.placeData)}>
+                    {" " + recommendationData?.placeData.name}
+                    </a>
                 </div>
             )}
         </div>

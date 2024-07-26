@@ -24,7 +24,8 @@ const CustomMap = ({
     timeStamp,
     day,
     showPins,
-    showBusynessTable
+    showBusynessTable,
+    setPriorityPin
 }) => {
     const { data: taxiZones, error: geoJsonError, loading: loadingGeoJson } = useFetchGeoJson('/taxi_zones.geojson');
     const { data: busynessData, error: busynessError, loading: loadingBusyness } = useFetchBusyness(day);
@@ -89,6 +90,7 @@ const CustomMap = ({
                                     <Card 
                                         place={pin.place}
                                         attitude={pin.attitude}
+                                        setPriorityPin={setPriorityPin}
                                     />
                                 </Popup>
                             </Marker>
