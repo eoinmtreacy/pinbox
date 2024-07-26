@@ -191,7 +191,7 @@ const Profile = () => {
                             return (
                                 <div key={index} className="bg-white rounded-lg shadow-md p-4">
                                     <h3 className="font-bold text-lg mb-2">{collection}</h3>
-                                    <a href={`/mainpage/${pinbox_id}/${collectionsUrls[index]}`} className="text-blue-500 hover:text-blue-700">
+                                    <a href={`/${pinbox_id}/${collectionsUrls[index]}`} className="text-blue-500 hover:text-blue-700">
                                         {collection}
                                     </a>
                                 </div>

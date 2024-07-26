@@ -19,7 +19,7 @@ function Main() {
     // Handler for guest login button click
     const handleGuestLoginClick = (event) => {
         event.preventDefault(); // Prevent the default form submission
-        navigate('/mainpage'); // Navigate to the mainpage
+        navigate('/'); // Navigate to the mainpage
     };
 
     return (

@@ -36,7 +36,7 @@ const MainPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (pinbox_id === undefined && user !== null) return navigate(`/mainpage/${user}`);
+        if (pinbox_id === undefined && user !== null) return navigate(`/${user}`);
         const fetchGeoJsonData = async () => {
             try {
                 const response = await fetch('/preference_sample_data.geojson');

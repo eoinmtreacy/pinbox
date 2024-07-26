@@ -60,7 +60,7 @@ function Signup() {
             if (response.status === 200) {
                 setAuth(true);
                 setUser(response.data.pinboxId);
-                navigate(`/mainpage/${response.data.pinboxId}`);
+                navigate(`/${response.data.pinboxId}`);
             }
 
         } catch (error) {
@@ -153,7 +153,7 @@ function Signup() {
                     Login
                 </button>
                 <button
-                    onClick={() => navigate('/mainpage')}
+                    onClick={() => navigate('/')}
                     className="justify-center px-6 py-3 mt-4 max-w-full text-xl font-bold text-center bg-gray-200 border border-solid border-gray-400 rounded-[30px] text-gray-700 w-full cursor-pointer"
                 >
                     Continue as Guest

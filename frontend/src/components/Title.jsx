@@ -19,7 +19,7 @@ const Title = () => {
     const handleChange = (event) => {
         const newUrl = event.target.value;
         setSelectedCollectionUrl(newUrl);
-        navigate(`/mainpage/${pinbox_id}/${newUrl}`);
+        navigate(`/${pinbox_id}/${newUrl}`);
     };
 
     return (

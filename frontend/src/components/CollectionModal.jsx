@@ -11,7 +11,7 @@ const CollectionModal = ({ showCollection, setShowCollection }) => {
     const handleSubmit = () => {
         if (collectionName !== '') {
             const normalizedCollection = collectionName.replace(/ /g, '-').toLowerCase();
-            navigate(`/mainpage/${pinbox_id}/${normalizedCollection}`);
+            navigate(`/${pinbox_id}/${normalizedCollection}`);
         }
         setCollectionName('');
         setShowCollection(false);

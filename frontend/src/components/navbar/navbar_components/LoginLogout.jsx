@@ -17,7 +17,7 @@ const LoginLogout = () => {
 
                     setAuth(false)
                     setUser(null)
-                    navigate('/mainpage');
+                    navigate('/');
                 }
 
             } catch (error) {

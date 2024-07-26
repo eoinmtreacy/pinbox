@@ -14,7 +14,7 @@ function Login() {
 
     useEffect(() => {
         if (isAuth) {
-            navigate(`/mainpage/${user}`); // Navigate to the main page if already logged in
+            navigate(`/${user}`); // Navigate to the main page if already logged in
         }
     }, [isAuth, user, navigate]);
 
@@ -41,7 +41,7 @@ function Login() {
             if (response.status === 200) {
                 setAuth(true);
                 setUser(response.data.pinboxId);
-                navigate(`/mainpage/${response.data.pinboxId}`);
+                navigate(`/${response.data.pinboxId}`);
             }
 
         } catch (error) {
@@ -60,7 +60,7 @@ function Login() {
 
     const handleGuestLoginClick = (event) => {
         event.preventDefault();
-        navigate('/mainpage'); // Navigate to the mainpage
+        navigate('/'); // Navigate to the mainpage
     };
 
     return (

@@ -7,7 +7,7 @@ const HomeButton = () => {
 
     return (
         <>
-            <button onClick={() => navigate('/mainpage')}>
+            <button onClick={() => navigate('/')}>
                 <img src={homeIcon} alt="Home" className="w-6 h-6" />
                 <span className="absolute bottom-[-1.5rem] bg-blue-600 text-white text-xs p-1 rounded opacity-0 group-hover:opacity-100">
                     Home
