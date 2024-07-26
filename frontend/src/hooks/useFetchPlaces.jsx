@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from '../api/axios';
-import { filterForPhotos } from '../utils/filter';
 
 export default function useFetchPlaces() {
     const { pinbox_id, collection } = useParams();
@@ -17,7 +16,7 @@ export default function useFetchPlaces() {
                 if (response.status !== 200) {
                     throw new Error('Failed to fetch feed and pins');
                 }
-                const filteredFeed = await filterForPhotos(response.data.feed.$values);
+                const filteredFeed = response.data.feed.$values
                 const pinsData = response.data.pins.$values;
                 setFeed(filteredFeed);
                 setPins(pinsData);

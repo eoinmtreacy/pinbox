@@ -22,10 +22,12 @@ const NavbarDesktop = ({
     showPins,
     setShowPins,
     day,
-    setDay
+    setDay,
+    timeStampVerbose
 }) => {
 
     return (
+        <>
         <div className="w-full bg-white flex justify-between items-center p-2 shadow-md top-nav">
             <div >
                 <SearchBar priorityPin={priorityPin} setPriorityPin={setPriorityPin} />
@@ -60,6 +62,10 @@ const NavbarDesktop = ({
 
             </div>
         </div>
+            <div className="bg-transparent text-center text-3xl">
+                {timeStampVerbose}
+            </div>
+            </>
     );
 };
 
