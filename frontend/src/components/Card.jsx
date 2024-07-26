@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Clock from "../Images/clock.png";
 import Website from "../Images/website.png";
 import useGetRecommendation from "../hooks/useGetRecommendation"; //anita recommendation
 
 const Card = ({ place, attitude, setPriorityPin }) => {
     const { recommendationData, loading, error } = useGetRecommendation(place.id);
+    const [ altPhoto, setAltPhoto ] = useState(false);
 
     const capitalizeSubtype = (subtype) => {
         return subtype
@@ -18,10 +19,12 @@ const Card = ({ place, attitude, setPriorityPin }) => {
     }, [recommendationData]);
 
     return (
-        <div className="flex flex-col bg-white rounded-xl max-w p-1">
+        <div className="flex flex-col bg-white rounded-xl h-full max-w p-1">
             <img
                 src={'/' + place.photo_0 + '.png'}
                 alt={place.name}
+                className="cursor-pointer"
+                onClick={() => setAltPhoto(!altPhoto)}
             />
             <div className="text-center bg-black bg-opacity-50 p-2 rounded-lg mt-[-40px] w-full text-white">
                 <div className="text-2xl font-bold">{place.name}</div>

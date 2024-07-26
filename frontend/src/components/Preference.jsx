@@ -19,6 +19,7 @@ function Preference({ feed, pins, setPins, position, distance, priorityPin, setP
     const [selectedSubtype, setSelectedSubtype] = useState('all');
     const { isAuth, user } = useAuthContext();
     const { collection } = useParams();
+    const [ altPhoto, setAltPhoto ] = useState(false);
 
     useEffect(() => {
         const pinIds = pins.map((pin) => pin.place.id);
@@ -129,9 +130,12 @@ function Preference({ feed, pins, setPins, position, distance, priorityPin, setP
                     >
                         <div className="flex flex-col bg-white rounded-xl max-w-sm p-5">
                             <img
-                                src={'/' + card.photo_0 + '.png'}
+                                src={'/' + (altPhoto ? card.photo_1 : card.photo_0) + '.png'}
                                 alt={card.name}
-                                className="h-60 object-cover rounded-lg"
+                                className="h-60 object-cover rounded-lg cursor-pointer"
+                                onClick={() => {
+                                    setAltPhoto(!altPhoto)
+                                }}
                             />
                             <div className="text-center bg-black bg-opacity-50 p-2 rounded-lg mt-[-40px] w-full text-white">
                                 <div className="text-2xl font-bold">{card.name}</div>
