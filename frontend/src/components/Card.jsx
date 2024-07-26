@@ -17,10 +17,11 @@ const Card = ({ place, attitude, setPriorityPin }) => {
     return (
         <div className="flex flex-col bg-white rounded-xl h-full max-w p-1">
             <img
-                src={'/' + place.photo_0 + '.png'}
+                src={'/' + (altPhoto ? place.photo_1 : place.photo_0) + '.png'}
                 alt={place.name}
                 className="h-60 object-cover rounded-lg cursor-pointer"
                 onClick={() => setAltPhoto(!altPhoto)}
+                onTouchStart={() => setAltPhoto(!altPhoto)}
             />
             <div className="text-center bg-black bg-opacity-50 p-2 rounded-lg mt-[-40px] w-full text-white">
                 <div className="text-2xl font-bold">{place.name}</div>

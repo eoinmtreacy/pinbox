@@ -136,6 +136,7 @@ function Preference({ feed, pins, setPins, position, distance, priorityPin, setP
                                 onClick={() => {
                                     setAltPhoto(!altPhoto)
                                 }}
+                                onTouchStart={() => setAltPhoto(!altPhoto)}
                             />
                             <div className="text-center bg-black bg-opacity-50 p-2 rounded-lg mt-[-40px] w-full text-white">
                                 <div className="text-2xl font-bold">{card.name}</div>
