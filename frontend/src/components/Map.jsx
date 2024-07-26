@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { MapContainer, TileLayer, GeoJSON, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../App.css';
-import PreferenceWithoutButtons from './PreferenceWithoutButtons';
+import Card from './Card';
 import CookieModal from './CookieModal';
 import useFetchGeoJson from '../hooks/useFetchGeoJson';
 import useFetchBusyness from '../hooks/useFetchBusyness';
@@ -14,6 +14,7 @@ import UserMarker from './Map/UserMarker';
 import useScreenWidth from '../hooks/useScreenWidth';
 
 import LoadingSpinner from './LoadingSpinner';
+import Preference from './Preference';
 
 const CustomMap = ({
     pins,
@@ -85,15 +86,9 @@ const CustomMap = ({
                         pin.attitude !== "dont_care" && (
                             <Marker key={pin.place.id} position={[pin.place.lat, pin.place.lon]} icon={iconGen(pin.attitude)}>
                                 <Popup>
-                                    <PreferenceWithoutButtons
-                                        name={pin.place.name}
-                                        image={pin.place.photo_0}
-                                        type={pin.place.subtype}
-                                        address={`${pin.place.addr_Housenumber || ''} ${pin.place.addr_Street || ''}`}
-                                        hours={pin.place.opening_Hours}
-                                        socialMedia={pin.place.website}
-                                        preference={pin.place.attitude}
-                                        placeId={pin.place.id}
+                                    <Card 
+                                        place={pin.place}
+                                        attitude={pin.attitude}
                                     />
                                 </Popup>
                             </Marker>
