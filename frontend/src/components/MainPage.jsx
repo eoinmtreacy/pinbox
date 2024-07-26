@@ -54,8 +54,13 @@ const MainPage = () => {
     }, [pinbox_id, user, navigate]);
 
     useEffect(() => {
-        if (priorityPin != null)
+        if (priorityPin != null) {
+            if (!pins.map((pin) => pin.id).includes(priorityPin.id)) {
             setShowFeed(true);
+            } else {
+
+            }
+        }
     }, [priorityPin]);
 
     useEffect(() => {
