@@ -22,6 +22,12 @@ const CollectionModal = ({ showCollection, setShowCollection }) => {
     return (
         <div className="collection-modal w-full h-full fixed inset-0 bg-gray-600 bg-opacity-50 backdrop-blur-sm flex justify-center items-center ">
             <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <button
+                className="relative text-3xl text-gray-500 hover:text-gray-700"
+                onClick={() => setShowCollection(!showCollection)}
+            >
+                X
+            </button>
                 {isAuth && (
                     <>
                         <h2 className="text-xl font-semibold mb-4">Enter Collection Name</h2>
