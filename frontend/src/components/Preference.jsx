@@ -113,7 +113,7 @@ function Preference({ feed, pins, setPins, position, distance, priorityPin, setP
     return (
         <>
             <div className="relative w-full mb-10">
-                <Dropdown selectedSubtype={selectedSubtype} handleSubtypeChange={handleSubtypeChange} />
+                <Dropdown selectedSubtype={selectedSubtype} handleSubtypeChange={handleSubtypeChange} feed={feed}/>
             </div>
             <div className="text-4xl font-bold tracking-tight text-center text-black mb-5">
                 Recommendations
