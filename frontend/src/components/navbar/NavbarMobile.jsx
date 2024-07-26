@@ -23,7 +23,8 @@ const NavbarMobile = ({
     showPins,
     setShowPins,
     day,
-    setDay
+    setDay,
+    timeStampVerbose
 }) => {
     const [showTimeSlider, setShowTimeSlider] = useState(false);
     const [showDistanceSlider, setShowDistanceSlider] = useState(false);
@@ -90,6 +91,9 @@ const NavbarMobile = ({
                         <DistanceSlider distance={distance} setDistance={setDistance} />
                     </div>
                 )}
+            </div>
+            <div className="bg-transparent text-center text-xl">
+                {timeStampVerbose}
             </div>
         </>
     );

@@ -112,10 +112,10 @@ function Preference({ feed, pins, setPins, position, distance, priorityPin, setP
 
     return (
         <>
-            <div className="relative w-full mb-10">
+            <div className="relative w-full mb-7">
                 <Dropdown selectedSubtype={selectedSubtype} handleSubtypeChange={handleSubtypeChange} feed={feed}/>
             </div>
-            <div className="text-4xl font-bold tracking-tight text-center text-black mb-5">
+            <div className="text-2xl font-bold tracking-tight text-center text-black ">
                 Recommendations
             </div>
 
@@ -136,6 +136,7 @@ function Preference({ feed, pins, setPins, position, distance, priorityPin, setP
                                 onClick={() => {
                                     setAltPhoto(!altPhoto)
                                 }}
+                                onTouchEnd={() => setAltPhoto(!altPhoto)}
                             />
                             <div className="text-center bg-black bg-opacity-50 p-2 rounded-lg mt-[-40px] w-full text-white">
                                 <div className="text-2xl font-bold">{card.name}</div>
@@ -183,6 +184,7 @@ function Preference({ feed, pins, setPins, position, distance, priorityPin, setP
                                         title="I don't like this place"
                                         onClick={() => updatePreference('left')}
                                         onKeyDown={(e) => e.key === 'Enter' && updatePreference('left')}
+                                        onTouchStart={() => updatePreference('left')}
                                     >
                                         <img src={Flag} alt="hate it" />
                                     </button>
@@ -192,6 +194,7 @@ function Preference({ feed, pins, setPins, position, distance, priorityPin, setP
                                         title="don't show again"
                                         onClick={() => updatePreference('down')}
                                         onKeyDown={(e) => e.key === 'Enter' && updatePreference('down')}
+                                        onTouchStart={() => updatePreference('down')}
                                     >
                                         <img src={DonotCare} alt="don't care" />
                                     </button>
@@ -201,6 +204,7 @@ function Preference({ feed, pins, setPins, position, distance, priorityPin, setP
                                         title="will revisit"
                                         onClick={() => updatePreference('up')}
                                         onKeyDown={(e) => e.key === 'Enter' && updatePreference('up')}
+                                        onTouchStart={() => updatePreference('up')}
                                     >
                                         <img src={OkSign} alt="wanna" />
                                     </button>
@@ -210,6 +214,7 @@ function Preference({ feed, pins, setPins, position, distance, priorityPin, setP
                                         title="add as a pin"
                                         onClick={() => updatePreference('right')}
                                         onKeyDown={(e) => e.key === 'Enter' && updatePreference('right')}
+                                        onTouchStart={() => updatePreference('right')}
                                     >
                                         <img src={Heart} alt="love it" />
                                     </button>
