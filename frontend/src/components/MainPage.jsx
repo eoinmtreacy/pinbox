@@ -56,9 +56,8 @@ const MainPage = () => {
     useEffect(() => {
         if (priorityPin != null) {
             if (!pins.map((pin) => pin.id).includes(priorityPin.id)) {
-            setShowFeed(true);
+                setShowFeed(true);
             } else {
-
             }
         }
     }, [priorityPin]);
@@ -67,21 +66,20 @@ const MainPage = () => {
         if (showFeed) setShowFriends(false);
         if (showFriends) setShowFeed(false);
         if (isMobile && (showFeed || showFriends)) {
-            setShowBusynessTable(false)
+            setShowBusynessTable(false);
         } else {
-            setShowBusynessTable(true)
+            setShowBusynessTable(true);
         }
-    }, 
-        [showFeed, showFriends, isMobile])
+    }, [showFeed, showFriends, isMobile]);
 
-useEffect(() => {
-    const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const now = new Date();
-    const dayOfWeek = weekday[(now.getDay() + day + (now.getHours() + timeStamp > 23 ? 1 : 0)) % 7];
-    const hourOfDay = (now.getHours() + timeStamp) % 24;
-
-    setTimeStampVerbose(`${dayOfWeek} ${hourOfDay}:${now.getMinutes()}`);
-}, [timeStamp, day]);
+    useEffect(() => {
+        const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const now = new Date();
+        const dayOfWeek = weekday[(now.getDay() + day + (now.getHours() + timeStamp > 23 ? 1 : 0)) % 7];
+        const hourOfDay = (now.getHours() + timeStamp) % 24;
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        setTimeStampVerbose(`${dayOfWeek} ${hourOfDay}:${minutes}`);
+    }, [timeStamp, day]);
 
     return (
         <div className="App">
@@ -116,20 +114,25 @@ useEffect(() => {
                     />
 
                     <div className="flex h-full overflow-hidden">
-                        {showFeed && feed.length > 1 && (user === pinbox_id || (user === null && pinbox_id === undefined)) && (
-
-                            <div className={`${isMobile ? 'flex-none' : 'flex'} ${isMobile ? 'w-full' : 'w-1/2'} flex-col items-center h-full bg-blue-400 p-1`}>
-                                <Preference
-                                    feed={feed}
-                                    pins={pins}
-                                    setPins={setPins}
-                                    position={position}
-                                    distance={distance}
-                                    priorityPin={priorityPin}
-                                    setPriorityPin={setPriorityPin}
-                                />
-                            </div>
-                        )}
+                        {showFeed &&
+                            feed.length > 1 &&
+                            (user === pinbox_id || (user === null && pinbox_id === undefined)) && (
+                                <div
+                                    className={`${isMobile ? 'flex-none' : 'flex'} ${
+                                        isMobile ? 'w-full' : 'w-1/2'
+                                    } flex-col items-center h-full bg-blue-400 p-1`}
+                                >
+                                    <Preference
+                                        feed={feed}
+                                        pins={pins}
+                                        setPins={setPins}
+                                        position={position}
+                                        distance={distance}
+                                        priorityPin={priorityPin}
+                                        setPriorityPin={setPriorityPin}
+                                    />
+                                </div>
+                            )}
 
                         {showFriends && (
                             <div className="w-full md:w-1/4 p-4 bg-white border-r border-gray-300 h-full overflow-auto">
@@ -157,7 +160,6 @@ useEffect(() => {
                     </div>
                 </div>
             </div>
-
         </div>
     );
 };
