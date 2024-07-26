@@ -179,6 +179,7 @@ function Preference({ feed, pins, setPins, position, distance, priorityPin, setP
                                         title="I don't like this place"
                                         onClick={() => updatePreference('left')}
                                         onKeyDown={(e) => e.key === 'Enter' && updatePreference('left')}
+                                        onTouchStart={() => updatePreference('left')}
                                     >
                                         <img src={Flag} alt="hate it" />
                                     </button>
@@ -188,6 +189,7 @@ function Preference({ feed, pins, setPins, position, distance, priorityPin, setP
                                         title="don't show again"
                                         onClick={() => updatePreference('down')}
                                         onKeyDown={(e) => e.key === 'Enter' && updatePreference('down')}
+                                        onTouchStart={() => updatePreference('down')}
                                     >
                                         <img src={DonotCare} alt="don't care" />
                                     </button>
@@ -197,6 +199,7 @@ function Preference({ feed, pins, setPins, position, distance, priorityPin, setP
                                         title="will revisit"
                                         onClick={() => updatePreference('up')}
                                         onKeyDown={(e) => e.key === 'Enter' && updatePreference('up')}
+                                        onTouchStart={() => updatePreference('up')}
                                     >
                                         <img src={OkSign} alt="wanna" />
                                     </button>
@@ -206,6 +209,7 @@ function Preference({ feed, pins, setPins, position, distance, priorityPin, setP
                                         title="add as a pin"
                                         onClick={() => updatePreference('right')}
                                         onKeyDown={(e) => e.key === 'Enter' && updatePreference('right')}
+                                        onTouchStart={() => updatePreference('right')}
                                     >
                                         <img src={Heart} alt="love it" />
                                     </button>
