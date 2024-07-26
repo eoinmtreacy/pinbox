@@ -14,10 +14,6 @@ const Card = ({ place, attitude, setPriorityPin }) => {
             .join(' ');
     };
 
-    useEffect(() => {
-        console.log(recommendationData);
-    }, [recommendationData]);
-
     return (
         <div className="flex flex-col bg-white rounded-xl h-full max-w p-1">
             <img
