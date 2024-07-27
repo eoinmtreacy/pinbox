@@ -7,8 +7,13 @@ import restaurantsIcon from '../Images/restaurant.png';
 import cafeIcon from '../Images/cafe.png';
 
 const HorizontalButtons = ({ filterPins, toggleHeatmap }) => {
-    const [selectedFilter, setSelectedFilter] = useState(null);
+    const [selectedFilter, setSelectedFilter] = useState('all');
     const [heatmapOn, setHeatmapOn] = useState(true);
+
+    useEffect(() => {
+        // Apply the 'all' filter on initial render
+        filterPins('all');
+    }, []);
 
     const handleFilterClick = (subtype) => {
         if (selectedFilter === subtype) {
