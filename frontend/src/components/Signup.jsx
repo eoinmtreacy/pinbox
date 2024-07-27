@@ -84,7 +84,7 @@ function Signup() {
 
                     <div className="mb-4">
                         <label className="block text-sm font-semibold mb-2" htmlFor="pinbox_id">
-                            Pinbox ID
+                            Pinbox ID/User Name
                         </label>
                         <input
                             name="pinboxId"
@@ -147,10 +147,10 @@ function Signup() {
                     )}
                 </form>
                 <button
-                    onClick={() => navigate('/login')}
+                    onClick={() => navigate('/')}
                     className="justify-center px-6 py-3 mt-4 max-w-full text-xl font-bold text-center bg-white border border-solid border-slate-500 rounded-[30px] text-slate-500 w-full cursor-pointer"
                 >
-                    Login
+                    Return to Main 
                 </button>
                 <button
                     onClick={() => navigate('/mainpage')}
