@@ -22,7 +22,7 @@ const useGetCollections = (pinbox_id) => {
             }
         }
         getCollections();
-    }, []);
+    }, [pinbox_id]);
 
     return { collections, collectionsUrls }
 }
