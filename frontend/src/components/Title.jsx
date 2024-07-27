@@ -6,20 +6,7 @@ const Title = () => {
     const { pinbox_id, collection } = useParams();
     const navigate = useNavigate();
     const { collections, collectionsUrls } = useGetCollections(pinbox_id);
-    const [selectedCollectionUrl, setSelectedCollectionUrl] = useState('');
 
-    useEffect(() => {
-        const currentCollectionUrl = collectionsUrls[collections.indexOf(collection)];
-        if (currentCollectionUrl) {
-            setSelectedCollectionUrl(currentCollectionUrl);
-        }
-    }, [collection, collections, collectionsUrls]);
-
-    const handleChange = (event) => {
-        const newUrl = event.target.value;
-        setSelectedCollectionUrl(newUrl);
-        navigate(`/mainpage/${pinbox_id}/${newUrl}`);
-    };
 
     return (
         <div className="text-3xl text-center ap-2">
@@ -30,7 +17,7 @@ const Title = () => {
                     name="collections"
                     id="collections"
                     value={collection}
-                    onChange={handleChange}
+                    onChange={(e) => navigate(`/mainpage/${pinbox_id}/${e.target.value}`)}
                     className="truncate max-w-xs"
                 >
                     <option value="">ALL PINS</option>

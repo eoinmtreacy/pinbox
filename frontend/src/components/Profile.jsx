@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import 'leaflet/dist/leaflet.css';
 import axios from '../api/axios';
 import { getUserData } from '../services/tempProfileService';
 import useFetchPlaces from '../hooks/useFetchPlaces';
 import useGetCollections from '../hooks/useGetCollections';
 import { useAuthContext } from '../auth/AuthContext';
-import CurrentUsers from './CurrentUsers'; // Adjust the import path as necessary
+import CurrentUsers from './CurrentUsers';
+
 
 // List of avatars
 const predefinedProfileImages = [
@@ -29,11 +30,12 @@ const Profile = () => {
     const { pins } = useFetchPlaces();
     const [searchTerm, setSearchTerm] = useState('');
     const { collections, collectionsUrls } = useGetCollections(pinbox_id);
-    const [showAll, setShowAll] = useState(false); // Define showAll state
-    const [isEditing, setIsEditing] = useState(false); // Define isEditing state
-    const [bio, setBio] = useState(''); // Define bio state
-    const [profileImageUrl, setProfileImageUrl] = useState(''); // Define profileImageUrl state
+    const [showAll, setShowAll] = useState(false);
+    const [isEditing, setIsEditing] = useState(false); 
+    const [bio, setBio] = useState(''); 
+    const [profileImageUrl, setProfileImageUrl] = useState('');
     const [showAllCollections, setShowAllCollections] = useState(false);
+    const navigate = useNavigate(); // Use useNavigate here
 
 
     const filteredPins = pins.filter(pin => {
@@ -110,12 +112,18 @@ const Profile = () => {
                     </div>
                     {user === pinbox_id && (
                         <button
-                            className="ml-auto bg-blue-500 text-white px-4 py-2 rounded"
+                            className="ml-auto bg-blue-500 text-white px-4 py-4 rounded mr-2"
                             onClick={() => setIsEditing(!isEditing)}
                         >
                             {isEditing ? 'Cancel' : 'Edit Profile'}
                         </button>
                     )}
+                        <button
+                            className="bg-blue-500 text-white px-4 py-4 rounded mr-2"
+                            onClick={() => navigate('/MainPage')}
+                        >
+                            Return to Homepage
+                        </button>
                </div>
                 {isEditing ? (
                     <div className="mb-4">
@@ -223,4 +231,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
