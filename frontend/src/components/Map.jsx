@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { MapContainer, TileLayer, GeoJSON, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../App.css';
@@ -12,9 +12,7 @@ import iconGen from '../utils/iconGen';
 import BusynessTable from './Map/BusynessTable';
 import UserMarker from './Map/UserMarker';
 import useScreenWidth from '../hooks/useScreenWidth';
-
 import LoadingSpinner from './LoadingSpinner';
-import Preference from './Preference';
 
 const CustomMap = ({
     pins,
@@ -33,9 +31,38 @@ const CustomMap = ({
 
     const mapRef = useRef(null);
     const [initialLoad, setInitialLoad] = useState(true);
+    const [filteredPins, setFilteredPins] = useState(pins);
+    const [heatmapVisible, setHeatmapVisible] = useState(true);
 
-    if (geoJsonError || busynessError) {
-        return <div>Error fetching data: {geoJsonError?.message || busynessError?.message}</div>;
+    useEffect(() => {
+        if (initialLoad && mapRef.current) {
+            mapRef.current.setView([40.7478017, -73.9914126], 13);
+            setInitialLoad(false);
+        }
+    }, [initialLoad]);
+
+    useEffect(() => {
+        setFilteredPins(pins);
+    }, [pins]);
+
+    const filterPins = (subtype) => {
+        if (!subtype || subtype === 'all') {
+            setFilteredPins(pins);
+        } else {
+            setFilteredPins(pins.filter(pin => pin.place.subtype === subtype));
+        }
+    };
+
+    const toggleHeatmap = () => {
+        setHeatmapVisible(!heatmapVisible);
+    };
+
+    if (geoJsonError) {
+        return <div>Error fetching GeoJSON data: {geoJsonError.message}</div>;
+    }
+
+    if (busynessError) {
+        return <div>Error fetching busyness data: {busynessError.message}</div>;
     }
 
     if (loadingGeoJson || loadingBusyness) {
@@ -46,11 +73,11 @@ const CustomMap = ({
         <div className="map-container relative flex flex-col h-screen">
             <div className="flex flex-col md:flex-row md:items-start absolute top-1 left-0.5 right-0 z-[1000] space-y-4 md:space-y-0 md:space-x-4">
                 <div className="desktop-horizontal-buttons w-full md:w-auto flex justify-end md:justify-start">
-                    <HorizontalButtons />
+                    <HorizontalButtons filterPins={filterPins} toggleHeatmap={toggleHeatmap} />
                 </div>
             </div>
             <div className="horizontal-buttons-wrapper">
-                <HorizontalButtons />
+                <HorizontalButtons filterPins={filterPins} toggleHeatmap={toggleHeatmap} />
             </div>
             <MapContainer
                 center={[40.7478017, -73.9914126]}
@@ -59,14 +86,10 @@ const CustomMap = ({
                 zoomControl={false} // Disable zoom control buttons
                 whenCreated={(mapInstance) => {
                     mapRef.current = mapInstance;
-                    if (initialLoad) {
-                        mapInstance.setView([40.7478017, -73.9914126], 13);
-                        setInitialLoad(false);
-                    }
                 }}
             >
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                {taxiZones && busynessData && (
+                {taxiZones && busynessData && heatmapVisible && (
                     <GeoJSON
                         data={taxiZones}
                         style={(feature) => {
@@ -82,8 +105,8 @@ const CustomMap = ({
                         }}
                     />
                 )}
-                {pins && showPins &&
-                    pins.map((pin) => (
+                {filteredPins && showPins &&
+                    filteredPins.map((pin) => (
                         pin.attitude !== "dont_care" && (
                             <Marker key={pin.place.id} position={[pin.place.lat, pin.place.lon]} icon={iconGen(pin.attitude)}>
                                 <Popup>
@@ -101,12 +124,11 @@ const CustomMap = ({
                     <CookieModal />
                 </div>
                 {showBusynessTable && (
-                <div className="busyness-table z-[1000]">
-                    <BusynessTable />
-                </div>
- 
+                    <div className="busyness-table z-[1000]">
+                        <BusynessTable />
+                    </div>
                 )}
-               <UserMarker distance={distance} position={position} setPosition={setPosition} />
+                <UserMarker distance={distance} position={position} setPosition={setPosition} />
             </MapContainer>
         </div>
     );
