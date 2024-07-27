@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useGetCollections from '../hooks/useGetCollections';
@@ -34,20 +33,17 @@ const Title = () => {
                     onChange={handleChange}
                     className="truncate max-w-xs"
                 >
+                    <option value="">ALL PINS</option>
                     <option value={collection}>{collection}</option>
                     {collections.map((c, i) => (
-                        c !== undefined ? (
-                            <option key={i} value={collectionsUrls[i]}>{c}</option>
-                        ) : (
-                            <option key={i} value={""}>ALL PINS</option>
-                        )
+                        <option key={i} value={collectionsUrls[i]}>
+                            {c}
+                        </option>
                     ))}
                 </select>
-
             )}
-
         </div>
     );
-}
+};
 
 export default Title;
