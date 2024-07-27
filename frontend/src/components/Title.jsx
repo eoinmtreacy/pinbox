@@ -34,7 +34,6 @@ const Title = () => {
                     className="truncate max-w-xs"
                 >
                     <option value="">ALL PINS</option>
-                    <option value={collection}>{collection}</option>
                     {collections.map((c, i) => (
                         <option key={i} value={collectionsUrls[i]}>
                             {c}
