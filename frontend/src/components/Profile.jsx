@@ -120,7 +120,7 @@ const Profile = () => {
                     )}
                         <button
                             className="bg-blue-500 text-white px-4 py-4 rounded mr-2"
-                            onClick={() => navigate('/MainPage')}
+                            onClick={() => navigate('/')}
                         >
                             Return to Homepage
                         </button>
