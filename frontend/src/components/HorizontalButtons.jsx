@@ -10,11 +10,6 @@ const HorizontalButtons = ({ filterPins, toggleHeatmap }) => {
     const [selectedFilter, setSelectedFilter] = useState('all');
     const [heatmapOn, setHeatmapOn] = useState(true);
 
-    useEffect(() => {
-        // Apply the 'all' filter on initial render
-        filterPins('all');
-    }, []);
-
     const handleFilterClick = (subtype) => {
         if (selectedFilter === subtype) {
             setSelectedFilter(null);

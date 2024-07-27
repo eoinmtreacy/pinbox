@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { MapContainer, TileLayer, GeoJSON, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../App.css';
@@ -13,7 +13,6 @@ import BusynessTable from './Map/BusynessTable';
 import UserMarker from './Map/UserMarker';
 import useScreenWidth from '../hooks/useScreenWidth';
 import LoadingSpinner from './LoadingSpinner';
-import Preference from './Preference';
 
 const CustomMap = ({
     pins,
@@ -35,6 +34,17 @@ const CustomMap = ({
     const [filteredPins, setFilteredPins] = useState(pins);
     const [heatmapVisible, setHeatmapVisible] = useState(true);
 
+    useEffect(() => {
+        if (initialLoad && mapRef.current) {
+            mapRef.current.setView([40.7478017, -73.9914126], 13);
+            setInitialLoad(false);
+        }
+    }, [initialLoad]);
+
+    useEffect(() => {
+        setFilteredPins(pins);
+    }, [pins]);
+
     const filterPins = (subtype) => {
         if (!subtype || subtype === 'all') {
             setFilteredPins(pins);
@@ -47,8 +57,12 @@ const CustomMap = ({
         setHeatmapVisible(!heatmapVisible);
     };
 
-    if (geoJsonError || busynessError) {
-        return <div>Error fetching data: {geoJsonError?.message || busynessError?.message}</div>;
+    if (geoJsonError) {
+        return <div>Error fetching GeoJSON data: {geoJsonError.message}</div>;
+    }
+
+    if (busynessError) {
+        return <div>Error fetching busyness data: {busynessError.message}</div>;
     }
 
     if (loadingGeoJson || loadingBusyness) {
@@ -72,10 +86,6 @@ const CustomMap = ({
                 zoomControl={false} // Disable zoom control buttons
                 whenCreated={(mapInstance) => {
                     mapRef.current = mapInstance;
-                    if (initialLoad) {
-                        mapInstance.setView([40.7478017, -73.9914126], 13);
-                        setInitialLoad(false);
-                    }
                 }}
             >
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
